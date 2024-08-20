@@ -1,0 +1,95 @@
+-- Crear tabla tecnologias
+CREATE TABLE tecnologias (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
+-- Crear tabla ong
+CREATE TABLE ong (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
+-- Crear tabla ong_tecnologias
+CREATE TABLE ong_tecnologias (
+    id_tecnologia INTEGER NOT NULL,
+    id_ong INTEGER NOT NULL,
+    PRIMARY KEY (id_tecnologia, id_ong),
+    FOREIGN KEY (id_tecnologia) REFERENCES tecnologias(id),
+    FOREIGN KEY (id_ong) REFERENCES ong(id)
+);
+
+-- Crear tabla estudiantes
+CREATE TABLE estudiantes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    estado BOOLEAN DEFAULT TRUE,
+    id_ong INTEGER,
+    FOREIGN KEY (id_ong) REFERENCES ong(id)
+);
+
+-- Crear tabla estudiantes_tecnologias
+CREATE TABLE estudiantes_tecnologias (
+    id_tecnologia INTEGER NOT NULL,
+    id_estudiante INTEGER NOT NULL,
+    PRIMARY KEY (id_tecnologia, id_estudiante),
+    FOREIGN KEY (id_tecnologia) REFERENCES tecnologias(id),
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+);
+
+-- Crear tabla mentores
+CREATE TABLE mentores (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    empresa VARCHAR(255),
+    estado BOOLEAN DEFAULT TRUE
+);
+
+-- Crear tabla mentores_tecnologias
+CREATE TABLE mentores_tecnologias (
+    id_tecnologia INTEGER NOT NULL,
+    id_mentor INTEGER NOT NULL,
+    PRIMARY KEY (id_tecnologia, id_mentor),
+    FOREIGN KEY (id_tecnologia) REFERENCES tecnologias(id),
+    FOREIGN KEY (id_mentor) REFERENCES mentores(id)
+);
+
+-- Crear tabla equipos
+CREATE TABLE equipos (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    tamano INTEGER NOT NULL,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    id_mentor INTEGER,
+    id_mentor_ux_ui INTEGER,
+    id_mentor_qa INTEGER,
+    FOREIGN KEY (id_mentor) REFERENCES mentores(id),
+    FOREIGN KEY (id_mentor_ux_ui) REFERENCES mentores(id),
+    FOREIGN KEY (id_mentor_qa) REFERENCES mentores(id)
+);
+
+-- Crear tabla equipos_estudiantes
+CREATE TABLE equipos_estudiantes (
+    id_equipo INTEGER NOT NULL,
+    id_estudiante INTEGER NOT NULL,
+    PRIMARY KEY (id_equipo, id_estudiante),
+    FOREIGN KEY (id_equipo) REFERENCES equipos(id),
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
+);
+
+-- Crear tabla administradores
+CREATE TABLE administradores (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL
+);
