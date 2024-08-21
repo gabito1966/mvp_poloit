@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="justify-center mx-auto  p-20 text-center bg-slate-800">
+    <div className="justify-center mx-auto  p-20 text-center bg-slate-800 h-screen">
       <div className="font-bold text-6xl">
         <h1>Polo It</h1>
       </div>
