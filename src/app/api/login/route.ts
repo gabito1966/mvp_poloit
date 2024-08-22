@@ -35,7 +35,7 @@ export type Administrador = {
 const FormSchema = z.object({
   email: z
     .string()
-    .email("Debe ser un email válido")
+    // .email("Debe ser un email válido")
     .min(6, "el email de tener al menos 6 caracteres"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });
