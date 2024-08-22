@@ -13,6 +13,13 @@ function Navbar() {
 
             </Link>
             <div>
+                <Link href="/register">
+                    <button type="button" className="bg-gray-300 hover:bg-gray-500 text-white w-40 rounded-md p-3">
+                        REGISTER
+                    </button>
+                </Link>
+            </div>
+            <div>
                 <Link href="/auth/login">
                     <button type="button" className="bg-gray-300 hover:bg-gray-500 text-white w-40 rounded-md p-3">
                         LOGIN
