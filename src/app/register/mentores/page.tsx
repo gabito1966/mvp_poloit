@@ -119,7 +119,7 @@ export default function RegisterMentores() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="empresa" className="block text-sm font-medium text-slate-200">Teléfono:</label>
+                    <label htmlFor="empresa" className="block text-sm font-medium text-slate-200">Empresa:</label>
                     <input
                         type="text"
                         id="empresa"
