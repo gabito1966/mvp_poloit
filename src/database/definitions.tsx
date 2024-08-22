@@ -34,7 +34,7 @@ export type Mentor = {
   apellido: string;
   email: string;
   telefono: string;
-  empresa: string;
+  id_empresa: number;
   estado: boolean;
 };
 
@@ -66,4 +66,9 @@ export type Administrador = {
   email: string;
   usuario: string;
   contrasena: string;
+};
+
+export type empresas = {
+  id: number;
+  nombre: string;
 };
