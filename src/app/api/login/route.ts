@@ -44,7 +44,7 @@ const CreateLogin = FormSchema.omit({});
 
 export async function POST(request: Request) {
   const body = (await request.json()) as UserLogin;
-
+  let token = "";
   try {
     const { email, password } = CreateLogin.parse({
       email: body.email,
@@ -81,7 +81,16 @@ export async function POST(request: Request) {
       message: "Login Exitoso",
     };
 
-    const token: String = await JWTCreate(user);
+    token = await JWTCreate(user);
+    console.log(token);
+
+    // NextResponse.next("Set-Cookie", cookie);
+    // NextResponse.next().cookies.set("token", token.toString(), {
+    //   maxAge: 60 * 60 * 24 * 7, // 1 semana
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "strict",
+    // });
 
     return NextResponse.json(res, { status: 200 });
   } catch (error) {
@@ -99,6 +108,15 @@ export async function POST(request: Request) {
       message: "error en la base de datos",
     };
 
-    return NextResponse.json(res, { status: 500 });
+    const response = NextResponse.json(res, {
+      status: 200,
+    });
+
+    response.headers.set(
+      "Set-Cookie",
+      `token=${token.toString()}; Max-Age=604800; HttpOnly; Secure; SameSite=Strict`
+    );
+
+    return response;
   }
 }
