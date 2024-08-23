@@ -1,6 +1,5 @@
 "use client"
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Mentor } from '../../../database/definitions';
 
 interface Mentor {
     id: number;
