@@ -1,5 +1,6 @@
 "use client"
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { Mentor } from '../../../database/definitions';
 
 interface Mentor {
     id: number;
@@ -149,7 +150,7 @@ export default function RegisterMentores() {
                     type="submit"
                     className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"
                 >
-                    Registrar Alumno
+                    Registrar Mentor
                 </button>
             </form>
 

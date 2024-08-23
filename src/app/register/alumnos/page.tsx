@@ -151,7 +151,7 @@ export default function RegisterAlumnos() {
                 </button>
             </form>
 
-            <h2 className="text-xl font-semibold mb-4">Lista de Alumnos Inscritos</h2>
+            <h2 className="text-xl font-semibold mb-4">Lista de Alumnos Inscriptos</h2>
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>
