@@ -72,8 +72,8 @@ export default function RegisterTecnologias() {
                 </button>
             </form>
 
-            <h2 className="text-xl font-semibold mb-4">Lista de ONG</h2>
-            <table className="w-1/4 justify-center items-center divide-y divide-gray-200">
+            <h2 className="text-xl font-semibold mb-4 text-center underline">Lista de ONG</h2>
+            <table className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
