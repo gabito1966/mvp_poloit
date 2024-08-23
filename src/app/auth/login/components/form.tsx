@@ -22,15 +22,15 @@ function Form() {
     }
 
     return (
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen bg-blue-500">
+        <div className="flex min-h-full flex-col justify-items-center py-30 lg:px-8 h-screen bg-blue-500">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-slice-300">Sign in to your account</h2>
+                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-slice-300 underline">Sign in to your account</h2>
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-6" onSubmit={(e) => { handleSubmit(e) }}>
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-slice-300">Email address</label>
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-slate-100">Email address</label>
                         <div className="mt-2">
                             <input onChange={handleChange} id="email" name="email" type="email" placeholder=" Insert Email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
@@ -38,7 +38,7 @@ function Form() {
 
                     <div>
                         <div className="flex items-center justify-between">
-                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-slice-300">Password</label>
+                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-slate-100">Password</label>
                         </div>
                         <div className="mt-2">
                             <input onChange={handleChange} id="password" placeholder=" Insert password" name="password" type="password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
