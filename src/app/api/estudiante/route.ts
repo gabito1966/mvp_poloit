@@ -18,6 +18,7 @@ export async function GET(request: Request) {
 }
 
 export interface EstudianteInterface {
+  id?: number;
   nombre: string;
   apellido: string;
   email: string;
@@ -107,7 +108,7 @@ export async function POST(request: Request) {
       message: "Registro de estudiante exitoso",
     };
 
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(res, { status: 200 });
   } catch (error) {
     const res: EstudianteResponse = {
       success: false,

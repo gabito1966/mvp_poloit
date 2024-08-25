@@ -1,7 +1,8 @@
-import FormRegisterAlumnos from "@/components/register/alumnos/FormRegisterAlumnos";
+import FormEstudiante from "@/components/register/alumnos/FormEstudiante";
+import { fetchGet } from "@/lib/fetchExampleNicolas";
 
 export default async function RegisterAlumnos() {
-  //   const data = fetch("");
+  const data = await fetchGet("/api/ong");
 
-  return <FormRegisterAlumnos />;
+  return <FormEstudiante ongs={data.data} params={undefined} />;
 }

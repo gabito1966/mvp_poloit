@@ -15,7 +15,6 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  console.log(id);
 
   if (!id) {
     return NextResponse.json(

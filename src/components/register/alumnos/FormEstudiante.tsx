@@ -1,5 +1,7 @@
 "use client";
-import { ChangeEvent, FormEvent, useState } from "react";
+
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { fetchGetClient, fetchPostClient } from "@/lib/fetchExampleNicolas";
 
 interface Estudiante {
   id?: "";
@@ -11,8 +13,20 @@ interface Estudiante {
   id_ong: number | null;
 }
 
-function FormRegisterAlumnos() {
+export type ong = {
+  id: number;
+  nombre: string;
+};
+
+function FormEstudiante({
+  ongs,
+  params,
+}: {
+  ongs: ong[];
+  params?: { id: string };
+}) {
   const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
+
   const [form, setForm] = useState({
     id: "",
     nombre: "",
@@ -22,6 +36,15 @@ function FormRegisterAlumnos() {
     estado: "",
     id_ong: "",
   });
+
+  useEffect(() => {
+    if (params) {
+      fetchGetClient(`/api/estudiante/${params.id}`).then((data) => {
+        setForm(data.data);
+        console.log(form);
+      });
+    }
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -33,7 +56,7 @@ function FormRegisterAlumnos() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newEstudiante: Estudiante = {
       nombre: form.nombre,
@@ -53,6 +76,10 @@ function FormRegisterAlumnos() {
       estado: "",
       id_ong: "",
     });
+
+    const response = await fetchPostClient(`/api/estudiante`, newEstudiante);
+
+    console.log(response);
   };
 
   return (
@@ -165,8 +192,13 @@ function FormRegisterAlumnos() {
                 <option value="" disabled hidden>
                   Seleccione una ONG
                 </option>
-                <option value="1">ONG 1</option>
-                <option value="2">ONG 2</option>
+                {ongs.map((e, i) => {
+                  return (
+                    <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                      {e.nombre}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
@@ -240,4 +272,4 @@ function FormRegisterAlumnos() {
   );
 }
 
-export default FormRegisterAlumnos;
+export default FormEstudiante;
