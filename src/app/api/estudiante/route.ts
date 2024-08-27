@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
+import { getErrorMessageFromCode } from "@/lib/utils";
 
 export async function GET(request: Request) {
   try {
     //faltaria las tecnologias de cada estudiante despues veo que onda
     const { rows } =
-      await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e join  ongs o on  e.id_ong = o.id where e.estado = true`;
+      await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e join  ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
 
     return NextResponse.json({ success: true, data: rows }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "error en la base de datos" },
+      { success: false, data: [], message: "error en la base de datos" },
       { status: 500 }
     );
   }
@@ -38,15 +39,10 @@ export type Estudiante = {
   id_ong: number;
 };
 
-export interface UserLoginResponse {
-  success: boolean;
-  userData?: Estudiante;
-  message?: string;
-}
-
 export interface EstudianteResponse {
   success: boolean;
   errors?: [];
+  data?: [];
   message?: string;
 }
 
@@ -112,7 +108,8 @@ export async function POST(request: Request) {
   } catch (error) {
     const res: EstudianteResponse = {
       success: false,
-      message: "error en la base de datos",
+      data: [],
+      // message: getErrorMessageFromCode(error.code, error.constraint),
     };
 
     return NextResponse.json(res, { status: 500 });

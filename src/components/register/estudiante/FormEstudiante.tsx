@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { fetchGetClient, fetchPostClient } from "@/lib/fetchExampleNicolas";
+import { fetchPostClient } from "@/lib/fetchFunctions";
 
 interface Estudiante {
   id?: "";
@@ -12,6 +12,15 @@ interface Estudiante {
   estado?: string;
   id_ong: number | null;
 }
+interface EstudianteParams {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  estado: string;
+  id_ong: number;
+}
 
 export type ong = {
   id: number;
@@ -20,10 +29,10 @@ export type ong = {
 
 function FormEstudiante({
   ongs,
-  params,
+  dataFetch,
 }: {
   ongs: ong[];
-  params?: { id: string };
+  dataFetch?: EstudianteParams | undefined;
 }) {
   const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
 
@@ -38,10 +47,15 @@ function FormEstudiante({
   });
 
   useEffect(() => {
-    if (params) {
-      fetchGetClient(`/api/estudiante/${params.id}`).then((data) => {
-        setForm(data.data);
-        console.log(form);
+    if (dataFetch) {
+      setForm({
+        id: dataFetch.id?.toString(),
+        nombre: dataFetch.nombre,
+        apellido: dataFetch.apellido,
+        email: dataFetch.email,
+        telefono: dataFetch.telefono,
+        estado: dataFetch.estado,
+        id_ong: dataFetch.id_ong.toString(),
       });
     }
   }, []);
@@ -67,19 +81,17 @@ function FormEstudiante({
     };
 
     setEstudiantes([...estudiantes, newEstudiante]);
-    setForm({
-      id: "",
-      nombre: "",
-      apellido: "",
-      email: "",
-      telefono: "",
-      estado: "",
-      id_ong: "",
-    });
 
-    const response = await fetchPostClient(`/api/estudiante`, newEstudiante);
-
-    console.log(response);
+    if (dataFetch) {
+      const response = await fetchPostClient(
+        `/api/estudiante/${dataFetch.id}`,
+        newEstudiante
+      );
+      console.log(response);
+    } else {
+      const response = await fetchPostClient(`/api/estudiante`, newEstudiante);
+      console.log(response);
+    }
   };
 
   return (
@@ -92,18 +104,6 @@ function FormEstudiante({
           onSubmit={handleSubmit}
           className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center"
         >
-          {/* <div>
-                    <label htmlFor="id" className="block text-sm font-medium text-slate-200">ID:</label>
-                    <input
-                        type="number"
-                        id="id"
-                        name="id"
-                        value={form.id}
-                        onChange={handleChange}
-                        className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        required
-                    />
-                </div> */}
           <div>
             <label
               htmlFor="nombre"
@@ -209,64 +209,6 @@ function FormEstudiante({
             Registrar Alumno
           </button>
         </form>
-
-        <h2 className="text-xl font-semibold mb-4">
-          Lista de Alumnos Inscriptos
-        </h2>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Nombre
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Apellido
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Email
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Teléfono
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Estado
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID ONG
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {estudiantes.map((estudiante) => (
-              <tr key={estudiante.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {estudiante.id}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.nombre}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.apellido}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.email}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.telefono}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.estado ? "Activo" : "Inactivo"}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                  {estudiante.id_ong !== null ? estudiante.id_ong : "N/A"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </>
   );

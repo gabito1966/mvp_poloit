@@ -1,14 +1,17 @@
-import FormEstudiante from "@/components/register/alumnos/FormEstudiante";
-import { FormSkeleton } from "@/components/skeletons";
-import { fetchGet } from "@/lib/fetchExampleNicolas";
-import { Suspense } from "react";
+import FormEstudiante from "@/components/register/estudiante/FormEstudiante";
+import { fetchGet } from "@/lib/fetchFunctions";
 
 export default async function EstudianteEdit({
   params,
 }: {
   params?: { id: string };
 }) {
-  const data = await fetchGet("/api/ong");
+  const [dataOng, dataEstudiante] = await Promise.all([
+    fetchGet("/api/ong"),
+    params
+      ? fetchGet(`/api/estudiante/${params.id}`)
+      : Promise.resolve({ data: undefined }),
+  ]);
 
-  return <FormEstudiante ongs={data.data} params={params} />;
+  return <FormEstudiante ongs={dataOng.data} dataFetch={dataEstudiante.data} />;
 }

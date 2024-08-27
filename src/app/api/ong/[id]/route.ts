@@ -18,7 +18,11 @@ export async function PUT(
 
   if (!id) {
     return NextResponse.json(
-      { success: false, message: "debe proporcionar el id de la organizacion" },
+      {
+        success: false,
+        data: [],
+        message: "debe proporcionar el id de la organizacion",
+      },
       { status: 400 }
     );
   }
@@ -33,6 +37,7 @@ export async function PUT(
   if (!validatedFields.success) {
     const res = {
       success: false,
+      data: [],
       message: validatedFields.error.flatten().fieldErrors,
     };
 
@@ -46,6 +51,7 @@ export async function PUT(
 
     const res: OngResponse = {
       success: true,
+      data: [],
       message: "Actualización de organización exitosa",
     };
 
@@ -53,6 +59,7 @@ export async function PUT(
   } catch (error) {
     const res: OngResponse = {
       success: false,
+      data: [],
       message: "error en la base de datos",
     };
 
@@ -68,7 +75,11 @@ export async function DELETE(
 
   if (!id) {
     return NextResponse.json(
-      { success: false, message: "debe proporcionar el id de la organizacion" },
+      {
+        success: false,
+        data: [],
+        message: "debe proporcionar el id de la organizacion",
+      },
       { status: 400 }
     );
   }
@@ -85,6 +96,7 @@ export async function DELETE(
   } catch (error) {
     const res: OngResponse = {
       success: false,
+      data: [],
       message: "error en la base de datos",
     };
 
@@ -100,7 +112,11 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      { success: false, message: "debe proporcionar el id de la organizacion" },
+      {
+        success: false,
+        data: [],
+        message: "debe proporcionar el id de la organizacion",
+      },
       { status: 400 }
     );
   }
@@ -111,7 +127,7 @@ export async function GET(
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { success: false, message: "La organizacion no existe" },
+        { success: false, data: [], message: "La organizacion no existe" },
         { status: 404 }
       );
     }
@@ -119,12 +135,14 @@ export async function GET(
     const res = {
       success: true,
       data: rows[0],
+      message: "consulta exitosa",
     };
 
     return NextResponse.json(res, { status: 200 });
   } catch (error) {
     const res: OngResponse = {
       success: false,
+      data: [],
       message: "error en la base de datos",
     };
 
