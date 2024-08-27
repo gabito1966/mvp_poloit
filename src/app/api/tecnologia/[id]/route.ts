@@ -49,24 +49,56 @@ export async function GET(
     return NextResponse.json({ success: true, data: rows[0] }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, data: [], message: "error en la base de datos" },
+      {
+        success: false,
+        data: [],
+        message: "error en la base de datos",
+      },
       { status: 500 }
     );
   }
 }
 
-/*     resolver params*/
-/*     resolver*/
-/*     resolver*/
-/*     resolver*/
-export async function PUT(request: Request) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id, nombre } = UpdateTecnologia.parse(
-      Object.fromEntries(new URL(request.url).searchParams)
-    );
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          success: false,
+          data: [],
+          message: "debe proporcionar el id de la tecnologia",
+        },
+        { status: 400 }
+      );
+    }
+
+    const body = (await request.json()) as Tecnologia;
+
+    const validatedFields = UpdateTecnologia.safeParse({
+      ...body,
+      id: id,
+    });
+
+    if (!validatedFields.success) {
+      const res = {
+        success: false,
+        data: [],
+        message: "Error en algun campo",
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+
+      return NextResponse.json(res, { status: 400 });
+    }
+
+    const { id: id_tecnologia, nombre } = validatedFields.data;
 
     const { rows } =
-      await sql<Tecnologia>`UPDATE tecnologias SET nombre = ${nombre} WHERE id = ${id} RETURNING *`;
+      await sql<Tecnologia>`UPDATE tecnologias SET nombre = ${nombre} WHERE id = ${id_tecnologia} RETURNING *`;
 
     if (rows.length === 0) {
       return NextResponse.json(
@@ -84,15 +116,23 @@ export async function PUT(request: Request) {
   }
 }
 
-/*     resolver*/
-/*     resolver*/
-/*     resolver*/
-/*     resolver params*/
-export async function DELETE(request: Request) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = GetTecnologia.parse(
-      Object.fromEntries(new URL(request.url).searchParams)
-    );
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          success: false,
+          data: [],
+          message: "debe proporcionar el id de la tecnologia",
+        },
+        { status: 400 }
+      );
+    }
 
     await sql`DELETE FROM tecnologias WHERE id = ${id}`;
 

@@ -35,6 +35,17 @@ function FormEstudiante({
   dataFetch?: EstudianteParams | undefined;
 }) {
   const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
+  const [responseBack, setResponseBack] = useState({
+    message: "",
+    errors: {
+      nombre: [],
+      apellido: [],
+      email: [],
+      telefono: [],
+      estado: [],
+      id_ong: [],
+    },
+  });
 
   const [form, setForm] = useState({
     id: "",
@@ -68,6 +79,16 @@ function FormEstudiante({
       ...prevForm,
       [name]: value,
     }));
+
+    if ((e.target.name = name)) {
+      setResponseBack({
+        ...responseBack,
+        errors: {
+          ...responseBack.errors,
+          [name]: [],
+        },
+      });
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -94,9 +115,26 @@ function FormEstudiante({
       } else {
         response = await fetchPostClient(`/api/estudiante`, newEstudiante);
       }
+
+      if (!response.success) {
+        throw response;
+      }
+
       console.log(response);
-    } catch (error) {
+      setForm({
+        id: "",
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        estado: "",
+        id_ong: "",
+      });
+    } catch (error: any) {
+      setResponseBack({ message: error.message, errors: error.errors });
       console.log(error);
+      console.log("errors", responseBack);
+      //console.log("errors", responseBack);
     }
   };
 
@@ -127,6 +165,14 @@ function FormEstudiante({
               required
             />
           </div>
+          <div id="customer-error" aria-live="polite" aria-atomic="true">
+            {responseBack.errors?.nombre &&
+              responseBack.errors.nombre.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
           <div>
             <label
               htmlFor="apellido"
@@ -143,6 +189,14 @@ function FormEstudiante({
               className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              {responseBack.errors?.apellido &&
+                responseBack.errors.apellido.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
           </div>
           <div>
             <label
@@ -160,6 +214,12 @@ function FormEstudiante({
               className="mt-1 block text-black w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
+            {responseBack.errors?.email &&
+              responseBack.errors.email.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
           <div>
             <label
@@ -178,6 +238,12 @@ function FormEstudiante({
               required
             />
           </div>
+          {responseBack.errors?.telefono &&
+            responseBack.errors?.telefono.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
 
           <div>
             <div>
@@ -206,6 +272,12 @@ function FormEstudiante({
                   );
                 })}
               </select>
+              {responseBack.errors?.id_ong &&
+                responseBack.errors.id_ong.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
             </div>
           </div>
           <button

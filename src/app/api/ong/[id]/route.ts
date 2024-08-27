@@ -30,8 +30,8 @@ export async function PUT(
   const body = (await request.json()) as OngInterface;
 
   const validatedFields = UpdateOng.safeParse({
-    id: id,
     ...body,
+    id: id,
   });
 
   if (!validatedFields.success) {

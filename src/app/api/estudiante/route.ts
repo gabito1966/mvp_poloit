@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
-import { getErrorMessageFromCode } from "@/lib/utils";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export async function GET(request: Request) {
   try {
@@ -9,7 +9,11 @@ export async function GET(request: Request) {
     const { rows } =
       await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e join  ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
 
-    return NextResponse.json({ success: true, data: rows }, { status: 200 });
+    return NextResponse.json(
+      // { success: true, data: rows }
+      createResponse(true, rows, "Consulta Exitosa"),
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, data: [], message: "error en la base de datos" },
@@ -73,12 +77,20 @@ export async function POST(request: Request) {
   });
 
   if (!validatedFields.success) {
-    const res = {
-      success: false,
-      message: validatedFields.error.flatten().fieldErrors,
-    };
+    // const res = {
+    //   success: false,
+    //   message: validatedFields.error.flatten().fieldErrors,
+    // };
 
-    return NextResponse.json(res, { status: 400 }); //cambiar el status
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error En Algun Campo",
+        validatedFields.error.flatten().fieldErrors
+      ),
+      { status: 400 }
+    );
   }
 
   const { nombre, apellido, email, telefono, id_ong } = validatedFields.data;
@@ -99,19 +111,31 @@ export async function POST(request: Request) {
     //   }
     // }
 
-    const res: EstudianteResponse = {
-      success: true,
-      message: "Registro de estudiante exitoso",
-    };
+    // const res: EstudianteResponse = {
+    //   success: true,
+    //   message: "Registro de estudiante exitoso",
+    // };
 
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, [], "Registro de estudiante exitoso"),
+      { status: 200 }
+    );
   } catch (error) {
-    const res: EstudianteResponse = {
-      success: false,
-      data: [],
-      // message: getErrorMessageFromCode(error.code, error.constraint),
-    };
+    // const res: EstudianteResponse = {
+    //   success: false,
+    //   data: [],
+    //   // message: getErrorMessageFromCode(error.code, error.constraint),
+    // };
 
-    return NextResponse.json(res, { status: 500 });
+    //arreglar el mensaje de la base de datos si es 500
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error en la base de datos"
+        // getErrorMessageFromCode(error.code, error.constraint)
+      ),
+      { status: 500 }
+    );
   }
 }
