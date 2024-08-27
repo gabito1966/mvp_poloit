@@ -23,12 +23,28 @@ export async function fetchPostClient(url: string, data: any) {
     return await response.json();
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
 export async function fetchGetClient(url: string) {
   try {
     const response = await fetch(`${url}`);
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function fetchPutClient(url: string, data: any) {
+  try {
+    const response = await fetch(`${url}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     return await response.json();
   } catch (error) {
     console.log(error);

@@ -42,6 +42,7 @@ export async function POST(request: Request) {
   if (!validatedFields.success) {
     const res = {
       success: false,
+      data: [],
       message: validatedFields.error.flatten().fieldErrors,
     };
 

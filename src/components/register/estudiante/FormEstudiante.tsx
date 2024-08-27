@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { fetchPostClient } from "@/lib/fetchFunctions";
+import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 
 interface Estudiante {
   id?: "";
@@ -72,6 +72,7 @@ function FormEstudiante({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const newEstudiante: Estudiante = {
       nombre: form.nombre,
       apellido: form.apellido,
@@ -82,15 +83,20 @@ function FormEstudiante({
 
     setEstudiantes([...estudiantes, newEstudiante]);
 
-    if (dataFetch) {
-      const response = await fetchPostClient(
-        `/api/estudiante/${dataFetch.id}`,
-        newEstudiante
-      );
+    let response;
+
+    try {
+      if (dataFetch) {
+        response = await fetchPutClient(
+          `/api/estudiante/${dataFetch.id}`,
+          newEstudiante
+        );
+      } else {
+        response = await fetchPostClient(`/api/estudiante`, newEstudiante);
+      }
       console.log(response);
-    } else {
-      const response = await fetchPostClient(`/api/estudiante`, newEstudiante);
-      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
   };
 
