@@ -147,13 +147,12 @@ export default function RegisterMentores() {
 
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"
-                >
+                    className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-sm hover:bg-gray-600 mx-auto w-full">
                     Registrar Mentor
                 </button>
             </form>
 
-            <h2 className="text-xl font-semibold mb-4">Lista de Mentores Inscritos</h2>
+            <h2 className="text-xl font-semibold mb-4 text-center underline">Lista de Mentores Inscritos</h2>
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>

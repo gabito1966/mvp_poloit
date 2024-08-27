@@ -66,14 +66,13 @@ export default function RegisterTecnologias() {
 
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"
-                >
+                    className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-sm hover:bg-gray-600 mx-auto w-full">
                     Registrar ONG
                 </button>
             </form>
 
-            <h2 className="text-xl font-semibold mb-4">Lista de ONG</h2>
-            <table className="w-1/4 justify-center items-center divide-y divide-gray-200">
+            <h2 className="text-xl font-semibold mb-4 text-center underline">Lista de ONG</h2>
+            <table className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
