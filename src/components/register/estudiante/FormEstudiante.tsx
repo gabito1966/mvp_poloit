@@ -2,6 +2,7 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
+import { Tecnologia } from "@/database/definitions";
 
 interface Estudiante {
   id?: "";
@@ -11,7 +12,9 @@ interface Estudiante {
   telefono: string;
   estado?: string;
   id_ong: number | null;
+  tecnologias: number[];
 }
+
 interface EstudianteParams {
   id: number;
   nombre: string;
@@ -20,6 +23,7 @@ interface EstudianteParams {
   telefono: string;
   estado: string;
   id_ong: number;
+  tecnologias: number[];
 }
 
 export type ong = {
@@ -29,12 +33,24 @@ export type ong = {
 
 function FormEstudiante({
   ongs,
+  tecnologias,
   dataFetch,
 }: {
   ongs: ong[];
+  tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
 }) {
-  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
+  const [form, setForm] = useState({
+    id: "",
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+    estado: "",
+    id_ong: "",
+    tecnologias: [] as number[],
+  });
+
   const [responseBack, setResponseBack] = useState({
     message: "",
     errors: {
@@ -44,17 +60,8 @@ function FormEstudiante({
       telefono: [],
       estado: [],
       id_ong: [],
+      tecnologias: [],
     },
-  });
-
-  const [form, setForm] = useState({
-    id: "",
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    estado: "",
-    id_ong: "",
   });
 
   useEffect(() => {
@@ -67,6 +74,7 @@ function FormEstudiante({
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
         id_ong: dataFetch.id_ong.toString(),
+        tecnologias: dataFetch.tecnologias || [],
       });
     }
   }, []);
@@ -75,10 +83,19 @@ function FormEstudiante({
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
+    if (name === "tecnologias") {
+      let tecnologias = [...form.tecnologias];
+      if ((e.target as HTMLInputElement).checked) {
+        tecnologias.push(parseInt(value, 10));
+      } else {
+        tecnologias = tecnologias.filter(
+          (tech) => tech !== parseInt(value, 10)
+        );
+      }
+      setForm((prevForm) => ({ ...prevForm, tecnologias }));
+    } else {
+      setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    }
 
     setResponseBack({
       ...responseBack,
@@ -98,9 +115,8 @@ function FormEstudiante({
       email: form.email,
       telefono: form.telefono,
       id_ong: form.id_ong ? parseInt(form.id_ong, 10) : null,
+      tecnologias: form.tecnologias,
     };
-
-    setEstudiantes([...estudiantes, newEstudiante]);
 
     let response;
 
@@ -118,7 +134,6 @@ function FormEstudiante({
         throw response;
       }
 
-      console.log(response);
       setForm({
         id: "",
         nombre: "",
@@ -127,7 +142,9 @@ function FormEstudiante({
         telefono: "",
         estado: "",
         id_ong: "",
+        tecnologias: [] as number[],
       });
+      
     } catch (error: any) {
       setResponseBack({ message: error.message, errors: error.errors });
     }
@@ -168,6 +185,7 @@ function FormEstudiante({
                 </p>
               ))}
           </div>
+
           <div>
             <label
               htmlFor="apellido"
@@ -275,6 +293,38 @@ function FormEstudiante({
                 ))}
             </div>
           </div>
+
+          <div className="flex flex-wrap gap-4">
+            {tecnologias.map((e, i) => {
+              return (
+                <div
+                  key={`${i}${e.nombre}${e.id}`}
+                  className="flex flex-col items-center"
+                >
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="tecnologias"
+                    id={`${e.nombre}`}
+                    value={`${e.id}`}
+                    onChange={handleChange}
+                  />
+                  <label className="text-sm" htmlFor="html">
+                    {e.nombre}
+                  </label>
+                </div>
+              );
+            })}
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              {responseBack.errors?.tecnologias &&
+                responseBack.errors?.tecnologias.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+
           <button
             type="submit"
             className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"

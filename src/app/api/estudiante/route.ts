@@ -9,11 +9,9 @@ export async function GET(request: Request) {
     const { rows } =
       await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e join  ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
 
-    return NextResponse.json(
-      // { success: true, data: rows }
-      createResponse(true, rows, "Consulta Exitosa"),
-      { status: 200 }
-    );
+    return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
+      status: 200,
+    });
   } catch (error) {
     return NextResponse.json(
       { success: false, data: [], message: "error en la base de datos" },
@@ -30,8 +28,8 @@ export interface EstudianteInterface {
   telefono: string;
   estado: boolean;
   id_ong: number;
+  tecnologias: number[];
 }
-/*ver la tecnologia*/
 
 export type Estudiante = {
   id: number;
@@ -56,7 +54,7 @@ const CreateSchemaEstudiante = z.object({
     .min(4, "el nombre debe de tener al menos 4 caracteres"),
   apellido: z
     .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 4 caracter"),
+    .min(3, "el apellido debe tener al menos 3 caracter"),
   email: z
     .string({ message: "ingrese un email" })
     .email("Debe ser un email válido")
@@ -65,6 +63,9 @@ const CreateSchemaEstudiante = z.object({
   id_ong: z.coerce.number({
     invalid_type_error: "seleccione una organización",
   }),
+  tecnologias: z
+    .array(z.coerce.number({ invalid_type_error: "seleccione una tecnologia" }))
+    .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
 const CreateEstudiante = CreateSchemaEstudiante.omit({});
@@ -88,7 +89,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const { nombre, apellido, email, telefono, id_ong } = validatedFields.data;
+  const { nombre, apellido, email, telefono, id_ong, tecnologias } =
+    validatedFields.data;
 
   try {
     const result =
@@ -97,19 +99,16 @@ export async function POST(request: Request) {
 
     console.log(result);
 
-    // if (tecnologias && tecnologias.length > 0) {
-    //   for (const tecnologiaId of tecnologias) {
-    //     await sql`
-    //       INSERT INTO ong_tecnologias (id_tecnologia, id_ong)
-    //       VALUES (${tecnologiaId}, ${id_ong});
-    //     `;
-    //   }
-    // }
-
-    // const res: EstudianteResponse = {
-    //   success: true,
-    //   message: "Registro de estudiante exitoso",
-    // };
+    try {
+      tecnologias.forEach(async (e) => {
+        await sql`INSERT INTO estudiantes_tecnologias (id_tecnologia, id_estudiante)
+        VALUES (${e},${result.rows[0].id})
+        `;
+      });
+    } catch (error) {
+      //hacer un "role back " eliminar el estudiante con los id de las tecnologias
+      throw error;
+    }
 
     return NextResponse.json(
       createResponse(true, [], "Registro de estudiante exitoso"),

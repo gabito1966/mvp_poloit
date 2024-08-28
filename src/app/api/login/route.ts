@@ -8,10 +8,6 @@ import {
 } from "@/lib/utils";
 import { z } from "zod";
 
-export async function GET(request: Request) {
-  return NextResponse.json({ message: "hola mundo" });
-}
-
 export interface UserLogin {
   email: string;
   password: string;
