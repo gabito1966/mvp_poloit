@@ -2,10 +2,10 @@ import bcrypt from "bcrypt";
 import { SignJWT, jwtVerify } from "jose";
 import { Administrador } from "@/app/api/login/route";
 
-export const hashPassword = async (password: string) => {
+export const generateHash = async (cad: string) => {
   //   const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, 10);
-  return hashedPassword;
+  const hashedCad = await bcrypt.hash(`${cad}`, 10);
+  return hashedCad;
 };
 
 export const comparePassword = async (

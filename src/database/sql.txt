@@ -93,3 +93,12 @@ CREATE TABLE administradores (
     usuario VARCHAR(50) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL
 );
+
+--crear tabla de sesiones
+CREATE TABLE sesiones (
+    id SERIAL PRIMARY KEY,
+    id_administrador INTEGER,
+    token VARCHAR(300),
+    fecha_creacion DATE,
+    FOREIGN KEY (id_administrador) REFERENCES administradores(id)
+);

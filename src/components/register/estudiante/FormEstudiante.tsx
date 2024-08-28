@@ -80,15 +80,13 @@ function FormEstudiante({
       [name]: value,
     }));
 
-    if ((e.target.name = name)) {
-      setResponseBack({
-        ...responseBack,
-        errors: {
-          ...responseBack.errors,
-          [name]: [],
-        },
-      });
-    }
+    setResponseBack({
+      ...responseBack,
+      errors: {
+        ...responseBack.errors,
+        [name]: [],
+      },
+    });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -132,9 +130,6 @@ function FormEstudiante({
       });
     } catch (error: any) {
       setResponseBack({ message: error.message, errors: error.errors });
-      console.log(error);
-      console.log("errors", responseBack);
-      //console.log("errors", responseBack);
     }
   };
 

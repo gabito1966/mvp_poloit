@@ -77,11 +77,6 @@ export async function POST(request: Request) {
   });
 
   if (!validatedFields.success) {
-    // const res = {
-    //   success: false,
-    //   message: validatedFields.error.flatten().fieldErrors,
-    // };
-
     return NextResponse.json(
       createResponse(
         false,
@@ -128,6 +123,9 @@ export async function POST(request: Request) {
     // };
 
     //arreglar el mensaje de la base de datos si es 500
+
+    // if(error instanceof )
+
     return NextResponse.json(
       createResponse(
         false,

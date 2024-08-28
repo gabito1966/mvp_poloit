@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import { comparePassword, hashPassword, JWTCreate } from "@/lib/utils";
-import { cookies } from "next/headers";
+import {
+  comparePassword,
+  createResponse,
+  generateHash,
+  JWTCreate,
+} from "@/lib/utils";
 import { z } from "zod";
 
 export async function GET(request: Request) {
@@ -20,7 +24,7 @@ export type DataZ = {
 
 export interface UserLoginResponse {
   success: boolean;
-  userData?: Administrador;
+  data?: Administrador;
   message?: string;
 }
 
@@ -29,94 +33,98 @@ export type Administrador = {
   nombre: string;
   apellido: string;
   email: string;
-  contrasena: string;
+  contrasena?: string;
 };
 
-const FormSchema = z.object({
+const CreateLogin = z.object({
   email: z
     .string()
-    // .email("Debe ser un email válido")
+    .email("Debe ser un email válido")
     .min(6, "el email de tener al menos 6 caracteres"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });
 
-const CreateLogin = FormSchema.omit({});
+// const CreateLogin = FormSchema.omit({});
 
 export async function POST(request: Request) {
   const body = (await request.json()) as UserLogin;
   let token = "";
+  const validatedFields = CreateLogin.safeParse({
+    email: body.email,
+    password: body.password,
+  });
+
+  if (!validatedFields.success) {
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error En Algun Campo",
+        validatedFields.error.flatten().fieldErrors
+      ),
+      { status: 400 }
+    );
+  }
   try {
-    const { email, password } = CreateLogin.parse({
-      email: body.email,
-      password: body.password,
-    });
+    const { email, password } = validatedFields.data;
 
     const { rows } =
       await sql<Administrador>`SELECT * from administradores WHERE email = ${email}`;
 
     if (rows.length === 0) {
-      const res: UserLoginResponse = {
-        success: false,
-        message: "El administrador no esta registrado",
-      };
-
-      return NextResponse.json(res, { status: 500 });
+      return NextResponse.json(
+        createResponse(false, [], "Email no registrado"),
+        { status: 500 }
+      );
     }
 
     const user = rows[0];
-    const match = await comparePassword(password, user.contrasena);
+    const match = await comparePassword(password, user.contrasena || "");
 
     if (!match) {
-      const res: UserLoginResponse = {
-        success: false,
-        message: "Error en el email o la contraseña",
-      };
-
-      return NextResponse.json(res, { status: 500 });
+      return NextResponse.json(
+        createResponse(false, [], "Contraseña Incorrecta"),
+        { status: 500 }
+      );
     }
 
-    const res: UserLoginResponse = {
-      success: true,
-      userData: user,
-      message: "Login Exitoso",
-    };
+    const { contrasena: contrasenia, ...rest } = user;
 
-    token = await JWTCreate(user);
-    console.log(token);
+    token = await JWTCreate(rest);
 
-    // NextResponse.next("Set-Cookie", cookie);
-    // NextResponse.next().cookies.set("token", token.toString(), {
-    //   maxAge: 60 * 60 * 24 * 7, // 1 semana
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "strict",
-    // });
+    const date = new Date().toISOString().split("T")[0];
 
-    return NextResponse.json(res, { status: 200 });
+    let sessionId: string = "";
+
+    try {
+      const result =
+        await sql`INSERT INTO sesiones (id_administrador,token,fecha_creacion) VALUES
+                            (${rest.id},${token},${date}) RETURNING id`;
+      const { rows } = result;
+      console.log("idSession id", rows);
+      sessionId = await generateHash(rows[0].id);
+    } catch (error) {
+      return NextResponse.json(
+        createResponse(false, [], "Error en la base de datos"),
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        ...createResponse(true, user, "Consulta Exitosa"),
+        session: sessionId,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      const res = {
-        success: false,
-        message: error.errors.map((err) => err.message).join(", "),
-      };
-
-      return NextResponse.json(res, { status: 400 });
-    }
-
     const res = {
       success: false,
       message: "error en la base de datos",
     };
 
-    const response = NextResponse.json(res, {
-      status: 200,
+    NextResponse.json(res, {
+      status: 500,
     });
-
-    response.headers.set(
-      "Set-Cookie",
-      `token=${token.toString()}; Max-Age=604800; HttpOnly; Secure; SameSite=Strict`
-    );
-
-    return response;
   }
 }
