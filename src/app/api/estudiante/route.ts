@@ -7,14 +7,14 @@ export async function GET(request: Request) {
   try {
     //faltaria las tecnologias de cada estudiante despues veo que onda
     const { rows } =
-      await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e join  ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
+      await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e JOIN ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
 
     return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
       status: 200,
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, data: [], message: "error en la base de datos" },
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
