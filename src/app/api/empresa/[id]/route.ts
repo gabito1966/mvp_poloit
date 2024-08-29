@@ -3,20 +3,17 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const GetTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
-});
-
-export type Tecnologia = {
-  id: number;
-  nombre: string;
-};
-
-export const UpdateTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
+export const UpdateEmpresa = z.object({
+  id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .min(2, "El nombre debe tener al menos 2 caracteres"),
+});
+
+export type Empresa = z.infer<typeof UpdateEmpresa>;
+
+export const GetEmpresa = z.object({
+  id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
 });
 
 export async function GET(
@@ -28,23 +25,23 @@ export async function GET(
 
     if (!id) {
       return NextResponse.json(
-        createResponse(false, [], "Debe proporcionar el ID de la tecnología"),
+        createResponse(false, [], "Debe proporcionar el ID de la empresa"),
         { status: 400 }
       );
     }
 
     const { rows } =
-      await sql<Tecnologia>`SELECT * FROM tecnologias WHERE id = ${id}`;
+      await sql<Empresa>`SELECT * from empresas WHERE id = ${id}`;
 
     if (rows.length === 0) {
       return NextResponse.json(
-        createResponse(false, [], "tecnología no encontrada"),
+        createResponse(false, [], "No se encontró la empresa"),
         { status: 404 }
       );
     }
 
     return NextResponse.json(
-      createResponse(true, rows[0], "Tecnología encontrada"),
+      createResponse(true, rows[0], "Consulta Exitosa"),
       { status: 200 }
     );
   } catch (error) {
@@ -64,14 +61,14 @@ export async function PUT(
 
     if (!id) {
       return NextResponse.json(
-        createResponse(false, [], "Debe proporcionar el id de la tecnología"),
-        { status: 404 }
+        createResponse(false, [], "Debe proporcionar el ID de la empresa"),
+        { status: 400 }
       );
     }
 
-    const body = (await request.json()) as Tecnologia;
+    const body = (await request.json()) as Empresa;
 
-    const validatedFields = UpdateTecnologia.safeParse({
+    const validatedFields = UpdateEmpresa.safeParse({
       ...body,
       id: id,
     });
@@ -81,26 +78,29 @@ export async function PUT(
         createResponse(
           false,
           [],
-          "Error en algún campo",
+          "Error En Algún Campo",
           validatedFields.error.flatten().fieldErrors
         ),
         { status: 400 }
       );
     }
 
-    const { id: id_tecnologia, nombre } = validatedFields.data;
+    const { nombre } = validatedFields.data;
 
     const { rows } =
-      await sql<Tecnologia>`UPDATE tecnologias SET nombre = ${nombre} WHERE id = ${id_tecnologia} RETURNING *`;
+      await sql<Empresa>`UPDATE empresas SET nombre = ${nombre} WHERE id = ${id} RETURNING *`;
 
     if (rows.length === 0) {
       return NextResponse.json(
-        createResponse(false, [], "Tecnología no encontrada"),
+        createResponse(false, [], "No se encontró la empresa"),
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ success: true, data: rows[0] }, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, rows[0], "Actualización Exitosa"),
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
@@ -118,14 +118,30 @@ export async function DELETE(
 
     if (!id) {
       return NextResponse.json(
-        createResponse(false, [], "Debe proporcionar el ID de la tecnología"),
+        createResponse(false, [], "Debe proporcionar el ID de la empresa"),
         { status: 400 }
       );
     }
 
-    await sql`DELETE FROM tecnologias WHERE id = ${id}`;
+    const validatedFields = GetEmpresa.safeParse({
+      id: id,
+    });
 
-    return NextResponse.json(createResponse(true, [], "tecnología eliminada"), {
+    if (!validatedFields.success) {
+      return NextResponse.json(
+        createResponse(
+          false,
+          [],
+          "Error En Algún Campo",
+          validatedFields.error.flatten().fieldErrors
+        ),
+        { status: 400 }
+      );
+    }
+
+    await sql<Empresa>`DELETE FROM empresas WHERE id = ${id}`;
+
+    return NextResponse.json(createResponse(true, [], "Eliminación Exitosa"), {
       status: 200,
     });
   } catch (error) {

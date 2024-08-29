@@ -68,7 +68,7 @@ export async function DELETE(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id de la organización"),
+      createResponse(false, [], "Debe proporcionar un ID de la organización"),
       { status: 400 }
     );
   }
@@ -96,7 +96,7 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id de la organización"),
+      createResponse(false, [], "Debe proporcionar un ID de la organización"),
       { status: 400 }
     );
   }

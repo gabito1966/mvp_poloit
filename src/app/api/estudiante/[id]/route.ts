@@ -2,16 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { EstudianteInterface } from "../route";
-import { createResponse } from "@/lib/utils";
-
-// export interface EstudianteInterface {
-//   id: number;
-//   nombre: string;
-//   apellido: string;
-//   email: string;
-//   telefono: string;
-//   id_ong: number;
-// }
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
@@ -34,8 +25,6 @@ export const UpdateEstudiante = z.object({
 export const GetEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
 });
-
-// const CreateEstudiante = UpdateEstudiante.omit({ id: true });
 
 export type GetEstudianteResponse = {
   success: boolean;
@@ -82,34 +71,21 @@ export async function GET(
     console.log("dentre");
 
     if (rows.length === 0) {
-      // const res = {
-      //   success: false,
-      //   data: [],
-      //   message: "El estudiante no existe",
-      // };
-
       return NextResponse.json(
         createResponse(false, [], "El estudiante no existe"),
         { status: 404 }
       );
     }
 
-    // const res = {
-    //   success: true,
-    //   data: rows[0],
-    // };
-
     return NextResponse.json(
       createResponse(true, rows[0], "consulta exitosa"),
       { status: 200 }
     );
   } catch (error) {
-    const res = {
-      success: false,
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }
 
@@ -119,10 +95,9 @@ export async function PUT(
 ) {
   const { id } = params;
 
-  //{ success: false, message: "debe proporcionar el id del estudiante" },
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id del estudiante"),
+      createResponse(false, [], "Debe proporcionar un ID del estudiante"),
       { status: 400 }
     );
   }
@@ -135,11 +110,6 @@ export async function PUT(
   });
 
   if (!validatedFields.success) {
-    // const res = {
-    //   success: false,
-    //   message: validatedFields.error.flatten().fieldErrors,
-    // };
-
     return NextResponse.json(
       createResponse(
         false,
@@ -163,18 +133,13 @@ export async function PUT(
   try {
     await sql`UPDATE estudiantes SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_ong = ${id_ong} WHERE id = ${id_estudiante}`;
 
-    // const res = {
-    //   success: true,
-    //   message: "Actualización del estudiante exitosa",
-    // };
-
     return NextResponse.json(
       createResponse(true, [], "Actualización del estudiante exitosa"),
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], "error en la base de datos"),
+      createResponse(false, [], "Error en la base de datos"),
       { status: 500 }
     );
   }
@@ -188,7 +153,6 @@ export async function DELETE(
 
   if (!id) {
     return NextResponse.json(
-      // { success: false, message: "debe proporcionar el id del estudiante" },
       createResponse(false, [], "debe proporcionar el id del estudiante"),
       { status: 400 }
     );
@@ -197,23 +161,13 @@ export async function DELETE(
   try {
     await sql`DELETE FROM estudiantes WHERE id = ${id}`;
 
-    // const res = {
-    //   success: true,
-    //   message: "Eliminación del estudiante exitosa",
-    // };
-
     return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),
       { status: 200 }
     );
   } catch (error) {
-    // const res = {
-    //   success: false,
-    //   message: "error en la base de datos",
-    // };
-
     return NextResponse.json(
-      createResponse(false, [], "error en la base de datos"),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }

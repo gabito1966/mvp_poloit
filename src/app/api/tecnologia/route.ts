@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], "Error en la base de datos"),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
@@ -60,12 +60,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      createResponse(
-        false,
-        [],
-        "Error en la base de datos",
-        getErrorMessageFromCode(error)
-      ),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }

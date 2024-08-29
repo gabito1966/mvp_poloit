@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       createResponse(
         false,
         [],
-        "Error En Algun Campo",
+        "Error En Algún Campo",
         validatedFields.error.flatten().fieldErrors
       ),
       { status: 400 }
@@ -61,13 +61,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     return NextResponse.json(
-      //   { success: false, data: [], message: "error en la base de datos" },
-      createResponse(
-        false,
-        [],
-        "Error en algún campo",
-        getErrorMessageFromCode(error)
-      ),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
