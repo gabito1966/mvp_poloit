@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export const GetTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
+  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
 });
 
 export type Tecnologia = {
@@ -12,10 +13,10 @@ export type Tecnologia = {
 };
 
 export const UpdateTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
+  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
   nombre: z
-    .string({ message: "ingrese un nombre" })
-    .min(2, "el nombre debe tener al menos 2 caracteres"),
+    .string({ message: "Ingrese un nombre" })
+    .min(2, "El nombre debe tener al menos 2 caracteres"),
 });
 
 export async function GET(
@@ -27,11 +28,7 @@ export async function GET(
 
     if (!id) {
       return NextResponse.json(
-        {
-          success: false,
-          data: [],
-          message: "debe proporcionar el id de la tecnologia",
-        },
+        createResponse(false, [], "Debe proporcionar el ID de la tecnología"),
         { status: 400 }
       );
     }
@@ -41,19 +38,18 @@ export async function GET(
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { success: false, data: [], message: "tecnologia no encontrada" },
+        createResponse(false, [], "tecnología no encontrada"),
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ success: true, data: rows[0] }, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, rows[0], "Tecnología encontrada"),
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
-      {
-        success: false,
-        data: [],
-        message: "error en la base de datos",
-      },
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
@@ -68,11 +64,7 @@ export async function PUT(
 
     if (!id) {
       return NextResponse.json(
-        {
-          success: false,
-          data: [],
-          message: "debe proporcionar el id de la tecnologia",
-        },
+        createResponse(false, [], "Debe proporcionar el id de la tecnología"),
         { status: 400 }
       );
     }
@@ -85,14 +77,15 @@ export async function PUT(
     });
 
     if (!validatedFields.success) {
-      const res = {
-        success: false,
-        data: [],
-        message: "Error en algun campo",
-        errors: validatedFields.error.flatten().fieldErrors,
-      };
-
-      return NextResponse.json(res, { status: 400 });
+      return NextResponse.json(
+        createResponse(
+          false,
+          [],
+          "Error en algún campo",
+          validatedFields.error.flatten().fieldErrors
+        ),
+        { status: 400 }
+      );
     }
 
     const { id: id_tecnologia, nombre } = validatedFields.data;
@@ -102,7 +95,7 @@ export async function PUT(
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { success: false, data: [], message: "tecnologia no encontrada" },
+        createResponse(false, [], "Tecnología no encontrada"),
         { status: 404 }
       );
     }
@@ -110,7 +103,7 @@ export async function PUT(
     return NextResponse.json({ success: true, data: rows[0] }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, data: [], message: "error en la base de datos" },
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
@@ -125,24 +118,19 @@ export async function DELETE(
 
     if (!id) {
       return NextResponse.json(
-        {
-          success: false,
-          data: [],
-          message: "debe proporcionar el id de la tecnologia",
-        },
+        createResponse(false, [], "Debe proporcionar el ID de la tecnología"),
         { status: 400 }
       );
     }
 
     await sql`DELETE FROM tecnologias WHERE id = ${id}`;
 
-    return NextResponse.json(
-      { success: true, data: [], message: "tecnologia eliminada" },
-      { status: 200 }
-    );
+    return NextResponse.json(createResponse(true, [], "tecnología eliminada"), {
+      status: 200,
+    });
   } catch (error) {
     return NextResponse.json(
-      { success: false, data: [], message: "error en la base de datos" },
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }

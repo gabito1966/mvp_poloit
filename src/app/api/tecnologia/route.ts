@@ -1,21 +1,16 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
-import { tree } from "next/dist/build/templates/app-page";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const CreateTecnologia = z.object({
+export const CreateSchemaTecnologia = z.object({
   id: z.coerce.number({ message: "ingrese un id" }),
   nombre: z
     .string({ message: "ingrese un nombre" })
     .min(2, "el nombre debe tener al menos 2 caracteres"),
 });
 
-export interface TecnologiaResponse {
-  success: boolean;
-  data?: Tecnologia[];
-  message?: string;
-  fieldsError?: {};
-}
+const CreateTecnologia = CreateSchemaTecnologia.omit({ id: true });
 
 export type Tecnologia = z.infer<typeof CreateTecnologia>;
 
@@ -27,14 +22,15 @@ export async function POST(request: Request) {
     });
 
     if (!validatedFields.success) {
-      const res: TecnologiaResponse = {
-        success: false,
-        data: [],
-        message: "Error en algun campo",
-        fieldsError: validatedFields.error.flatten().fieldErrors,
-      };
-
-      return NextResponse.json(res, { status: 400 });
+      return NextResponse.json(
+        createResponse(
+          false,
+          [],
+          "Error en algun campo",
+          validatedFields.error.flatten().fieldErrors
+        ),
+        { status: 400 }
+      );
     }
 
     const { nombre } = validatedFields.data;
@@ -42,36 +38,30 @@ export async function POST(request: Request) {
     const { rows } =
       await sql<Tecnologia>`INSERT INTO tecnologias (nombre) VALUES (${nombre}) RETURNING *`;
 
-    return NextResponse.json(rows[0], { status: 201 });
+    return NextResponse.json(
+      createResponse(true, rows[0], "Registro exitoso"),
+      { status: 201 }
+    );
   } catch (error) {
-    const res: TecnologiaResponse = {
-      success: false,
-      data: [],
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], "error en la base de datos"),
+      { status: 500 }
+    );
   }
 }
 
 export async function GET() {
   try {
-    const { rows } = await sql<Tecnologia>`SELECT * FROM tecnologias`;
+    const { rows } =
+      await sql<Tecnologia>`SELECT * FROM tecnologias ORDER BY id`;
 
-    const res: TecnologiaResponse = {
-      success: true,
-      data: rows,
-      message: "Consulta Exitosa",
-    };
-
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
+      status: 200,
+    });
   } catch (error) {
-    const res: TecnologiaResponse = {
-      success: false,
-      data: [],
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }

@@ -93,14 +93,14 @@ export async function POST(request: Request) {
     validatedFields.data;
 
   try {
-    const result =
+    const { rows } =
       await sql`INSERT INTO estudiantes ( nombre, apellido, email, telefono, id_ong ) VALUES
-     (${nombre},${apellido}, ${email}, ${telefono}, ${id_ong}) RETURNING id`;
+     (${nombre},${apellido}, ${email}, ${telefono}, ${id_ong}) RETURNING *`;
 
     try {
       tecnologias.forEach(async (e) => {
         await sql`INSERT INTO estudiantes_tecnologias (id_tecnologia, id_estudiante)
-        VALUES (${e},${result.rows[0].id})
+        VALUES (${e},${rows[0].id})
         `;
       });
     } catch (error) {
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      createResponse(true, [], "Registro de estudiante exitoso"),
+      createResponse(true, rows, "Registro de estudiante exitoso"),
       { status: 200 }
     );
   } catch (error) {
