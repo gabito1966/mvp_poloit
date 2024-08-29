@@ -6,12 +6,19 @@ export default async function EstudianteEdit({
 }: {
     params?: { id: string };
 }) {
-    const [dataOng, dataEstudiante] = await Promise.all([
+    const [dataOng, dataTecnologia, dataEstudiante] = await Promise.all([
         fetchGet("/api/ong"),
+        fetchGet("/api/tecnologia"),
         params
             ? fetchGet(`/api/estudiante/${params.id}`)
             : Promise.resolve({ data: undefined }),
     ]);
 
-    return <FormEstudiante ongs={dataOng.data} dataFetch={dataEstudiante.data} />;
+    return (
+        <FormEstudiante
+            ongs={dataOng.data}
+            tecnologias={dataTecnologia.data}
+            dataFetch={dataEstudiante.data}
+        />
+    );
 }
