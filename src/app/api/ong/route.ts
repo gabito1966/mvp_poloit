@@ -57,12 +57,12 @@ export async function POST(request: Request) {
   const { nombre } = validatedFields.data;
 
   try {
-    const result = await sql<OngInterface>`
-      INSERT INTO ongs (nombre) VALUES (${nombre}) RETURNING id, nombre
+    await sql<OngInterface>`
+      INSERT INTO ongs (nombre) VALUES (${nombre}) 
     `;
 
     return NextResponse.json(
-      createResponse(true, result, "Registro de organizacion exitoso"),
+      createResponse(true, [], "Registro de organizacion exitoso"),
       { status: 200 }
     );
   } catch (error) {
