@@ -4,10 +4,10 @@ import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export const CreateSchemaTecnologia = z.object({
-  id: z.coerce.number({ message: "ingrese un id" }),
+  id: z.coerce.number({ message: "ingrese un ID" }),
   nombre: z
-    .string({ message: "ingrese un nombre" })
-    .min(2, "el nombre debe tener al menos 2 caracteres"),
+    .string({ message: "Ingrese un nombre" })
+    .min(2, "El nombre debe tener al menos 2 caracteres"),
 });
 
 const CreateTecnologia = CreateSchemaTecnologia.omit({ id: true });
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], "error en la base de datos"),
+      createResponse(false, [], "Error en la base de datos"),
       { status: 500 }
     );
   }
@@ -55,12 +55,17 @@ export async function GET() {
     const { rows } =
       await sql<Tecnologia>`SELECT * FROM tecnologias ORDER BY id`;
 
-    return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
+    return NextResponse.json(createResponse(true, rows, "Consulta exitosa"), {
       status: 200,
     });
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], getErrorMessageFromCode(error)),
+      createResponse(
+        false,
+        [],
+        "Error en la base de datos",
+        getErrorMessageFromCode(error)
+      ),
       { status: 500 }
     );
   }

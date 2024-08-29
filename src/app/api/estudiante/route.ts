@@ -114,7 +114,12 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], getErrorMessageFromCode(error)),
+      createResponse(
+        false,
+        [],
+        "Error en la base de datos",
+        getErrorMessageFromCode(error)
+      ),
       { status: 500 }
     );
   }
