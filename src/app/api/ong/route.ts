@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export type OngInterface = {
   id?: number;
@@ -23,10 +24,12 @@ export async function GET(request: Request) {
   try {
     const { rows } = await sql<OngInterface>`SELECT id, nombre FROM ongs`;
 
-    return NextResponse.json({ success: true, data: rows }, { status: 200 });
+    return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
+      status: 200,
+    });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "error en la base de datos" },
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
@@ -40,13 +43,15 @@ export async function POST(request: Request) {
   });
 
   if (!validatedFields.success) {
-    const res = {
-      success: false,
-      data: [],
-      message: validatedFields.error.flatten().fieldErrors,
-    };
-
-    return NextResponse.json(res, { status: 400 });
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error En Algun Campo",
+        validatedFields.error.flatten().fieldErrors
+      ),
+      { status: 400 }
+    );
   }
 
   const { nombre } = validatedFields.data;
@@ -56,18 +61,14 @@ export async function POST(request: Request) {
       INSERT INTO ongs (nombre) VALUES (${nombre}) RETURNING id, nombre
     `;
 
-    const res: OngResponse = {
-      success: true,
-      message: "Registro de organizacion exitoso",
-    };
-
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, result, "Registro de organizacion exitoso"),
+      { status: 200 }
+    );
   } catch (error) {
-    const res: OngResponse = {
-      success: false,
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }

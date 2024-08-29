@@ -97,8 +97,6 @@ export async function POST(request: Request) {
       await sql`INSERT INTO estudiantes ( nombre, apellido, email, telefono, id_ong ) VALUES
      (${nombre},${apellido}, ${email}, ${telefono}, ${id_ong}) RETURNING id`;
 
-    console.log(result);
-
     try {
       tecnologias.forEach(async (e) => {
         await sql`INSERT INTO estudiantes_tecnologias (id_tecnologia, id_estudiante)
@@ -115,23 +113,8 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    // const res: EstudianteResponse = {
-    //   success: false,
-    //   data: [],
-    //   // message: getErrorMessageFromCode(error.code, error.constraint),
-    // };
-
-    //arreglar el mensaje de la base de datos si es 500
-
-    // if(error instanceof )
-
     return NextResponse.json(
-      createResponse(
-        false,
-        [],
-        "Error en la base de datos"
-        // getErrorMessageFromCode(error.code, error.constraint)
-      ),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }

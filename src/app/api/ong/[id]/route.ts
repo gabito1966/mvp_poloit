@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { OngInterface, OngResponse } from "../route";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export const UpdateOng = z.object({
   id: z.coerce.number({ invalid_type_error: "seleccione una organizacion" }),
@@ -18,11 +19,7 @@ export async function PUT(
 
   if (!id) {
     return NextResponse.json(
-      {
-        success: false,
-        data: [],
-        message: "debe proporcionar el id de la organizacion",
-      },
+      createResponse(false, [], "debe proporcionar el id de la organización"),
       { status: 400 }
     );
   }
@@ -35,13 +32,15 @@ export async function PUT(
   });
 
   if (!validatedFields.success) {
-    const res = {
-      success: false,
-      data: [],
-      message: validatedFields.error.flatten().fieldErrors,
-    };
-
-    return NextResponse.json(res, { status: 400 });
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error en algun campo",
+        validatedFields.error.flatten().fieldErrors
+      ),
+      { status: 400 }
+    );
   }
 
   const { id: idOng, nombre } = validatedFields.data;
@@ -49,21 +48,15 @@ export async function PUT(
   try {
     await sql`UPDATE ongs SET nombre = ${nombre} WHERE id = ${idOng}`;
 
-    const res: OngResponse = {
-      success: true,
-      data: [],
-      message: "Actualización de organización exitosa",
-    };
-
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, [], "Actualización de organización exitosa"),
+      { status: 200 }
+    );
   } catch (error) {
-    const res: OngResponse = {
-      success: false,
-      data: [],
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }
 
@@ -75,11 +68,7 @@ export async function DELETE(
 
   if (!id) {
     return NextResponse.json(
-      {
-        success: false,
-        data: [],
-        message: "debe proporcionar el id de la organizacion",
-      },
+      createResponse(false, [], "debe proporcionar el id de la organización"),
       { status: 400 }
     );
   }
@@ -87,20 +76,15 @@ export async function DELETE(
   try {
     await sql`DELETE FROM ongs WHERE id = ${id}`;
 
-    const res: OngResponse = {
-      success: true,
-      message: "Eliminación de organización exitosa",
-    };
-
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, [], "Eliminación de organización exitosa"),
+      { status: 200 }
+    );
   } catch (error) {
-    const res: OngResponse = {
-      success: false,
-      data: [],
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }
 
@@ -112,11 +96,7 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      {
-        success: false,
-        data: [],
-        message: "debe proporcionar el id de la organizacion",
-      },
+      createResponse(false, [], "debe proporcionar el id de la organización"),
       { status: 400 }
     );
   }
@@ -127,25 +107,19 @@ export async function GET(
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { success: false, data: [], message: "La organizacion no existe" },
+        createResponse(false, [], "La organizacion no existe"),
         { status: 404 }
       );
     }
 
-    const res = {
-      success: true,
-      data: rows[0],
-      message: "consulta exitosa",
-    };
-
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(
+      createResponse(true, rows[0], "consulta exitosa"),
+      { status: 200 }
+    );
   } catch (error) {
-    const res: OngResponse = {
-      success: false,
-      data: [],
-      message: "error en la base de datos",
-    };
-
-    return NextResponse.json(res, { status: 500 });
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
   }
 }
