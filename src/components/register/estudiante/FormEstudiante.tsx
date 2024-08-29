@@ -4,6 +4,7 @@ import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
+
 interface Estudiante {
     id?: "";
     nombre: string;
@@ -301,6 +302,7 @@ function FormEstudiante({
                                     key={`${i}${e.nombre}${e.id}`}
                                     className="flex flex-col items-center"
                                 >
+                                    <label className="text-sm" htmlFor="html">{e.nombre}</label>
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
@@ -309,9 +311,6 @@ function FormEstudiante({
                                         value={`${e.id}`}
                                         onChange={handleChange}
                                     />
-                                    <label className="text-sm" htmlFor="html">
-                                        {e.nombre}
-                                    </label>
                                 </div>
                             );
                         })}
