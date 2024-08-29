@@ -85,7 +85,7 @@ function Form() {
                             <div id="customer-error" aria-live="polite" aria-atomic="true">
                                 {responseBack.errors?.email &&
                                     responseBack.errors.email.map((error: string) => (
-                                        <p className="mt-2 text-sm text-red-500" key={error}>
+                                        <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
                                             {error}
                                         </p>
                                     ))}
@@ -116,7 +116,7 @@ function Form() {
                         <div id="customer-error" aria-live="polite" aria-atomic="true">
                             {responseBack.errors?.password &&
                                 responseBack.errors?.password.map((error: string) => (
-                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                    <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
                                 ))}

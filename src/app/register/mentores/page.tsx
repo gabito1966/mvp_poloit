@@ -58,18 +58,7 @@ export default function RegisterMentores() {
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4 text-center underline">Formulario de Inscripción de Mentores</h1>
             <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">
-                <div>
-                    <label htmlFor="id" className="block text-sm font-medium text-slate-200">ID:</label>
-                    <input
-                        type="number"
-                        id="id"
-                        name="id"
-                        value={form.id}
-                        onChange={handleChange}
-                        className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        required
-                    />
-                </div>
+
                 <div>
                     <label htmlFor="nombre" className="block text-sm font-medium text-slate-200">Nombre:</label>
                     <input
