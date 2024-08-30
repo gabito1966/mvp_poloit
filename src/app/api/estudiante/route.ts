@@ -5,7 +5,6 @@ import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 export async function GET(request: Request) {
   try {
-    //faltaria las tecnologias de cada estudiante despues veo que onda
     const { rows } = await sql`
     SELECT 
     s.id,
@@ -124,7 +123,8 @@ export async function POST(request: Request) {
         `;
       });
     } catch (error) {
-      //hacer un "role back " eliminar el estudiante con los id de las tecnologias
+      await sql`DELETE FROM estudiante_tecnologias WHERE id_estudiante = ${rows[0].id}`;
+      await sql`DELETE FROM estudiantes WHERE id = ${rows[0].id}`;
       throw error;
     }
 

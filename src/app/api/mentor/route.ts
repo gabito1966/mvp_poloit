@@ -118,7 +118,8 @@ export async function POST(request: Request) {
       `;
       });
     } catch (error) {
-      //hacer un "role back " eliminar el estudiante con los id de las tecnologias
+      await sql`DELETE FROM mentores_tecnologias WHERE id_mentor = ${rows[0].id}`;
+      await sql`DELETE FROM mentores WHERE id_mentor = ${rows[0].id}`;
       throw error;
     }
 
