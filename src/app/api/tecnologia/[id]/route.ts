@@ -3,16 +3,16 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const GetTecnologia = z.object({
+const GetTecnologia = z.object({
   id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
 });
 
-export type Tecnologia = {
+type Tecnologia = {
   id: number;
   nombre: string;
 };
 
-export const UpdateTecnologia = z.object({
+const UpdateTecnologia = z.object({
   id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
   nombre: z
     .string({ message: "Ingrese un nombre" })

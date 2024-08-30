@@ -39,7 +39,7 @@ GROUP BY
   }
 }
 
-export interface EstudianteInterface {
+interface EstudianteInterface {
   id?: number;
   nombre: string;
   apellido: string;
@@ -50,7 +50,7 @@ export interface EstudianteInterface {
   tecnologias: number[];
 }
 
-export type Estudiante = {
+type Estudiante = {
   id: number;
   nombre: string;
   apellido: string;
@@ -60,7 +60,7 @@ export type Estudiante = {
   id_ong: number;
 };
 
-export interface EstudianteResponse {
+interface EstudianteResponse {
   success: boolean;
   errors?: [];
   data?: [];

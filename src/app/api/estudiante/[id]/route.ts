@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { TypeOf, z } from "zod";
 import { sql } from "@vercel/postgres";
-import { EstudianteInterface } from "../route";
+// import { EstudianteInterface } from "../route";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 const UpdateEstudiante = z.object({
@@ -21,6 +21,8 @@ const UpdateEstudiante = z.object({
     invalid_type_error: "seleccione una organización",
   }),
 });
+
+type EstudianteInterface = z.infer<typeof UpdateEstudiante>;
 
 const GetEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
