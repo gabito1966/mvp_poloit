@@ -39,8 +39,27 @@ export async function GET(request: Request) {
   try {
     //ver las tecnologias
     const { rows } = await sql<Mentor[]>`
-          SELECT * FROM mentores m JOIN empresas e ON m.id_empresa = e.id WHERE m.estado = true ORDER BY e.id;
-          `;
+                        SELECT 
+    m.id,
+    m.nombre,
+    m.apellido,
+    m.email,
+    m.telefono,
+    m.estado,
+    e.id AS id_empresa,
+    e.nombre AS nombre_empresa,
+    ARRAY_AGG(t.nombre) AS tecnologias
+FROM 
+    mentores m
+LEFT JOIN 
+    mentores_tecnologias mt ON m.id = mt.id_mentor
+LEFT JOIN 
+    tecnologias t ON mt.id_tecnologia = t.id
+LEFT JOIN 
+    empresas e ON m.id_empresa = e.id
+GROUP BY 
+    m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre;
+                        `;
 
     return NextResponse.json(createResponse(true, rows, "Consulta exitosa"), {
       status: 200,
@@ -59,8 +78,7 @@ export interface MentorInterface {
   apellido: string;
   email: string;
   telefono: string;
-  estado: boolean;
-  id_tecnologia: number;
+  id_empresa: number;
   tecnologias: number[];
 }
 
@@ -90,7 +108,7 @@ export async function POST(request: Request) {
     const { rows } = await sql`
     INSERT INTO mentores (nombre, apellido, email, telefono, id_empresa)
     VALUES (${nombre}, ${apellido}, ${email}, ${telefono}, ${id_empresa})
-    RETURNING *
+    RETURNING nombre, apellido, email, id_empresa
   `;
 
     try {

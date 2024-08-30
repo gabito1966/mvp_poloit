@@ -6,8 +6,27 @@ import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 export async function GET(request: Request) {
   try {
     //faltaria las tecnologias de cada estudiante despues veo que onda
-    const { rows } =
-      await sql<Estudiante>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e JOIN ongs o on  e.id_ong = o.id where e.estado = true ORDER BY e.id`;
+    const { rows } = await sql`SELECT 
+    s.id,
+    s.nombre,
+    s.apellido,
+    s.email,
+    s.telefono,
+    s.estado,
+    o.id AS id_ong,
+    o.nombre AS nombre_ong,
+    ARRAY_AGG(t.nombre) AS tecnologias
+FROM 
+    estudiantes s
+LEFT JOIN 
+    estudiantes_tecnologias st ON s.id = st.id_estudiante
+LEFT JOIN 
+    tecnologias t ON st.id_tecnologia = t.id
+LEFT JOIN 
+    ongs o ON s.id_ong = o.id
+GROUP BY 
+    s.id, s.nombre, s.apellido, s.email, s.telefono, s.estado, o.id;
+`;
 
     return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
       status: 200,
