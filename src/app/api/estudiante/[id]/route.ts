@@ -4,7 +4,7 @@ import { sql } from "@vercel/postgres";
 import { EstudianteInterface } from "../route";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const UpdateEstudiante = z.object({
+const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
   nombre: z
     .string({ message: "ingrese un nombre" })
@@ -22,7 +22,7 @@ export const UpdateEstudiante = z.object({
   }),
 });
 
-export const GetEstudiante = z.object({
+const GetEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
 });
 

@@ -1,39 +1,33 @@
-import bcrypt from "bcrypt";
 import { SignJWT, jwtVerify } from "jose";
 import { Administrador } from "@/app/api/login/route";
-
-export const generateHash = async (cad: string) => {
-  //   const salt = await bcrypt.genSalt();
-  const hashedCad = await bcrypt.hash(`${cad}`, 10);
-  return hashedCad;
-};
-
-export const comparePassword = async (
-  password: string,
-  hashedPassword: string
-) => {
-  return await bcrypt.compare(password, hashedPassword);
-};
-
-const secretKey = process.env.SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function JWTCreate(payload: Administrador) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(encodedKey);
+    .sign(getJwtSecretKey());
+}
+
+export function getJwtSecretKey() {
+  const secret = process.env.SESSION_SECRET;
+
+  if (!secret) {
+    throw new Error("JWT Secret key is not set");
+  }
+
+  const enc: Uint8Array = new TextEncoder().encode(secret);
+  return enc;
 }
 
 export async function JWTValidate(session: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify(session, getJwtSecretKey(), {
       algorithms: ["HS256"],
     });
     return payload;
   } catch (error) {
-    console.log("Falló la validacion del JWT");
+    console.log("fallo la validacion de JWT");
     return null;
   }
 }

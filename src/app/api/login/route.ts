@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import {
-  comparePassword,
-  createResponse,
-  generateHash,
-  JWTCreate,
-} from "@/lib/utils";
+import { createResponse, JWTCreate } from "@/lib/utils";
 import { z } from "zod";
+import { comparePassword, generateHash } from "@/lib/bcryptFunctions";
 
 export interface UserLogin {
   email: string;
