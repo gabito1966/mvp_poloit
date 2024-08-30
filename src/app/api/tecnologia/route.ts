@@ -1,76 +1,74 @@
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-export const CreateTecnologia = z.object({
-    id: z.coerce.number({ message: "ingrese un id" }),
-    nombre: z
-        .string({ message: "ingrese un nombre" })
-        .min(2, "el nombre debe tener al menos 2 caracteres"),
-});
+export type OngInterface = {
+    id?: number;
+    nombre: string;
+};
 
-export interface TecnologiaResponse {
+export interface OngResponse {
     success: boolean;
-    data?: Tecnologia[];
+    data?: OngInterface[];
     message?: string;
-    fieldsError?: {};
 }
 
-export type Tecnologia = z.infer<typeof CreateTecnologia>;
+export const CreateOng = z.object({
+    nombre: z
+        .string({ message: "seleccione un nombre" })
+        .min(2, "el teléfono debe tener al menos 6 caracteres"),
+});
 
-export async function POST(request: Request) {
-    const body = (await request.json()) as Tecnologia;
+export async function GET(request: Request) {
     try {
-        const validatedFields = CreateTecnologia.safeParse({
-            ...body,
+        const { rows } = await sql<OngInterface>`SELECT id, nombre FROM ongs`;
+
+        return NextResponse.json(createResponse(true, rows, "Consulta Exitosa"), {
+            status: 200,
         });
-
-        if (!validatedFields.success) {
-            const res: TecnologiaResponse = {
-                success: false,
-                data: [],
-                message: "Error en algun campo",
-                fieldsError: validatedFields.error.flatten().fieldErrors,
-            };
-
-            return NextResponse.json(res, { status: 400 });
-        }
-
-        const { nombre } = validatedFields.data;
-
-        const { rows } =
-            await sql<Tecnologia>`INSERT INTO tecnologias (nombre) VALUES (${nombre}) RETURNING *`;
-
-        return NextResponse.json(rows[0], { status: 201 });
     } catch (error) {
-        const res: TecnologiaResponse = {
-            success: false,
-            data: [],
-            message: "error en la base de datos",
-        };
-
-        return NextResponse.json(res, { status: 500 });
+        return NextResponse.json(
+            createResponse(false, [], getErrorMessageFromCode(error)),
+            { status: 500 }
+        );
     }
 }
 
-export async function GET() {
+export async function POST(request: Request) {
+    const body = (await request.json()) as OngInterface;
+
+    const validatedFields = CreateOng.safeParse({
+        ...body,
+    });
+
+    if (!validatedFields.success) {
+        return NextResponse.json(
+            createResponse(
+                false,
+                [],
+                "Error En Algun Campo",
+                validatedFields.error.flatten().fieldErrors
+            ),
+            { status: 400 }
+        );
+    }
+
+    const { nombre } = validatedFields.data;
+
     try {
-        const { rows } = await sql<Tecnologia>`SELECT * FROM tecnologias`;
+        await sql<OngInterface>`
+      INSERT INTO ongs (nombre) VALUES (${nombre}) 
+    `;
 
-        const res: TecnologiaResponse = {
-            success: true,
-            data: rows,
-            message: "Consulta Exitosa",
-        };
-
-        return NextResponse.json(res, { status: 200 });
+        return NextResponse.json(
+            createResponse(true, [], "Registro de organizacion exitoso"),
+            { status: 200 }
+        );
     } catch (error) {
-        const res: TecnologiaResponse = {
-            success: false,
-            data: [],
-            message: "error en la base de datos",
-        };
-
-        return NextResponse.json(res, { status: 500 });
+        return NextResponse.json(
+            createResponse(false, [], getErrorMessageFromCode(error)),
+            { status: 500 }
+        );
     }
 }

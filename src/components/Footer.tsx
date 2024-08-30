@@ -23,11 +23,6 @@ function Footer() {
                     </Link>
                 </p>
                 <p className="bg-gray-400 hover:bg-gray-600 text-white p-1 rounded-md">
-                    <Link href='/' target="_blank">
-                        Francisco Monopoli
-                    </Link>
-                </p>
-                <p className="bg-gray-400 hover:bg-gray-600 text-white p-1 rounded-md">
                     <Link href="https://www.linkedin.com/in/gabriel-garcia-developer/" target="_blank">
                         Gabriel García
                     </Link>
