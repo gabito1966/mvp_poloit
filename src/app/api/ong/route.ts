@@ -14,7 +14,7 @@ export interface OngResponse {
   message?: string;
 }
 
-export const CreateOng = z.object({
+const CreateOng = z.object({
   nombre: z
     .string({ message: "seleccione un nombre" })
     .min(2, "el teléfono debe tener al menos 6 caracteres"),

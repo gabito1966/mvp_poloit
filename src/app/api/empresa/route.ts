@@ -3,7 +3,7 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const CreateSchemaEmpresa = z.object({
+const CreateSchemaEmpresa = z.object({
   id: z.coerce.number({
     invalid_type_error: "Debe ser de tipo número",
     message: "Ingrese un ID",

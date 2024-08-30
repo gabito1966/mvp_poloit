@@ -4,7 +4,7 @@ import { sql } from "@vercel/postgres";
 import { OngInterface, OngResponse } from "../route";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const UpdateOng = z.object({
+const UpdateOng = z.object({
   id: z.coerce.number({ invalid_type_error: "seleccione una organizacion" }),
   nombre: z
     .string({ message: "ingrese un nombre" })

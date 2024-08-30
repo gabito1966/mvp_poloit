@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { TypeOf, z } from "zod";
+import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-export const CreateSchemaMentor = z.object({
+const CreateSchemaMentor = z.object({
   id: z.coerce.number({
     invalid_type_error: "Debe ser un número",
     message: "ingrese un ID de mentor",
@@ -29,9 +29,9 @@ export const CreateSchemaMentor = z.object({
 
 const CreateMentor = CreateSchemaMentor.omit({ id: true });
 
-export type Mentor = z.infer<typeof CreateSchemaMentor>;
+type Mentor = z.infer<typeof CreateSchemaMentor>;
 
-export const GetMentor = z.object({
+const GetMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
 });
 
