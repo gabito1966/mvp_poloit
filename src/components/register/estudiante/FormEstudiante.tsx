@@ -144,7 +144,6 @@ function FormEstudiante({
         id_ong: "",
         tecnologias: [] as number[],
       });
-      
     } catch (error: any) {
       setResponseBack({ message: error.message, errors: error.errors });
     }

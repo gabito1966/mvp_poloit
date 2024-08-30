@@ -39,7 +39,7 @@ export async function GET(request: Request) {
   try {
     //ver las tecnologias
     const { rows } = await sql<Mentor[]>`
-                        SELECT 
+  SELECT 
     m.id,
     m.nombre,
     m.apellido,
@@ -49,15 +49,15 @@ export async function GET(request: Request) {
     e.id AS id_empresa,
     e.nombre AS nombre_empresa,
     ARRAY_AGG(t.nombre) AS tecnologias
-FROM 
+  FROM 
     mentores m
-LEFT JOIN 
+  LEFT JOIN 
     mentores_tecnologias mt ON m.id = mt.id_mentor
-LEFT JOIN 
+  LEFT JOIN 
     tecnologias t ON mt.id_tecnologia = t.id
-LEFT JOIN 
+  LEFT JOIN 
     empresas e ON m.id_empresa = e.id
-GROUP BY 
+  GROUP BY 
     m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre;
                         `;
 

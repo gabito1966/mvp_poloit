@@ -6,7 +6,8 @@ import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 export async function GET(request: Request) {
   try {
     //faltaria las tecnologias de cada estudiante despues veo que onda
-    const { rows } = await sql`SELECT 
+    const { rows } = await sql`
+    SELECT 
     s.id,
     s.nombre,
     s.apellido,
