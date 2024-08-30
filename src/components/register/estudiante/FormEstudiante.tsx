@@ -77,7 +77,7 @@ function FormEstudiante({
         tecnologias: dataFetch.tecnologias || [],
       });
     }
-  }, []);
+  }, [dataFetch]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
