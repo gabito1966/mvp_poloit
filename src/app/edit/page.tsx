@@ -8,6 +8,11 @@ function Edit() {
                     Edicion de Estudiantes
                 </button>
             </Link>
+            <Link href='/edit/mentor'>
+                <button type="button" className="bg-gray-500 hover:bg-gray-900 text-white w-40 rounded-md p-3 min-h-20">
+                    Edicion de Mentores
+                </button>
+            </Link>
 
         </div>
     )
