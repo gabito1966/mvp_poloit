@@ -7,15 +7,13 @@ const publicRoutes = ["/auth/login", "/signup", "/"];
 export default async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
-  console.log(url);
-
   const isProtectedRoute = protectedRoutes.includes(url.pathname);
   const isPublicRoute = publicRoutes.includes(url.pathname);
 
-  console.log(isProtectedRoute);
-  console.log(isPublicRoute);
+  // console.log(isProtectedRoute);
+  // console.log(isPublicRoute);
 
-  const session = request.cookies.get("session");
+  //   const session = request.cookies.get("session");
 
   //   if (isPublicRoute) {
   //     return NextResponse.next();
@@ -58,5 +56,5 @@ export default async function middleware(request: NextRequest) {
 
   //     console.log("todo piola");
   //   }
-  //   return NextResponse.next();
+  return NextResponse.next();
 }
