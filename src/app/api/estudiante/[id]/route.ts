@@ -67,10 +67,28 @@ export async function GET(
   const { id: idEstudiante } = validatedFields.data;
 
   try {
-    const { rows } =
-      await sql<EstudianteInterface>`SELECT e.*, o.nombre nombre_ong FROM estudiantes e  JOIN ongs o ON e.id_ong = o.id WHERE e.id = ${idEstudiante}`;
-
-    console.log("dentre");
+    const { rows } = await sql<EstudianteInterface>`SELECT 
+      s.id,
+      s.nombre ,
+      s.apellido ,
+      s.email ,
+      s.telefono ,
+      s.estado ,
+      o.id AS id_ong,
+      o.nombre AS nombre_ong,
+      ARRAY_AGG(t.nombre) AS tecnologias
+    FROM 
+      estudiantes s
+    LEFT JOIN 
+      estudiantes_tecnologias st ON s.id = st.id_estudiante
+    LEFT JOIN 
+      tecnologias t ON st.id_tecnologia = t.id
+    LEFT JOIN 
+      ongs o ON s.id_ong = o.id
+    GROUP BY 
+      s.id, s.nombre, s.apellido, s.email, s.telefono, s.estado, o.id, o.nombre
+    HAVING 
+      s.id =${idEstudiante};`;
 
     if (rows.length === 0) {
       return NextResponse.json(

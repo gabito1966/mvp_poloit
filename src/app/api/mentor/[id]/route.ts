@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { TypeOf, z } from "zod";
+import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
@@ -66,8 +66,28 @@ export async function GET(
   const { id: idMentor } = validatedFields.data;
 
   try {
-    const { rows } =
-      await sql<MentorInterface>`SELECT m.*, e.nombre nombre_empresa FROM mentores m  JOIN empresas e ON m.id_empresa = e.id WHERE m.id = ${idMentor}`;
+    const { rows } = await sql<MentorInterface>`SELECT 
+      m.id ,
+      m.nombre ,
+      m.apellido ,
+      m.email,
+      m.telefono,
+      m.estado ,
+      e.id AS id_empresa,
+      e.nombre AS nombre_empresa,
+      ARRAY_AGG(t.nombre) AS tecnologias
+    FROM 
+      mentores m
+    LEFT JOIN 
+      mentores_tecnologias mt ON m.id = mt.id_mentor
+    LEFT JOIN 
+      tecnologias t ON mt.id_tecnologia = t.id
+    LEFT JOIN 
+      empresas e ON m.id_empresa = e.id
+    GROUP BY 
+      m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre
+    HAVING 
+      m.id = ${idMentor};`;
 
     if (rows.length === 0) {
       return NextResponse.json(
