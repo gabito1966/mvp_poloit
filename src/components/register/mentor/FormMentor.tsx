@@ -155,7 +155,7 @@ function FormMentor({
 
     return (
         <>
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 h-screen">
                 <h1 className="text-2xl font-bold mb-4 text-center underline">
                     Formulario de Inscripción de Mentores
                 </h1>
@@ -328,7 +328,7 @@ function FormMentor({
 
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"
+                        className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto w-full"
                     >
                         Registrar Mentor
                     </button>
