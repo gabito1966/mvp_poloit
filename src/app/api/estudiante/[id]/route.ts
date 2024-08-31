@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { TypeOf, z } from "zod";
+import { z } from "zod";
 import { sql } from "@vercel/postgres";
-// import { EstudianteInterface } from "../route";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
 const UpdateEstudiante = z.object({
