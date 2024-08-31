@@ -1,9 +1,4 @@
-import {
-  comparePassword,
-  createResponse,
-  generateHash,
-  JWTCreate,
-} from "@/lib/utils";
+import { createResponse, JWTCreate } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
