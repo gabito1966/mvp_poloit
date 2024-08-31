@@ -1,3 +1,4 @@
+import { comparePassword, generateHash } from "@/lib/bcryptFunctions";
 import { createResponse, JWTCreate } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
