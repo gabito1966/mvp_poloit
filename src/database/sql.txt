@@ -47,8 +47,9 @@ CREATE TABLE mentores (
     apellido VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     telefono VARCHAR(20),
-    empresa VARCHAR(255),
+    id_empresa INTEGER,
     estado BOOLEAN DEFAULT TRUE
+    FOREIGN KEY (id_empresa) REFERENCES empresas(id)
 );
 
 -- Crear tabla mentores_tecnologias

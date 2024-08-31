@@ -1,9 +1,9 @@
-import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
-import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { sql } from "@vercel/postgres";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 
-const UpdateEstudiante = z.object({
+const UpdateMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
   nombre: z
     .string({ message: "ingrese un nombre" })
@@ -16,20 +16,20 @@ const UpdateEstudiante = z.object({
     .email("Debe ser un email válido")
     .min(6, "el email debe tener al menos 6 caracteres"),
   telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres"),
-  id_ong: z.coerce.number({
-    invalid_type_error: "seleccione una organización",
+  id_empresa: z.coerce.number({
+    invalid_type_error: "seleccione una empresa",
   }),
 });
 
-type EstudianteInterface = z.infer<typeof UpdateEstudiante>;
+type MentorInterface = z.infer<typeof UpdateMentor>;
 
-const GetEstudiante = z.object({
+const GetMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
 });
 
-export type GetEstudianteResponse = {
+export type GetMentorResponse = {
   success: boolean;
-  data?: EstudianteInterface;
+  data?: MentorInterface;
   message?: string;
   errors?: [];
 };
@@ -42,12 +42,12 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id del estudiante"),
+      createResponse(false, [], "debe proporcionar el id del mentor"),
       { status: 400 }
     );
   }
 
-  const validatedFields = GetEstudiante.safeParse({
+  const validatedFields = GetMentor.safeParse({
     id: id,
   });
 
@@ -63,35 +63,35 @@ export async function GET(
     );
   }
 
-  const { id: idEstudiante } = validatedFields.data;
+  const { id: idMentor } = validatedFields.data;
 
   try {
-    const { rows } = await sql<EstudianteInterface>`SELECT 
-      s.id,
-      s.nombre ,
-      s.apellido ,
-      s.email ,
-      s.telefono ,
-      s.estado ,
-      o.id AS id_ong,
-      o.nombre AS nombre_ong,
+    const { rows } = await sql<MentorInterface>`SELECT 
+      m.id ,
+      m.nombre ,
+      m.apellido ,
+      m.email,
+      m.telefono,
+      m.estado ,
+      e.id AS id_empresa,
+      e.nombre AS nombre_empresa,
       ARRAY_AGG(t.nombre) AS tecnologias
     FROM 
-      estudiantes s
+      mentores m
     LEFT JOIN 
-      estudiantes_tecnologias st ON s.id = st.id_estudiante
+      mentores_tecnologias mt ON m.id = mt.id_mentor
     LEFT JOIN 
-      tecnologias t ON st.id_tecnologia = t.id
+      tecnologias t ON mt.id_tecnologia = t.id
     LEFT JOIN 
-      ongs o ON s.id_ong = o.id
+      empresas e ON m.id_empresa = e.id
     GROUP BY 
-      s.id, s.nombre, s.apellido, s.email, s.telefono, s.estado, o.id, o.nombre
+      m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre
     HAVING 
-      s.id =${idEstudiante};`;
+      m.id = ${idMentor};`;
 
     if (rows.length === 0) {
       return NextResponse.json(
-        createResponse(false, [], "El estudiante no existe"),
+        createResponse(false, [], "El mentor no existe"),
         { status: 404 }
       );
     }
@@ -116,14 +116,14 @@ export async function PUT(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "Debe proporcionar un ID del estudiante"),
+      createResponse(false, [], "Debe proporcionar un ID del mentor"),
       { status: 400 }
     );
   }
 
-  const body = (await request.json()) as EstudianteInterface;
+  const body = (await request.json()) as MentorInterface;
 
-  const validatedFields = UpdateEstudiante.safeParse({
+  const validatedFields = UpdateMentor.safeParse({
     ...body,
     id: id,
   });
@@ -141,19 +141,19 @@ export async function PUT(
   }
 
   const {
-    id: id_estudiante,
+    id: id_mentor,
     nombre,
     apellido,
     email,
     telefono,
-    id_ong,
+    id_empresa,
   } = validatedFields.data;
 
   try {
-    await sql`UPDATE estudiantes SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_ong = ${id_ong} WHERE id = ${id_estudiante}`;
+    await sql`UPDATE mentores SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_empresa = ${id_empresa} WHERE id = ${id_mentor}`;
 
     return NextResponse.json(
-      createResponse(true, [], "Actualización del estudiante exitosa"),
+      createResponse(true, [], "Actualización del mentor exitosa"),
       { status: 200 }
     );
   } catch (error) {
@@ -172,16 +172,16 @@ export async function DELETE(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id del estudiante"),
+      createResponse(false, [], "debe proporcionar el id del mentor"),
       { status: 400 }
     );
   }
 
   try {
-    await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
+    await sql`UPDATE mentores SET estado = false WHERE id = ${id}`;
 
     return NextResponse.json(
-      createResponse(true, [], "Eliminación del estudiante exitosa"),
+      createResponse(true, [], "Eliminación del mentor exitosa"),
       { status: 200 }
     );
   } catch (error) {
