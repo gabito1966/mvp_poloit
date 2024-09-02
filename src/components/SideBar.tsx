@@ -37,9 +37,23 @@ const Sidebar: React.FC = () => {
                     </li>
                 </ul>
             </div>
+            <div className="p-10">
+                <Link href="/register">
+                    <button type="button" className="bg-gray-300 hover:bg-gray-500 text-white w-40  rounded-md p-4 justify-center">
+                        REGISTER
+                    </button>
+                </Link>
+            </div>
+            <div className="p-10">
+                <Link href="/edit">
+                    <button type="button" className="bg-gray-300 hover:bg-gray-500 text-white w-40  rounded-md p-4 justify-center">
+                        EDIT
+                    </button>
+                </Link>
+            </div>
             <div className="mt-auto text-white py-12">
                 <Link href="/auth/login">
-                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-40 rounded-full p-3 ">
+                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-40  rounded-full p-3 ">
                         LOGIN
                     </button>
                 </Link>

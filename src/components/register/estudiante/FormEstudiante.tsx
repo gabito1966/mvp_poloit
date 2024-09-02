@@ -162,7 +162,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="nombre"
-              className="block text-sm font-medium text-slate-200"
+              className="block text-sm font-medium text-gray-500"
             >
               Nombre:
             </label>
@@ -172,7 +172,7 @@ function FormEstudiante({
               name="nombre"
               value={form.nombre}
               onChange={handleChange}
-              className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               required
             />
           </div>
@@ -188,7 +188,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="apellido"
-              className="block text-sm font-medium text-slate-200"
+              className="block text-sm font-medium text-gray-500"
             >
               Apellido:
             </label>
@@ -198,13 +198,13 @@ function FormEstudiante({
               name="apellido"
               value={form.apellido}
               onChange={handleChange}
-              className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               required
             />
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.apellido &&
                 responseBack.errors.apellido.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
+                  <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
@@ -213,7 +213,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-slate-200"
+              className="block text-sm font-medium text-gray-500"
             >
               Email:
             </label>
@@ -223,12 +223,12 @@ function FormEstudiante({
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="mt-1 block text-black w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               required
             />
             {responseBack.errors?.email &&
               responseBack.errors.email.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
@@ -236,7 +236,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="telefono"
-              className="block text-sm font-medium text-slate-200"
+              className="block text-sm font-medium text-gray-500"
             >
               Teléfono:
             </label>
@@ -246,13 +246,13 @@ function FormEstudiante({
               name="telefono"
               value={form.telefono}
               onChange={handleChange}
-              className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               required
             />
           </div>
           {responseBack.errors?.telefono &&
             responseBack.errors?.telefono.map((error: string) => (
-              <p className="mt-2 text-sm text-red-500" key={error}>
+              <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
@@ -261,7 +261,7 @@ function FormEstudiante({
             <div>
               <label
                 htmlFor="id_ong"
-                className="block text-sm font-medium text-slate-200"
+                className="block text-sm font-medium text-gray-500"
               >
                 ONG:
               </label>
@@ -271,7 +271,7 @@ function FormEstudiante({
                 value={form.id_ong}
                 onChange={handleChange}
                 required
-                className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               >
                 <option value="" disabled hidden>
                   Seleccione una ONG
@@ -293,7 +293,7 @@ function FormEstudiante({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mt-5">
             {tecnologias.map((e, i) => {
               return (
                 <div
@@ -317,7 +317,7 @@ function FormEstudiante({
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&
                 responseBack.errors?.tecnologias.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
+                  <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
@@ -326,7 +326,7 @@ function FormEstudiante({
 
           <button
             type="submit"
-            className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto"
+            className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
           >
             Registrar Alumno
           </button>

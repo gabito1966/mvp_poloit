@@ -41,20 +41,20 @@ export default function RegisterTecnologias() {
             <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">
 
                 <div>
-                    <label htmlFor="nombre" className="block text-sm font-medium text-slate-200">Nombre:</label>
+                    <label htmlFor="nombre" className="block text-sm font-medium text-gray-500">Nombre:</label>
                     <input
                         type="text"
                         id="nombre"
                         name="nombre"
                         value={form.nombre}
                         onChange={handleChange}
-                        className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         required
                     />
                 </div>
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto w-full"
+                    className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
                 >
                     Registrar Tecnologia
                 </button>
