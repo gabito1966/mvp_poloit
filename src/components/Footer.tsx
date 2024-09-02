@@ -3,7 +3,7 @@ import Link from "next/link"
 
 function Footer() {
     return (
-        <footer className="py-4 w-full justify-center text-center inset-x-0 bottom-0">
+        <footer className="w-full justify-between text-center inset-x-0 bottom-0">
             <div className="p-2 bg-white text-black ">
                 <Link href='/'>
                     <div className="flex text-center p-4 justify-center self-center">
@@ -11,7 +11,7 @@ function Footer() {
                         <h2 className="font-bold text-2xl text-center self-center">Squad 7 Polo It 2024</h2>
                     </div>
                 </Link>
-                <div className="container text-white text-lg text-center mx-auto flex justify-center gap-10 font-semibold">
+                <div className="container text-white text-lg text-center mx-auto flex justify-center gap-20 font-semibold">
                     <p className="bg-blue-400  rounded-lg shadow-sm w-60 hover:bg-blue-700 p-2">
                         <Link href='/' target="_blank">
                             Nicolas Espíndola

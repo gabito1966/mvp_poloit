@@ -176,7 +176,7 @@ function FormMentor({
                             name="nombre"
                             value={form.nombre}
                             onChange={handleChange}
-                            className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                             required
                         />
                     </div>
@@ -202,7 +202,7 @@ function FormMentor({
                             name="apellido"
                             value={form.apellido}
                             onChange={handleChange}
-                            className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required
                         />
                         <div id="customer-error" aria-live="polite" aria-atomic="true">
@@ -227,7 +227,7 @@ function FormMentor({
                             name="email"
                             value={form.email}
                             onChange={handleChange}
-                            className="mt-1 block text-black w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="mt-2 block text-black w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required
                         />
                         {responseBack.errors?.email &&
@@ -250,7 +250,7 @@ function FormMentor({
                             name="telefono"
                             value={form.telefono}
                             onChange={handleChange}
-                            className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required
                         />
                     </div>
@@ -275,7 +275,7 @@ function FormMentor({
                                 value={form.empresa}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             >
                                 <option value="" disabled hidden>
                                     Seleccione una Empresa
@@ -297,7 +297,7 @@ function FormMentor({
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-4 mt-5">
                         {tecnologias.map((e, i) => {
                             return (
                                 <div
