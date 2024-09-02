@@ -51,9 +51,9 @@ function Form() {
   }
 
   return (
-    <div className="flex min-h-full flex-col justify-items-center py-30 lg:px-8 h-screen bg-blue-500">
+    <div className="flex min-h-full flex-col justify-items-center py-30 lg:px-8 h-screen bg-white text-black">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-slice-300 underline">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight underline">
           Sign in to your account
         </h2>
       </div>
@@ -68,7 +68,7 @@ function Form() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-slate-100"
+              className="block text-sm font-medium leading-6 text-gray-400"
             >
               Email address
             </label>
@@ -97,7 +97,7 @@ function Form() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-slate-100"
+                className="block text-sm font-medium leading-6 text-gray-400"
               >
                 Password
               </label>
@@ -126,7 +126,7 @@ function Form() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-md bg-blue-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               Sign in
             </button>

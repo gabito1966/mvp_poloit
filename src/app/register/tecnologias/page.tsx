@@ -36,7 +36,7 @@ export default function RegisterTecnologias() {
     };
 
     return (
-        <div className="container mx-auto p-4 h-screen">
+        <div className="container mx-auto p-10 h-screen">
             <h1 className="text-2xl font-bold mb-4 text-center underline">Formulario de Inscripción de Tecnologias</h1>
             <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">
 
@@ -52,8 +52,6 @@ export default function RegisterTecnologias() {
                         required
                     />
                 </div>
-
-
                 <button
                     type="submit"
                     className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto w-full"
@@ -61,24 +59,6 @@ export default function RegisterTecnologias() {
                     Registrar Tecnologia
                 </button>
             </form>
-
-            <h2 className="text-xl font-semibold mb-4 text-center underline">Lista de Tecnologias</h2>
-            <table className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center divide-y divide-gray-200 p-20">
-                <thead className="bg-gray-50">
-                    <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {tecnologias.map(tecnologia => (
-                        <tr key={tecnologia.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{tecnologia.id}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{tecnologia.nombre}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
         </div>
     );
 }

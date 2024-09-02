@@ -155,7 +155,7 @@ function FormMentor({
 
     return (
         <>
-            <div className="container mx-auto p-4 h-screen">
+            <div className="container mx-auto p-10 h-screen">
                 <h1 className="text-2xl font-bold mb-4 text-center underline">
                     Formulario de Inscripción de Mentores
                 </h1>
@@ -166,7 +166,7 @@ function FormMentor({
                     <div>
                         <label
                             htmlFor="nombre"
-                            className="block text-sm font-medium text-slate-200"
+                            className="block text-sm font-medium text-gray-500"
                         >
                             Nombre:
                         </label>
@@ -192,7 +192,7 @@ function FormMentor({
                     <div>
                         <label
                             htmlFor="apellido"
-                            className="block text-sm font-medium text-slate-200"
+                            className="block text-sm font-medium text-gray-500"
                         >
                             Apellido:
                         </label>
@@ -217,7 +217,7 @@ function FormMentor({
                     <div>
                         <label
                             htmlFor="email"
-                            className="block text-sm font-medium text-slate-200"
+                            className="block text-sm font-medium text-gray-500"
                         >
                             Email:
                         </label>
@@ -240,7 +240,7 @@ function FormMentor({
                     <div>
                         <label
                             htmlFor="telefono"
-                            className="block text-sm font-medium text-slate-200"
+                            className="block text-sm font-medium text-gray-500"
                         >
                             Teléfono:
                         </label>
@@ -265,7 +265,7 @@ function FormMentor({
                         <div>
                             <label
                                 htmlFor="empresa"
-                                className="block text-sm font-medium text-slate-200"
+                                className="block text-sm font-medium text-gray-500"
                             >
                                 EMPRESA:
                             </label>
@@ -328,7 +328,7 @@ function FormMentor({
 
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 mx-auto w-full"
+                        className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
                     >
                         Registrar Mentor
                     </button>

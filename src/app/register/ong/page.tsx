@@ -36,7 +36,7 @@ export default function RegisterTecnologias() {
     };
 
     return (
-        <div className="container mx-auto p-4 h-screen">
+        <div className="container mx-auto p-10 h-screen">
             <h1 className="text-2xl font-bold mb-4 text-center underline">Formulario de Inscripción de ONG</h1>
             <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">
 
