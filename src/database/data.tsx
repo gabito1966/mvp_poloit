@@ -5,14 +5,12 @@ const ITEMS_PER_PAGE = 6;
 
 export async function fetchGetAllEstudiantes() {
   try {
-    console.log("Fetching revenue data...");
-
     const data = await sql<Estudiante>`SELECT * FROM estudiantes`;
 
     return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
+    return [];
   }
 }
 
@@ -43,10 +41,11 @@ LEFT JOIN
 INNER JOIN 
     ongs o ON e.id_ong = o.id
 WHERE 
-    e.nombre ILIKE ${`%${query}%`} OR
+    (e.nombre ILIKE ${`%${query}%`} OR
     e.apellido ILIKE ${`%${query}%`} OR
     e.email ILIKE ${`%${query}%`} OR
-    e.telefono ILIKE ${`%${query}%`}
+    e.telefono ILIKE ${`%${query}%`} )AND
+    e.estado = true
 GROUP BY 
     e.id, o.id
 ORDER BY 
@@ -55,14 +54,13 @@ LIMIT ${10}
 OFFSET ${offset};
     `;
 
-    console.log(estudiantes.rows);
     return estudiantes.rows;
   } catch (error) {
-    console.error("Database Error:", error);
     console.log(
       "Failed to fetch filtered invoices. Returning all invoices.",
       error
     );
+    return [];
   }
 }
 
@@ -82,6 +80,6 @@ export async function fetchPages(query: string) {
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch total number of estudiantes.");
+    return 0;
   }
 }

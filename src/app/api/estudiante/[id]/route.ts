@@ -1,5 +1,6 @@
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -179,6 +180,8 @@ export async function DELETE(
 
   try {
     await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
+
+    revalidatePath("/dashboard/estudiantes");
 
     return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),

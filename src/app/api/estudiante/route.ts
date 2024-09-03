@@ -1,5 +1,6 @@
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -127,6 +128,7 @@ export async function POST(request: Request) {
       await sql`DELETE FROM estudiantes WHERE id = ${rows[0].id}`;
       throw error;
     }
+    revalidatePath("/dashboard/estudiantes");
 
     return NextResponse.json(
       createResponse(true, rows, "Registro de estudiante exitoso"),

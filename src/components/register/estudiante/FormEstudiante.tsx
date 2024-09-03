@@ -2,6 +2,8 @@
 
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
+import { useRouter } from "next/navigation";
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface Estudiante {
@@ -40,6 +42,8 @@ function FormEstudiante({
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
 }) {
+  const router = useRouter();
+
   const [form, setForm] = useState({
     id: "",
     nombre: "",
@@ -144,6 +148,8 @@ function FormEstudiante({
         id_ong: "",
         tecnologias: [] as number[],
       });
+
+      router.push("/dashboard/estudiantes");
     } catch (error: any) {
       setResponseBack({ message: error.message, errors: error.errors });
     }

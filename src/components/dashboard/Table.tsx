@@ -3,6 +3,8 @@ import Image from "next/image";
 // import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
 // import { fetchFilteredUsers } from "@/database/database";
 import { fetchFilteredEstudiantes } from "@/database/data";
+import EditButton from "./EditButton";
+import DeleteButton from "./DeleteButton";
 // import { formatDateToLocal } from "@/lib/libs";
 
 export default async function Table({
@@ -52,6 +54,8 @@ export default async function Table({
                   <div className="flex justify-end gap-2">
                     {/* <UpdateInvoice id={invoice.id} />
                     <DeleteInvoice id={invoice.id} /> */}
+                    <EditButton id={invoice.id.toString()} />
+                    <DeleteButton id={invoice.id.toString()} />
                   </div>
                 </div>
               </div>
@@ -124,9 +128,11 @@ export default async function Table({
                     {invoice.ong}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
+                    <div className="flex  justify-end gap-3">
                       {/* <UpdateInvoice id={invoice.id} />
                       <DeleteInvoice id={invoice.id} />  */}
+                      <EditButton id={invoice.id.toString()} />
+                      <DeleteButton id={invoice.id.toString()} />
                     </div>
                   </td>
                 </tr>

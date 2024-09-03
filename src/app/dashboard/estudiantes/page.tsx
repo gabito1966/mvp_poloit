@@ -1,3 +1,4 @@
+import CreateButton from "@/components/dashboard/CreateButton";
 import Search from "@/components/dashboard/Search";
 import Table from "@/components/dashboard/Table";
 import { TableSkeleton } from "@/components/skeletons";
@@ -20,7 +21,8 @@ async function page({
         {/* <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1> */}
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search invoices..." />
+        <Search placeholder="buscar estudiante..." />
+        <CreateButton />
       </div>
       <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
