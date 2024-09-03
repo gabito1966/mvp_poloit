@@ -16,22 +16,22 @@ const Sidebar: React.FC = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
-                            <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Alumnos</div>
+                        <Link href="/estudiante">
+                            <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Estudiantes</div>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href="/mentor">
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Mentores</div>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href="/ong">
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Ong</div>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href="/tecnologia">
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Tecnologias</div>
                         </Link>
                     </li>
