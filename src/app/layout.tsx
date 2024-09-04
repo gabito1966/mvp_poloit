@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -19,9 +19,15 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <div className="flex">
+          <Sidebar />
+          <main className="flex-1 p-6">
+            {children}
+            <div className="block absolute bottom-0">
+              <Footer />
+            </div>
+          </main>
+        </div>
       </body>
     </html>
   );
