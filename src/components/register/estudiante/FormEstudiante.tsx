@@ -133,8 +133,6 @@ function FormEstudiante({
 
     let response;
 
-    console.log(newEstudiante);
-
     try {
       if (dataFetch) {
         response = await fetchPutClient(
@@ -165,6 +163,7 @@ function FormEstudiante({
       router.refresh();
       router.push("/dashboard/estudiantes");
     } catch (error: any) {
+      console.log(error);
       setResponseBack({ message: error.message, errors: error.errors });
     }
   };
@@ -177,7 +176,7 @@ function FormEstudiante({
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center"
+          className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
         >
           <div>
             <label
@@ -192,7 +191,7 @@ function FormEstudiante({
               name="nombre"
               value={form.nombre}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
               required
             />
           </div>
@@ -218,13 +217,13 @@ function FormEstudiante({
               name="apellido"
               value={form.apellido}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
               required
             />
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.apellido &&
                 responseBack.errors.apellido.map((error: string) => (
-                  <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
+                  <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
@@ -243,12 +242,12 @@ function FormEstudiante({
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 "
               required
             />
             {responseBack.errors?.email &&
               responseBack.errors.email.map((error: string) => (
-                <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
+                <p className="mt-2  text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
@@ -266,18 +265,18 @@ function FormEstudiante({
               name="telefono"
               value={form.telefono}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
               required
             />
           </div>
           {responseBack.errors?.telefono &&
             responseBack.errors?.telefono.map((error: string) => (
-              <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
+              <p className="mt-2  text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
 
-          <div>
+         
             <div>
               <label
                 htmlFor="id_ong"
@@ -291,7 +290,7 @@ function FormEstudiante({
                 value={form.id_ong}
                 onChange={handleChange}
                 required
-                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm "
               >
                 <option value="" disabled hidden>
                   Seleccione una ONG
@@ -311,9 +310,9 @@ function FormEstudiante({
                   </p>
                 ))}
             </div>
-          </div>
+       
 
-          <div className="flex flex-wrap gap-4 mt-5">
+          <div className=" border-t-2 pt-3 flex flex-wrap gap-4 mt-5">
             {tecnologias.map((e, i) => {
               return (
                 <div
@@ -329,7 +328,7 @@ function FormEstudiante({
                     value={`${e.id}`}
                     onChange={handleChange}
                   />
-                  <label className="text-sm" htmlFor="html">
+                  <label className="block text-sm font-medium text-gray-500" htmlFor={`${e.nombre}`}>
                     {e.nombre}
                   </label>
                 </div>
@@ -338,27 +337,27 @@ function FormEstudiante({
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&
                 responseBack.errors?.tecnologias.map((error: string) => (
-                  <p className="mt-2 bg-slate-200 text-sm text-red-500" key={error}>
+                  <p className="mt-2  text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
             </div>
           </div>
 
-          <div>
-            <div>
-              <h4>Tecnologia Principal:</h4>
+          <div className="border-t-2 pt-px">
+            <div className="flex  flex-row gap-1" >
+              <h4 className="block text-sm font-medium text-gray-500" >Principal:</h4>
               {
-                <p>
+                <p className="block text-sm font-medium text-gray-500">
                   {tecnologias.map((e, i) => {
                     return e.id == form.tecnologias[0] ? e.nombre : "";
                   })}
                 </p>
               }
             </div>
-            <div>
-              <h4>Tecnologias Secundarias:</h4>
-              <p>
+            <div className="flex flex-wrap flex-row">
+              <h4 className="block text-sm font-medium text-gray-500" >Secundarias:</h4>
+              <p className="flex flex-wrap text-sm font-medium text-gray-500" >
                 {form.tecnologias.slice(1).map((e_t) => {
                   return tecnologias.map((e) =>
                     e.id == e_t ? `${e.nombre}, ` : ""

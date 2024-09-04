@@ -23,14 +23,6 @@ export async function fetchPostClient(url: string, data: any) {
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    return {
-      data: [],
-      seccess: false,
-      message: "los datos no estan disponibles en este momento",
-    };
-  }
-
   return await response.json();
 }
 

@@ -71,10 +71,12 @@ interface EstudianteResponse {
 const CreateSchemaEstudiante = z.object({
   nombre: z
     .string({ message: "ingrese un nombre" })
-    .min(4, "el nombre debe de tener al menos 4 caracteres"),
+    .min(3, "el nombre debe de tener al menos 3 caracteres")
+    .regex(/^[a-zA-Z]+$/, {message: "Solo se permiten letras"}),
   apellido: z
     .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 3 caracter"),
+    .min(3, "el apellido debe tener al menos 3 caracter")
+    .regex(/^[a-zA-Z]+$/, "Solo se permiten letras"),
   email: z
     .string({ message: "ingrese un email" })
     .email("Debe ser un email válido")
