@@ -20,7 +20,7 @@ export type Estudiante = {
   email: string;
   telefono: string;
   estado: boolean;
-  id_ong: number | null;
+  id_ong: number ;
 };
 
 export type EstudiantesData = {
@@ -31,7 +31,7 @@ export type EstudiantesData = {
   telefono: string;
   estado: boolean;
   id_ong: number;
-  ong: Ong;
+  ong: string;
   tecnologias: string[];
 };
 
