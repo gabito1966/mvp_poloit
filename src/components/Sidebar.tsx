@@ -31,7 +31,7 @@ const Sidebar: React.FC = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/tecnologia">
+                        <Link href="/tecnlogia">
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Tecnologias</div>
                         </Link>
                     </li>
