@@ -1,6 +1,8 @@
 import FormEstudiante from "@/components/register/estudiante/FormEstudiante";
 import { fetchGet } from "@/lib/fetchFunctions";
 
+
+
 export default async function EstudianteEdit({
   params,
 }: {
@@ -11,8 +13,10 @@ export default async function EstudianteEdit({
     fetchGet("/api/tecnologia"),
     params
       ? fetchGet(`/api/estudiante/${params.id}`)
-      : Promise.resolve({ data: undefined }),
+      : undefined,
   ]);
+
+
 
   return (
     <FormEstudiante

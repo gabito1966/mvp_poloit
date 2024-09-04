@@ -20,6 +20,9 @@ const UpdateEstudiante = z.object({
   id_ong: z.coerce.number({
     invalid_type_error: "seleccione una organización",
   }),
+  tecnologias: z
+    .array(z.coerce.number({ invalid_type_error: "seleccione una tecnologia" }))
+    .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
 type EstudianteInterface = z.infer<typeof UpdateEstudiante>;
@@ -90,6 +93,9 @@ export async function GET(
     HAVING 
       s.id =${idEstudiante};`;
 
+    // revalidatePath(`/edit/estudiante/${idEstudiante}`);
+    revalidatePath("/dashboard/estudiantes");
+
     if (rows.length === 0) {
       return NextResponse.json(
         createResponse(false, [], "El estudiante no existe"),
@@ -148,18 +154,52 @@ export async function PUT(
     email,
     telefono,
     id_ong,
+    tecnologias,
   } = validatedFields.data;
+  //ver que pasa con la base de datos hacer una copia de el estudiante po si las dudas para hacer un rollback
+
+  let alumno;
+
+  try {
+    alumno = await 
+    sql<EstudianteInterface>`SELECT * FROM estudiantes WHERE id = ${id_estudiante}`
+    
+    if (alumno.rows.length === 0) {
+      return NextResponse.json(
+        createResponse(false, [], "El estudiante no existe"),
+        { status: 404 }
+      );
+    }
+    // // array de las tecnologias del estudiante de la tabla de estudiantes_tecnologias 
+    // const tecnologias_alumno = await sql<{id_tecnologia: number}>`SELECT id_tecnologia FROM estudiante_tecnologias WHERE id_estudiante = ${id_estudiante}`
+
+
+
+  } catch (error) {
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
+  }
 
   try {
     await sql`UPDATE estudiantes SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_ong = ${id_ong} WHERE id = ${id_estudiante}`;
 
+    await sql`DELETE FROM estudiantes_tecnologias WHERE id_estudiante = ${id_estudiante}`;
+
+    for (const tecnologia of tecnologias) {
+      await sql`INSERT INTO estudiantes_tecnologias (id_estudiante, id_tecnologia) VALUES (${id_estudiante}, ${tecnologia})`;
+    }
+
+    // revalidatePath(`/edit/estudiante/${id_estudiante}`);
+    revalidatePath("/dashboard/estudiantes");
     return NextResponse.json(
       createResponse(true, [], "Actualización del estudiante exitosa"),
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      createResponse(false, [], "Error en la base de datos"),
+      createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
@@ -181,9 +221,7 @@ export async function DELETE(
   try {
     await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
 
-    revalidatePath("/dashboard/estudiantes");
-
-    return NextResponse.json(
+        return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),
       { status: 200 }
     );

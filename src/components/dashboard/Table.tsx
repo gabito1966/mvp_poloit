@@ -5,6 +5,7 @@ import Image from "next/image";
 import { fetchFilteredEstudiantes } from "@/database/data";
 import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
+import { revalidatePath } from "next/cache";
 // import { formatDateToLocal } from "@/lib/libs";
 
 export default async function Table({
@@ -15,6 +16,8 @@ export default async function Table({
   currentPage: number;
 }) {
   const invoices = await fetchFilteredEstudiantes(query, currentPage);
+
+  
 
   return (
     <div className="mt-6 flow-root">

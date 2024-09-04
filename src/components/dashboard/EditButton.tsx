@@ -1,7 +1,13 @@
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import React from "react";
+
+
 
 function EditButton({ id }: { id: string }) {
+
+  // revalidatePath(`${process.env.NEXT_BASE_URL}/edit/estudiante/${id}`);
+  revalidatePath(`/edit/estudiante/${id}`);
+
   return (
     <Link href={`/edit/estudiante/${id}`} className="h-fit">
       {/* <PencilIcon className="w-5" /> */}
