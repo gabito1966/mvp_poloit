@@ -1,15 +1,24 @@
-import { revalidatePath } from "next/cache";
+"use client"
+// import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 
 function EditButton({ id }: { id: string }) {
 
   // revalidatePath(`${process.env.NEXT_BASE_URL}/edit/estudiante/${id}`);
-  revalidatePath(`/edit/estudiante/${id}`);
+  // revalidatePath(`/edit/estudiante/${id}`);
+  const router = useRouter();
+
+  const handleRedirect = () => {
+
+    router.refresh();
+    router.push(`/edit/estudiante/${id}`);
+  }
 
   return (
-    <Link href={`/edit/estudiante/${id}`} className="h-fit">
+    <button onClick={handleRedirect} className="h-fit">
       {/* <PencilIcon className="w-5" /> */}
       <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
         <svg className="w-5 h-5">
@@ -22,7 +31,7 @@ function EditButton({ id }: { id: string }) {
           </svg>
         </svg>
       </div>
-    </Link>
+    </button>
   );
 }
 

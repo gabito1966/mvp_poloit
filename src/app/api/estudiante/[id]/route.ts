@@ -94,7 +94,7 @@ export async function GET(
       s.id =${idEstudiante};`;
 
     // revalidatePath(`/edit/estudiante/${idEstudiante}`);
-    revalidatePath("/dashboard/estudiantes");
+    // revalidatePath("/dashboard/estudiantes");
 
     if (rows.length === 0) {
       return NextResponse.json(
