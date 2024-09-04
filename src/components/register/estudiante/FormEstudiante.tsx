@@ -2,6 +2,8 @@
 
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
+import { useRouter } from "next/navigation";
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface Estudiante {
@@ -23,7 +25,7 @@ interface EstudianteParams {
   telefono: string;
   estado: string;
   id_ong: number;
-  tecnologias: number[];
+  tecnologias: string[];
 }
 
 export type ong = {
@@ -40,6 +42,8 @@ function FormEstudiante({
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
 }) {
+  const router = useRouter();
+
   const [form, setForm] = useState({
     id: "",
     nombre: "",
@@ -65,7 +69,16 @@ function FormEstudiante({
   });
 
   useEffect(() => {
+
     if (dataFetch) {
+      let tecnologiasIDs: number[] = [];
+      dataFetch.tecnologias.forEach((tech) => {
+        const foundTecnologia = tecnologias.find((t) => t.nombre === tech);
+        if (foundTecnologia) {
+          tecnologiasIDs.push(foundTecnologia.id);
+        }
+      });
+
       setForm({
         id: dataFetch.id?.toString(),
         nombre: dataFetch.nombre,
@@ -74,10 +87,10 @@ function FormEstudiante({
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
         id_ong: dataFetch.id_ong.toString(),
-        tecnologias: dataFetch.tecnologias || [],
+        tecnologias: tecnologiasIDs,
       });
     }
-  }, [dataFetch]);
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -120,6 +133,8 @@ function FormEstudiante({
 
     let response;
 
+    console.log(newEstudiante);
+
     try {
       if (dataFetch) {
         response = await fetchPutClient(
@@ -134,6 +149,8 @@ function FormEstudiante({
         throw response;
       }
 
+      console.log(response);
+
       setForm({
         id: "",
         nombre: "",
@@ -144,6 +161,9 @@ function FormEstudiante({
         id_ong: "",
         tecnologias: [] as number[],
       });
+
+      router.refresh();
+      router.push("/dashboard/estudiantes");
     } catch (error: any) {
       setResponseBack({ message: error.message, errors: error.errors });
     }
@@ -305,6 +325,7 @@ function FormEstudiante({
                     type="checkbox"
                     name="tecnologias"
                     id={`${e.nombre}`}
+                    checked={form.tecnologias?.includes(e.id)}
                     value={`${e.id}`}
                     onChange={handleChange}
                   />
@@ -321,6 +342,29 @@ function FormEstudiante({
                     {error}
                   </p>
                 ))}
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <h4>Tecnologia Principal:</h4>
+              {
+                <p>
+                  {tecnologias.map((e, i) => {
+                    return e.id == form.tecnologias[0] ? e.nombre : "";
+                  })}
+                </p>
+              }
+            </div>
+            <div>
+              <h4>Tecnologias Secundarias:</h4>
+              <p>
+                {form.tecnologias.slice(1).map((e_t) => {
+                  return tecnologias.map((e) =>
+                    e.id == e_t ? `${e.nombre}, ` : ""
+                  );
+                })}
+              </p>
             </div>
           </div>
 
