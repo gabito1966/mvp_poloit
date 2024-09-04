@@ -153,7 +153,7 @@ function FormEstudiante({
     <>
       <div className="container mx-auto p-10 h-screen">
         <h1 className="text-2xl font-bold mb-4 text-center underline">
-          Formulario de Inscripción de Alumnos
+          Formulario de Inscripción de Estudiantes
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -328,7 +328,7 @@ function FormEstudiante({
             type="submit"
             className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
           >
-            Registrar Alumno
+            Registrar Estudiante
           </button>
         </form>
       </div>
