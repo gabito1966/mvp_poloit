@@ -147,8 +147,6 @@ function FormEstudiante({
         throw response;
       }
 
-      console.log(response);
-
       setForm({
         id: "",
         nombre: "",
@@ -161,7 +159,7 @@ function FormEstudiante({
       });
 
       router.refresh();
-      router.push("/dashboard/estudiantes");
+      router.push("/estudiante");
     } catch (error: any) {
       console.log(error);
       setResponseBack({ message: error.message, errors: error.errors });
@@ -170,7 +168,7 @@ function FormEstudiante({
 
   return (
     <>
-      <div className="container mx-auto p-10 h-screen">
+      <div className="container mx-auto " >
         <h1 className="text-2xl font-bold mb-4 text-center underline">
           Formulario de Inscripción de Estudiantes
         </h1>

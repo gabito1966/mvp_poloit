@@ -1,39 +1,39 @@
-import Link from "next/link"
+import CreateButton from "@/components/dashboard/CreateButton";
+import Pagination from "@/components/dashboard/Pagination";
+import Search from "@/components/dashboard/Search";
+import Table from "@/components/dashboard/Table";
+// import Table from "@/components/dashboard/Table";
+import { TableSkeleton } from "@/components/skeletons";
+import { fetchPagesEstudiantes } from "@/database/data";
+import { Suspense } from "react";
 
-function pageEstudiante() {
-    return (
-        <div className="container h-screen p-10">
-            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Estudiantes</h1>
-            <div className="container flex flex-row p-5 justify-around text-center">
-                <div>
-                    <input type="text" className="mb-5 border-2 border-gray-500 p-2 text-xl rounded-xl" placeholder="Buscar estudiantes" value="" />
-                </div>
-                <div>
-                    <Link href='/register/estudiantes'>
-                        <button
-                            type="submit"
-                            className="px-6 py-3 text-xl min-w-40 rounded-lg bg-blue-400 text-white shadow-sm hover:bg-blue-700"
-                        >
-                            Añadir Estudiante
-                        </button>
-                    </Link>
-                </div>
-            </div>
+async function page({
+  searchParams,
+}: {
+  searchParams?: { query?: string; page?: string };
+}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
 
-            <table className="space-y-4 mb-8 w-full items-center justify-center divide-y divide-gray-200 p-20">
-                <thead className="bg-white ">
-                    <tr className="text-center">
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nombre</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Apellido</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Email</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Teléfono</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">ONG</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Tecnologias</th>
-                    </tr>
-                </thead>
-            </table>
-        </div >
-    )
+  const totalPages = await fetchPagesEstudiantes(query);
+
+  return (
+    <div className="w-full flex-grow p-6  md:p-12 ">
+      <div className="flex w-full items-center justify-between">
+        {/* <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1> */}
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-96  max-md:gap-3">
+        <Search placeholder="buscar estudiante..." />
+        <CreateButton />
+      </div>
+      <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
+        <Table query={query} currentPage={currentPage} />
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+    </div>
+  );
 }
 
-export default pageEstudiante
+export default page;

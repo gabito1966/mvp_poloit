@@ -18,7 +18,7 @@ export async function fetchFilteredEstudiantes(
   query: string,
   currentPage: number
 ) {
-  const offset = (currentPage - 1) * 10;
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const estudiantes = await sql<EstudiantesData>`
@@ -50,7 +50,7 @@ GROUP BY
     e.id, o.id
 ORDER BY 
     e.id
-LIMIT ${10}
+LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
 
@@ -64,19 +64,27 @@ OFFSET ${offset};
   }
 }
 
-export async function fetchPages(query: string) {
+type Count = {
+  count: string;
+}
+
+export async function fetchPagesEstudiantes(query: string) {
   try {
-    const { rows } = await sql<{ count: string }[]>`
+
+    console.log(query)
+
+    const  rows  = await sql`
       SELECT COUNT(*)
       FROM estudiantes
       WHERE
-        nombre ILIKE ${`%${query}%`} OR
+       ( nombre ILIKE ${`%${query}%`} OR
         apellido ILIKE ${`%${query}%`} OR
         email ILIKE ${`%${query}%`} OR
-        telefono ILIKE ${`%${query}%`}
+        telefono ILIKE ${`%${query}%`})
+        AND estado = true
     `;
 
-    const totalPages = Math.ceil(Number(rows.length) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
