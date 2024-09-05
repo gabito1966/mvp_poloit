@@ -1,12 +1,7 @@
-import Image from "next/image";
-// import { UpdateInvoice, DeleteInvoice } from "@/app/ui/estudiantes/buttons";
-// import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
-// import { fetchFilteredUsers } from "@/database/database";
+
 import { fetchFilteredEstudiantes } from "@/database/data";
 import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
-import { revalidatePath } from "next/cache";
-// import { formatDateToLocal } from "@/lib/libs";
 
 export default async function Table({
   query,
