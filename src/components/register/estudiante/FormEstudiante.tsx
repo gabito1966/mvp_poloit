@@ -3,7 +3,6 @@
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
-
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface Estudiante {
@@ -274,73 +273,73 @@ function FormEstudiante({
               </p>
             ))}
 
-         
-            <div>
-              <label
-                htmlFor="id_ong"
-                className="block text-sm font-medium text-gray-500"
-              >
-                ONG:
-              </label>
-              <select
-                id="id_ong"
-                name="id_ong"
-                value={form.id_ong}
-                onChange={handleChange}
-                required
-                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm "
-              >
-                <option value="" disabled hidden>
-                  Seleccione una ONG
-                </option>
-                {ongs.map((e, i) => {
-                  return (
-                    <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                      {e.nombre}
-                    </option>
-                  );
-                })}
-              </select>
-              {responseBack.errors?.id_ong &&
-                responseBack.errors.id_ong.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-       
+
+          <div>
+            <label
+              htmlFor="id_ong"
+              className="block text-sm font-medium text-gray-500"
+            >
+              ONG:
+            </label>
+            <select
+              id="id_ong"
+              name="id_ong"
+              value={form.id_ong}
+              onChange={handleChange}
+              required
+              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm "
+            >
+              <option value="" disabled hidden>
+                Seleccione una ONG
+              </option>
+              {ongs.map((e, i) => {
+                return (
+                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                    {e.nombre}
+                  </option>
+                );
+              })}
+            </select>
+            {responseBack.errors?.id_ong &&
+              responseBack.errors.id_ong.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+
 
           <div className=" border-t-2 pt-3 flex flex-col gap-4 mt-5">
-          <label
-                htmlFor="id_ong"
-                className="block text-sm font-medium text-gray-500"
-              >
-                Tecnologías
-              </label>
-              <div className="flex flex-wrap gap-2 flex-row justify-between">
+            <label
+              htmlFor="tecnologias"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Tecnologías
+            </label>
+            <div className="flex flex-wrap gap-2 flex-row justify-between">
 
-              
-            {tecnologias.map((e, i) => {
-              return (
-                <div
-                  key={`${i}${e.nombre}${e.id}`}
-                  className="flex flex-col   gap-1 items-center"
-                >
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="tecnologias"
-                    id={`${e.nombre}`}
-                    checked={form.tecnologias?.includes(e.id)}
-                    value={`${e.id}`}
-                    onChange={handleChange}
-                  />
-                  <label className="block text-sm font-medium text-gray-500" htmlFor={`${e.nombre}`}>
-                    {e.nombre}
-                  </label>
-                </div>
-              );
-            })}
+
+              {tecnologias.map((e, i) => {
+                return (
+                  <div
+                    key={`${i}${e.nombre}${e.id}`}
+                    className="flex flex-col   gap-1 items-center"
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      name="tecnologias"
+                      id={`${e.nombre}`}
+                      checked={form.tecnologias?.includes(e.id)}
+                      value={`${e.id}`}
+                      onChange={handleChange}
+                    />
+                    <label className="block text-sm font-medium text-gray-500" htmlFor={`${e.nombre}`}>
+                      {e.nombre}
+                    </label>
+                  </div>
+                );
+              })}
             </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&

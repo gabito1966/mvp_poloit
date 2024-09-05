@@ -1,38 +1,38 @@
-import Link from "next/link"
+import CreateButton from "@/components/dashboard/CreateButton";
+import Pagination from "@/components/dashboard/Pagination";
+import Search from "@/components/dashboard/Search";
+import TableMentor from "@/components/dashboard/mentor/TableMentor";
+import { TableSkeleton } from "@/components/skeletons";
+import { fetchPagesMentores } from "@/database/data";
+import { Suspense } from "react";
 
-function pageMentor() {
+async function page({
+    searchParams,
+}: {
+    searchParams?: { query?: string; page?: string };
+}) {
+    const query = searchParams?.query || "";
+    const currentPage = Number(searchParams?.page) || 1;
+
+    const totalPages = await fetchPagesMentores(query);
+
     return (
-        <div className="container h-screen p-10">
+        <div className="w-full flex-grow p-6  md:p-12 ">
             <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Mentores</h1>
-            <div className="container flex flex-row p-5 justify-around text-center">
-                <div>
-                    <input type="text" className="mb-5 border-2 border-gray-500 p-2 text-xl rounded-xl" placeholder="Buscar mentores" value="" />
-                </div>
-                <div>
-                    <Link href="/register/mentores">
-                        <button
-                            type="submit"
-                            className="px-6 py-3 text-xl min-w-40 rounded-lg bg-blue-400 text-white shadow-sm hover:bg-blue-700"
-                        >
-                            Añadir Mentor
-                        </button>
-                    </Link>
-                </div>
+            <div className="flex w-full items-center justify-between">
             </div>
-
-            <table className="space-y-4 mb-8 w-full items-center justify-center divide-y divide-gray-200 p-20">
-                <thead className="bg-white">
-                    <tr className="text-center">
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nombre</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Apellido</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Email</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Teléfono</th>
-                        <th className="px-6 py-3 border-2 border-gray-400 min-w-40 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Empresa</th>
-                    </tr>
-                </thead>
-            </table>
+            <div className="mt-4 flex items-center justify-between gap-96  max-md:gap-3">
+                <Search placeholder="buscar mentor..." />
+                <CreateButton url="/register/mentores" />
+            </div>
+            <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
+                <TableMentor query={query} currentPage={currentPage} />
+            </Suspense>
+            <div className="mt-5 flex w-full justify-center">
+                <Pagination totalPages={totalPages} />
+            </div>
         </div>
-    )
+    );
 }
 
-export default pageMentor
+export default page;
