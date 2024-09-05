@@ -8,14 +8,17 @@ const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
   nombre: z
     .string({ message: "ingrese un nombre" })
-    .min(4, "el nombre debe de tener al menos 4 caracteres"),
+    .min(4, "el nombre debe de tener al menos 4 caracteres")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
     .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 4 caracter"),
+    .min(3, "el apellido debe tener al menos 4 caracter")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   email: z
     .string({ message: "ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "el email debe tener al menos 6 caracteres"),
+    .min(6, "el email debe tener al menos 6 caracteres")
+    .regex(/^[0-9]+$/, "No se permiten caracteres"),
   telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres"),
   id_ong: z.coerce.number({
     invalid_type_error: "seleccione una organización",
@@ -161,20 +164,17 @@ export async function PUT(
   let alumno;
 
   try {
-    alumno = await 
-    sql<EstudianteInterface>`SELECT * FROM estudiantes WHERE id = ${id_estudiante}`
-    
+    alumno =
+      await sql<EstudianteInterface>`SELECT * FROM estudiantes WHERE id = ${id_estudiante}`;
+
     if (alumno.rows.length === 0) {
       return NextResponse.json(
         createResponse(false, [], "El estudiante no existe"),
         { status: 404 }
       );
     }
-    // // array de las tecnologias del estudiante de la tabla de estudiantes_tecnologias 
+    // // array de las tecnologias del estudiante de la tabla de estudiantes_tecnologias
     // const tecnologias_alumno = await sql<{id_tecnologia: number}>`SELECT id_tecnologia FROM estudiante_tecnologias WHERE id_estudiante = ${id_estudiante}`
-
-
-
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
@@ -221,7 +221,7 @@ export async function DELETE(
   try {
     await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
 
-        return NextResponse.json(
+    return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),
       { status: 200 }
     );

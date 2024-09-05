@@ -72,7 +72,7 @@ const CreateSchemaEstudiante = z.object({
   nombre: z
     .string({ message: "ingrese un nombre" })
     .min(3, "el nombre debe de tener al menos 3 caracteres")
-    .regex(/^[a-zA-Z]+$/, {message: "No se permiten numéros"}),
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
     .string({ message: "ingrese un apellido" })
     .min(3, "el apellido debe tener al menos 3 caracter")
@@ -81,7 +81,10 @@ const CreateSchemaEstudiante = z.object({
     .string({ message: "ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "el email debe tener al menos 6 caracteres"),
-  telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres").regex(/^[0-9]+$/, "No se permiten numéros"),
+  telefono: z
+    .string()
+    .min(6, "el telefono debe tener al menos 6 caracteres")
+    .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_ong: z.coerce.number({
     invalid_type_error: "seleccione una organización",
   }),
