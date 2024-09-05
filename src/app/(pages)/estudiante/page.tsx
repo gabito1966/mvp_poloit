@@ -1,7 +1,7 @@
 import CreateButton from "@/components/dashboard/CreateButton";
 import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
-import Table from "@/components/dashboard/Table";
+import TableEstudiante from "@/components/dashboard/estudiante/TableEstudiante";
 import { TableSkeleton } from "@/components/skeletons";
 import { fetchPagesEstudiantes } from "@/database/data";
 import { Suspense } from "react";
@@ -23,10 +23,10 @@ async function page({
       </div>
       <div className="mt-4 flex items-center justify-between gap-96  max-md:gap-3">
         <Search placeholder="buscar estudiante..." />
-        <CreateButton />
+        <CreateButton url="/register/estudiantes" />
       </div>
       <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
+        <TableEstudiante query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

@@ -1,5 +1,6 @@
 import { comparePassword, generateHash } from "@/lib/bcryptFunctions";
-import { createResponse, getErrorMessageFromCode, JWTCreate } from "@/lib/utils";
+import { JWTCreate } from "@/lib/server/auth";
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";

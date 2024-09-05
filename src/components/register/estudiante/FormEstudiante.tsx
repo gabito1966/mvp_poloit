@@ -310,12 +310,21 @@ function FormEstudiante({
             </div>
        
 
-          <div className=" border-t-2 pt-3 flex flex-wrap gap-4 mt-5">
+          <div className=" border-t-2 pt-3 flex flex-col gap-4 mt-5">
+          <label
+                htmlFor="id_ong"
+                className="block text-sm font-medium text-gray-500"
+              >
+                Tecnologías
+              </label>
+              <div className="flex flex-wrap gap-2 flex-row justify-between">
+
+              
             {tecnologias.map((e, i) => {
               return (
                 <div
                   key={`${i}${e.nombre}${e.id}`}
-                  className="flex flex-col items-center"
+                  className="flex flex-col   gap-1 items-center"
                 >
                   <input
                     className="form-check-input"
@@ -332,6 +341,7 @@ function FormEstudiante({
                 </div>
               );
             })}
+            </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&
                 responseBack.errors?.tecnologias.map((error: string) => (
@@ -342,7 +352,7 @@ function FormEstudiante({
             </div>
           </div>
 
-          <div className="border-t-2 pt-px">
+          <div className="">
             <div className="flex  flex-row gap-1" >
               <h4 className="block text-sm font-medium text-gray-500" >Principal:</h4>
               {
@@ -358,7 +368,7 @@ function FormEstudiante({
               <p className="flex flex-wrap text-sm font-medium text-gray-500" >
                 {form.tecnologias.slice(1).map((e_t) => {
                   return tecnologias.map((e) =>
-                    e.id == e_t ? `${e.nombre}, ` : ""
+                    e.id == e_t ? ` ${e.nombre}, ` : ""
                   );
                 })}
               </p>

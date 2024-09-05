@@ -1,18 +1,8 @@
 import { sql } from "@vercel/postgres";
-import { Estudiante, EstudiantesData } from "./definitions";
+import { Estudiante, EstudiantesData, Mentor, MentorData } from "./definitions";
 
 const ITEMS_PER_PAGE = 6;
 
-export async function fetchGetAllEstudiantes() {
-  try {
-    const data = await sql<Estudiante>`SELECT * FROM estudiantes`;
-
-    return data.rows;
-  } catch (error) {
-    console.error("Database Error:", error);
-    return [];
-  }
-}
 
 export async function fetchFilteredEstudiantes(
   query: string,
@@ -64,14 +54,60 @@ OFFSET ${offset};
   }
 }
 
-type Count = {
-  count: string;
+
+export async function fetchFilteredMentores(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const mentores = await sql<MentorData>`
+      SELECT 
+    m.id ,
+    m.nombre ,
+    m.apellido ,
+    m.email ,
+    m.telefono ,
+    m.estado ,
+    e.id AS id_empresa,
+    e.nombre AS empresa,
+    ARRAY_AGG(t.nombre) AS tecnologias
+FROM 
+    mentores m
+LEFT JOIN 
+    mentores_tecnologias mt ON m.id = mt.id_mentor
+LEFT JOIN 
+    tecnologias t ON mt.id_tecnologia = t.id
+INNER JOIN 
+    empresas e ON m.id_empresa = e.id
+WHERE 
+    (m.nombre ILIKE ${`%${query}%`} OR
+    m.apellido ILIKE ${`%${query}%`} OR
+    m.email ILIKE ${`%${query}%`} OR
+    m.telefono ILIKE ${`%${query}%`} )AND
+    m.estado = true
+GROUP BY 
+    m.id, e.id
+ORDER BY 
+    m.id
+LIMIT ${ITEMS_PER_PAGE}
+OFFSET ${offset};
+    `;
+
+    return mentores.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered invoices. Returning all invoices.",
+      error
+    );
+    return [];
+  }
 }
+
 
 export async function fetchPagesEstudiantes(query: string) {
   try {
-
-    console.log(query)
 
     const  rows  = await sql`
       SELECT COUNT(*)
@@ -79,8 +115,28 @@ export async function fetchPagesEstudiantes(query: string) {
       WHERE
        ( nombre ILIKE ${`%${query}%`} OR
         apellido ILIKE ${`%${query}%`} OR
-        email ILIKE ${`%${query}%`} OR
-        telefono ILIKE ${`%${query}%`})
+        email ILIKE ${`%${query}%`})
+        AND estado = true
+    `;
+
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
+
+export async function fetchPagesMentores(query: string) {
+  try {
+
+    const  rows  = await sql`
+      SELECT COUNT(*)
+      FROM mentores
+      WHERE
+       ( nombre ILIKE ${`%${query}%`} OR
+        apellido ILIKE ${`%${query}%`} OR
+        email ILIKE ${`%${query}%`})
         AND estado = true
     `;
 

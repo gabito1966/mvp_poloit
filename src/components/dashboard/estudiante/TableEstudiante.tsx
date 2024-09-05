@@ -1,7 +1,7 @@
-
 import { fetchFilteredEstudiantes } from "@/database/data";
-import EditButton from "./EditButton";
-import DeleteButton from "./DeleteButton";
+import EditButton from "../EditButton";
+import DeleteButton from "../DeleteButton";
+import ViewButton from "../ViewButton";
 
 export default async function Table({
   query,
@@ -37,8 +37,9 @@ export default async function Table({
                     </p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <EditButton id={estudiante.id.toString()} />
-                    <DeleteButton id={estudiante.id.toString()} />
+                    <ViewButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
+                    <EditButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
+                    <DeleteButton url={`/api/estudiante/${estudiante.id.toString()}`} />
                   </div>
                 </div>
               </div>
@@ -96,8 +97,9 @@ export default async function Table({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex  justify-end gap-3">
-                      <EditButton id={estudiante.id.toString()} />
-                      <DeleteButton id={estudiante.id.toString()} />
+                    <ViewButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
+                    <EditButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
+                    <DeleteButton url={`/api/estudiante/${estudiante.id.toString()}`} />
                     </div>
                   </td>
                 </tr>

@@ -46,13 +46,7 @@ export async function fetchPutClient(url: string, data: any) {
     },
     body: JSON.stringify(data),
   });
-  if (!response.ok) {
-    return {
-      data: [],
-      seccess: false,
-      message: "los datos no estan disponibles en este momento",
-    };
-  }
+  
   return await response.json();
 }
 
@@ -60,13 +54,6 @@ export async function fetchDeleteClient(url: string) {
   const response = await fetch(`${url}`, {
     method: "DELETE",
   });
-  if (!response.ok) {
-    return {
-      data: [],
-      seccess: false,
-      message: "los datos no estan disponibles en este momento",
-    };
-  }
 
   return await response.json();
 }

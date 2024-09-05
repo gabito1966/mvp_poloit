@@ -1,25 +1,19 @@
 "use client"
-// import { revalidatePath } from "next/cache";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
+function EditButton({ url }: { url: string }) {
 
-
-function EditButton({ id }: { id: string }) {
-
-  // revalidatePath(`${process.env.NEXT_BASE_URL}/edit/estudiante/${id}`);
-  // revalidatePath(`/edit/estudiante/${id}`);
   const router = useRouter();
 
   const handleRedirect = () => {
 
     router.refresh();
-    router.push(`/edit/estudiante/${id}`);
+    router.push(url);
   }
 
   return (
-    <button onClick={handleRedirect} className="h-fit">
-      {/* <PencilIcon className="w-5" /> */}
+    <button onClick={handleRedirect} className="h-fit" title="Editar">
       <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
         <svg className="w-5 h-5">
           <svg

@@ -3,19 +3,16 @@
 import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useEffect, useState } from "react";
 
-function DeleteButton({ id }: { id: string }) {
+function DeleteButton({ url }: { url: string }) {
   const [deleted, setDeleted] = useState(false);
-  // const deleteInvoiceWithId = deleteInvoice.bind(null, id);
   const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const data = await fetchDeleteClient(`/api/estudiante/${id}`);
+      const data = await fetchDeleteClient(url);
 
       if (!data.success) {
         throw data;
       }
-      //recargar pagina
-      console.log(data);
 
       setDeleted(true);
     } catch (error) {
@@ -25,13 +22,11 @@ function DeleteButton({ id }: { id: string }) {
 
   async function refreshStudentsList() {
     try {
-      const data = await fetchDeleteClient(`/api/estudiante/${id}`);
+      const data = await fetchDeleteClient(url);
 
       if (!data.success) {
         throw data;
       }
-      //recargar pagina
-      console.log(data);
 
       setDeleted(false);
     } catch (error) {
@@ -50,10 +45,9 @@ function DeleteButton({ id }: { id: string }) {
 
   return (
     <form onSubmit={handleDelete}>
-      <button className="rounded-md  hover:bg-gray-100">
+      <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
         <span className="sr-only">Eliminar</span>
-        {/* <TrashIcon className="w-5" /> */}
-        <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+        <div className="rounded-md  hover:bg-gray-100 w-5 h-fit" title="Eliminar">
           <svg className="w-5 h-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"

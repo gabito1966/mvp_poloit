@@ -4,8 +4,8 @@ CREATE TABLE tecnologias (
     nombre VARCHAR(255) NOT NULL
 );
 
--- Crear tabla ong
-CREATE TABLE ong (
+-- Crear tabla ongs
+CREATE TABLE ongs (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL
 );

@@ -23,6 +23,18 @@ export type Estudiante = {
   id_ong: number ;
 };
 
+export type MentorData = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  estado: boolean;
+  id_empresa: number ;
+  empresa:string;
+  tecnologias:string[];
+};
+
 export type EstudiantesData = {
   id: number;
   nombre: string;
