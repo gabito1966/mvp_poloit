@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
             </div>
             <div className="mt-auto py-10">
                 <Link href="/auth/login">
-                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-3/4 rounded-full p-4">
+                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-full rounded-lg p-4">
                         LOGIN
                     </button>
                 </Link>
