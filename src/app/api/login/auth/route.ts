@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { success: false, message: "sesion no existe" },
+        { success: false, message: "la sesión no existe" },
         { status: 400 }
       );
     }
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "id de sesion no coincide con id de usuario",
+          message: "ID de sesión no coincide con ID de usuario",
         },
         { status: 400 }
       );

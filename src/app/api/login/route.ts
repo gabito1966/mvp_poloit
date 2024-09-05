@@ -1,5 +1,5 @@
 import { comparePassword, generateHash } from "@/lib/bcryptFunctions";
-import { createResponse, JWTCreate } from "@/lib/utils";
+import { createResponse, getErrorMessageFromCode, JWTCreate } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -35,8 +35,6 @@ const CreateLogin = z.object({
     .min(6, "el email de tener al menos 6 caracteres"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });
-
-// const CreateLogin = FormSchema.omit({});
 
 export async function POST(request: Request) {
   const body = (await request.json()) as UserLogin;
@@ -97,25 +95,23 @@ export async function POST(request: Request) {
       sessionId = await generateHash(rows[0].id);
     } catch (error) {
       return NextResponse.json(
-        createResponse(false, [], "Error en la base de datos"),
+        createResponse(false, [], getErrorMessageFromCode(error)),
         { status: 500 }
       );
     }
 
     return NextResponse.json(
       {
-        ...createResponse(true, user, "Consulta Exitosa"),
+        ...createResponse(true, rest, "Consulta Exitosa"),
         session: sessionId,
       },
       { status: 200 }
     );
   } catch (error) {
-    const res = {
-      success: false,
-      message: "error en la base de datos",
-    };
-
-    NextResponse.json(res, {
+    
+    NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+       {
       status: 500,
     });
   }
