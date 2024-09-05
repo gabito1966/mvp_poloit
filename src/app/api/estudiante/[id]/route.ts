@@ -34,12 +34,6 @@ const GetEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
 });
 
-export type GetEstudianteResponse = {
-  success: boolean;
-  data?: EstudianteInterface;
-  message?: string;
-  errors?: [];
-};
 
 export async function GET(
   request: Request,
@@ -95,9 +89,6 @@ export async function GET(
       s.id, s.nombre, s.apellido, s.email, s.telefono, s.estado, o.id, o.nombre
     HAVING 
       s.id =${idEstudiante};`;
-
-    // revalidatePath(`/edit/estudiante/${idEstudiante}`);
-    // revalidatePath("/dashboard/estudiantes");
 
     if (rows.length === 0) {
       return NextResponse.json(
@@ -191,8 +182,7 @@ export async function PUT(
       await sql`INSERT INTO estudiantes_tecnologias (id_estudiante, id_tecnologia) VALUES (${id_estudiante}, ${tecnologia})`;
     }
 
-    // revalidatePath(`/edit/estudiante/${id_estudiante}`);
-    revalidatePath("/dashboard/estudiantes");
+    revalidatePath("/estudiante");
     return NextResponse.json(
       createResponse(true, [], "Actualización del estudiante exitosa"),
       { status: 200 }

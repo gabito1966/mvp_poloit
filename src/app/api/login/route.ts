@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
     const { contrasena: contrasenia, ...rest } = user;
 
-    token = await JWTCreate(rest);
+    const token = await JWTCreate(rest);
 
     const date = new Date().toISOString().split("T")[0];
 
@@ -92,8 +92,15 @@ export async function POST(request: Request) {
         await sql`INSERT INTO sesiones (id_administrador,token,fecha_creacion) VALUES
                             (${rest.id},${token},${date}) RETURNING id`;
       const { rows } = result;
-      console.log("idSession id", rows);
-      sessionId = await generateHash(rows[0].id);
+  
+      return NextResponse.json(
+        {
+          ...createResponse(true, rest, "Consulta Exitosa"),
+          session: rows[0].id,
+        },
+        { status: 200 }
+      );
+
     } catch (error) {
       return NextResponse.json(
         createResponse(false, [], getErrorMessageFromCode(error)),
@@ -101,13 +108,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json(
-      {
-        ...createResponse(true, rest, "Consulta Exitosa"),
-        session: sessionId,
-      },
-      { status: 200 }
-    );
+   
   } catch (error) {
     
     NextResponse.json(

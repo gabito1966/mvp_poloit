@@ -1,60 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { JWTValidate } from "./lib/utils";
+import { ValidateIDSession } from "./database/serverAuth";
 
-const protectedRoutes = ["/register", "/register/alumnos"];
-const publicRoutes = ["/auth/login", "/signup", "/"];
+const protectedRoutes = ["/register","/estudiante","/mentor"];
+const publicRoutes = ["/login","/"];
 
-export default async function middleware(request: NextRequest) {
-  const url = request.nextUrl.clone();
+export async function middleware(req: NextRequest) {
+  const path = req.nextUrl.clone();
 
-  const isProtectedRoute = protectedRoutes.includes(url.pathname);
-  const isPublicRoute = publicRoutes.includes(url.pathname);
+  const isProtectedRoute = protectedRoutes.includes(path.pathname) ;
+  const isPublicRoute = publicRoutes.includes(path.pathname);
 
-  // console.log(isProtectedRoute);
-  // console.log(isPublicRoute);
+  if(isPublicRoute){
+    return NextResponse.next();
+  }
 
-  //   const session = request.cookies.get("session");
+  const token = req.cookies.get("session");
+  let tokenverify;
 
-  //   if (isPublicRoute) {
-  //     return NextResponse.next();
-  //   } else {
-  //     if (!session && !isPublicRoute) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
+  if (isProtectedRoute && token) {
+    tokenverify = await ValidateIDSession(token.value);
 
-  //     if (isProtectedRoute && !session) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
+    if (!tokenverify) {
+      const response = NextResponse.redirect(
+        new URL("/auth/login", process.env.NEXT_BASE_URL)
+      );
+      response.cookies.delete("token");
+      return response;
+    }
+    return NextResponse.next();
+  }
 
-  //     if (!session) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
-
-  //     try {
-  //       const data = await fetch(url.origin + "/api/login/auth", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           token: session.value,
-  //         }),
-  //       });
-
-  //       const response = await data.json();
-
-  //       if (!response.success) {
-  //         request.cookies.delete("session");
-  //         throw new Error("Error al validar el token");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
-
-  //     //const verify = JWTValidate(session.value);
-
-  //     console.log("todo piola");
-  //   }
-  return NextResponse.next();
+  if (isProtectedRoute) {
+    return NextResponse.redirect(new URL("/auth/login", process.env.NEXT_BASE_URL));
+  } else {
+    return NextResponse.next();
+  }
 }
+
+// Routes Middleware should not run on
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+};

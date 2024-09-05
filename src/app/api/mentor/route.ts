@@ -6,24 +6,31 @@ import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 const CreateSchemaMentor = z.object({
   id: z.coerce.number({
     invalid_type_error: "Debe ser un número",
-    message: "ingrese un ID de mentor",
+    message: "Ingrese un ID de mentor",
   }),
   nombre: z
     .string({ message: "Ingrese un nombre" })
-    .min(4, "El nombre debe tener al menos 4 caracteres"),
+    .min(4, "El nombre debe tener al menos 4 caracteres")
+
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
     .string({ message: "Ingrese un apellido" })
-    .min(3, "El apellido debe tener al menos 3 caracteres"),
+    .min(3, "El apellido debe tener al menos 3 caracteres")
+
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "El email debe tener al menos 6 caracteres"),
-  telefono: z.string().min(6, "El telefono debe tener al menos 6 caracteres"),
+  telefono: z
+    .string()
+    .min(6, "El telefono debe tener al menos 6 caracteres")
+    .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_empresa: z.coerce.number({
-    invalid_type_error: "seleccione una empresa",
+    invalid_type_error: "Seleccione una empresa",
   }),
   tecnologias: z
-    .array(z.coerce.number({ invalid_type_error: "seleccione una tecnologia" }))
+    .array(z.coerce.number({ invalid_type_error: "Seleccione una tecnología" }))
     .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
@@ -31,13 +38,8 @@ const CreateMentor = CreateSchemaMentor.omit({ id: true });
 
 type Mentor = z.infer<typeof CreateSchemaMentor>;
 
-const GetMentor = z.object({
-  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
-});
-
 export async function GET(request: Request) {
   try {
-    //ver las tecnologias
     const { rows } = await sql<Mentor[]>`
   SELECT 
     m.id,

@@ -51,45 +51,28 @@ interface EstudianteInterface {
   tecnologias: number[];
 }
 
-type Estudiante = {
-  id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  estado: boolean;
-  id_ong: number;
-};
-
-interface EstudianteResponse {
-  success: boolean;
-  errors?: [];
-  data?: [];
-  message?: string;
-}
-
 const CreateSchemaEstudiante = z.object({
   nombre: z
-    .string({ message: "ingrese un nombre" })
-    .min(3, "el nombre debe de tener al menos 3 caracteres")
+    .string({ message: "Ingrese un nombre" })
+    .min(3, "El nombre debe de tener al menos 3 caracteres")
     .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
-    .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 3 caracter")
+    .string({ message: "Ingrese un apellido" })
+    .min(3, "El apellido debe tener al menos 3 caracter")
     .regex(/^[a-zA-Z]+$/, "No se permiten numéros"),
   email: z
-    .string({ message: "ingrese un email" })
+    .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "el email debe tener al menos 6 caracteres"),
+    .min(6, "El email debe tener al menos 6 caracteres"),
   telefono: z
-    .string()
-    .min(6, "el telefono debe tener al menos 6 caracteres")
+    .string({message:"Ingrese un teléfono"})
+    .min(6, "El teléfono debe tener al menos 6 caracteres")
     .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_ong: z.coerce.number({
-    invalid_type_error: "seleccione una organización",
+    invalid_type_error: "Seleccione una organización",
   }),
   tecnologias: z
-    .array(z.coerce.number({ invalid_type_error: "seleccione una tecnologia" }))
+    .array(z.coerce.number({ invalid_type_error: "Seleccione una tecnologia" }))
     .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
@@ -133,7 +116,7 @@ export async function POST(request: Request) {
       await sql`DELETE FROM estudiantes WHERE id = ${rows[0].id}`;
       throw error;
     }
-    revalidatePath("/dashboard/estudiantes");
+    revalidatePath("/estudiante");
 
     return NextResponse.json(
       createResponse(true, rows, "Registro de estudiante exitoso"),
