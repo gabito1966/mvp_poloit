@@ -77,7 +77,7 @@ function PaginationNumber({
     {
       "rounded-l-md": position === "first" || position === "single",
       "rounded-r-md": position === "last" || position === "single",
-      "z-10 bg-blue-600 border-blue-600 text-white": isActive,
+      "z-10 bg-blue-400 border-blue-400 text-white hover:bg-blue-700 hover:cursor-pointer": isActive,
       "hover:bg-gray-100": !isActive && position !== "middle",
       "text-gray-300": position === "middle",
     }
@@ -113,19 +113,19 @@ function PaginationArrow({
 
   const icon =
     direction === "left" ? (
-    //   <ArrowLeftIcon className="w-4" />
-    <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
-    <svg className="w-5 h-5">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"></path></svg>
-    </svg>
-  </div>
+      //   <ArrowLeftIcon className="w-4" />
+      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+        <svg className="w-5 h-5">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"></path></svg>
+        </svg>
+      </div>
     ) : (
-    //   <ArrowRightIcon className="w-4" />
-    <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
-    <svg className="w-5 h-5">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path></svg>
-    </svg>
-  </div>
+      //   <ArrowRightIcon className="w-4" />
+      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+        <svg className="w-5 h-5">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path></svg>
+        </svg>
+      </div>
     );
 
   return isDisabled ? (

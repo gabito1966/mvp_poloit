@@ -13,17 +13,17 @@ function Footer() {
                 </Link>
                 <div className="container text-white text-lg text-center mx-auto flex justify-center gap-20 font-semibold">
                     <p className="bg-blue-400  rounded-lg shadow-sm w-60 hover:bg-blue-700 p-2">
-                        <Link href='/' target="_blank">
+                        <Link href='https://www.linkedin.com/in/javier-espindola/' target="_blank">
                             Nicolas Espíndola
                         </Link>
                     </p>
                     <p className="bg-blue-400 rounded-lg shadow-sm w-60 hover:bg-blue-700 p-2">
-                        <Link href='/' target="_blank">
+                        <Link href='https://www.linkedin.com/in/elizabeth-rabinad-4b6131167/' target="_blank">
                             Elizabeth Rabi
                         </Link>
                     </p>
                     <p className="bg-blue-400 rounded-lg shadow-sm w-60 hover:bg-blue-700 p-2">
-                        <Link href='/' target="_blank">
+                        <Link href='https://www.linkedin.com/in/sandro-borga-065936246/' target="_blank">
                             Sandro Borga
                         </Link>
                     </p>

@@ -2,6 +2,7 @@
 
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 
@@ -11,8 +12,8 @@ interface Mentor {
     apellido: string;
     email: string;
     telefono: string;
-    empresa: string;
     estado?: string;
+    empresa: string;
     tecnologias: number[];
 }
 
@@ -22,9 +23,9 @@ interface MentorParams {
     apellido: string;
     email: string;
     telefono: string;
-    empresa: string;
     estado: string;
-    tecnologias: number[];
+    empresa: string;
+    tecnologias: string[];
 }
 
 export type empresa = {
@@ -41,14 +42,16 @@ function FormMentor({
     tecnologias: Tecnologia[];
     dataFetch?: MentorParams | undefined;
 }) {
+    const router = useRouter();
+
     const [form, setForm] = useState({
         id: "",
         nombre: "",
         apellido: "",
         email: "",
         telefono: "",
-        empresa: "",
         estado: "",
+        empresa: "",
         tecnologias: [] as number[],
     });
 
@@ -59,23 +62,31 @@ function FormMentor({
             apellido: [],
             email: [],
             telefono: [],
-            empresa: [],
             estado: [],
+            empresa: [],
             tecnologias: [],
         },
     });
 
     useEffect(() => {
+
         if (dataFetch) {
+            let tecnologiasIDs: number[] = [];
+            dataFetch.tecnologias.forEach((tech) => {
+                const foundTecnologia = tecnologias.find((t) => t.nombre === tech);
+                if (foundTecnologia) {
+                    tecnologiasIDs.push(foundTecnologia.id);
+                }
+            });
             setForm({
                 id: dataFetch.id?.toString(),
                 nombre: dataFetch.nombre,
                 apellido: dataFetch.apellido,
                 email: dataFetch.email,
                 telefono: dataFetch.telefono,
-                empresa: dataFetch.empresa,
                 estado: dataFetch.estado,
-                tecnologias: dataFetch.tecnologias || [],
+                empresa: dataFetch.empresa,
+                tecnologias: tecnologiasIDs,
             });
         }
     }, []);
@@ -116,7 +127,6 @@ function FormMentor({
             email: form.email,
             telefono: form.telefono,
             empresa: form.empresa,
-            estado: form.estado,
             tecnologias: form.tecnologias,
 
         };
@@ -143,11 +153,12 @@ function FormMentor({
                 apellido: "",
                 email: "",
                 telefono: "",
+                estado: "",
                 empresa: "",
-                estado: "true",
                 tecnologias: [] as number[],
             });
-
+            router.refresh();
+            router.push("/mentor");
         } catch (error: any) {
             setResponseBack({ message: error.message, errors: error.errors });
         }
@@ -155,13 +166,13 @@ function FormMentor({
 
     return (
         <>
-            <div className="container mx-auto p-10 h-screen">
+            <div className="container mx-auto p-12">
                 <h1 className="text-2xl font-bold mb-4 text-center underline">
                     Formulario de Inscripción de Mentores
                 </h1>
                 <form
                     onSubmit={handleSubmit}
-                    className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center"
+                    className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
                 >
                     <div>
                         <label
@@ -183,7 +194,7 @@ function FormMentor({
                     <div id="customer-error" aria-live="polite" aria-atomic="true">
                         {responseBack.errors?.nombre &&
                             responseBack.errors.nombre.map((error: string) => (
-                                <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
+                                <p className="mt-2 text-sm text-red-500" key={error}>
                                     {error}
                                 </p>
                             ))}
@@ -208,7 +219,7 @@ function FormMentor({
                         <div id="customer-error" aria-live="polite" aria-atomic="true">
                             {responseBack.errors?.apellido &&
                                 responseBack.errors.apellido.map((error: string) => (
-                                    <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
                                         {error}
                                     </p>
                                 ))}
@@ -232,7 +243,7 @@ function FormMentor({
                         />
                         {responseBack.errors?.email &&
                             responseBack.errors.email.map((error: string) => (
-                                <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
+                                <p className="mt-2 text-sm text-red-500" key={error}>
                                     {error}
                                 </p>
                             ))}
@@ -256,73 +267,83 @@ function FormMentor({
                     </div>
                     {responseBack.errors?.telefono &&
                         responseBack.errors?.telefono.map((error: string) => (
-                            <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
+                            <p className="mt-2 text-sm text-red-500" key={error}>
                                 {error}
                             </p>
                         ))}
 
-                    <div>
-                        <div>
-                            <label
-                                htmlFor="empresa"
-                                className="block text-sm font-medium text-gray-500"
-                            >
-                                EMPRESA:
-                            </label>
-                            <select
-                                id="empresa"
-                                name="empresa"
-                                value={form.empresa}
-                                onChange={handleChange}
-                                required
-                                className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            >
-                                <option value="" disabled hidden>
-                                    Seleccione una Empresa
-                                </option>
-                                {empresas.map((e, i) => {
-                                    return (
-                                        <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                                            {e.nombre}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                            {responseBack.errors?.empresa &&
-                                responseBack.errors.empresa.map((error: string) => (
-                                    <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
-                                        {error}
-                                    </p>
-                                ))}
-                        </div>
-                    </div>
 
-                    <div className="flex flex-wrap gap-4 mt-5">
-                        {tecnologias.map((e, i) => {
-                            return (
-                                <div
-                                    key={`${i}${e.nombre}${e.id}`}
-                                    className="flex flex-col items-center"
-                                >
-                                    <label className="text-sm" htmlFor="html">{e.nombre}</label>
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        name="tecnologias"
-                                        id={`${e.nombre}`}
-                                        value={`${e.id}`}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            );
-                        })}
-                        <div id="customer-error" aria-live="polite" aria-atomic="true">
-                            {responseBack.errors?.tecnologias &&
-                                responseBack.errors?.tecnologias.map((error: string) => (
-                                    <p className="bg-slate-200 mt-2 text-sm text-red-500" key={error}>
-                                        {error}
-                                    </p>
-                                ))}
+                    <div>
+                        <label
+                            htmlFor="empresa"
+                            className="block text-sm font-medium text-gray-500"
+                        >
+                            EMPRESA:
+                        </label>
+                        <select
+                            id="empresa"
+                            name="empresa"
+                            value={form.empresa}
+                            onChange={handleChange}
+                            required
+                            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        >
+                            <option value="" disabled hidden>
+                                Seleccione una Empresa
+                            </option>
+                            {empresas.map((e, i) => {
+                                return (
+                                    <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                                        {e.nombre}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        {responseBack.errors?.empresa &&
+                            responseBack.errors.empresa.map((error: string) => (
+                                <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
+                    <div className=" border-t-2 pt-3 flex flex-col gap-4 mt-5">
+                        <label
+                            htmlFor="tecnologias"
+                            className="block text-sm font-medium text-gray-500"
+                        >
+                            Tecnologías
+                        </label>
+
+                        <div className="flex flex-wrap gap-2 flex-row justify-between">
+                            {tecnologias.map((e, i) => {
+                                return (
+                                    <div
+                                        key={`${i}${e.nombre}${e.id}`}
+                                        className="flex flex-col gap-1 items-center"
+                                    >
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            name="tecnologias"
+                                            id={`${e.nombre}`}
+                                            checked={form.tecnologias?.includes(e.id)}
+                                            value={`${e.id}`}
+                                            onChange={handleChange}
+                                        />
+                                        <label className="block text-sm font-medium text-gray-500" htmlFor={`${e.nombre}`}>
+                                            {e.nombre}
+                                        </label>
+                                    </div>
+                                );
+                            })}
+                            <div id="customer-error" aria-live="polite" aria-atomic="true">
+                                {responseBack.errors?.tecnologias &&
+                                    responseBack.errors?.tecnologias.map((error: string) => (
+                                        <p className="mt-2 text-sm text-red-500" key={error}>
+                                            {error}
+                                        </p>
+                                    ))}
+                            </div>
                         </div>
                     </div>
 

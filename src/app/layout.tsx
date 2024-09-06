@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MVP-PoloIt",
-  description: "Polo It",
+  description: "Squad-7",
 };
 
 export default function RootLayout({
@@ -20,10 +20,12 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <div className="flex w-full">
-          <Sidebar />
-          <main className="flex-1 p-6 main">
+          <div className="h-screen lg:w-64 fixed">
+            <Sidebar />
+          </div>
+          <main className="flex flex-col h-screen w-full lg:pl-64">
             {children}
-            <div className="block  justify-end">
+            <div className="pb-10">
               <Footer />
             </div>
           </main>

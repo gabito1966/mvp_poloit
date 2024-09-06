@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Sidebar: React.FC = () => {
     return (
-        <nav className="w-64 flex flex-col min-h-screen bg-white text-black border-2 border-gray-200">
+        <nav className="w-64 flex flex-col h-screen bg-white text-black border-2 border-gray-200">
             <div>
                 <ul className="space-y-4 p-4">
                     <li>
@@ -31,8 +31,13 @@ const Sidebar: React.FC = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/tecnlogia">
+                        <Link href="/tecnologia">
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Tecnologias</div>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/grupo">
+                            <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Grupos</div>
                         </Link>
                     </li>
                 </ul>
@@ -51,9 +56,9 @@ const Sidebar: React.FC = () => {
                     </button>
                 </Link>
             </div>
-            <div className="mt-auto text-white py-12">
+            <div className="mt-auto py-10">
                 <Link href="/auth/login">
-                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-3/4 self-center rounded-full p-4">
+                    <button type="button" className="bg-blue-400 hover:bg-blue-700 text-white w-full rounded-lg p-3">
                         LOGIN
                     </button>
                 </Link>

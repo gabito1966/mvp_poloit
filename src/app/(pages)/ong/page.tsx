@@ -4,8 +4,8 @@ import Link from "next/link"
 function pageOng() {
 
     return (
-        <div className="container h-screen p-10">
-            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de ONGs</h1>
+        <div className="w-full flex-grow p-6  md:p-12">
+            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de ONG</h1>
             <div className="container flex flex-row p-5 justify-around text-center">
                 <div>
                     <input type="text" className="mb-5 border-2 border-gray-500 p-2 text-xl rounded-xl" placeholder=" Buscar ongs" value="" />
