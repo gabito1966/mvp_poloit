@@ -41,8 +41,6 @@ function Form() {
     try {
       const response = await fetchPostClient("/api/login", data);
 
-      console.log(response);
-
       if (!response.success) {
         throw response;
       }

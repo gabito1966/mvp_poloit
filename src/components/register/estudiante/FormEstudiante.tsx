@@ -310,12 +310,12 @@ function FormEstudiante({
             </div>
        
 
-          <div className=" border-t-2 pt-3 flex flex-col gap-4 mt-5">
+          <div className=" flex flex-col gap-4 ">
           <label
                 htmlFor="id_ong"
                 className="block text-sm font-medium text-gray-500"
               >
-                Tecnologías
+                Tecnologías:
               </label>
               <div className="flex flex-wrap gap-2 flex-row justify-between">
 

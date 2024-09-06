@@ -85,18 +85,18 @@ export async function POST(request: Request) {
 
     const date = new Date().toISOString().split("T")[0];
 
-    let sessionId: string = "";
-
     try {
       const result =
         await sql`INSERT INTO sesiones (id_administrador,token,fecha_creacion) VALUES
                             (${rest.id},${token},${date}) RETURNING id`;
       const { rows } = result;
+
+      const session = `${rows[0].id};${token.slice(0,10)}`
   
       return NextResponse.json(
         {
           ...createResponse(true, rest, "Consulta Exitosa"),
-          session: rows[0].id,
+          session: session,
         },
         { status: 200 }
       );
@@ -107,7 +107,6 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-
    
   } catch (error) {
     

@@ -7,15 +7,20 @@ const UpdateMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
   nombre: z
     .string({ message: "ingrese un nombre" })
-    .min(4, "el nombre debe de tener al menos 4 caracteres"),
+    .min(4, "el nombre debe de tener al menos 4 caracteres")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
     .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 4 caracter"),
+    .min(3, "el apellido debe tener al menos 4 caracter")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   email: z
     .string({ message: "ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "el email debe tener al menos 6 caracteres"),
-  telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres"),
+  telefono: z
+    .string()
+    .min(6, "el telefono debe tener al menos 6 caracteres")
+    .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_empresa: z.coerce.number({
     invalid_type_error: "seleccione una empresa",
   }),

@@ -7,19 +7,20 @@ import { z } from "zod";
 const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
   nombre: z
-    .string({ message: "ingrese un nombre" })
-    .min(4, "el nombre debe de tener al menos 4 caracteres")
+    .string({ message: "Ingrese un nombre" })
+    .min(4, "El nombre debe de tener al menos 4 caracteres")
     .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   apellido: z
-    .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 4 caracter")
+    .string({ message: "Ingrese un apellido" })
+    .min(3, "El apellido debe tener al menos 4 caracter")
     .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
   email: z
-    .string({ message: "ingrese un email" })
+    .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "el email debe tener al menos 6 caracteres")
-    .regex(/^[0-9]+$/, "No se permiten caracteres"),
-  telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres"),
+    .min(6, "El email debe tener al menos 6 caracteres"),
+  telefono: z.string({message:"Ingrese un telefono"})
+  .min(6, "El telefono debe tener al menos 6 caracteres")
+  .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_ong: z.coerce.number({
     invalid_type_error: "seleccione una organización",
   }),
