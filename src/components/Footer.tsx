@@ -18,7 +18,7 @@ function Footer() {
                         </Link>
                     </p>
                     <p className="bg-blue-400 rounded-lg shadow-sm w-60 hover:bg-blue-700 p-2">
-                        <Link href='/' target="_blank">
+                        <Link href='https://www.linkedin.com/in/elizabeth-rabinad-4b6131167' target="_blank">
                             Elizabeth Rabi
                         </Link>
                     </p>
