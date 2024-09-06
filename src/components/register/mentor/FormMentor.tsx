@@ -12,8 +12,8 @@ interface Mentor {
     apellido: string;
     email: string;
     telefono: string;
-    empresa: string;
     estado?: string;
+    empresa: string;
     tecnologias: number[];
 }
 
@@ -23,8 +23,8 @@ interface MentorParams {
     apellido: string;
     email: string;
     telefono: string;
-    empresa: string;
     estado: string;
+    empresa: string;
     tecnologias: string[];
 }
 
@@ -50,8 +50,8 @@ function FormMentor({
         apellido: "",
         email: "",
         telefono: "",
-        empresa: "",
         estado: "",
+        empresa: "",
         tecnologias: [] as number[],
     });
 
@@ -62,8 +62,8 @@ function FormMentor({
             apellido: [],
             email: [],
             telefono: [],
-            empresa: [],
             estado: [],
+            empresa: [],
             tecnologias: [],
         },
     });
@@ -84,8 +84,8 @@ function FormMentor({
                 apellido: dataFetch.apellido,
                 email: dataFetch.email,
                 telefono: dataFetch.telefono,
-                empresa: dataFetch.empresa,
                 estado: dataFetch.estado,
+                empresa: dataFetch.empresa,
                 tecnologias: tecnologiasIDs,
             });
         }
@@ -127,7 +127,6 @@ function FormMentor({
             email: form.email,
             telefono: form.telefono,
             empresa: form.empresa,
-            estado: form.estado,
             tecnologias: form.tecnologias,
 
         };
@@ -154,8 +153,8 @@ function FormMentor({
                 apellido: "",
                 email: "",
                 telefono: "",
-                empresa: "",
                 estado: "",
+                empresa: "",
                 tecnologias: [] as number[],
             });
             router.refresh();
@@ -167,7 +166,7 @@ function FormMentor({
 
     return (
         <>
-            <div className="mx-auto p-12">
+            <div className="container mx-auto p-12">
                 <h1 className="text-2xl font-bold mb-4 text-center underline">
                     Formulario de Inscripción de Mentores
                 </h1>
