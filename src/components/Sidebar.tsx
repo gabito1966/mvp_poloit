@@ -35,6 +35,11 @@ const Sidebar: React.FC = () => {
                             <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Tecnologias</div>
                         </Link>
                     </li>
+                    <li>
+                        <Link href="/grupo">
+                            <div className="hover:bg-gray-300 px-4 py-2 rounded-full">Grupos</div>
+                        </Link>
+                    </li>
                 </ul>
             </div>
             <div className="p-10">
