@@ -1,10 +1,9 @@
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { inter } from "@/lib/fonts";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MVP-PoloIt",
@@ -18,11 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <div className="flex w-full">
-          <div className="h-screen lg:w-64 fixed">
+          {/* <div className=" lg:w-64"> */}
             <Sidebar />
-          </div>
+          {/* </div> */}
           <main className="flex flex-col h-screen w-full lg:pl-64">
             {children}
             <div className="pb-10">

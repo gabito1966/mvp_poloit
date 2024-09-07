@@ -1,0 +1,25 @@
+"use client"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
+export default function LinkSideBar({
+  data,
+}: {
+  data: { url: string; name: string; icon: string };
+}) {
+    const pathname = usePathname();
+
+  return (
+    <>
+      <Link
+        href={data.url}
+        className={clsx("flex flex-row gap-1 items-center px-4 py-2 hover:bg-gray-100 rounded-sm capitalize",{
+          "bg-gray-100": data.url === pathname,
+        })}
+      >
+        <div dangerouslySetInnerHTML={{ __html: data.icon }} />
+        <span>{data.name}</span>
+      </Link>
+    </>
+  );
+}
