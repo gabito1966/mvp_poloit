@@ -1,9 +1,9 @@
-import Form from "./components/form"
+import FormLogin from "@/components/login/FormLogin"
 
 function login() {
 
     return (
-        <Form />
+        <FormLogin />
     )
 }
 

@@ -4,7 +4,7 @@ import { fetchPostClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function Form() {
+function FormLogin() {
   const [data, setData] = useState({ email: "", password: "" });
   const [responseBack, setResponseBack] = useState({
     success: false,
@@ -117,7 +117,7 @@ function Form() {
                 name="password"
                 type="password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
@@ -152,4 +152,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default FormLogin;
