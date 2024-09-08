@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 const CreateSchemaMentor = z.object({
   id: z.coerce.number({
@@ -12,12 +13,12 @@ const CreateSchemaMentor = z.object({
     .string({ message: "Ingrese un nombre" })
     .min(4, "El nombre debe tener al menos 4 caracteres")
 
-    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
   apellido: z
     .string({ message: "Ingrese un apellido" })
     .min(3, "El apellido debe tener al menos 3 caracteres")
 
-    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
@@ -74,18 +75,8 @@ export async function GET(request: Request) {
   }
 }
 
-export interface MentorInterface {
-  id?: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  id_empresa: number;
-  tecnologias: number[];
-}
-
 export async function POST(request: Request) {
-  const body = (await request.json()) as MentorInterface;
+  const body = (await request.json()) as Mentor;
 
   const validatedFields = CreateMentor.safeParse({
     ...body,
@@ -106,11 +97,13 @@ export async function POST(request: Request) {
   const { nombre, apellido, email, telefono, id_empresa, tecnologias } =
     validatedFields.data;
 
+    console.log(validatedFields.data);
+
   try {
     const { rows } = await sql`
     INSERT INTO mentores (nombre, apellido, email, telefono, id_empresa)
     VALUES (${nombre}, ${apellido}, ${email}, ${telefono}, ${id_empresa})
-    RETURNING nombre, apellido, email, id_empresa
+    RETURNING *
   `;
 
     try {
@@ -120,10 +113,13 @@ export async function POST(request: Request) {
       `;
       });
     } catch (error) {
+      console.error(error);
       await sql`DELETE FROM mentores_tecnologias WHERE id_mentor = ${rows[0].id}`;
       await sql`DELETE FROM mentores WHERE id_mentor = ${rows[0].id}`;
       throw error;
     }
+
+    revalidatePath("/mentor");
 
     return NextResponse.json(createResponse(true, rows, "Se creó el mentor"), {
       status: 201,

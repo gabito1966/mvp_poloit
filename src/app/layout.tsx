@@ -22,7 +22,7 @@ export default function RootLayout({
           {/* <div className=" lg:w-64"> */}
             <Sidebar />
           {/* </div> */}
-          <main className="flex flex-col h-screen w-full lg:pl-64">
+          <main className="flex flex-col h-screen w-full lg:pl-60 max-lg:ml-10">
             {children}
             <div className="pb-10">
               <Footer />

@@ -21,29 +21,29 @@ export async function middleware(req: NextRequest) {
 
   const isPublicRoute = publicRoutes.includes(path.pathname);
   const isProtectedRoute = protectedRoutes.includes(path.pathname);
-  
-  const token = req.cookies.get("session");
-  
-  let tokenverify;
-  
-  if ( token) {
 
+  const token = req.cookies.get("session");
+
+  let tokenverify;
+
+  if (token) {
     tokenverify = await ValidateIDSession(token.value);
-    
+
     if (!tokenverify.success) {
       const response = NextResponse.redirect(
         new URL("/auth/login", process.env.NEXT_BASE_URL)
       );
       response.cookies.delete("session");
+      response.cookies.delete("user");
       return response;
     }
 
     if (
       isPublicRoute &&
       tokenverify.success &&
-      req.nextUrl.pathname.startsWith('/auth/login')
+      req.nextUrl.pathname.startsWith("/auth/login")
     ) {
-      return NextResponse.redirect(new URL('/', process.env.NEXT_BASE_URL))
+      return NextResponse.redirect(new URL("/", process.env.NEXT_BASE_URL)); //
     }
 
     return NextResponse.next();
@@ -54,6 +54,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (isProtectedRoute) {
+    //crear usuario a partir del del token
     return NextResponse.redirect(
       new URL("/auth/login", process.env.NEXT_BASE_URL)
     );

@@ -91,7 +91,7 @@ export async function POST(request: Request) {
                             (${rest.id},${token},${date}) RETURNING id`;
       const { rows } = result;
 
-      const session = `${rows[0].id};${token.slice(0,10)}`
+      const session = `${rows[0].id}#${token.slice(0,10)}`
   
       return NextResponse.json(
         {

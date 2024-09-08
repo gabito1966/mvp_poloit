@@ -16,7 +16,7 @@ export default async function Table({
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-                    <div className="md:hidden">
+                    <div className="lg:hidden">
                         {mentores?.map((mentor) => (
                             <div
                                 key={mentor.id}
@@ -45,7 +45,7 @@ export default async function Table({
                             </div>
                         ))}
                     </div>
-                    <table className="hidden min-w-full text-gray-900 md:table">
+                    <table className=" hidden min-w-full text-gray-900 lg:table">
                         <thead className="rounded-lg text-left text-sm font-normal">
                             <tr>
                                 <th scope="col" className="capitalize px-4 py-5 font-medium ">

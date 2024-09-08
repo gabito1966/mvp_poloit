@@ -1,5 +1,6 @@
-import FormEstudiante from "@/components/register/estudiante/FormEstudiante";
+
 import { fetchGet } from "@/lib/fetchFunctions";
+import  FormEstudiante  from '@/components/register/estudiante/FormEstudiante';
 
 export default async function RegisterAlumnos() {
     const [dataOngs, dataTecnologias] = await Promise.all([

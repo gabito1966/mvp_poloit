@@ -6,7 +6,7 @@ import { sql } from "@vercel/postgres";
 
 export async function ValidateIDSession(value: string) {
 
-  const session = value.split(";")[0];
+  const session = value.split("#")[0];
 
   try {
     const { rows } = await sql` SELECT * FROM sesiones WHERE id = ${session} `;

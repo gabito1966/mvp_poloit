@@ -55,11 +55,11 @@ const CreateSchemaEstudiante = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .min(3, "El nombre debe de tener al menos 3 caracteres")
-    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros" }),
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
   apellido: z
     .string({ message: "Ingrese un apellido" })
     .min(3, "El apellido debe tener al menos 3 caracter")
-    .regex(/^[a-zA-Z]+$/, "No se permiten numéros"),
+    .regex(/^[a-zA-Z]+$/, "No se permiten numéros o símbolos"),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")

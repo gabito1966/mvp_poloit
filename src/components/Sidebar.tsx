@@ -3,6 +3,8 @@ import { roboto } from "@/lib/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import LinkSideBar from "./LinkSideBar";
+import { signOut, singIn } from "@/lib/server/session";
+import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
   const links = [
@@ -16,9 +18,9 @@ const Sidebar: React.FC = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="icon icon-tabler icons-tabler-outline icon-tabler-home"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -30,7 +32,7 @@ const Sidebar: React.FC = () => {
     {
       url: "/estudiante",
       name: "estudiante",
-      icon: `<svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-school"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg>`,
+      icon: `<svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-school"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg>`,
     },
     {
       url: "/mentor",
@@ -47,9 +49,9 @@ const Sidebar: React.FC = () => {
     //     viewBox="0 0 24 24"
     //     fill="none"
     //     stroke="currentColor"
-    //     stroke-width="2"
-    //     stroke-linecap="round"
-    //     stroke-linejoin="round"
+    //     strokeWidth="2"
+    //     strokeLinecap="round"
+    //     strokeLinejoin="round"
     //     className="icon icon-tabler icons-tabler-outline icon-tabler-building-community"
     //   >
     //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -66,9 +68,9 @@ const Sidebar: React.FC = () => {
     //     viewBox="0 0 24 24"
     //     fill="none"
     //     stroke="currentColor"
-    //     stroke-width="2"
-    //     stroke-linecap="round"
-    //     stroke-linejoin="round"
+    //     strokeWidth="2"
+    //     strokeLinecap="round"
+    //     strokeLinejoin="round"
     //     className="icon icon-tabler icons-tabler-outline icon-tabler-device-desktop"
     //   >
     //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -80,14 +82,14 @@ const Sidebar: React.FC = () => {
     {
       url: "/grupo",
       name: "grupos",
-      icon: `  <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+      icon: `  <svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
           `,
     },
   ];
 
-  const login ={
-    url:"/auth/login",
-    name:"iniciar sesión",
+  const login = {
+    url: "/auth/login",
+    name: "iniciar sesión",
     icon: `     <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -95,25 +97,28 @@ const Sidebar: React.FC = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="icon icon-tabler icons-tabler-outline icon-tabler-login"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
             <path d="M21 12h-13l3 -3" />
             <path d="M11 15l-3 -3" />
-          </svg>`
-  }
+          </svg>`,
+  };
 
+  const session = singIn();
+
+  
   return (
     <nav
-      className={`${roboto.className} lg:w-64 fixed  flex flex-col h-screen bg-white text-black border-2 border-gray-200 px-2`}
+      className={`${roboto.className} lg:w-64 max-lg:w-12 max-lg:px-0 fixed  flex flex-col h-screen bg-white text-black border-2 border-gray-200 px-2`}
     >
       <div>
         <ul className="space-y-4 p-2">
-          <li>
+          <li className="max-lg:hidden">
             <Link href="/">
               <div className="flex p-2 gap-3  hover:bg-gray-100 rounded-sm">
                 {/* <h1 className="align-middle text-2xl">Polo It</h1> */}
@@ -134,33 +139,45 @@ const Sidebar: React.FC = () => {
         </ul>
       </div>
 
-      <div className="mt-auto py-4 border-t-2 gray-300 ">
-        {/* talvel en otro componente que diga session por que qioero que cambie cuando cierra sesion asi uso use client */}
+      <div className={clsx("flex flex-row gap-1 items-center mt-auto py-4 border-t-2 gray-300 max-lg:px-1 max-lg:py-1 hover:bg-gray-100 rounded-sm capitalize ")}>
         <form
-          className="flex flex-row gap-1 items-center px-4 py-2 hover:bg-gray-100 rounded-sm "
-        //   action={}
+          className={clsx(
+            " items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-gray-100 rounded-sm ",
+            {
+              hidden: !session,
+            }
+          )}
+          action={async () => {
+            "use server";
+            await signOut();
+          }}
         >
-            {/* usar actions */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="icon icon-tabler icons-tabler-outline icon-tabler-login-2"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
-            <path d="M3 12h13l-3 -3" />
-            <path d="M13 15l3 -3" />
-          </svg>
-          <span className=" w-full capitalize text-left  ">cerrar sesión</span>
+          <button className="flex flex-row gap-1 " type="submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-login-2"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+              <path d="M3 12h13l-3 -3" />
+              <path d="M13 15l3 -3" />
+            </svg>
+            <span className=" md:block hidden w-full capitalize text-left  ">
+              cerrar sesión
+            </span>
+          </button>
         </form>
-        <LinkSideBar data={login}/>
+        <div className={clsx("", { hidden: session })}>
+          <LinkSideBar data={login} />
+        </div>
       </div>
     </nav>
   );

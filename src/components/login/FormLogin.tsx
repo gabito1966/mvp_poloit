@@ -1,6 +1,8 @@
 "use client";
 
 import { fetchPostClient } from "@/lib/fetchFunctions";
+import { revalidateFuntion } from "@/lib/server/serverCache";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -35,6 +37,10 @@ function FormLogin() {
       );
     }
   }
+
+
+
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -47,10 +53,17 @@ function FormLogin() {
 
       const now = new Date();
       const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
       const cookie = `session=${response.session
         }; expires=${expire.toUTCString()}; path=/`;
       document.cookie = cookie;
 
+      const user = `user=${response.data.email}#${response.data.nombre}#${response.data.apellido}; expires=${expire.toUTCString()}; path=/`;
+      document.cookie = user;
+  
+      revalidateFuntion("/");
+
+      router.refresh();
       router.push("/", { scroll: false });
     } catch (error: any) {
       setResponseBack({ success: error.status, message: error.message, errors: error.errors });
@@ -87,6 +100,7 @@ function FormLogin() {
                 type="email"
                 placeholder="Ingrese Email"
                 required
+                autoComplete="username"
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
               <div id="customer-error" aria-live="polite" aria-atomic="true">
@@ -117,6 +131,7 @@ function FormLogin() {
                 name="password"
                 type="password"
                 required
+                autoComplete="current-password"
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>

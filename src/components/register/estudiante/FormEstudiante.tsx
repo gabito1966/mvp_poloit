@@ -27,7 +27,7 @@ interface EstudianteParams {
   tecnologias: string[];
 }
 
-export type ong = {
+export type Ong = {
   id: number;
   nombre: string;
 };
@@ -37,7 +37,7 @@ function FormEstudiante({
   tecnologias,
   dataFetch,
 }: {
-  ongs: ong[];
+  ongs: Ong[];
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
 }) {
@@ -68,7 +68,6 @@ function FormEstudiante({
   });
 
   useEffect(() => {
-
     if (dataFetch) {
       let tecnologiasIDs: number[] = [];
       dataFetch.tecnologias.forEach((tech) => {
@@ -89,7 +88,7 @@ function FormEstudiante({
         tecnologias: tecnologiasIDs,
       });
     }
-  }, []);
+  }, [dataFetch, tecnologias]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -166,172 +165,160 @@ function FormEstudiante({
   };
 
   return (
-    <>
-      <div className="container mx-auto p-10 " >
-        <h1 className="text-2xl font-bold mb-4 text-center underline">
-          Formulario de Inscripción de Estudiantes
-        </h1>
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
-        >
-          <div>
-            <label
-              htmlFor="nombre"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Nombre:
-            </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
-              required
-            />
-          </div>
+    <div className="container mx-auto p-10 ">
+      <h1 className="text-2xl font-bold mb-4 text-center underline">
+        Formulario de Inscripción de Estudiantes
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
+      >
+        <div>
+          <label
+            htmlFor="nombre"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Nombre:
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            value={form.nombre}
+            onChange={handleChange}
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
+            required
+          />
+        </div>
+        <div id="customer-error" aria-live="polite" aria-atomic="true">
+          {responseBack.errors?.nombre &&
+            responseBack.errors.nombre.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+        </div>
+
+        <div>
+          <label
+            htmlFor="apellido"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Apellido:
+          </label>
+          <input
+            type="text"
+            id="apellido"
+            name="apellido"
+            value={form.apellido}
+            onChange={handleChange}
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
+            required
+          />
           <div id="customer-error" aria-live="polite" aria-atomic="true">
-            {responseBack.errors?.nombre &&
-              responseBack.errors.nombre.map((error: string) => (
+            {responseBack.errors?.apellido &&
+              responseBack.errors.apellido.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
           </div>
-
-          <div>
-            <label
-              htmlFor="apellido"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Apellido:
-            </label>
-            <input
-              type="text"
-              id="apellido"
-              name="apellido"
-              value={form.apellido}
-              onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
-              required
-            />
-            <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {responseBack.errors?.apellido &&
-                responseBack.errors.apellido.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 "
-              required
-            />
-            {responseBack.errors?.email &&
-              responseBack.errors.email.map((error: string) => (
-                <p className="mt-2  text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-          <div>
-            <label
-              htmlFor="telefono"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Teléfono:
-            </label>
-            <input
-              type="tel"
-              id="telefono"
-              name="telefono"
-              value={form.telefono}
-              onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
-              required
-            />
-          </div>
-          {responseBack.errors?.telefono &&
-            responseBack.errors?.telefono.map((error: string) => (
+        </div>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Email:
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 "
+            required
+          />
+          {responseBack.errors?.email &&
+            responseBack.errors.email.map((error: string) => (
               <p className="mt-2  text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
+        </div>
+        <div>
+          <label
+            htmlFor="telefono"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Teléfono:
+          </label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            value={form.telefono}
+            onChange={handleChange}
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
+            required
+          />
+        </div>
+        {responseBack.errors?.telefono &&
+          responseBack.errors?.telefono.map((error: string) => (
+            <p className="mt-2  text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
 
+        <div>
+          <label
+            htmlFor="id_ong"
+            className="block text-sm font-medium text-gray-500"
+          >
+            ONG:
+          </label>
+          <select
+            id="id_ong"
+            name="id_ong"
+            value={form.id_ong}
+            onChange={handleChange}
+            required
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm 
+              "
+          >
+            <option value="" disabled hidden>
+              Seleccione una ONG
+            </option>
+            {ongs.map((e, i) => {
+              return (
+                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  {e.nombre}
+                </option>
+              );
+            })}
+          </select>
+          {responseBack.errors?.id_ong &&
+            responseBack.errors.id_ong.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+        </div>
 
-          <div>
-            <label
-              htmlFor="id_ong"
-              className="block text-sm font-medium text-gray-500"
-            >
-              ONG:
-            </label>
-            <select
-              id="id_ong"
-              name="id_ong"
-              value={form.id_ong}
-              onChange={handleChange}
-              required
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm "
-            >
-              <option value="" disabled hidden>
-                Seleccione una ONG
-              </option>
-              {ongs.map((e, i) => {
-                return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                    {e.nombre}
-                  </option>
-                );
-              })}
-            </select>
-            {responseBack.errors?.id_ong &&
-              responseBack.errors.id_ong.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-
-
-          <div className=" border-t-2 pt-3 flex flex-col gap-4 mt-5">
+          <div className=" flex flex-col gap-4 ">
             <label
               htmlFor="tecnologias"
               className="block text-sm font-medium text-gray-500"
             >
-              Tecnologías
+              Tecnologías:
             </label>
             <div className="flex flex-wrap gap-2 flex-row justify-between">
-          <div className=" flex flex-col gap-4 ">
-          <label
-                htmlFor="id_ong"
-                className="block text-sm font-medium text-gray-500"
-              >
-                Tecnologías:
-              </label>
-              <div className="flex flex-wrap gap-2 flex-row justify-between">
-
-
               {tecnologias.map((e, i) => {
                 return (
                   <div
                     key={`${i}${e.nombre}${e.id}`}
-                    className="flex flex-col   gap-1 items-center"
+                    className="flex flex-col gap-1 items-center"
                   >
                     <input
                       className="form-check-input"
@@ -342,7 +329,10 @@ function FormEstudiante({
                       value={`${e.id}`}
                       onChange={handleChange}
                     />
-                    <label className="block text-sm font-medium text-gray-500" htmlFor={`${e.nombre}`}>
+                    <label
+                      className="block text-sm font-medium text-gray-500"
+                      htmlFor={`${e.nombre}`}
+                    >
                       {e.nombre}
                     </label>
                   </div>
@@ -352,7 +342,7 @@ function FormEstudiante({
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&
                 responseBack.errors?.tecnologias.map((error: string) => (
-                  <p className="mt-2  text-sm text-red-500" key={error}>
+                  <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
@@ -360,8 +350,10 @@ function FormEstudiante({
           </div>
 
           <div className="">
-            <div className="flex  flex-row gap-1" >
-              <h4 className="block text-sm font-medium text-gray-500" >Principal:</h4>
+            <div className="flex  flex-row gap-1">
+              <h4 className="block text-sm font-medium text-gray-500">
+                Principal:
+              </h4>
               {
                 <p className="block text-sm font-medium text-gray-500">
                   {tecnologias.map((e, i) => {
@@ -371,8 +363,10 @@ function FormEstudiante({
               }
             </div>
             <div className="flex flex-wrap flex-row">
-              <h4 className="block text-sm font-medium text-gray-500" >Secundarias:</h4>
-              <p className="flex flex-wrap text-sm font-medium text-gray-500" >
+              <h4 className="block text-sm font-medium text-gray-500">
+                Secundarias:
+              </h4>
+              <p className="flex flex-wrap text-sm font-medium text-gray-500">
                 {form.tecnologias.slice(1).map((e_t) => {
                   return tecnologias.map((e) =>
                     e.id == e_t ? ` ${e.nombre}, ` : ""
@@ -388,9 +382,9 @@ function FormEstudiante({
           >
             Registrar Estudiante
           </button>
-        </form>
-      </div>
-    </>
+ 
+      </form>
+    </div>
   );
 }
 
