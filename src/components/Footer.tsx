@@ -27,7 +27,7 @@ function Footer() {
     return (
         <footer className="w-full justify-between text-center px-3  py-1 max-lg:p-0" >
             <div className="p-2 flex justify-between  max-lg:flex-col max-lg:p-0 ">
-                <Link href='/' className="max-sm:hidden">
+                <Link href='/' className="lg:pl-60 max-lg:ml-10 max-sm:hidden">
                     <div className="flex text-center  justify-center self-center">
                         <Image src='/logo-polo-it.png' alt="logo" width={150} height={60} />
                         {/* <h2 className="font-bold text-2xl text-center self-center">Squad 7 Polo It 2024</h2> */}
