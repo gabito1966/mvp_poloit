@@ -21,7 +21,7 @@ async function page({
             <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Mentores</h1>
             <div className="flex w-full items-center justify-between">
             </div>
-            <div className="mt-4 flex items-center justify-between gap-96  max-md:gap-3">
+            <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
                 <Search placeholder="buscar mentor..." />
                 <CreateButton url="/register/mentores" />
             </div>

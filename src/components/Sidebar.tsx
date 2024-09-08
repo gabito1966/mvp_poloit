@@ -131,6 +131,19 @@ const Sidebar: React.FC = () => {
               </div>
             </Link>
           </li>
+          <li className="lg:hidden">
+            <Link href="/">
+              <div className="flex justify-center hover:bg-gray-100 rounded-sm">
+                {/* <h1 className="align-middle text-2xl">Polo It</h1> */}
+                <Image
+                  src="/polo-logo-mobile.png"
+                  alt="logo"
+                  width={20}
+                  height={20}
+                />
+              </div>
+            </Link>
+          </li>
           {links.map((link, i) => (
             <li key={`${link.name}${i}`}>
               <LinkSideBar data={link} />
@@ -139,7 +152,7 @@ const Sidebar: React.FC = () => {
         </ul>
       </div>
 
-      <div className={clsx("flex flex-row gap-1 items-center mt-auto py-4 border-t-2 gray-300 max-lg:px-1 max-lg:py-1 hover:bg-gray-100 rounded-sm capitalize ")}>
+      <div className={clsx("flex flex-row gap-1 items-center mt-auto py-4 max-sm:py-1 border-t-2 gray-300 max-lg:px-1  hover:bg-gray-100 rounded-sm capitalize ")}>
         <form
           className={clsx(
             " items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-gray-100 rounded-sm ",
@@ -170,7 +183,7 @@ const Sidebar: React.FC = () => {
               <path d="M3 12h13l-3 -3" />
               <path d="M13 15l3 -3" />
             </svg>
-            <span className=" md:block hidden w-full capitalize text-left  ">
+            <span className=" lg:block hidden w-full capitalize text-left  ">
               cerrar sesión
             </span>
           </button>
