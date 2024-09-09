@@ -25,7 +25,7 @@ function Footer() {
 
 
     return (
-        <footer className="w-full justify-between text-center px-3  py-1 max-lg:p-0" >
+        <footer className="w-full justify-between text-center px-3  py-1 max-lg:pl-12" >
             <div className="p-2 flex justify-between  max-lg:flex-col max-lg:p-0 ">
                 <Link href='/' className="lg:pl-60 max-lg:ml-10 max-sm:hidden">
                     <div className="flex text-center  justify-center self-center">

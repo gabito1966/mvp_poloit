@@ -7,7 +7,8 @@ const UpdateEmpresa = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
   nombre: z
     .string({ message: "Ingrese un nombre" })
-    .min(2, "El nombre debe tener al menos 2 caracteres"),
+    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .max(25, "El nombre debe tener menos de 25 caracteres"),
 });
 
 type Empresa = z.infer<typeof UpdateEmpresa>;

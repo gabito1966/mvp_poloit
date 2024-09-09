@@ -5,10 +5,13 @@ import { z } from "zod";
 
 const CreateSchemaEmpresa = z.object({
   id: z.coerce.number({
-    invalid_type_error: "Debe ser de tipo número",
+    invalid_type_error: "EL ID debe ser de tipo número",
     message: "Ingrese un ID",
   }),
-  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  nombre: z
+    .string()
+    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .max(25, "El nombre debe tener menos de 25 caracteres"),
 });
 
 const CreateEmpresa = CreateSchemaEmpresa.omit({ id: true });

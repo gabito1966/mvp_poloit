@@ -40,6 +40,12 @@ CREATE TABLE estudiantes_tecnologias (
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id)
 );
 
+-- Crear tabla empresas
+CREATE TABLE empresas (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
 -- Crear tabla mentores
 CREATE TABLE mentores (
     id SERIAL PRIMARY KEY,

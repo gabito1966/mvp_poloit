@@ -12,20 +12,22 @@ const CreateSchemaMentor = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .min(4, "El nombre debe tener al menos 4 caracteres")
-
+    .max(25, "El nombre debe tener menos de 25 caracteres")
     .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
   apellido: z
     .string({ message: "Ingrese un apellido" })
     .min(3, "El apellido debe tener al menos 3 caracteres")
-
+    .max(25, "El apellido debe tener menos de 25 caracteres")
     .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "El email debe tener al menos 6 caracteres"),
+    .min(6, "El email debe tener al menos 6 números")
+    .max(25, "El email debe tener menos de 25 números"),
   telefono: z
     .string()
     .min(6, "El telefono debe tener al menos 6 caracteres")
+    .max(20, "El telefono debe tener menos de 20 caracteres")
     .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_empresa: z.coerce.number({
     invalid_type_error: "Seleccione una empresa",
