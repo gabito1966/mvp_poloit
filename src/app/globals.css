@@ -7,5 +7,17 @@
 body {
   color: #000000;
   background: #FFFFFF;
+  height: calc(100vh - 70px) ;
 }
 
+.link__footer:hover > p{
+  
+  border-bottom: 1px solid black;
+}
+
+@media (max-width: 1024px) {
+
+  body {
+    height: 100%;
+  }
+}

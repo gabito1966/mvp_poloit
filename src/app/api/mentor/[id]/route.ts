@@ -2,37 +2,42 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 const UpdateMentor = z.object({
-  id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
+  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
   nombre: z
-    .string({ message: "ingrese un nombre" })
-    .min(4, "el nombre debe de tener al menos 4 caracteres"),
+    .string({ message: "Ingrese un nombre" })
+    .min(3, "El nombre debe de tener al menos 3 caracteres")
+    .max(25, "El nombre debe de tener menos de 25 caracteres")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos"}),
   apellido: z
-    .string({ message: "ingrese un apellido" })
-    .min(3, "el apellido debe tener al menos 4 caracter"),
+    .string({ message: "Ingrese un apellido" })
+    .min(3, "El apellido debe tener al menos e caracter")
+    .max(25, "El apellido debe tener menos de 25 caracteres")
+    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos"}),
   email: z
-    .string({ message: "ingrese un email" })
+    .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "el email debe tener al menos 6 caracteres"),
-  telefono: z.string().min(6, "el telefono debe tener al menos 6 caracteres"),
+    .min(6, "El email debe tener al menos 6 caracteres"),
+  telefono: z
+    .string({ message: "Ingrese un telefono" })
+    .min(6, "El teléfono debe tener al menos 6 números")
+    .max(20, "El teléfono debe tener menos de 20 números")
+    .regex(/^[0-9]+$/, "No se permiten caracteres"),
   id_empresa: z.coerce.number({
-    invalid_type_error: "seleccione una empresa",
+    invalid_type_error: "Seleccione una empresa",
   }),
+  tecnologias: z
+    .array(z.coerce.number({ invalid_type_error: "Seleccione una tecnología" }))
+    .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
 type MentorInterface = z.infer<typeof UpdateMentor>;
 
 const GetMentor = z.object({
-  id: z.coerce.number({ invalid_type_error: "debe ser un numero" }),
+  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
 });
-
-export type GetMentorResponse = {
-  success: boolean;
-  data?: MentorInterface;
-  message?: string;
-  errors?: [];
-};
 
 export async function GET(
   request: Request,
@@ -42,7 +47,7 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "debe proporcionar el id del mentor"),
+      createResponse(false, [], "Debe proporcionar el id del mentor"),
       { status: 400 }
     );
   }
@@ -133,7 +138,7 @@ export async function PUT(
       createResponse(
         false,
         [],
-        "error en algun campo",
+        "Error en algún campo",
         validatedFields.error.flatten().fieldErrors
       ),
       { status: 400 }
@@ -147,11 +152,19 @@ export async function PUT(
     email,
     telefono,
     id_empresa,
+    tecnologias,
   } = validatedFields.data;
 
   try {
     await sql`UPDATE mentores SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_empresa = ${id_empresa} WHERE id = ${id_mentor}`;
 
+    await sql`DELETE FROM mentores_tecnologias WHERE id_mentor = ${id_mentor}`;
+
+    for (const tecnologia of tecnologias) {
+      await sql`INSERT INTO mentores_tecnologias (id_mentor, id_tecnologia) VALUES (${id_mentor}, ${tecnologia})`;
+    }
+
+    revalidatePath("/mentor");
     return NextResponse.json(
       createResponse(true, [], "Actualización del mentor exitosa"),
       { status: 200 }

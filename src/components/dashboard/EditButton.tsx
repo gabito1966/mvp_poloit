@@ -1,5 +1,7 @@
 "use client"
 
+import { revalidateFuntion } from "@/lib/server/serverCache";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 function EditButton({ url }: { url: string }) {
@@ -8,7 +10,7 @@ function EditButton({ url }: { url: string }) {
 
   const handleRedirect = () => {
 
-    router.refresh();
+    revalidateFuntion(url);
     router.push(url);
   }
 

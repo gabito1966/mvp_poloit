@@ -7,11 +7,11 @@ export default async function EstudianteEdit({
     params?: { id: string };
 }) {
     const [dataEmpresa, dataTecnologia, dataEstudiante] = await Promise.all([
-        fetchGet("/api/Empresa"),
+        fetchGet("/api/empresa"),
         fetchGet("/api/tecnologia"),
         params
-            ? fetchGet(`/api/estudiante/${params.id}`)
-            : Promise.resolve({ data: undefined }),
+            ? fetchGet(`/api/mentor/${params.id}`)
+            : undefined,
     ]);
 
     return (

@@ -21,6 +21,7 @@ export function getJwtSecretKey() {
 }
 
 export async function JWTValidate(session: string | undefined = "") {
+
   try {
     const { payload } = await jwtVerify(session, getJwtSecretKey(), {
       algorithms: ["HS256"],

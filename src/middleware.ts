@@ -1,60 +1,68 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { JWTValidate } from "./lib/utils";
+import { ValidateIDSession } from "./database/serverAuth";
 
-const protectedRoutes = ["/register", "/register/alumnos"];
-const publicRoutes = ["/auth/login", "/signup", "/"];
+const protectedRoutes = [
+  "/register/estudiantes",
+  "/register/mentores",
+  "/register/grupos",
+  "/estudiante",
+  "/mentor",
+  "/grupo",
+  "/ong",
+  "/tecnologia",
+  "/edit/estudiante/[id]",
+  "/edit/mentor/[id]",
+  "/edit/grupo/[id]",
+];
+const publicRoutes = ["/auth/login", "/"];
 
-export default async function middleware(request: NextRequest) {
-  const url = request.nextUrl.clone();
+export async function middleware(req: NextRequest) {
+  const path = req.nextUrl.clone();
 
-  const isProtectedRoute = protectedRoutes.includes(url.pathname);
-  const isPublicRoute = publicRoutes.includes(url.pathname);
+  const isPublicRoute = publicRoutes.includes(path.pathname);
+  const isProtectedRoute = protectedRoutes.includes(path.pathname);
 
-  // console.log(isProtectedRoute);
-  // console.log(isPublicRoute);
+  const token = req.cookies.get("session");
 
-  //   const session = request.cookies.get("session");
+  let tokenverify;
 
-  //   if (isPublicRoute) {
-  //     return NextResponse.next();
-  //   } else {
-  //     if (!session && !isPublicRoute) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
+  if (token) {
+    tokenverify = await ValidateIDSession(token.value);
 
-  //     if (isProtectedRoute && !session) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
+    if (!tokenverify.success) {
+      const response = NextResponse.redirect(
+        new URL("/auth/login", process.env.NEXT_BASE_URL)
+      );
+      response.cookies.delete("session");
+      response.cookies.delete("user");
+      return response;
+    }
 
-  //     if (!session) {
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
+    if (
+      isPublicRoute &&
+      tokenverify.success &&
+      req.nextUrl.pathname.startsWith("/auth/login")
+    ) {
+      return NextResponse.redirect(new URL("/", process.env.NEXT_BASE_URL)); //
+    }
 
-  //     try {
-  //       const data = await fetch(url.origin + "/api/login/auth", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           token: session.value,
-  //         }),
-  //       });
+    return NextResponse.next();
+  }
 
-  //       const response = await data.json();
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
 
-  //       if (!response.success) {
-  //         request.cookies.delete("session");
-  //         throw new Error("Error al validar el token");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       return NextResponse.redirect(new URL("/auth/login", url.origin));
-  //     }
-
-  //     //const verify = JWTValidate(session.value);
-
-  //     console.log("todo piola");
-  //   }
-  return NextResponse.next();
+  if (isProtectedRoute) {
+    //crear usuario a partir del del token
+    return NextResponse.redirect(
+      new URL("/auth/login", process.env.NEXT_BASE_URL)
+    );
+  } else {
+    return NextResponse.next();
+  }
 }
+
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+};

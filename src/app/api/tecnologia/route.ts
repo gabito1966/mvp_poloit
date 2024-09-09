@@ -7,7 +7,8 @@ const CreateSchemaTecnologia = z.object({
   id: z.coerce.number({ message: "ingrese un ID" }),
   nombre: z
     .string({ message: "Ingrese un nombre" })
-    .min(2, "El nombre debe tener al menos 2 caracteres"),
+    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .max(25, "El nombre debe tener menos de 25 caracteres"),
 });
 
 const CreateTecnologia = CreateSchemaTecnologia.omit({ id: true });
