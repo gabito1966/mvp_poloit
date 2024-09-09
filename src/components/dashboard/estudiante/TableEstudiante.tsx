@@ -1,6 +1,6 @@
 import { fetchFilteredEstudiantes } from "@/database/data";
-import EditButton from "../EditButton";
 import DeleteButton from "../DeleteButton";
+import EditButton from "../EditButton";
 import ViewButton from "../ViewButton";
 
 export default async function Table({
@@ -15,7 +15,7 @@ export default async function Table({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
           <div className="lg:hidden">
             {estudiantes?.map((estudiante) => (
               <div
@@ -37,8 +37,8 @@ export default async function Table({
                     </p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <ViewButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
-                    <EditButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
+                    <ViewButton url={`/card/estudiante/${estudiante.id.toString()}`} />
+                    <EditButton url={`/edit/estudiante/${estudiante.id.toString()}`} />
                     <DeleteButton url={`/api/estudiante/${estudiante.id.toString()}`} />
                   </div>
                 </div>
@@ -78,28 +78,28 @@ export default async function Table({
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 px-3">
-                     {estudiante.nombre.length<10?estudiante.nombre:estudiante.nombre.slice(0,7)+"..."}
+                    {estudiante.nombre.length < 10 ? estudiante.nombre : estudiante.nombre.slice(0, 7) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.apellido.length<10?estudiante.apellido:estudiante.apellido.slice(0,7)+"..."}
+                    {estudiante.apellido.length < 10 ? estudiante.apellido : estudiante.apellido.slice(0, 7) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.email.length<20?estudiante.email:estudiante.email.slice(0,19)+"..."}
+                    {estudiante.email.length < 20 ? estudiante.email : estudiante.email.slice(0, 19) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.telefono.length<10?estudiante.telefono:estudiante.telefono.slice(0,7)+"..."}
+                    {estudiante.telefono.length < 10 ? estudiante.telefono : estudiante.telefono.slice(0, 7) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.tecnologias.join(", ").length<15?estudiante.tecnologias.join(", "):estudiante.tecnologias.join(", ").slice(0,10)+"..."}
+                    {estudiante.tecnologias.join(", ").length < 15 ? estudiante.tecnologias.join(", ") : estudiante.tecnologias.join(", ").slice(0, 10) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.ong.length<15?estudiante.ong:estudiante.ong.slice(0,7)+"..."}
+                    {estudiante.ong.length < 15 ? estudiante.ong : estudiante.ong.slice(0, 7) + "..."}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex  justify-end gap-3">
-                    <ViewButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
-                    <EditButton url={ `/edit/estudiante/${estudiante.id.toString()}`} />
-                    <DeleteButton url={`/api/estudiante/${estudiante.id.toString()}`} />
+                      <ViewButton url={`/card/estudiante/${estudiante.id.toString()}`} />
+                      <EditButton url={`/edit/estudiante/${estudiante.id.toString()}`} />
+                      <DeleteButton url={`/api/estudiante/${estudiante.id.toString()}`} />
                     </div>
                   </td>
                 </tr>

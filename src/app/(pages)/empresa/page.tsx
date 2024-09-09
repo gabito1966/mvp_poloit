@@ -2,15 +2,15 @@ import CreateButton from "@/components/dashboard/CreateButton"
 import EditButton from "@/components/dashboard/EditButton"
 import Search from "@/components/dashboard/Search"
 
-export default function pageOng() {
-
+export default function pageEmpresa() {
     return (
         <div className="w-full flex-grow p-6  md:p-12 ">
-            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de ONGs</h1>
-            <div className="flex w-full items-center justify-between"></div>
+            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Empresas</h1>
+            <div className="flex w-full items-center justify-between">
+            </div>
             <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
-                <Search placeholder="buscar ong..." />
-                <CreateButton url="/register/ong" />
+                <Search placeholder="buscar empresa..." />
+                <CreateButton url="/register/empresas" />
             </div>
             <div className="mt-6 flow-root">
                 <div className="inline-block min-w-full align-middle">
@@ -25,11 +25,11 @@ export default function pageOng() {
                             <tbody className="bg-white">
                                 <tr>
                                     <td scope="col" className="capitalize px-4 py-3 text-md text-center">
-                                        ONG de prueba
+                                        Empresa de prueba
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex  justify-end gap-3">
-                                            <EditButton url={'/edit/ong/[id]'} />
+                                            <EditButton url={'/edit/empresa/[id]'} />
                                         </div>
                                     </td>
                                 </tr>

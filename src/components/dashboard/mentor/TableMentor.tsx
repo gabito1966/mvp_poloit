@@ -15,7 +15,7 @@ export default async function Table({
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
-                <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+                <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
                     <div className="lg:hidden">
                         {mentores?.map((mentor) => (
                             <div
@@ -37,7 +37,7 @@ export default async function Table({
                                         </p>
                                     </div>
                                     <div className="flex justify-end gap-2">
-                                        <ViewButton url={`/edit/mentor/${mentor.id.toString()}`} />
+                                        <ViewButton url={`/card/mentor/${mentor.id.toString()}`} />
                                         <EditButton url={`/edit/mentor/${mentor.id.toString()}`} />
                                         <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} />
                                     </div>
@@ -78,26 +78,26 @@ export default async function Table({
                                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                                 >
                                     <td className="whitespace-nowrap py-3 px-3">
-                                    {mentor.nombre.length<10?mentor.nombre:mentor.nombre.slice(0,7)+"..."}
+                                        {mentor.nombre.length < 10 ? mentor.nombre : mentor.nombre.slice(0, 7) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                    {mentor.apellido.length<10?mentor.apellido:mentor.apellido.slice(0,7)+"..."}
+                                        {mentor.apellido.length < 10 ? mentor.apellido : mentor.apellido.slice(0, 7) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                    {mentor.email.length<20?mentor.email:mentor.email.slice(0,19)+"..."}
+                                        {mentor.email.length < 20 ? mentor.email : mentor.email.slice(0, 19) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                    {mentor.telefono.length<10?mentor.telefono:mentor.telefono.slice(0,7)+"..."}
+                                        {mentor.telefono.length < 10 ? mentor.telefono : mentor.telefono.slice(0, 7) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                    {mentor.tecnologias.join(", ").length<15?mentor.tecnologias.join(", "):mentor.tecnologias.join(", ").slice(0,10)+"..."}
+                                        {mentor.tecnologias.join(", ").length < 15 ? mentor.tecnologias.join(", ") : mentor.tecnologias.join(", ").slice(0, 10) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                    {mentor.empresa.length<15?mentor.empresa:mentor.empresa.slice(0,8)+"..."}
+                                        {mentor.empresa.length < 15 ? mentor.empresa : mentor.empresa.slice(0, 8) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex  justify-end gap-3">
-                                            <ViewButton url={`/edit/mentor/${mentor.id.toString()}`} />
+                                            <ViewButton url={`/card/mentor/${mentor.id.toString()}`} />
                                             <EditButton url={`/edit/mentor/${mentor.id.toString()}`} />
                                             <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} />
                                         </div>
