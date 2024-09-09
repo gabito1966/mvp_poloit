@@ -165,7 +165,7 @@ function FormEstudiante({
   };
 
   return (
-    <div className="container mx-auto p-10 ">
+    <div className="container mx-auto p-2 h-full">
       <h1 className="text-2xl font-bold mb-4 text-center underline">
         Formulario de Inscripción de Estudiantes
       </h1>

@@ -15,11 +15,13 @@ const CreateSchemaEquipos = z.object({
     .regex(/^[a-zA-Z0-9]+$/, {
       message: "No se permiten símbolos, solo letras y números",
     }),
-  tamano: z
-    .number({ message: "Ingrese un tamaño" })
-    .int("Debe ser un número entero")
-    .min(5, "El tamaño o debe ser mayor a 0")
-    .max(12, "El tamaño o debe ser menor a 12"),
+  tamano: z.coerce
+    .number({
+      invalid_type_error: "El tamaño debe ser un número",
+      message: "Ingrese un tamaño",
+    })
+    .gt(0, { message: "Ingrese un numero mayor 0" })
+    .lt(12, "El tamaño o debe ser menor a 12"),
   fecha_inicio: z.date().optional(),
   fecha_fin: z.date().optional(),
 });
@@ -27,7 +29,7 @@ const CreateSchemaEquipos = z.object({
 const CreateEquipos = CreateSchemaEquipos.omit({ id: true });
 
 type Equipos = z.infer<typeof CreateSchemaEquipos>;
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const body = (await request.json()) as Equipos;
 
   const validatedFields = CreateEquipos.safeParse({
@@ -48,9 +50,13 @@ export async function GET(request: Request) {
 
   const { nombre, tamano, fecha_inicio, fecha_fin } = validatedFields.data;
 
+  let contador: number = 1;
+
+  const frontEnd = Math.floor(tamano * 0.4),
+    backend = Math.ceil(tamano * 0.6);
+
   try {
     /* estudiante que no tienen equipo hacer limit para obtener el primero con cierta tecnologia
-   SELECT 
    SELECT 
     e.id,
     e.nombre,
@@ -143,6 +149,55 @@ WHERE
 FROM 
     equipos
     */
+
+    const { rows } = await sql` SELECT 
+        COUNT(*) AS total_estudiantes
+      FROM 
+        estudiantes e
+      LEFT JOIN 
+        equipos_estudiantes ee ON e.id = ee.id_estudiante
+      WHERE 
+        ee.id_estudiante IS NULL 
+      AND e.estado = true;`;
+
+    let total_estudiantes: number = rows[0].total_estudiantes;
+
+    const arr_equipos: number[] = [];
+
+    while (total_estudiantes > tamano) {
+      const { rows } = await sql`
+          SELECT 
+            e.id
+          FROM 
+            estudiantes e
+          LEFT JOIN 
+            equipos_estudiantes ee ON e.id = ee.id_estudiante
+          LEFT JOIN 
+            ongs ON e.id_ong = ongs.id
+          LEFT JOIN 
+            estudiantes_tecnologias et ON e.id = et.id_estudiante
+          LEFT JOIN 
+            tecnologias ON et.id_tecnologia = tecnologias.id
+          WHERE 
+            ee.id_estudiante IS NULL 
+            AND e.estado = true
+            AND tecnologias.nombre ILIKE '%UX/UI%'
+          GROUP BY 
+            e.id, ongs.id
+          LIMIT 1;
+        `;
+
+      total_estudiantes -= tamano;
+      contador++;
+    }
+
+    if (!total_estudiantes) {
+      return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
+        status: 200,
+      });
+    }
+
+    console.log(rows[0].total_estudiantes);
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
@@ -150,7 +205,7 @@ FROM
     );
   }
 
-  NextResponse.json(createResponse(true, [], "consulta exitosa"), {
+  return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
     status: 200,
   });
 }

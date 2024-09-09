@@ -23,46 +23,46 @@ const Sidebar: React.FC = () => {
       name: "mentores",
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path></svg>`,
     },
-    // {
-    //     url:"/ong",
-    //     name:"ong",
-    //     icon: `<svg
-    //     xmlns="http://www.w3.org/2000/svg"
-    //     width="20"
-    //     height="20"
-    //     viewBox="0 0 24 24"
-    //     fill="none"
-    //     stroke="currentColor"
-    //     strokeWidth="2"
-    //     strokeLinecap="round"
-    //     strokeLinejoin="round"
-    //     className="icon icon-tabler icons-tabler-outline icon-tabler-building-community"
-    //   >
-    //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    //     <path d="M15 21h-13a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6l5 -5h4l5 5h6a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-13" />
-    //   </svg>`
-    // },
-    // {
-    //     url:"/tecnologia",
-    //     name:"tecnologia",
-    //     icon: `<svg
-    //     xmlns="http://www.w3.org/2000/svg"
-    //     width="20"
-    //     height="20"
-    //     viewBox="0 0 24 24"
-    //     fill="none"
-    //     stroke="currentColor"
-    //     strokeWidth="2"
-    //     strokeLinecap="round"
-    //     strokeLinejoin="round"
-    //     className="icon icon-tabler icons-tabler-outline icon-tabler-device-desktop"
-    //   >
-    //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    //     <rect x="3" y="5" width="18" height="14" rx="2" />
-    //     <path d="M3 17h18" />
-    //   </svg>`
+    {
+        url:"/ong",
+        name:"ongs",
+        icon: `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="icon icon-tabler icons-tabler-outline icon-tabler-building-community"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M15 21h-13a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6l5 -5h4l5 5h6a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-13" />
+      </svg>`
+    },
+    {
+        url:"/empresa",
+        name:"empresas",
+        icon: `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="icon icon-tabler icons-tabler-outline icon-tabler-device-desktop"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 17h18" />
+      </svg>`
 
-    // },
+    },
     {
       url: "/grupo",
       name: "grupos",
