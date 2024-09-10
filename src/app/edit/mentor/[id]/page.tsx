@@ -1,7 +1,7 @@
 import FormMentor from "@/components/register/mentor/FormMentor";
 import { fetchGet } from "@/lib/fetchFunctions";
 
-export default async function EstudianteEdit({
+export default async function MentorEdit({
     params,
 }: {
     params?: { id: string };
