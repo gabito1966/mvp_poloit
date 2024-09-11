@@ -6,7 +6,9 @@ export default async function EstudianteCard({
 }: {
     params?: { id: string };
 }) {
-    const estudiante = await fetchGet(`/api/estudiante/${params?.id}`);
+    const { data: estudiante } = await fetchGet(`/api/estudiante/${params?.id}`);
+
+
     return (
         <section className="container">
             <h1 className="text-4xl text-center font-bold p-2 mt-10">Card de Estudiante </h1>
@@ -35,7 +37,7 @@ export default async function EstudianteCard({
                     </div>
                     <div className="flex-auto">
                         <h4 className="block font-semibold mb-2 text-md">ONG:</h4>
-                        <p className="bg-transparent text-base mb-6">{estudiante.ong}</p>
+                        <p className="bg-transparent text-base mb-6">{estudiante.nombre_ong}</p>
                     </div>
                 </div>
                 }

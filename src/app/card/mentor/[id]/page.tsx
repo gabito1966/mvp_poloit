@@ -5,7 +5,11 @@ export default async function MentorCard({
 }: {
     params?: { id: string };
 }) {
-    const mentor = await fetchGet(`/api/mentor/${params?.id}`);
+
+
+    const { data: mentor } = await fetchGet(`/api/mentor/${params?.id}`);
+    console.log(mentor);
+
 
     return (
         <section className="container">
@@ -34,7 +38,7 @@ export default async function MentorCard({
                     </div>
                     <div className="flex-auto">
                         <h4 className="block font-semibold mb-2 text-md">Empresas:</h4>
-                        <p className="bg-transparent text-base mb-6">{mentor.empresa}</p>
+                        <p className="bg-transparent text-base mb-6">{mentor.nombre_empresa}</p>
                     </div>
                 </div>
                 }
