@@ -2,6 +2,7 @@
 
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
+import clsx from "clsx";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,17 +30,15 @@ function FormLogin() {
       },
     });
 
-    if(responseBack.message!=""){
+    if (responseBack.message != "") {
       setResponseBack({
         ...responseBack,
         message: "",
-      }
-      );
+        [e.target.name]: [],
+
+      });
     }
   }
-
-
-
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,27 +53,34 @@ function FormLogin() {
       const now = new Date();
       const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-      const cookie = `session=${response.session
-        }; expires=${expire.toUTCString()}; path=/`;
+      const cookie = `session=${
+        response.session
+      }; expires=${expire.toUTCString()}; path=/`;
       document.cookie = cookie;
 
-      const user = `user=${response.data.email}#${response.data.nombre}#${response.data.apellido}; expires=${expire.toUTCString()}; path=/`;
+      const user = `user=${response.data.email}#${response.data.nombre}#${
+        response.data.apellido
+      }; expires=${expire.toUTCString()}; path=/`;
       document.cookie = user;
-  
+
       revalidateFuntion("/");
 
       router.refresh();
       router.push("/", { scroll: false });
     } catch (error: any) {
-      setResponseBack({ success: error.status, message: error.message, errors: error.errors });
+      setResponseBack({
+        success: error.status,
+        message: error.message,
+        errors: error.errors,
+      });
     }
   }
 
   return (
-    <div className="flex flex-col justify-items-center justify-center  lg:px-8 h-full bg-white text-black">
+    <div className="flex flex-col justify-items-center justify-center  lg:px-8 h-full bg-white text-black min-w-96 min-md:w-full min-md:min-w-full ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight underline">
-        Inicia sesión en tu cuenta
+          Inicia sesión en tu cuenta
         </h2>
       </div>
 
@@ -85,12 +91,12 @@ function FormLogin() {
             handleSubmit(e);
           }}
         >
-          <div>
+          <div className="">
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-400"
             >
-              Email 
+              Email
             </label>
             <div className="mt-2">
               <input
@@ -101,15 +107,22 @@ function FormLogin() {
                 placeholder="Ingrese Email"
                 required
                 autoComplete="username"
-                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className={
+                  clsx("block w-full rounded-md  p-2 text-gray-900 shadow-sm ring-1 ring-inset  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",{
+                    "border-red-500 border": responseBack.errors?.email?.length,
+                    "border-0 ring-gray-300": !responseBack.errors?.email?.length,
+                  })
+                }
               />
-              <div id="customer-error" aria-live="polite" aria-atomic="true">
-                {responseBack.errors?.email &&
-                  responseBack.errors.email.map((error: string) => (
-                    <p className="mt-2 text-sm text-red-500 transition-all" key={error}>
-                      {error}
-                    </p>
-                  ))}
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBack.errors?.email?.map((error: string) => (
+                  <p
+                    className="mt-0 text-sm text-red-500 transition-all"
+                    key={error}
+                  >
+                    {error}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -132,24 +145,24 @@ function FormLogin() {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className={
+                  clsx("block w-full rounded-md  p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    {
+                      "border-red-500 border-1": responseBack.errors?.password?.length,
+                      "border-0":
+                        !responseBack.errors?.password?.length,
+                    }
+                    
+                  )
+                }
               />
             </div>
-            <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {responseBack.errors?.password &&
-                responseBack.errors?.password.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-            <div id="customer-error transition-all" aria-live="polite" aria-atomic="true">
-              {responseBack.message && !responseBack.success &&
-                
-                  <p className="mt-2 text-sm text-red-500" >
-                    {responseBack.message}
-                  </p>
-                    }
+            <div aria-live="polite" aria-atomic="true" className="mt-1 w-fit">
+              {responseBack.errors?.password?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500  w-fit" key={error}>
+                  {error}
+                </p>
+              ))}
             </div>
           </div>
 
