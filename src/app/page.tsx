@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default async function Home() {
   return (
-    <section className="justify-center mx-auto  text-center text-black h-screen">
+    <section className="justify-center mx-auto  text-center text-black ">
       <div className="font-bold text-6xl">
         <h1>Polo It</h1>
       </div>

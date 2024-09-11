@@ -13,7 +13,7 @@ export default async function Table({
   const estudiantes = await fetchFilteredEstudiantes(query, currentPage);
 
   return (
-    <div className="mt-6 flow-root">
+    <div className=" flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
           <div className="lg:hidden">

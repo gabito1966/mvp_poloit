@@ -4,7 +4,7 @@ export async function fetchGet(url: string) {
   const response = await fetch(`${urlBase}${url}`);
 
   if (!response.ok) {
-    return {
+    return await response.json()|| {
       data: [],
       seccess: false,
       message: "los datos no estan disponibles en este momento",
@@ -29,7 +29,7 @@ export async function fetchPostClient(url: string, data: any) {
 export async function fetchGetClient(url: string) {
   const response = await fetch(`${url}`);
   if (!response.ok) {
-    return {
+    return await response.json()|| {
       data: [],
       seccess: false,
       message: "los datos no estan disponibles en este momento",

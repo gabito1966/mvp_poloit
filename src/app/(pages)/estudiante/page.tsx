@@ -17,8 +17,8 @@ async function page({
   const totalPages = await fetchPagesEstudiantes(query);
 
   return (
-    <div className="w-full flex-grow p-6  md:p-12 ">
-      <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Estudiantes</h1>
+    <div className="w-full flex-grow p-3  md:p-12">
+       <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Estudiantes</h1>
       <div className="flex w-full items-center justify-between">
       </div>
       <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">

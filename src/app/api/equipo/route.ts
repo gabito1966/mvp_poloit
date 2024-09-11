@@ -9,7 +9,7 @@ const CreateSchemaEquipos = z.object({
     message: "Ingrese un ID",
   }),
   nombre: z
-    .string({ message: "Ingrese un nombre" })
+    .string({ message: "Ingrese un nombre" }).trim()
     .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(30, "El nombre debe tener menos de 30 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, {
@@ -52,8 +52,8 @@ export async function POST(request: Request) {
 
   let contador: number = 1;
 
-  const frontEnd = Math.floor(tamano * 0.4),
-    backend = Math.ceil(tamano * 0.6);
+  const frontEnd = Math.floor((tamano - 2) * 0.4),
+    backend = Math.ceil((tamano - 2) * 0.6);
 
   try {
     /* estudiante que no tienen equipo hacer limit para obtener el primero con cierta tecnologia
@@ -160,20 +160,52 @@ FROM
         ee.id_estudiante IS NULL 
       AND e.estado = true;`;
 
+    //if (!rows[0].total_estudiantes) return;
+    //si la cantidad de estudiantes sin grupos es menor al tamano y la cantidad de grupos es cero, no se pueden armar grupos, no hay suficientes estudiantes o la cantidad de grupos es cero y la cantidad de mentores es cero entoces no se pueden armar grupos por que no hay suficientes mentores.
+
     let total_estudiantes: number = rows[0].total_estudiantes;
 
     const arr_equipos: number[] = [];
 
-    while (total_estudiantes > tamano) {
-      const { rows } = await sql`
+    while (total_estudiantes >= tamano) {
+      const result_mentor = await sql`
+      SELECT 
+        mentores.id,
+        COALESCE(
+            ARRAY_AGG(tecnologias.nombre) 
+            FILTER (WHERE tecnologias.id IS NOT NULL), 
+            '{}'
+        ) AS tecnologias
+        FROM 
+            mentores
+        LEFT JOIN 
+            equipos ON mentores.id = equipos.id_mentor
+        LEFT JOIN 
+            mentores_tecnologias ON mentores.id = mentores_tecnologias.id_mentor
+        LEFT JOIN 
+            tecnologias ON mentores_tecnologias.id_tecnologia = tecnologias.id
+        WHERE 
+            equipos.id IS NULL 
+            AND mentores.estado = true
+        GROUP BY 
+            mentores.id
+        LIMIT 1;
+              `;
+
+      if (!result_mentor.rows.length) break;
+
+      const result_ux_ui = await sql`
           SELECT 
-            e.id
+            e.id,
+            COALESCE(
+            ARRAY_AGG(tecnologias.nombre) 
+            FILTER (WHERE tecnologias.id IS NOT NULL), 
+            '{}'
+            ) AS tecnologias
           FROM 
             estudiantes e
           LEFT JOIN 
             equipos_estudiantes ee ON e.id = ee.id_estudiante
-          LEFT JOIN 
-            ongs ON e.id_ong = ongs.id
           LEFT JOIN 
             estudiantes_tecnologias et ON e.id = et.id_estudiante
           LEFT JOIN 
@@ -183,12 +215,51 @@ FROM
             AND e.estado = true
             AND tecnologias.nombre ILIKE '%UX/UI%'
           GROUP BY 
-            e.id, ongs.id
+            e.id
           LIMIT 1;
-        `;
+            `;
+
+      if (!result_ux_ui.rows.length) break;
+
+      arr_equipos.push(result_ux_ui.rows[0].id);
+
+      const result_qa = await sql`
+          SELECT 
+            e.id,
+            COALESCE(
+            ARRAY_AGG(tecnologias.nombre) 
+            FILTER (WHERE tecnologias.id IS NOT NULL), 
+            '{}'
+            ) AS tecnologias
+          FROM 
+              estudiantes e
+          LEFT JOIN 
+              equipos_estudiantes ee ON e.id = ee.id_estudiante
+          LEFT JOIN 
+              estudiantes_tecnologias et ON e.id = et.id_estudiante
+          LEFT JOIN 
+              tecnologias ON et.id_tecnologia = tecnologias.id
+          WHERE 
+              ee.id_estudiante IS NULL 
+              AND e.estado = true
+              AND tecnologias.nombre ILIKE '%QA%'
+          GROUP BY 
+              e.id
+          LIMIT 1;
+          `;
+
+      if (!result_qa.rows.length) break; //ver el length si es igual a cero no por id
+
+      arr_equipos.push(result_qa.rows[0].id);
+
+
 
       total_estudiantes -= tamano;
       contador++;
+    }
+
+    if (!total_estudiantes) {
+      //agoritmo de distribucion
     }
 
     if (!total_estudiantes) {
