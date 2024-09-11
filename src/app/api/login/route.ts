@@ -33,8 +33,8 @@ const CreateLogin = z.object({
   email: z
     .string()
     .email("Debe ser un email válido")
-    .min(6, "el email de tener al menos 6 caracteres"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+    .min(6, "El email de debe contener al menos 6 caracteres"),
+  password: z.string().min(6, "La contraseña debe contener al menos 6 caracteres"),
 });
 
 export async function POST(request: Request) {

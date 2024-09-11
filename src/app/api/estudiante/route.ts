@@ -53,27 +53,35 @@ interface EstudianteInterface {
 
 const CreateSchemaEstudiante = z.object({
   nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
-    .min(3, "El nombre debe de tener al menos 3 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "No se permiten numéros o símbolos" }),
+    .string({ message: "Ingrese un nombre" })
+    .trim()
+    .min(3, "El nombre debe de contener al menos 3 caracteres").trim()
+    .max(25, "El nombre debe contener menos de 25 caracteres")
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   apellido: z
-    .string({ message: "Ingrese un apellido" }).trim()
-    .min(3, "El apellido debe tener al menos 3 caracter")
-    .max(25, "El apellido debe tener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, "No se permiten numéros o símbolos"),
+    .string({ message: "Ingrese un apellido" })
+    .trim()
+    .min(3, "El apellido debe contener al menos 3 caracteres")
+    .max(25, "El apellido debe contener menos de 25 caracteres")
+    .regex(/^[a-zA-Z\s]+$/, "Solo se permiten catacteres o espacios"),
   email: z
-    .string({ message: "Ingrese un email" }).trim()
+    .string({ message: "Ingrese un email" })
+    .trim()
     .email("Debe ser un email válido")
-    .min(6, "El email debe tener al menos 6 caracteres"),
+    .min(6, "El email debe contener al menos 6 caracteres"),
   telefono: z
-    .string({ message: "Ingrese un teléfono" }).trim()
-    .min(6, "El teléfono debe tener al menos 6 números")
-    .max(20, "El teléfono debe tener menos de 20 números")
-    .regex(/^[0-9]+$/, "No se permiten caracteres"),
-  id_ong: z.coerce.number({
-    invalid_type_error: "Seleccione una organización",
-  }),
+    .string({ message: "Ingrese un teléfono" })
+    .min(6, "El teléfono debe contener al menos 6 números")
+    .max(20, "El teléfono debe contener menos de 20 números")
+    .regex(/^[0-9]+$/, "Solo se permiten numéros"),
+  id_ong: z.coerce
+    .number({
+      message: "Seleccione una organización",
+      invalid_type_error: "Seleccione una organización",
+    })
+    .gt(0, { message: "Seleccione una organización" }),
   tecnologias: z
     .array(
       z.object({
@@ -115,13 +123,10 @@ export async function POST(request: Request) {
      (${nombre},${apellido}, ${email}, ${telefono}, ${id_ong}) RETURNING *`;
 
     try {
-
       await sql`INSERT INTO estudiantes_tecnologias (id_tecnologia, id_estudiante)
       VALUES (${tecnologias[0].id},${rows[0].id})
       `;
-
     } catch (error) {
-
       await sql`DELETE FROM estudiante_tecnologias WHERE id_estudiante = ${rows[0].id}`;
       await sql`DELETE FROM estudiantes WHERE id = ${rows[0].id}`;
       throw error;

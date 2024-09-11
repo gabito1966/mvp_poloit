@@ -3,7 +3,7 @@ const shimmer =
 
 export function FormSkeleton() {
   return (
-    <div className="container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl ">
+    <div className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl ${shimmer}`} >
         <div className="mt-2 h-6 my-4 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
       <div className="flex flex-col space-y-4 ">
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
