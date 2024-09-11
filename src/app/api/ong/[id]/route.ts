@@ -7,7 +7,7 @@ import { OngInterface } from "../route";
 const UpdateOng = z.object({
   id: z.coerce.number({ invalid_type_error: "seleccione una organizacion" }),
   nombre: z
-    .string({ message: "ingrese un nombre" })
+    .string({ message: "ingrese un nombre" }).trim()
     .min(2, "el nombre debe tener al menos 2 caracteres")
     .max(25, "el nombre debe tener menos de 25 caracteres"),
 });

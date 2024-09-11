@@ -16,7 +16,7 @@ export interface OngResponse {
 
 const CreateOng = z.object({
   nombre: z
-    .string({ message: "seleccione un nombre" })
+    .string({ message: "seleccione un nombre" }).trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(25, "El nombre debe tener menos de 25 caracteres"),
 });

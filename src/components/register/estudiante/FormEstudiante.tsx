@@ -13,7 +13,7 @@ interface Estudiante {
   telefono: string;
   estado?: string;
   id_ong: number | null;
-  tecnologias: number[];
+  tecnologias: {id:number,nombre:string,tipo:string}[];
 }
 
 interface EstudianteParams {
@@ -24,7 +24,7 @@ interface EstudianteParams {
   telefono: string;
   estado: string;
   id_ong: number;
-  tecnologias: string[];
+  tecnologias: {id:number,nombre:string,tipo:string}[];
 }
 
 export type Ong = {
@@ -51,7 +51,7 @@ function FormEstudiante({
     telefono: "",
     estado: "",
     id_ong: "",
-    tecnologias: [] as number[],
+    tecnologias: [{id:0,nombre:"",tipo:""}] as {id:number, nombre:string, tipo:string}[],
   });
 
   const [responseBack, setResponseBack] = useState({
@@ -69,45 +69,32 @@ function FormEstudiante({
 
   useEffect(() => {
     if (dataFetch) {
-      let tecnologiasIDs: number[] = [];
-      dataFetch.tecnologias.forEach((tech) => {
-        const foundTecnologia = tecnologias.find((t) => t.nombre === tech);
-        if (foundTecnologia) {
-          tecnologiasIDs.push(foundTecnologia.id);
-        }
-      });
 
       setForm({
-        id: dataFetch.id?.toString(),
+        id: dataFetch.id.toString(),
         nombre: dataFetch.nombre,
         apellido: dataFetch.apellido,
         email: dataFetch.email,
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
         id_ong: dataFetch.id_ong.toString(),
-        tecnologias: tecnologiasIDs,
+        tecnologias: dataFetch.tecnologias,
       });
+
     }
-  }, [dataFetch, tecnologias]);
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "tecnologias") {
-      let tecnologias = [...form.tecnologias];
-      if ((e.target as HTMLInputElement).checked) {
-        tecnologias.push(parseInt(value, 10));
-      } else {
-        tecnologias = tecnologias.filter(
-          (tech) => tech !== parseInt(value, 10)
-        );
-      }
-      setForm((prevForm) => ({ ...prevForm, tecnologias }));
+      let tec:{id:number, nombre:string, tipo:string}[] = [];
+      tec.push(tecnologias.find(e=>e.id.toString() == value) || {id:0,nombre:"",tipo:""});
+       setForm({ ...form, [name]: tec });
     } else {
       setForm((prevForm) => ({ ...prevForm, [name]: value }));
     }
-
     setResponseBack({
       ...responseBack,
       errors: {
@@ -115,6 +102,8 @@ function FormEstudiante({
         [name]: [],
       },
     });
+
+
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -145,6 +134,8 @@ function FormEstudiante({
         throw response;
       }
 
+      console.log(newEstudiante);
+
       setForm({
         id: "",
         nombre: "",
@@ -153,7 +144,7 @@ function FormEstudiante({
         telefono: "",
         estado: "",
         id_ong: "",
-        tecnologias: [] as number[],
+        tecnologias: [{id:0,nombre:"",tipo:""}] as {id:number, nombre:string, tipo:string}[],
       });
 
       router.refresh();
@@ -306,14 +297,35 @@ function FormEstudiante({
             ))}
         </div>
 
-          <div className=" flex flex-col gap-4 ">
+          <div className=" flex flex-col  ">
             <label
               htmlFor="tecnologias"
               className="block text-sm font-medium text-gray-500"
             >
               Tecnologías:
             </label>
-            <div className="flex flex-wrap gap-2 flex-row justify-between">
+            <select
+            id="tecnologias"
+            name="tecnologias"
+            value={form.tecnologias[0]?.id}
+            // value="1"
+            onChange={handleChange}
+            required
+            className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm 
+              "
+          >
+            <option value={0} disabled hidden>
+              Seleccione una Tecnología
+            </option>
+            {tecnologias.map((e, i) => {
+              return (
+                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  {e.nombre} - {e.tipo}
+                </option>
+              );
+            })}
+          </select>
+            {/* <div className="flex flex-wrap gap-2 flex-row justify-between">
               {tecnologias.map((e, i) => {
                 return (
                   <div
@@ -338,7 +350,7 @@ function FormEstudiante({
                   </div>
                 );
               })}
-            </div>
+            </div> */}
             <div id="customer-error" aria-live="polite" aria-atomic="true">
               {responseBack.errors?.tecnologias &&
                 responseBack.errors?.tecnologias.map((error: string) => (
@@ -349,7 +361,7 @@ function FormEstudiante({
             </div>
           </div>
 
-          <div className="">
+          {/* <div className="">
             <div className="flex  flex-row gap-1">
               <h4 className="block text-sm font-medium text-gray-500">
                 Principal:
@@ -374,7 +386,7 @@ function FormEstudiante({
                 })}
               </p>
             </div>
-          </div>
+          </div> */}
 
           <button
             type="submit"

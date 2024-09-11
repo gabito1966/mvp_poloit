@@ -1,22 +1,17 @@
--- Crear tabla tecnologias
+-- Crear el tipo ENUM para la columna tipo
+CREATE TYPE tipo_tecnologia AS ENUM ('BACKEND', 'FRONTEND', 'TESTING', 'INTERFACE');
+
+-- Crear la tabla tecnologias con la columna tipo que utiliza el ENUM
 CREATE TABLE tecnologias (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL
+    nombre VARCHAR(255) NOT NULL,
+    tipo tipo_tecnologia NOT NULL
 );
 
 -- Crear tabla ongs
 CREATE TABLE ongs (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL
-);
-
--- Crear tabla ong_tecnologias
-CREATE TABLE ong_tecnologias (
-    id_tecnologia INTEGER NOT NULL,
-    id_ong INTEGER NOT NULL,
-    PRIMARY KEY (id_tecnologia, id_ong),
-    FOREIGN KEY (id_tecnologia) REFERENCES tecnologias(id),
-    FOREIGN KEY (id_ong) REFERENCES ong(id)
 );
 
 -- Crear tabla estudiantes

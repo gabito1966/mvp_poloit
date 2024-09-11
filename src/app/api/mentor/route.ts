@@ -10,22 +10,22 @@ const CreateSchemaMentor = z.object({
     message: "Ingrese un ID de mentor",
   }),
   nombre: z
-    .string({ message: "Ingrese un nombre" })
+    .string({ message: "Ingrese un nombre" }).trim()
     .min(4, "El nombre debe tener al menos 4 caracteres")
     .max(25, "El nombre debe tener menos de 25 caracteres")
-    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
+    .regex(/^[a-zA-Z\s]+$/, { message: "No se permiten numéros o símbolos" }),
   apellido: z
-    .string({ message: "Ingrese un apellido" })
+    .string({ message: "Ingrese un apellido" }).trim()
     .min(3, "El apellido debe tener al menos 3 caracteres")
     .max(25, "El apellido debe tener menos de 25 caracteres")
-    .regex(/^[a-zA-Z]+$/, { message: "No se permiten numéros o símbolos" }),
+    .regex(/^[a-zA-Z\s]+$/, { message: "No se permiten numéros o símbolos" }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "El email debe tener al menos 6 números")
     .max(25, "El email debe tener menos de 25 números"),
   telefono: z
-    .string()
+    .string({ message: "Ingrese un teléfono" }).trim()
     .min(6, "El telefono debe tener al menos 6 caracteres")
     .max(20, "El telefono debe tener menos de 20 caracteres")
     .regex(/^[0-9]+$/, "No se permiten caracteres"),

@@ -10,6 +10,7 @@ export default function LinkFooter({
       href={dataFooter.link}
       className="flex text-center w-fit justify-center items-center text-sm max-sm:text-xs hover:text link__footer"
       title={`linedin ${dataFooter.nombre}`}
+      target="_blank"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

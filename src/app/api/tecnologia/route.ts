@@ -6,9 +6,10 @@ import { z } from "zod";
 const CreateSchemaTecnologia = z.object({
   id: z.coerce.number({ message: "ingrese un ID" }),
   nombre: z
-    .string({ message: "Ingrese un nombre" })
+    .string({ message: "Ingrese un nombre" }).trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(25, "El nombre debe tener menos de 25 caracteres"),
+  tipo:z.string()
 });
 
 const CreateTecnologia = CreateSchemaTecnologia.omit({ id: true });
@@ -34,10 +35,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const { nombre } = validatedFields.data;
-
+    const { nombre, tipo} = validatedFields.data;
+    
     const { rows } =
-      await sql<Tecnologia>`INSERT INTO tecnologias (nombre) VALUES (${nombre}) RETURNING *`;
+      await sql<Tecnologia>`INSERT INTO tecnologias (nombre,tipo) VALUES (${nombre}, ${tipo}) RETURNING *`;
 
     return NextResponse.json(
       createResponse(true, rows[0], "Registro exitoso"),

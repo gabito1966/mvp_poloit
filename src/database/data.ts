@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { EstudiantesData, MentorData } from "./definitions";
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 7;
 
 export async function fetchFilteredEstudiantes(
   query: string,

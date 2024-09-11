@@ -1,6 +1,7 @@
 export type Tecnologia = {
   id: number;
   nombre: string;
+  tipo:string;
 };
 
 export type Ong = {

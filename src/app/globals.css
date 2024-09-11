@@ -7,7 +7,8 @@
 body {
   color: #000000;
   background: #FFFFFF;
-  height: calc(100vh - 70px) ;
+  /* height: calc(100vh - 70px) ; */
+  height: 100% ;
 }
 
 .link__footer:hover > p{
