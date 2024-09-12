@@ -37,10 +37,12 @@ function FormMentor({
   empresas,
   tecnologias,
   dataFetch,
+  tipo
 }: {
   empresas: Empresa[];
   tecnologias: Tecnologia[];
   dataFetch?: MentorParams | undefined;
+  tipo:string;
 }) {
   const router = useRouter();
 
@@ -148,7 +150,6 @@ function FormMentor({
     };
 
     let response;
-    console.log(newMentor);
     try {
       if (dataFetch) {
         response = await fetchPutClient(
@@ -189,7 +190,7 @@ function FormMentor({
     <>
       <div className="container mx-auto p-2 h-full">
         <h1 className="text-2xl font-bold mb-4 text-center underline">
-          Formulario de Inscripción de Mentores
+          Formulario de {tipo=="Registrar"?"Inscripción":"Actualización"} de Mentores
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -452,7 +453,7 @@ function FormMentor({
             type="submit"
             className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
           >
-            Registrar Mentor
+            {tipo} Mentor
           </button>
         </form>
       </div>

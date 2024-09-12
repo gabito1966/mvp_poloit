@@ -37,12 +37,12 @@ function FormEstudiante({
   ongs,
   tecnologias,
   dataFetch,
-  tipo
+  tipo,
 }: {
   ongs: Ong[];
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
-  tipo: string
+  tipo: string;
 }) {
   const router = useRouter();
 
@@ -87,7 +87,7 @@ function FormEstudiante({
         tecnologias: dataFetch.tecnologias,
       });
     }
-  }, [dataFetch,tecnologias]);
+  }, [dataFetch, tecnologias]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -168,7 +168,8 @@ function FormEstudiante({
   return (
     <div className="container mx-auto p-2 h-full">
       <h1 className="text-2xl font-bold mb-4 text-center underline">
-        Formulario de {tipo=="registrar"?"Inscripción":"Actualización"} de Estudiantes
+        Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de
+        Estudiantes
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -196,13 +197,13 @@ function FormEstudiante({
             )}
             required
           />
-        <div  aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.nombre?.map((error: string) => (
-            <p className="m-0 text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
-        </div>
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.nombre?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -258,11 +259,11 @@ function FormEstudiante({
             required
           />
           <div aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.email?.map((error: string) => (
-            <p className="m-0  text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
+            {responseBack.errors?.email?.map((error: string) => (
+              <p className="m-0  text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
           </div>
         </div>
         <div>
@@ -287,13 +288,13 @@ function FormEstudiante({
             )}
             required
           />
-        <div aria-live="polite" aria-atomic="true" className="mt-1">
-        {responseBack.errors?.telefono?.map((error: string) => (
-          <p className="m-0 text-sm text-red-500" key={error}>
-            {error}
-          </p>
-        ))}
-        </div>
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.telefono?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -329,11 +330,11 @@ function FormEstudiante({
             })}
           </select>
           <div aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.id_ong?.map((error: string) => (
-            <p className="m-0 text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
+            {responseBack.errors?.id_ong?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
           </div>
         </div>
 
@@ -379,7 +380,7 @@ function FormEstudiante({
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
+          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
         >
           {tipo} Estudiante
         </button>

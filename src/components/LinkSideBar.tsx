@@ -13,12 +13,16 @@ export default function LinkSideBar({
     <>
       <Link
         href={data.url}
-        className={clsx("flex flex-row gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-blue-50 rounded-sm capitalize ",{
+        className={clsx("flex flex-row gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-blue-50 rounded-lg capitalize ",{
           "bg-blue-50": data.url === pathname,
         })}
         title={`${data.name}`}
       >
-        <div dangerouslySetInnerHTML={{ __html: data.icon }} />
+        <div className={
+          clsx({
+            "text-blue-600": data.url === pathname,
+          })
+        } dangerouslySetInnerHTML={{ __html: data.icon } } />
         <span className="lg:block hidden">{data.name}</span>
       </Link>
     </>

@@ -3,8 +3,10 @@
 
 export function FormEstudianteSkeleton() {
   return (
-    <div className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`} >
-        <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
+    <div
+      className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`}
+    >
+      <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
       <div className="flex flex-col space-y-4 gap-5">
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
@@ -22,8 +24,10 @@ export function FormEstudianteSkeleton() {
 }
 export function FormMentorSkeleton() {
   return (
-    <div className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`} >
-        <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
+    <div
+      className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`}
+    >
+      <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
       <div className="flex flex-col space-y-4 gap-5">
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
