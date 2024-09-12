@@ -5,10 +5,10 @@ import clsx from "clsx";
 export default function LinkSideBar({
   data,
 }: {
-  data: { url: string; name: string; icon: string };
+  data: { url: string; name: string; icon1: string , icon2:string};
 }) {
     const pathname = usePathname();
-
+    
   return (
     <>
       <Link
@@ -22,7 +22,7 @@ export default function LinkSideBar({
           clsx({
             "text-blue-600": data.url === pathname,
           })
-        } dangerouslySetInnerHTML={{ __html: data.icon } } />
+        } dangerouslySetInnerHTML={{ __html: data.url === pathname?  data.icon2:data.icon1 } } />
         <span className="lg:block hidden">{data.name}</span>
       </Link>
     </>
