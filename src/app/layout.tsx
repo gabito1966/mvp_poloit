@@ -19,11 +19,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${inter.className}`}>
             <Sidebar />
-        {/* <div className="flex w-full flex-col"> */}
           <main className="flex flex-col h-full w-full lg:pl-60 max-lg:ml-10  items-center justify-center">
             {children}       
           </main>
-        {/* </div> */}
               <Footer />
       </body>
     </html>

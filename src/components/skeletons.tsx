@@ -1,13 +1,11 @@
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
+// const shimmer =
+//   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function FormSkeleton() {
   return (
-    <div className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl ${shimmer}`} >
-        <div className="mt-2 h-6 my-4 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
-      <div className="flex flex-col space-y-4 ">
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
+    <div className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`} >
+        <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
+      <div className="flex flex-col space-y-4 gap-5">
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
@@ -16,8 +14,8 @@ export function FormSkeleton() {
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
         <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
       </div>
-      <div className="flex justify-center items-center mt-4 w-full">
-        <div className="h-8  rounded bg-blue-400 w-full max-w-md" />
+      <div className="flex justify-center items-center mt-5 w-full">
+        <div className="h-8  rounded bg-blue-300 w-full " />
       </div>
     </div>
   );
@@ -25,7 +23,7 @@ export function FormSkeleton() {
 
 export function MobileSkeleton() {
   return (
-    <div className="mb-2 w-full rounded-md bg-white p-4">
+    <div className="mb-2 w-full rounded-md bg-white p-4 animate-pulse">
       <div className="flex items-center justify-between border-b border-gray-100 pb-8">
         <div className="flex items-center">
           <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
@@ -49,7 +47,7 @@ export function MobileSkeleton() {
 
 export function TableSkeleton() {
   return (
-    <div className="mt-6 flow-root">
+    <div className="mt-6 flow-root animate-pulse">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
@@ -103,7 +101,7 @@ export function TableSkeleton() {
 
 export function TableRowSkeleton() {
   return (
-    <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
+    <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg animate-pulse">
       {/* Customer Name and Image */}
       <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex items-center gap-3">

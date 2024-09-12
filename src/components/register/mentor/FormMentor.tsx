@@ -2,6 +2,7 @@
 
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
@@ -13,7 +14,7 @@ interface Mentor {
   telefono: string;
   estado?: string;
   id_empresa: number;
-  tecnologias: number[];
+  tecnologias: { id: number; nombre: string; tipo: string }[];
 }
 
 interface MentorParams {
@@ -24,7 +25,7 @@ interface MentorParams {
   telefono: string;
   estado: string;
   id_empresa: number;
-  tecnologias: string[];
+  tecnologias: { id: number; nombre: string; tipo: string }[];
 }
 
 export type Empresa = {
@@ -51,7 +52,11 @@ function FormMentor({
     telefono: "",
     estado: "",
     id_empresa: "",
-    tecnologias: [] as number[],
+    tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
+      id: number;
+      nombre: string;
+      tipo: string;
+    }[],
   });
 
   const [responseBack, setResponseBack] = useState({
@@ -64,18 +69,12 @@ function FormMentor({
       estado: [],
       id_empresa: [],
       tecnologias: [],
+      tecnologias2: [],
     },
   });
 
   useEffect(() => {
     if (dataFetch) {
-      let tecnologiasIDs: number[] = [];
-      dataFetch.tecnologias.forEach((tech) => {
-        const foundTecnologia = tecnologias.find((t) => t.nombre === tech);
-        if (foundTecnologia) {
-          tecnologiasIDs.push(foundTecnologia.id);
-        }
-      });
       setForm({
         id: dataFetch.id?.toString(),
         nombre: dataFetch.nombre,
@@ -84,7 +83,7 @@ function FormMentor({
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
         id_empresa: dataFetch.id_empresa.toString(),
-        tecnologias: tecnologiasIDs,
+        tecnologias: dataFetch.tecnologias,
       });
     }
   }, [dataFetch, tecnologias]);
@@ -93,18 +92,38 @@ function FormMentor({
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    if (name === "tecnologias") {
-      let tecnologias = [...form.tecnologias];
-      if ((e.target as HTMLInputElement).checked) {
-        tecnologias.push(parseInt(value, 10));
+    if (name === "tecnologias1") {
+      let tec: {
+        id: number;
+        nombre: string;
+        tipo: string;
+      }[] = [];
+
+      tec[0] = tecnologias.find((e) => e.id.toString() == value) || {
+        id: 0,
+        nombre: "",
+        tipo: "",
+      };
+      console.log("value", value);
+
+      if (tec[0].nombre === "UX/UI" || tec[0].nombre === "QA") {
+        console.log(tec[0].nombre === "UX/UI");
+        setForm({ ...form, tecnologias: [tec[0]] });
       } else {
-        tecnologias = tecnologias.filter(
-          (tech) => tech !== parseInt(value, 10)
-        );
+        setForm({ ...form, tecnologias: tec });
       }
-      setForm((prevForm) => ({ ...prevForm, tecnologias }));
     } else {
-      setForm((prevForm) => ({ ...prevForm, [name]: value }));
+      if (name === "tecnologias2") {
+        const tec = form.tecnologias;
+        tec[1] = tecnologias.find((e) => e.id.toString() == value) || {
+          id: 0,
+          nombre: "",
+          tipo: "",
+        };
+        setForm({ ...form, tecnologias: tec });
+      } else {
+        setForm((prevForm) => ({ ...prevForm, [name]: value }));
+      }
     }
 
     setResponseBack({
@@ -116,11 +135,10 @@ function FormMentor({
     });
   };
 
-  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      
-      const newMentor: Mentor = {
+    e.preventDefault();
+
+    const newMentor: Mentor = {
       nombre: form.nombre,
       apellido: form.apellido,
       email: form.email,
@@ -128,9 +146,9 @@ function FormMentor({
       id_empresa: parseInt(form.id_empresa, 10),
       tecnologias: form.tecnologias,
     };
-    
-    let response;
 
+    let response;
+    console.log(newMentor);
     try {
       if (dataFetch) {
         response = await fetchPutClient(
@@ -153,13 +171,16 @@ function FormMentor({
         telefono: "",
         estado: "",
         id_empresa: "",
-        tecnologias: [] as number[],
+        tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
+          id: number;
+          nombre: string;
+          tipo: string;
+        }[],
       });
-      
-      router.refresh();
+
       router.push("/mentor");
     } catch (error: any) {
-        console.log(error);
+      console.log(error);
       setResponseBack({ message: error.message, errors: error.errors });
     }
   };
@@ -187,17 +208,22 @@ function FormMentor({
               name="nombre"
               value={form.nombre}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3"
+              className={clsx(
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                {
+                  "border-red-500": responseBack.errors?.nombre?.length,
+                  "border-gray-300": !responseBack.errors?.nombre?.length,
+                }
+              )}
               required
             />
-          </div>
-          <div id="customer-error" aria-live="polite" aria-atomic="true">
-            {responseBack.errors?.nombre &&
-              responseBack.errors.nombre.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.nombre?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
+            </div>
           </div>
 
           <div>
@@ -213,16 +239,21 @@ function FormMentor({
               name="apellido"
               value={form.apellido}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
+              className={clsx(
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
+                {
+                  "border-red-500": responseBack.errors?.apellido?.length,
+                  "border-gray-300": !responseBack.errors?.apellido?.length,
+                }
+              )}
               required
             />
-            <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {responseBack.errors?.apellido &&
-                responseBack.errors.apellido.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.apellido?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
             </div>
           </div>
           <div>
@@ -238,16 +269,24 @@ function FormMentor({
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="mt-2 block text-black w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
+              className={clsx(
+                "mt-2 block text-black w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
+                {
+                  "border-red-500": responseBack.errors?.email?.length,
+                  "border-gray-300": !responseBack.errors?.email?.length,
+                }
+              )}
               required
             />
-            {responseBack.errors?.email &&
-              responseBack.errors.email.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.email?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
+            </div>
           </div>
+
           <div>
             <label
               htmlFor="telefono"
@@ -261,16 +300,23 @@ function FormMentor({
               name="telefono"
               value={form.telefono}
               onChange={handleChange}
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
+              className={clsx(
+                "mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
+                {
+                  "border-red-500": responseBack.errors?.telefono?.length,
+                  "border-gray-300": !responseBack.errors?.telefono?.length,
+                }
+              )}
               required
             />
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.telefono?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
           </div>
-          {responseBack.errors?.telefono &&
-            responseBack.errors?.telefono.map((error: string) => (
-              <p className="mt-2 text-sm text-red-500" key={error}>
-                {error}
-              </p>
-            ))}
 
           <div>
             <label
@@ -285,7 +331,13 @@ function FormMentor({
               value={form.id_empresa}
               onChange={handleChange}
               required
-              className="mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className={clsx(
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                {
+                  "border-red-500": responseBack.errors?.id_empresa?.length,
+                  "border-gray-300": !responseBack.errors?.id_empresa?.length,
+                }
+              )}
             >
               <option value="" disabled hidden>
                 Seleccione una Empresa
@@ -298,54 +350,101 @@ function FormMentor({
                 );
               })}
             </select>
-            {responseBack.errors?.id_empresa &&
-              responseBack.errors.id_empresa.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.id_empresa?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
+            </div>
           </div>
 
-          <div className=" flex flex-col gap-4 mt-5">
+          <div className=" flex flex-col">
             <label
-              htmlFor="tecnologias"
+              htmlFor="tecnologias1"
               className="block text-sm font-medium text-gray-500"
             >
-              Tecnologías
+              Tecnologías principal:
             </label>
-            <div className="flex flex-wrap gap-2 flex-row justify-between">
+
+            <select
+              id="tecnologias1"
+              name="tecnologias1"
+              value={form.tecnologias[0]?.id}
+              onChange={handleChange}
+              required
+              className={clsx(
+                "mt-2 text-black block w-full  border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
+                {
+                  "border-red-500": responseBack.errors?.tecnologias?.length,
+                  "border-gray-300": !responseBack.errors?.tecnologias?.length,
+                }
+              )}
+            >
+              <option value={0} disabled hidden>
+                Seleccione una Tecnología
+              </option>
               {tecnologias.map((e, i) => {
                 return (
-                  <div
-                    key={`${i}${e.nombre}${e.id}`}
-                    className="flex flex-col gap-1 items-center"
-                  >
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="tecnologias"
-                      id={`${e.nombre}`}
-                      checked={form.tecnologias?.includes(e.id)}
-                      value={`${e.id}`}
-                      onChange={handleChange}
-                    />
-                    <label
-                      className="block text-sm font-medium text-gray-500"
-                      htmlFor={`${e.nombre}`}
-                    >
-                      {e.nombre}
-                    </label>
-                  </div>
+                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                    {e.nombre} - {e.tipo}
+                  </option>
                 );
               })}
-              <div id="customer-error" aria-live="polite" aria-atomic="true">
-                {responseBack.errors?.tecnologias &&
-                  responseBack.errors?.tecnologias.map((error: string) => (
-                    <p className="mt-2 text-sm text-red-500" key={error}>
-                      {error}
-                    </p>
-                  ))}
-              </div>
+            </select>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.tecnologias?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className=" flex flex-col">
+            <label
+              htmlFor="tecnologias2"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Tecnologías secundaria: 
+            </label>
+
+            <select
+              id="tecnologias2"
+              name="tecnologias2"
+              value={form.tecnologias[1]?.id || 0}
+              onChange={handleChange}
+              disabled={
+                form.tecnologias[0] &&
+                (form.tecnologias[0].nombre == "UX/UI" ||
+                  form.tecnologias[0].nombre == "QA")
+              }
+              required
+              className={clsx(
+                "mt-2 text-black block w-full  border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
+                {
+                  "border-red-500": responseBack.errors?.tecnologias2?.length,
+                  "border-gray-300": !responseBack.errors?.tecnologias2?.length,
+                }
+              )}
+            >
+              <option value={0} disabled hidden>
+                Seleccione una Tecnología
+              </option>
+              {tecnologias.map((e, i) => {
+                return (
+                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                    {e.nombre} - {e.tipo}
+                  </option>
+                );
+              })}
+            </select>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.tecnologias2?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
             </div>
           </div>
 

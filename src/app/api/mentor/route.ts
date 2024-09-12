@@ -10,15 +10,21 @@ const CreateSchemaMentor = z.object({
     message: "Ingrese un ID de mentor",
   }),
   nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
-    .min(4, "El nombre debe contener al menos 4 caracteres")
+    .string({ message: "Ingrese un nombre" })
+    .trim()
+    .min(3, "El nombre debe contener al menos 3 caracteres")
     .max(25, "El nombre debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   apellido: z
-    .string({ message: "Ingrese un apellido" }).trim()
+    .string({ message: "Ingrese un apellido" })
+    .trim()
     .min(3, "El apellido debe contener al menos 3 caracteres")
     .max(25, "El apellido debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
@@ -29,11 +35,20 @@ const CreateSchemaMentor = z.object({
     .min(6, "El telefono debe contener al menos 6 caracteres")
     .max(20, "El telefono debe contener menos de 20 caracteres")
     .regex(/^[0-9]+$/, "Solo se permiten numéros"),
-  id_empresa: z.coerce.number({
-    invalid_type_error: "Seleccione una empresa",
-  }),
+  id_empresa: z.coerce
+    .number({
+      message: "Seleccione una organización",
+      invalid_type_error: "Seleccione una empresa",
+    })
+    .gt(0, { message: "Seleccione una organización" }),
   tecnologias: z
-    .array(z.coerce.number({ invalid_type_error: "Seleccione una tecnología" }))
+    .array(
+      z.object({
+        id: z.coerce.number().gt(0, { message: "Seleccione una tecnología" }),
+        nombre: z.string(),
+        tipo: z.string(),
+      })
+    )
     .min(1, "Debe seleccionar al menos una tecnología"),
 });
 
@@ -84,13 +99,24 @@ export async function POST(request: Request) {
     ...body,
   });
 
-  if (!validatedFields.success) {
+  console.log( validatedFields.data?.tecnologias.length)
+  console.log(  validatedFields.data?.tecnologias[0].tipo)
+
+  if (
+    !validatedFields.success ||
+    (body?.tecnologias.length == 1 &&
+      body?.tecnologias[0].tipo == "BACKEND")
+  ) {
     return NextResponse.json(
       createResponse(
         false,
         [],
         "Error En Algún Campo",
-        validatedFields.error.flatten().fieldErrors
+        body?.tecnologias.length==1 && body?.tecnologias[0].tipo== "BACKEND"?
+        {...validatedFields.error?.flatten().fieldErrors ,
+          tecnologias2: ["Seleccione una tecnología"]}:
+          validatedFields.error?.flatten().fieldErrors,
+        
       ),
       { status: 400 }
     );
@@ -98,8 +124,6 @@ export async function POST(request: Request) {
 
   const { nombre, apellido, email, telefono, id_empresa, tecnologias } =
     validatedFields.data;
-
-    console.log(validatedFields.data);
 
   try {
     const { rows } = await sql`
@@ -111,7 +135,7 @@ export async function POST(request: Request) {
     try {
       tecnologias.forEach(async (e) => {
         await sql`INSERT INTO mentores_tecnologias (id_tecnologia, id_mentor)
-      VALUES (${e},${rows[0].id})
+      VALUES (${e.id},${rows[0].id})
       `;
       });
     } catch (error) {

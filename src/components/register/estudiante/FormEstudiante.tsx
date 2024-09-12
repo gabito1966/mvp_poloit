@@ -1,5 +1,6 @@
 "use client";
 
+import { FormSkeleton } from "@/components/skeletons";
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
@@ -43,6 +44,7 @@ function FormEstudiante({
   dataFetch?: EstudianteParams | undefined;
 }) {
   const router = useRouter();
+  console.log(dataFetch)
 
   const [form, setForm] = useState({
     id: "",
@@ -85,14 +87,14 @@ function FormEstudiante({
         tecnologias: dataFetch.tecnologias,
       });
     }
-  }, []);
+  }, [dataFetch,tecnologias]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "tecnologias") {
-      let tec: { id: number; nombre: string; tipo: string }[] = [];
+      const tec: { id: number; nombre: string; tipo: string }[] = [];
       tec.push(
         tecnologias.find((e) => e.id.toString() == value) || {
           id: 0,
