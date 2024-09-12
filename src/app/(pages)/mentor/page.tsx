@@ -2,7 +2,7 @@ import CreateButton from "@/components/dashboard/CreateButton";
 import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
 import TableMentor from "@/components/dashboard/mentor/TableMentor";
-import { TableSkeleton } from "@/components/skeletons";
+import { TableMentorSkeleton } from "@/components/skeletons";
 import { fetchPagesMentores } from "@/database/data";
 import { Suspense } from "react";
 
@@ -25,7 +25,7 @@ async function page({
                 <Search placeholder="buscar mentor..." />
                 <CreateButton url="/register/mentores" />
             </div>
-            <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
+            <Suspense key={query + currentPage} fallback={<TableMentorSkeleton />}>
                 <TableMentor query={query} currentPage={currentPage} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">

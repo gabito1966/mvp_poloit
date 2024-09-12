@@ -9,6 +9,6 @@ export default async function RegisterAlumnos() {
     ]);
 
     return (
-        <FormEstudiante ongs={dataOngs.data} tecnologias={dataTecnologias.data} />
+        <FormEstudiante ongs={dataOngs.data} tecnologias={dataTecnologias.data} tipo="registrar"/>
     );
 }

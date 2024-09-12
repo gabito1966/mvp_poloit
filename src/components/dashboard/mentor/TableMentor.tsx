@@ -10,6 +10,7 @@ export default async function Table({
     query: string;
     currentPage: number;
 }) {
+    
     const mentores = await fetchFilteredMentores(query, currentPage);
 
     return (

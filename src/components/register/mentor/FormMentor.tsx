@@ -384,7 +384,7 @@ function FormMentor({
               <option value={0} disabled hidden>
                 Seleccione una Tecnología
               </option>
-              {tecnologias.map((e, i) => {
+              {tecnologias.filter(e=>e.tipo!="FRONTEND").map((e, i) => {
                 return (
                   <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre} - {e.tipo}
@@ -431,7 +431,7 @@ function FormMentor({
               <option value={0} disabled hidden>
                 Seleccione una Tecnología
               </option>
-              {tecnologias.map((e, i) => {
+              {tecnologias.filter(e=>e.nombre!="UX/UI"&&e.nombre!="QA"&&e.tipo!="FRONTEND"&&e.nombre!=form.tecnologias[0].nombre).map((e, i) => {
                 return (
                   <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre} - {e.tipo}

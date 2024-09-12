@@ -1,6 +1,5 @@
 "use client";
 
-import { FormSkeleton } from "@/components/skeletons";
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
@@ -38,13 +37,14 @@ function FormEstudiante({
   ongs,
   tecnologias,
   dataFetch,
+  tipo
 }: {
   ongs: Ong[];
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
+  tipo: string
 }) {
   const router = useRouter();
-  console.log(dataFetch)
 
   const [form, setForm] = useState({
     id: "",
@@ -168,7 +168,7 @@ function FormEstudiante({
   return (
     <div className="container mx-auto p-2 h-full">
       <h1 className="text-2xl font-bold mb-4 text-center underline">
-        Formulario de Inscripción de Estudiantes
+        Formulario de {tipo=="registrar"?"Inscripción":"Actualización"} de Estudiantes
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -381,7 +381,7 @@ function FormEstudiante({
           type="submit"
           className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
         >
-          Registrar Estudiante
+          {tipo} Estudiante
         </button>
       </form>
     </div>

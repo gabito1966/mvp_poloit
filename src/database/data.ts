@@ -94,7 +94,7 @@ LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
 
-    return mentores.rows;
+      return mentores.rows;
   } catch (error) {
     console.log(
       "Failed to fetch filtered invoices. Returning all invoices.",
