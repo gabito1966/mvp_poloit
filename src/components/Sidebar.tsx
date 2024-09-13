@@ -115,8 +115,7 @@ const Sidebar: React.FC = () => {
         <ul className="space-y-4 p-2">
           <li className="max-lg:hidden w-fit m-auto p-5">
             <Link href="/">
-              <div className="flex gap-3 justify-center hover:bg-blue-50 rounded-sm">
-                {/* <h1 className="align-middle text-2xl">Polo It</h1> */}
+              <div className="flex gap-3 justify-center  rounded-sm">
                 <Image
                   src="/logo-polo-it.png"
                   alt="logo"
@@ -128,8 +127,7 @@ const Sidebar: React.FC = () => {
           </li>
           <li className="lg:hidden">
             <Link href="/">
-              <div className="flex justify-center hover:bg-gray-100 rounded-sm">
-                {/* <h1 className="align-middle text-2xl">Polo It</h1> */}
+              <div className="flex justify-center  rounded-sm">
                 <Image
                   src="/polo-logo-mobile.png"
                   alt="logo"
@@ -153,7 +151,7 @@ const Sidebar: React.FC = () => {
         )}
       >
         <form
-          className={clsx(" items-center  hover:bg-blue-50 rounded-sm w-full", {
+          className={clsx(" items-center  hover:bg-blue-50 rounded-sm w-full duration-500", {
             hidden: !session,
           })}
           action={async () => {

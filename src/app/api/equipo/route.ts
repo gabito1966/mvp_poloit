@@ -151,8 +151,8 @@ FROM
     equipos
     */
 
-    ///DESSESTRUCTURAR Y cambiar nombre al mismo tiempo
-    const { rows } = await sql` SELECT 
+    ///DESSESTRUCTURAR Y cambiar nombre al mismo tiempo----
+    const { rows:cant_estudiantes } = await sql` SELECT 
         COUNT(*) AS total_estudiantes
       FROM 
         estudiantes e
@@ -165,14 +165,56 @@ FROM
     //if (!rows[0].total_estudiantes) return;
     //si la cantidad de estudiantes sin grupos es menor al tamano y la cantidad de grupos es cero, no se pueden armar grupos, no hay suficientes estudiantes o la cantidad de grupos es cero y la cantidad de mentores es cero entoces no se pueden armar grupos por que no hay suficientes mentores.
 
-    let total_estudiantes: number = rows[0].total_estudiantes;
+    //si ya hay equipos sacar el ultimo valor del ultimo equipo agregado y spasarlo a number y sumarlo en las iteraciones. o setearlo en cero para que no sume nada al final de cada iteracion que sea una variable aparte.
+
+    const {rows: result_mentor_ux_ui} = await sql`
+      SELECT 
+        m.id,
+        ARRAY_AGG(
+            JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+        ) AS tecnologias
+      FROM 
+        mentores m
+      JOIN 
+        mentores_tecnologias mt ON m.id = mt.id_mentor
+      JOIN 
+        tecnologias t ON mt.id_tecnologia = t.id
+      WHERE 
+        t.tipo = 'TESTING'
+        AND estado = true
+      GROUP BY 
+        m.id
+      LIMIT 1;
+        `
+    const {rows: result_mentor_qa} = await sql`
+      SELECT 
+        m.id,
+        ARRAY_AGG(
+        JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+        ) AS tecnologias
+      FROM 
+        mentores m
+      JOIN 
+        mentores_tecnologias mt ON m.id = mt.id_mentor
+      JOIN 
+        tecnologias t ON mt.id_tecnologia = t.id
+      WHERE 
+        t.tipo = 'INTERFACE' AND
+        m.estado = true
+      GROUP BY 
+        m.id
+      LIMIT 1;
+    `
+
+
+    let total_estudiantes: number =cant_estudiantes[0].total_estudiantes;
 
     //tomar 1 mentor de qa, 1 mentor de ux_ui
 
     const arr_equipos: number[] = [];
 
     while (total_estudiantes >= tamano) {
-      const result_mentor = await sql`
+      const {rows:result_mentor} = await sql`
         SELECT 
             m.id,
             COALESCE(
@@ -200,9 +242,9 @@ FROM
         LIMIT 1;
               `;
 
-      if (!result_mentor.rows.length) break;
+      if (!result_mentor.length) break;
 
-      const result_ux_ui = await sql`
+      const {rows:result_ux_ui} = await sql`
           SELECT 
             e.id,
             COALESCE(
@@ -227,9 +269,9 @@ FROM
           LIMIT 1;
             `;
 
-      if (!result_ux_ui.rows.length) break;
+      if (!result_ux_ui.length) break;
 
-      arr_equipos.push(result_ux_ui.rows[0].id);
+      arr_equipos.push(result_ux_ui[0].id);
 
       const result_qa = await sql`
           SELECT 
@@ -292,6 +334,7 @@ FROM
 
       
       //podria ordenar pór backend y front end para luego tomar los que me faltan en backend pero es bac hay que tener cuidado, luego ver sino hay de la tecnologia del mentor.
+      //ver despues si no encuentra la cantidad de la tecnoligía principal asociada al mentor
       const result_backend = await sql`
           SELECT 
             e.id,
@@ -311,7 +354,7 @@ FROM
           WHERE 
               ee.id_estudiante IS NULL 
               AND e.estado = true
-              AND tecnologias.nombre ILIKE '%${result_mentor.rows[0].tecnologia[0].nombre}%'
+              AND tecnologias.nombre ILIKE '%${result_mentor[0].tecnologia[0].nombre}%'
           GROUP BY 
               e.id
           LIMIT ${backend};
@@ -321,13 +364,17 @@ FROM
 
           result_backend.rows.forEach(e=> arr_equipos.push(e.id))
 
-          await sql`
+
+          //despues ver lo de la fecha
+        const {rows:result_equipo}=   await sql`
             INSERT INTO equipos (nombre, tamano, fecha_inicio, fecha_fin, id_mentor, id_mentor_ux_ui, id_mentor_qa)
+            VALUES ("${nombre}-${contador}",${tamano}, ${new Date().toISOString()},${new Date().toISOString()},${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id})
+            RETURNING id
           `
 
       arr_equipos.forEach(async (e) => {
         await sql`insert into equipos_estudiantes(id_equipo, id_estudiante)
-          VALUES (${e}, numero_equipo)
+          VALUES (${e}, ${result_equipo[0].id})
         `;
       });
 
@@ -335,38 +382,35 @@ FROM
       contador++;
     }
 
-    if (!total_estudiantes) {
+    if (total_estudiantes) {
       //agoritmo de distribucion
+
+      
+
     }
 
-    if (!total_estudiantes) {
+    
       return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
         status: 200,
       });
-    }
-
-    console.log(rows[0].total_estudiantes);
+    
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
-
-  return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
-    status: 200,
-  });
 }
 
 export async function GET(request: Request) {
   try {
-    const result_mentor = await sql`
-        SELECT 
+    const {rows:result_mentor} = await sql`
+            SELECT 
             m.id,
             COALESCE(
                 ARRAY_AGG(
                     JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
-                ) FILTER (WHERE t.id IS NOT NULL),
+                ) FILTER (WHERE  tecnologias.id IS NOT NULL),
                 '{}'
             ) AS tecnologias
         FROM 
@@ -377,26 +421,22 @@ export async function GET(request: Request) {
             tecnologias t ON mt.id_tecnologia = t.id
         LEFT JOIN 
             equipos e ON m.id = e.id_mentor 
-                        OR m.id = e.id_mentor_ux_ui 
-                        OR m.id = e.id_mentor_qa
         WHERE 
             e.id IS NULL  -- Mentores que no están asociados a ningún equipo
+            AND tecnologias.tipo = 'BACKEND'
         GROUP BY 
             m.id
-        HAVING 
-            m.estado = true
-        LIMIT 1;
               `;
 
-    console.log(result_mentor.rows[0]);
+    console.log(result_mentor);
+    
+      return NextResponse.json(createResponse(true, [result_mentor], "consulta exitosa"), {
+        status: 200,
+      });
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
       { status: 500 }
     );
   }
-
-  return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
-    status: 200,
-  });
 }

@@ -13,7 +13,7 @@ export default function LinkSideBar({
     <>
       <Link
         href={data.url}
-        className={clsx("flex flex-row gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-blue-50 rounded-lg capitalize ",{
+        className={clsx("flex flex-row gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 hover:bg-blue-50 rounded-lg capitalize transition duration-500",{
           "bg-blue-50": data.url === pathname,
         })}
         title={`${data.name}`}
