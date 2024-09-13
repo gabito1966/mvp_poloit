@@ -194,13 +194,13 @@ function FormEstudiante({
             )}
             required
           />
-        <div  aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.nombre?.map((error: string) => (
-            <p className="m-0 text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
-        </div>
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.nombre?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -256,11 +256,11 @@ function FormEstudiante({
             required
           />
           <div aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.email?.map((error: string) => (
-            <p className="m-0  text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
+            {responseBack.errors?.email?.map((error: string) => (
+              <p className="m-0  text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
           </div>
         </div>
         <div>
@@ -285,13 +285,13 @@ function FormEstudiante({
             )}
             required
           />
-        <div aria-live="polite" aria-atomic="true" className="mt-1">
-        {responseBack.errors?.telefono?.map((error: string) => (
-          <p className="m-0 text-sm text-red-500" key={error}>
-            {error}
-          </p>
-        ))}
-        </div>
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.telefono?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -327,11 +327,11 @@ function FormEstudiante({
             })}
           </select>
           <div aria-live="polite" aria-atomic="true" className="mt-1">
-          {responseBack.errors?.id_ong?.map((error: string) => (
-            <p className="m-0 text-sm text-red-500" key={error}>
-              {error}
-            </p>
-          ))}
+            {responseBack.errors?.id_ong?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
           </div>
         </div>
 

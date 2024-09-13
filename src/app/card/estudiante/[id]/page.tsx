@@ -7,13 +7,14 @@ export default async function EstudianteCard({
     params?: { id: string };
 }) {
     const { data: estudiante } = await fetchGet(`/api/estudiante/${params?.id}`);
+    console.log(estudiante.estado);
 
 
     return (
         <section className="container">
-            <h1 className="text-4xl text-center font-bold p-2 mt-10">Card de Estudiante </h1>
+            <h1 className="text-4xl text-center font-bold p-2 mt-10">Card de Estudiante {estudiante.nombre} {estudiante.apellido}</h1>
 
-            <div className="w-full m-2 md:m-48 max-h-124 flex-col p-1  md:p-12 text-black border-2 border-black bg-neutral-200">
+            <div className="w-full m-5 max-h-124 flex-col p-1  md:p-12 text-black border-2 border-black bg-neutral-200">
                 {<div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="flex-auto">
                         <h4 className="block font-semibold mb-2 text-md">Nombre:</h4>
@@ -33,12 +34,22 @@ export default async function EstudianteCard({
                     </div>
                     <div className="flex-auto">
                         <h4 className="block font-semibold mb-2 text-md">Tecnologías:</h4>
-                        <p className="bg-transparent text-base mb-6">{estudiante.tecnologias}</p>
+                        <p className="bg-transparent text-base mb-6">{estudiante.tecnologias[0].nombre}</p>
                     </div>
+                    <div className="flex-auto">
+                        <h4 className="block font-semibold mb-2 text-md">Tecnologías tipo:</h4>
+                        <p className="bg-transparent text-base mb-6">{estudiante.tecnologias[0].tipo}</p>
+                    </div>
+
                     <div className="flex-auto">
                         <h4 className="block font-semibold mb-2 text-md">ONG:</h4>
                         <p className="bg-transparent text-base mb-6">{estudiante.nombre_ong}</p>
                     </div>
+                    <div className="flex-auto">
+                        <h4 className="block font-semibold mb-2 text-md">Estado:</h4>
+                        <p className="bg-transparent text-base mb-6">{estudiante.estado}</p>
+                    </div>
+
                 </div>
                 }
             </div>

@@ -90,7 +90,7 @@ export default async function Table({
                                         {mentor.telefono.length < 10 ? mentor.telefono : mentor.telefono.slice(0, 7) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        {mentor.tecnologias.join(", ").length < 15 ? mentor.tecnologias.join(", ") : mentor.tecnologias.join(", ").slice(0, 10) + "..."}
+                                        {mentor.tecnologias.join(" - ").length < 15 ? mentor.tecnologias.join(" - ") : mentor.tecnologias.join(" - ").slice(0, 10) + "..."}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         {mentor.empresa.length < 15 ? mentor.empresa : mentor.empresa.slice(0, 8) + "..."}
