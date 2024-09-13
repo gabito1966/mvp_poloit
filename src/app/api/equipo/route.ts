@@ -9,7 +9,8 @@ const CreateSchemaEquipos = z.object({
     message: "Ingrese un ID",
   }),
   nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
+    .string({ message: "Ingrese un nombre" })
+    .trim()
     .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(30, "El nombre debe tener menos de 30 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, {
@@ -150,6 +151,7 @@ FROM
     equipos
     */
 
+    ///DESSESTRUCTURAR Y cambiar nombre al mismo tiempo
     const { rows } = await sql` SELECT 
         COUNT(*) AS total_estudiantes
       FROM 
@@ -165,30 +167,36 @@ FROM
 
     let total_estudiantes: number = rows[0].total_estudiantes;
 
+    //tomar 1 mentor de qa, 1 mentor de ux_ui
+
     const arr_equipos: number[] = [];
 
     while (total_estudiantes >= tamano) {
       const result_mentor = await sql`
-      SELECT 
-        mentores.id,
-        COALESCE(
-            ARRAY_AGG(tecnologias.nombre) 
-            FILTER (WHERE tecnologias.id IS NOT NULL), 
-            '{}'
-        ) AS tecnologias
+        SELECT 
+            m.id,
+            COALESCE(
+                ARRAY_AGG(
+                    JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+                ) FILTER (WHERE t.id IS NOT NULL),
+                '{}'
+            ) AS tecnologias
         FROM 
-            mentores
+            mentores m
         LEFT JOIN 
-            equipos ON mentores.id = equipos.id_mentor
+            mentores_tecnologias mt ON m.id = mt.id_mentor
         LEFT JOIN 
-            mentores_tecnologias ON mentores.id = mentores_tecnologias.id_mentor
+            tecnologias t ON mt.id_tecnologia = t.id
         LEFT JOIN 
-            tecnologias ON mentores_tecnologias.id_tecnologia = tecnologias.id
+            equipos e ON m.id = e.id_mentor 
+                        OR m.id = e.id_mentor_ux_ui 
+                        OR m.id = e.id_mentor_qa
         WHERE 
-            equipos.id IS NULL 
-            AND mentores.estado = true
+            e.id IS NULL  -- Mentores que no están asociados a ningún equipo
         GROUP BY 
-            mentores.id
+            m.id
+        HAVING 
+            m.estado = true
         LIMIT 1;
               `;
 
@@ -252,7 +260,76 @@ FROM
 
       arr_equipos.push(result_qa.rows[0].id);
 
+      //podria ordenar por front end y despues por back end para luego tomar los que faltan siempre
+      const result_frontEnd = await sql`
+          SELECT 
+            e.id,
+            COALESCE(
+            ARRAY_AGG(tecnologias.nombre) 
+            FILTER (WHERE tecnologias.id IS NOT NULL), 
+            '{}'
+            ) AS tecnologias
+          FROM 
+              estudiantes e
+          LEFT JOIN 
+              equipos_estudiantes ee ON e.id = ee.id_estudiante
+          LEFT JOIN 
+              estudiantes_tecnologias et ON e.id = et.id_estudiante
+          LEFT JOIN 
+              tecnologias ON et.id_tecnologia = tecnologias.id
+          WHERE 
+              ee.id_estudiante IS NULL 
+              AND e.estado = true
+              AND tecnologias.tipo ILIKE '%FRONTEND%'
+          GROUP BY 
+              e.id
+          LIMIT ${frontEnd};
+          `;
 
+      if (!result_frontEnd.rows.length) break;//VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
+
+      result_frontEnd.rows.forEach(e=> arr_equipos.push(e.id))
+
+      
+      //podria ordenar pór backend y front end para luego tomar los que me faltan en backend pero es bac hay que tener cuidado, luego ver sino hay de la tecnologia del mentor.
+      const result_backend = await sql`
+          SELECT 
+            e.id,
+            COALESCE(
+            ARRAY_AGG(tecnologias.nombre) 
+            FILTER (WHERE tecnologias.id IS NOT NULL), 
+            '{}'
+            ) AS tecnologias
+          FROM 
+              estudiantes e
+          LEFT JOIN 
+              equipos_estudiantes ee ON e.id = ee.id_estudiante
+          LEFT JOIN 
+              estudiantes_tecnologias et ON e.id = et.id_estudiante
+          LEFT JOIN 
+              tecnologias ON et.id_tecnologia = tecnologias.id
+          WHERE 
+              ee.id_estudiante IS NULL 
+              AND e.estado = true
+              AND tecnologias.nombre ILIKE '%${result_mentor.rows[0].tecnologia[0].nombre}%'
+          GROUP BY 
+              e.id
+          LIMIT ${backend};
+          `;
+
+          if (!result_backend.rows.length) break;//VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
+
+          result_backend.rows.forEach(e=> arr_equipos.push(e.id))
+
+          await sql`
+            INSERT INTO equipos (nombre, tamano, fecha_inicio, fecha_fin, id_mentor, id_mentor_ux_ui, id_mentor_qa)
+          `
+
+      arr_equipos.forEach(async (e) => {
+        await sql`insert into equipos_estudiantes(id_equipo, id_estudiante)
+          VALUES (${e}, numero_equipo)
+        `;
+      });
 
       total_estudiantes -= tamano;
       contador++;
@@ -269,6 +346,49 @@ FROM
     }
 
     console.log(rows[0].total_estudiantes);
+  } catch (error) {
+    return NextResponse.json(
+      createResponse(false, [], getErrorMessageFromCode(error)),
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
+    status: 200,
+  });
+}
+
+export async function GET(request: Request) {
+  try {
+    const result_mentor = await sql`
+        SELECT 
+            m.id,
+            COALESCE(
+                ARRAY_AGG(
+                    JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+                ) FILTER (WHERE t.id IS NOT NULL),
+                '{}'
+            ) AS tecnologias
+        FROM 
+            mentores m
+        LEFT JOIN 
+            mentores_tecnologias mt ON m.id = mt.id_mentor
+        LEFT JOIN 
+            tecnologias t ON mt.id_tecnologia = t.id
+        LEFT JOIN 
+            equipos e ON m.id = e.id_mentor 
+                        OR m.id = e.id_mentor_ux_ui 
+                        OR m.id = e.id_mentor_qa
+        WHERE 
+            e.id IS NULL  -- Mentores que no están asociados a ningún equipo
+        GROUP BY 
+            m.id
+        HAVING 
+            m.estado = true
+        LIMIT 1;
+              `;
+
+    console.log(result_mentor.rows[0]);
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),

@@ -87,7 +87,7 @@ export async function GET(
 
   try {
     const { rows } = await sql<MentorInterface>`
-   SELECT 
+        SELECT 
           m.id,
           m.nombre,
           m.apellido,

@@ -8,7 +8,6 @@ export default async function EstudianteCard({
 }) {
     const { data: estudiante } = await fetchGet(`/api/estudiante/${params?.id}`);
 
-
     return (
         <section className="container">
             <h1 className="text-4xl text-center font-bold p-2 mt-10">Card de Estudiante </h1>
