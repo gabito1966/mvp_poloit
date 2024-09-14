@@ -147,7 +147,7 @@ export async function POST(request: Request) {
 
     revalidatePath("/mentor");
 
-    return NextResponse.json(createResponse(true, rows, "Se creó el mentor"), {
+    return NextResponse.json(createResponse(true, rows, "Registro de mentor exitoso"), {
       status: 201,
     });
   } catch (error) {

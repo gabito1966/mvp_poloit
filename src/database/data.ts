@@ -167,8 +167,6 @@ export async function fetchFilteredOngs(
 }
 
 
-
-
 export async function fetchPagesEstudiantes(query: string) {
   try {
 

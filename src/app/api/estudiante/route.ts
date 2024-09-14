@@ -139,7 +139,6 @@ export async function POST(request: Request) {
       createResponse(
         false,
         [],
-        "Error en la base de datos",
         getErrorMessageFromCode(error)
       ),
       { status: 500 }
