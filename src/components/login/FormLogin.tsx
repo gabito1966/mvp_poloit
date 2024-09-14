@@ -43,77 +43,45 @@ function FormLogin() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    try {
-      // const response = await fetchPostClient("/api/login", data);
+    const postPromise = fetchPostClient("/api/login", data);
 
-      const postPromise = fetchPostClient("/api/login", data);
+    toast.promise(postPromise, {
+      loading: "Cargando...",
+      success: (response) => {
+        const now = new Date();
+        const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-      toast.promise(postPromise, {
-        loading: "Cargando...",
-        success: (response) => {
-          const now = new Date();
-          const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+        const cookie = `session=${
+          response.session
+        }; expires=${expire.toUTCString()}; path=/`;
+        document.cookie = cookie;
 
-          const cookie = `session=${
-            response.session
-          }; expires=${expire.toUTCString()}; path=/`;
-          document.cookie = cookie;
+        const user = `user=${response.data.email}#${response.data.nombre}#${
+          response.data.apellido
+        }; expires=${expire.toUTCString()}; path=/`;
+        document.cookie = user;
 
-          const user = `user=${response.data.email}#${response.data.nombre}#${
-            response.data.apellido
-          }; expires=${expire.toUTCString()}; path=/`;
-          document.cookie = user;
+        revalidateFuntion("/");
 
-          revalidateFuntion("/");
+        router.refresh();
+        router.push("/", { scroll: false });
 
-          router.refresh();
-          router.push("/", { scroll: false });
+        return `${response?.message}`;
+      }, // Ajusta este mensaje según la respuesta que esperas
+      error: (error) => {
+        setResponseBack({
+          success: error.status,
+          message: error.message,
+          errors: error.errors,
+        });
 
-          return `${response?.message}`;
-        }, // Ajusta este mensaje según la respuesta que esperas
-        error: (error) => {
-          setResponseBack({
-            success: error.status,
-            message: error.message,
-            errors: error.errors,
-          });
-
-          return `${error.message}`;
-        },
-      });
-
-      // if (!response.success) {
-      //   throw response;
-      // }
-
-      // const now = new Date();
-      // const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-
-      // const cookie = `session=${
-      //   response.session
-      // }; expires=${expire.toUTCString()}; path=/`;
-      // document.cookie = cookie;
-
-      // const user = `user=${response.data.email}#${response.data.nombre}#${
-      //   response.data.apellido
-      // }; expires=${expire.toUTCString()}; path=/`;
-      // document.cookie = user;
-
-      // revalidateFuntion("/");
-
-      // router.refresh();
-      // router.push("/", { scroll: false });
-    } catch (error: any) {
-      setResponseBack({
-        success: error.status,
-        message: error.message,
-        errors: error.errors,
-      });
-    }
+        return `${error.message}`;
+      },
+    });
   }
 
   return (
-    <div className="flex flex-col justify-items-center justify-center  lg:px-8 h-full bg-white text-black min-w-96 min-md:w-full min-md:min-w-full ">
+    <div className="flex flex-col justify-items-center justify-center  lg:px-8 h-full bg-white text-black min-w-96 min-md:w-full min-md:min-w-full m-auto ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight underline">
           Inicia sesión en tu cuenta

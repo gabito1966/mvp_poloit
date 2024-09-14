@@ -278,4 +278,3 @@ export async function fetchCardData() {
     throw new Error("Failed to fetch card data.");
   }
 }
-
