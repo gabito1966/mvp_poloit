@@ -16,6 +16,7 @@ const UpdateEstudiante = z.object({
     .min(3, "El apellido debe tener al menos 3 caracter")
     .max(25, "El nombre debe de tener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
+    estado:z.boolean(),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
@@ -113,6 +114,13 @@ export async function GET(
       );
     }
 
+    if(!rows[0].estado){
+      return NextResponse.json(
+        createResponse(false, [], "El estudiante no existe"),
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
       createResponse(true, rows[0], "consulta exitosa"),
       { status: 200 }
@@ -143,6 +151,7 @@ export async function PUT(
   const validatedFields = UpdateEstudiante.safeParse({
     ...body,
     id: id,
+    estado: true,
   });
 
   if (!validatedFields.success) {

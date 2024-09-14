@@ -19,6 +19,7 @@ export default async function MentorEdit({
             empresas={dataEmpresa.data}
             tecnologias={dataTecnologia.data}
             dataFetch={dataEstudiante.data}
+            tipo="Actualizar"
         />
     );
 }

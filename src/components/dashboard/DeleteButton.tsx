@@ -47,7 +47,10 @@ function DeleteButton({ url }: { url: string }) {
     <form onSubmit={handleDelete}>
       <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
         <span className="sr-only">Eliminar</span>
-        <div className="rounded-md  hover:bg-gray-100 w-5 h-fit" title="Eliminar">
+        <div
+          className="rounded-md  hover:bg-gray-100 w-5 h-fit"
+          title="Eliminar"
+        >
           <svg className="w-5 h-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"

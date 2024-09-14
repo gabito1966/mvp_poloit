@@ -92,7 +92,6 @@ CREATE TABLE administradores (
     nombre VARCHAR(255) NOT NULL,
     apellido VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    usuario VARCHAR(50) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL
 );
 

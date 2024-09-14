@@ -1,18 +1,16 @@
-"use client"
+"use client";
 
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 function EditButton({ url }: { url: string }) {
-
   const router = useRouter();
 
   const handleRedirect = () => {
-
     revalidateFuntion(url);
     router.push(url);
-  }
+  };
 
   return (
     <button onClick={handleRedirect} className="h-fit" title="Editar">

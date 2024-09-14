@@ -30,6 +30,7 @@ export default async function EstudianteEdit({
       ongs={dataOng.data}
       tecnologias={dataTecnologia.data}
       dataFetch={dataEstudiante.data}
+      tipo="actualizar"
     />
   );
 }

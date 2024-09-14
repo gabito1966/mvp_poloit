@@ -31,7 +31,7 @@ export type Administrador = {
 
 const CreateLogin = z.object({
   email: z
-    .string()
+    .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "El email de debe contener al menos 6 caracteres"),
   password: z.string().min(6, "La contraseña debe contener al menos 6 caracteres"),
@@ -39,7 +39,7 @@ const CreateLogin = z.object({
 
 export async function POST(request: Request) {
   const body = (await request.json()) as UserLogin;
-  let token = "";
+
   const validatedFields = CreateLogin.safeParse({
     email: body.email,
     password: body.password,
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       createResponse(
         false,
         [],
-        "Error En Algun Campo",
+        "Error En Algún Campo",
         validatedFields.error.flatten().fieldErrors
       ),
       { status: 400 }
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
   
       return NextResponse.json(
         {
-          ...createResponse(true, rest, "Consulta Exitosa"),
+          ...createResponse(true, rest, "Inicio de sesion Exitoso"),
           session: session,
         },
         { status: 200 }
@@ -109,7 +109,6 @@ export async function POST(request: Request) {
     }
    
   } catch (error) {
-    
     NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
        {

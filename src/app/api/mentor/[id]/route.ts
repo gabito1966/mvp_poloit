@@ -4,22 +4,29 @@ import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
-const UpdateMentor = z.object({
+const UpdateScremaMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
   nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
+    .string({ message: "Ingrese un nombre" })
+    .trim()
     .min(3, "El nombre debe de contener al menos 3 caracteres")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios"}),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   apellido: z
-    .string({ message: "Ingrese un apellido" }).trim()
+    .string({ message: "Ingrese un apellido" })
+    .trim()
     .min(3, "El apellido debe contener al menos e caracter")
     .max(25, "El apellido debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios"}),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "El email debe contener al menos 6 caracteres"),
+  estado: z.boolean(),
   telefono: z
     .string({ message: "Ingrese un teléfono" })
     .min(6, "El teléfono debe contener al menos 6 números")
@@ -29,9 +36,17 @@ const UpdateMentor = z.object({
     invalid_type_error: "Seleccione una empresa",
   }),
   tecnologias: z
-    .array(z.coerce.number({ invalid_type_error: "Seleccione una tecnología" }))
+    .array(
+      z.object({
+        id: z.coerce.number(),
+        nombre: z.string(),
+        tipo: z.string(),
+      })
+    )
     .min(1, "Debe seleccionar al menos una tecnología"),
 });
+
+const UpdateMentor = UpdateScremaMentor.omit({});
 
 type MentorInterface = z.infer<typeof UpdateMentor>;
 
@@ -71,30 +86,43 @@ export async function GET(
   const { id: idMentor } = validatedFields.data;
 
   try {
-    const { rows } = await sql<MentorInterface>`SELECT 
-      m.id ,
-      m.nombre ,
-      m.apellido ,
-      m.email,
-      m.telefono,
-      m.estado ,
-      e.id AS id_empresa,
-      e.nombre AS nombre_empresa,
-      ARRAY_AGG(t.nombre) AS tecnologias
-    FROM 
-      mentores m
-    LEFT JOIN 
-      mentores_tecnologias mt ON m.id = mt.id_mentor
-    LEFT JOIN 
-      tecnologias t ON mt.id_tecnologia = t.id
-    LEFT JOIN 
-      empresas e ON m.id_empresa = e.id
-    GROUP BY 
-      m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre
-    HAVING 
+    const { rows } = await sql<MentorInterface>`
+        SELECT 
+          m.id,
+          m.nombre,
+          m.apellido,
+          m.email,
+          m.telefono,
+          m.estado,
+          e.id AS id_empresa,
+          e.nombre AS nombre_empresa,
+          COALESCE(
+              ARRAY_AGG(
+              JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+              ) FILTER (WHERE t.id IS NOT NULL), 
+              '{}'
+              ) AS tecnologias
+        FROM 
+          mentores m
+        LEFT JOIN 
+          mentores_tecnologias et ON m.id = et.id_mentor
+        LEFT JOIN 
+          tecnologias t ON et.id_tecnologia = t.id
+        LEFT JOIN 
+          empresas e ON m.id_empresa = e.id
+        GROUP BY 
+          m.id, m.nombre, m.apellido, m.email, m.telefono, m.estado, e.id, e.nombre
+          HAVING
       m.id = ${idMentor};`;
 
     if (rows.length === 0) {
+      return NextResponse.json(
+        createResponse(false, [], "El mentor no existe"),
+        { status: 404 }
+      );
+    }
+
+    if (!rows[0].estado) {
       return NextResponse.json(
         createResponse(false, [], "El mentor no existe"),
         { status: 404 }
@@ -131,15 +159,24 @@ export async function PUT(
   const validatedFields = UpdateMentor.safeParse({
     ...body,
     id: id,
+    estado: true,
   });
 
-  if (!validatedFields.success) {
+  if (
+    !validatedFields.success ||
+    (body?.tecnologias.length == 1 &&
+      body?.tecnologias[0].tipo == "BACKEND")
+  ) {
     return NextResponse.json(
       createResponse(
         false,
         [],
-        "Error en algún campo",
-        validatedFields.error.flatten().fieldErrors
+        "Error En Algún Campo",
+        body?.tecnologias.length==1 && body?.tecnologias[0].tipo== "BACKEND"?
+        {...validatedFields.error?.flatten().fieldErrors ,
+          tecnologias2: ["Seleccione una tecnología"]}:
+          validatedFields.error?.flatten().fieldErrors,
+        
       ),
       { status: 400 }
     );
@@ -161,7 +198,7 @@ export async function PUT(
     await sql`DELETE FROM mentores_tecnologias WHERE id_mentor = ${id_mentor}`;
 
     for (const tecnologia of tecnologias) {
-      await sql`INSERT INTO mentores_tecnologias (id_mentor, id_tecnologia) VALUES (${id_mentor}, ${tecnologia})`;
+      await sql`INSERT INTO mentores_tecnologias (id_mentor, id_tecnologia) VALUES (${id_mentor}, ${tecnologia.id})`;
     }
 
     revalidatePath("/mentor");

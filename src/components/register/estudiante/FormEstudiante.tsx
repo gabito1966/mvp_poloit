@@ -37,10 +37,12 @@ function FormEstudiante({
   ongs,
   tecnologias,
   dataFetch,
+  tipo,
 }: {
   ongs: Ong[];
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
+  tipo: string;
 }) {
   const router = useRouter();
 
@@ -85,14 +87,14 @@ function FormEstudiante({
         tecnologias: dataFetch.tecnologias,
       });
     }
-  }, []);
+  }, [dataFetch, tecnologias]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     if (name === "tecnologias") {
-      let tec: { id: number; nombre: string; tipo: string }[] = [];
+      const tec: { id: number; nombre: string; tipo: string }[] = [];
       tec.push(
         tecnologias.find((e) => e.id.toString() == value) || {
           id: 0,
@@ -166,7 +168,8 @@ function FormEstudiante({
   return (
     <div className="container mx-auto p-2 h-full">
       <h1 className="text-2xl font-bold mb-4 text-center underline">
-        Formulario de Inscripción de Estudiantes
+        Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de
+        Estudiantes
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -377,9 +380,9 @@ function FormEstudiante({
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
+          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
         >
-          Registrar Estudiante
+          {tipo} Estudiante
         </button>
       </form>
     </div>

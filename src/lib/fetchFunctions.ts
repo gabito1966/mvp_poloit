@@ -23,6 +23,9 @@ export async function fetchPostClient(url: string, data: any) {
     body: JSON.stringify(data),
   });
 
+  if(!response.ok)
+    throw await response.json(); 
+
   return await response.json();
 }
 

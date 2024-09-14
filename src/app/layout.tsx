@@ -3,7 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "@/lib/fonts";
-
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "MVP-PoloIt",
@@ -18,13 +18,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className}`}>
-            <Sidebar />
-        {/* <div className="flex w-full flex-col"> */}
-          <main className="flex flex-col h-full w-full lg:pl-60 max-lg:ml-10  items-center justify-center">
-            {children}       
-          </main>
-        {/* </div> */}
-              <Footer />
+        <Toaster position="top-right" />
+        <Sidebar />
+        <main className="flex flex-col h-full w-full lg:pl-60 max-lg:ml-10  items-center justify-center ">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
