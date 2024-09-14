@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { EstudiantesData, MentorData } from "./definitions";
+import { empresas, EstudiantesData, MentorData, Ong } from "./definitions";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -104,6 +104,70 @@ OFFSET ${offset};
   }
 }
 
+export async function fetchFilteredEmpresas(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const empresas = await sql<empresas>`
+      SELECT 
+        e.id,
+        e.nombre
+      FROM 
+        empresas e
+      WHERE 
+        e.nombre ILIKE ${`%${query}%`}
+      ORDER BY 
+        e.id
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return empresas.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered empresas. Returning all empresas.",
+      error
+    );
+    return [];
+  }
+}
+
+export async function fetchFilteredOngs(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const ongs = await sql<Ong>`
+      SELECT 
+        o.id,
+        o.nombre
+      FROM 
+        ongs o
+      WHERE 
+        o.nombre ILIKE ${`%${query}%`}
+      ORDER BY 
+        o.id
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return ongs.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered ongs. Returning all ongs.",
+      error
+    );
+    return [];
+  }
+}
+
+
+
 
 export async function fetchPagesEstudiantes(query: string) {
   try {
@@ -126,6 +190,8 @@ export async function fetchPagesEstudiantes(query: string) {
   }
 }
 
+
+
 export async function fetchPagesMentores(query: string) {
   try {
 
@@ -146,3 +212,72 @@ export async function fetchPagesMentores(query: string) {
     return 0;
   }
 }
+
+export async function fetchPagesEmpresas(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM empresas
+      WHERE
+        (nombre ILIKE ${`%${query}%`})
+        AND id IS NOT NULL
+    `;
+
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
+
+export async function fetchPagesOngs(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM ongs
+      WHERE
+        (nombre ILIKE ${`%${query}%`})
+        AND id IS NOT NULL
+    `;
+
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
+
+export async function fetchCardData() {
+  try {
+    const estudiantesCountPromise = sql`SELECT COUNT(*) FROM estudiantes`;
+    const estudiantesInactivosCountPromise = sql`SELECT COUNT(*) FROM estudiantes WHERE estado = FALSE`;
+    const mentoresInactivosCountPromise = sql`SELECT COUNT(*) FROM mentores WHERE estado = FALSE`;
+    const equiposCountPromise = sql`SELECT COUNT(*) FROM equipos`;
+
+    const data = await Promise.all([
+      estudiantesCountPromise,
+      estudiantesInactivosCountPromise,
+      mentoresInactivosCountPromise,
+      equiposCountPromise,
+    ]);
+
+    const totalEstudiantes = Number(data[0].rows[0].count ?? "0");
+    const totalEstudiantesInactivos = Number(data[1].rows[0].count ?? "0");
+    const totalMentoresInactivos = Number(data[2].rows[0].count ?? "0");
+    const totalEquipos = Number(data[3].rows[0].count ?? "0");
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    return {
+      totalEstudiantes,
+      totalEstudiantesInactivos,
+      totalMentoresInactivos,
+      totalEquipos,
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch card data.");
+  }
+}
+
