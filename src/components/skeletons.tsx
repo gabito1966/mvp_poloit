@@ -225,11 +225,75 @@ export function TableRowSkeleton() {
       {/* Actions */}
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
-          <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
         </div>
       </td>
     </tr>
+  );
+}
+
+
+export function CardSkeleton(){
+  return(
+    <div className="w-full">
+    <div className="h-8 bg-gray-100 rounded-full mx-auto mb-5 mt-14 max-w-xl animate-pulse"></div>
+<div role="status" className=" w-full p-4 border border-gray-100 rounded-lg shadow animate-pulse md:p-6 md:w-auto ">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-7 ">
+       
+       <div className="flex  justify-center">
+        <div >
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
+            <div className="h-4  bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+       <div className="flex  justify-center">
+        <div>
+            <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32 "></div>
+            <div className="h-4   bg-gray-100 rounded-full  w-32  mb-6"></div>
+        </div>
+        </div>
+    </div>
+  
+</div>
+    </div>
   );
 }
