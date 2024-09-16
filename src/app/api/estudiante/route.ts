@@ -13,7 +13,7 @@ const CreateSchemaEstudiante = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .trim()
-    .min(3, "El nombre debe de contener al menos 3 caracteres").trim()
+    .min(3, "El nombre debe de contener al menos 3 caracteres")
     .max(25, "El nombre debe contener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, {
       message: "Solo se permiten catacteres o espacios",
