@@ -7,7 +7,7 @@ function Footer() {
       link: "https://www.linkedin.com/in/javier-espindola/",
     },
     {
-      nombre: "Elizabeth Rabi",
+      nombre: "Elizabeth Rabinad",
       link: "https://www.linkedin.com/in/elizabeth-rabinad-4b6131167/",
     },
     {

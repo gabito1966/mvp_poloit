@@ -25,6 +25,12 @@ export default async function Home() {
           <div className="py-20 flex  ">
             <Image src='/logo-silvertech.png' alt="logo silvertech" width={150} height={50} className="object-center" />
           </div>
+          <div className="py-20 flex  ">
+            <Image src='/logo-fundacion-gestion-y-desarrollo.png' alt="logo Fundacion gestion y desarrollo" width={150} height={50} className="object-center" />
+          </div>
+          <div className="py-20 flex  ">
+            <Image src='/logo-forge.png' alt="logo Forge" width={150} height={50} className="object-center" />
+          </div>
         </div>
       </div>
     </section>
