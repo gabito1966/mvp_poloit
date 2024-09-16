@@ -3,7 +3,6 @@
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -51,14 +50,12 @@ function FormLogin() {
         const now = new Date();
         const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        const cookie = `session=${
-          response.session
-        }; expires=${expire.toUTCString()}; path=/`;
+        const cookie = `session=${response.session
+          }; expires=${expire.toUTCString()}; path=/`;
         document.cookie = cookie;
 
-        const user = `user=${response.data.email}#${response.data.nombre}#${
-          response.data.apellido
-        }; expires=${expire.toUTCString()}; path=/`;
+        const user = `user=${response.data.email}#${response.data.nombre}#${response.data.apellido
+          }; expires=${expire.toUTCString()}; path=/`;
         document.cookie = user;
 
         revalidateFuntion("/");

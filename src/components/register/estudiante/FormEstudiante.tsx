@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
+
 interface Estudiante {
   id?: "";
   nombre: string;
@@ -127,14 +128,11 @@ function FormEstudiante({
       tecnologias: form.tecnologias,
     };
 
-    let response;
-
     try {
+      let response;
+
       if (dataFetch) {
-        response = await fetchPutClient(
-          `/api/estudiante/${dataFetch.id}`,
-          newEstudiante
-        );
+        response = await fetchPutClient(`/api/estudiante/${dataFetch.id}`, newEstudiante);
       } else {
         response = await fetchPostClient(`/api/estudiante`, newEstudiante);
       }

@@ -1,4 +1,5 @@
 import { fetchGet } from "@/lib/fetchFunctions";
+import Link from "next/link";
 
 export default async function MentorCard({
   params,
@@ -49,7 +50,7 @@ export default async function MentorCard({
                   Tecnologías:
                 </h4>
                 <p className="bg-transparent text-base mb-6">
-                  {mentor.tecnologias.map((e:any, i:number)=>i===(mentor.tecnologias.length-1)?`${e.nombre}`:`${e.nombre}, `)}
+                  {mentor.tecnologias.map((e: any, i: number) => i === (mentor.tecnologias.length - 1) ? `${e.nombre}` : `${e.nombre}, `)}
                 </p>
               </div>
             </div>
@@ -63,6 +64,11 @@ export default async function MentorCard({
             </div>
           </div>
         }
+      </div>
+      <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-4 mt-20">
+        <Link href="/mentor">
+          Volver a mentor
+        </Link>
       </div>
     </section>
   );

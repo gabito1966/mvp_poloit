@@ -42,7 +42,7 @@ function FormMentor({
   empresas: Empresa[];
   tecnologias: Tecnologia[];
   dataFetch?: MentorParams | undefined;
-  tipo:string;
+  tipo: string;
 }) {
   const router = useRouter();
 
@@ -190,7 +190,7 @@ function FormMentor({
     <>
       <div className="container mx-auto p-2 h-full">
         <h1 className="text-2xl font-bold mb-4 text-center underline">
-          Formulario de {tipo=="Registrar"?"Inscripción":"Actualización"} de Mentores
+          Formulario de {tipo == "Registrar" ? "Inscripción" : "Actualización"} de Mentores
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -385,7 +385,7 @@ function FormMentor({
               <option value={0} disabled hidden>
                 Seleccione una Tecnología
               </option>
-              {tecnologias.filter(e=>e.tipo!="FRONTEND").map((e, i) => {
+              {tecnologias.filter(e => e.tipo != "FRONTEND").map((e, i) => {
                 return (
                   <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre} - {e.tipo}
@@ -407,7 +407,7 @@ function FormMentor({
               htmlFor="tecnologias2"
               className="block text-sm font-medium text-gray-500"
             >
-              Tecnologías secundaria: 
+              Tecnologías secundaria:
             </label>
 
             <select
@@ -432,7 +432,7 @@ function FormMentor({
               <option value={0} disabled hidden>
                 Seleccione una Tecnología
               </option>
-              {tecnologias.filter(e=>e.nombre!="UX/UI"&&e.nombre!="QA"&&e.tipo!="FRONTEND"&&e.nombre!=form.tecnologias[0].nombre).map((e, i) => {
+              {tecnologias.filter(e => e.nombre != "UX/UI" && e.nombre != "QA" && e.tipo != "FRONTEND" && e.nombre != form.tecnologias[0].nombre).map((e, i) => {
                 return (
                   <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre} - {e.tipo}
