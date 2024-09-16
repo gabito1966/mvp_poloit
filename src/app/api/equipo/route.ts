@@ -152,7 +152,7 @@ FROM
     */
 
     ///DESSESTRUCTURAR Y cambiar nombre al mismo tiempo----
-    const { rows:cant_estudiantes } = await sql` SELECT 
+    const { rows: cant_estudiantes } = await sql` SELECT 
         COUNT(*) AS total_estudiantes
       FROM 
         estudiantes e
@@ -167,7 +167,7 @@ FROM
 
     //si ya hay equipos sacar el ultimo valor del ultimo equipo agregado y spasarlo a number y sumarlo en las iteraciones. o setearlo en cero para que no sume nada al final de cada iteracion que sea una variable aparte.
 
-    const {rows: result_mentor_ux_ui} = await sql`
+    const { rows: result_mentor_ux_ui } = await sql`
       SELECT 
         m.id,
         ARRAY_AGG(
@@ -185,8 +185,9 @@ FROM
       GROUP BY 
         m.id
       LIMIT 1;
-        `
-    const {rows: result_mentor_qa} = await sql`
+        `;
+
+    const { rows: result_mentor_qa } = await sql`
       SELECT 
         m.id,
         ARRAY_AGG(
@@ -201,176 +202,149 @@ FROM
       WHERE 
         t.tipo = 'INTERFACE' AND
         m.estado = true
+        AND e.estado = true
       GROUP BY 
         m.id
       LIMIT 1;
-    `
+    `;
 
-
-    let total_estudiantes: number =cant_estudiantes[0].total_estudiantes;
+    let total_estudiantes: number = cant_estudiantes[0].total_estudiantes;
 
     //tomar 1 mentor de qa, 1 mentor de ux_ui
 
     const arr_equipos: number[] = [];
 
     while (total_estudiantes >= tamano) {
-      const {rows:result_mentor} = await sql`
+      const { rows: result_mentor } = await sql`
         SELECT 
-            m.id,
-            COALESCE(
-                ARRAY_AGG(
-                    JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
-                ) FILTER (WHERE t.id IS NOT NULL),
-                '{}'
-            ) AS tecnologias
+          m.id,
+          COALESCE(
+              ARRAY_AGG(
+                  JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+              ) FILTER (WHERE t.id IS NOT NULL), 
+              '{}'  -- Si no hay tecnologías, devuelve un array vacío
+          ) AS tecnologias
         FROM 
             mentores m
-        LEFT JOIN 
+        JOIN 
             mentores_tecnologias mt ON m.id = mt.id_mentor
-        LEFT JOIN 
+        JOIN 
             tecnologias t ON mt.id_tecnologia = t.id
         LEFT JOIN 
             equipos e ON m.id = e.id_mentor 
-                        OR m.id = e.id_mentor_ux_ui 
-                        OR m.id = e.id_mentor_qa
         WHERE 
-            e.id IS NULL  -- Mentores que no están asociados a ningún equipo
+            t.tipo = 'BACKEND' 
+            AND e.id IS NULL 
+            AND m.estado = true
         GROUP BY 
             m.id
-        HAVING 
-            m.estado = true
         LIMIT 1;
               `;
 
       if (!result_mentor.length) break;
 
-      const {rows:result_ux_ui} = await sql`
-          SELECT 
-            e.id,
-            COALESCE(
-            ARRAY_AGG(tecnologias.nombre) 
-            FILTER (WHERE tecnologias.id IS NOT NULL), 
-            '{}'
-            ) AS tecnologias
-          FROM 
-            estudiantes e
-          LEFT JOIN 
-            equipos_estudiantes ee ON e.id = ee.id_estudiante
-          LEFT JOIN 
-            estudiantes_tecnologias et ON e.id = et.id_estudiante
-          LEFT JOIN 
-            tecnologias ON et.id_tecnologia = tecnologias.id
-          WHERE 
-            ee.id_estudiante IS NULL 
-            AND e.estado = true
-            AND tecnologias.nombre ILIKE '%UX/UI%'
-          GROUP BY 
-            e.id
-          LIMIT 1;
+      const { rows: result_ux_ui } = await sql`
+              SELECT 
+                e.id
+              FROM 
+                estudiantes e
+              JOIN 
+                estudiantes_tecnologias et ON e.id = et.id_estudiante
+              JOIN 
+                tecnologias t ON et.id_tecnologia = t.id
+              LEFT JOIN 
+                equipos_estudiantes ee ON e.id = ee.id_estudiante
+              WHERE 
+                ee.id_equipo IS NULL 
+                AND t.tipo = 'INTERFACE'
+                AND e.estado = true
+              LIMIT
+               1;
             `;
 
       if (!result_ux_ui.length) break;
 
       arr_equipos.push(result_ux_ui[0].id);
 
-      const result_qa = await sql`
+      const {rows:result_qa} = await sql`
           SELECT 
-            e.id,
-            COALESCE(
-            ARRAY_AGG(tecnologias.nombre) 
-            FILTER (WHERE tecnologias.id IS NOT NULL), 
-            '{}'
-            ) AS tecnologias
+            e.id
           FROM 
-              estudiantes e
+            estudiantes e
+          JOIN 
+            estudiantes_tecnologias et ON e.id = et.id_estudiante
+          JOIN 
+            tecnologias t ON et.id_tecnologia = t.id
           LEFT JOIN 
-              equipos_estudiantes ee ON e.id = ee.id_estudiante
-          LEFT JOIN 
-              estudiantes_tecnologias et ON e.id = et.id_estudiante
-          LEFT JOIN 
-              tecnologias ON et.id_tecnologia = tecnologias.id
+            equipos_estudiantes ee ON e.id = ee.id_estudiante
           WHERE 
-              ee.id_estudiante IS NULL 
-              AND e.estado = true
-              AND tecnologias.nombre ILIKE '%QA%'
-          GROUP BY 
-              e.id
+            ee.id_equipo IS NULL 
+            AND t.tipo = 'TESTING'
+            AND e.estado = true
           LIMIT 1;
           `;
 
-      if (!result_qa.rows.length) break; //ver el length si es igual a cero no por id
+      if (!result_qa.length) break; //ver el length si es igual a cero no por id
 
-      arr_equipos.push(result_qa.rows[0].id);
+      arr_equipos.push(result_qa[0].id);
 
       //podria ordenar por front end y despues por back end para luego tomar los que faltan siempre
       const result_frontEnd = await sql`
-          SELECT 
-            e.id,
-            COALESCE(
-            ARRAY_AGG(tecnologias.nombre) 
-            FILTER (WHERE tecnologias.id IS NOT NULL), 
-            '{}'
-            ) AS tecnologias
-          FROM 
-              estudiantes e
-          LEFT JOIN 
-              equipos_estudiantes ee ON e.id = ee.id_estudiante
-          LEFT JOIN 
-              estudiantes_tecnologias et ON e.id = et.id_estudiante
-          LEFT JOIN 
-              tecnologias ON et.id_tecnologia = tecnologias.id
-          WHERE 
-              ee.id_estudiante IS NULL 
-              AND e.estado = true
-              AND tecnologias.tipo ILIKE '%FRONTEND%'
-          GROUP BY 
-              e.id
-          LIMIT ${frontEnd};
-          `;
+              SELECT 
+                e.id
+              FROM 
+                estudiantes e
+              JOIN 
+                estudiantes_tecnologias et ON e.id = et.id_estudiante
+              JOIN 
+                tecnologias t ON et.id_tecnologia = t.id
+              LEFT JOIN 
+                equipos_estudiantes ee ON e.id = ee.id_estudiante
+              WHERE 
+                ee.id_equipo IS NULL   
+                AND t.tipo = 'FRONTEND'  
+                AND e.estado = true
+              LIMIT 
+                ${frontEnd}
+                `;
 
-      if (!result_frontEnd.rows.length) break;//VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
+      if (!result_frontEnd.rows.length) break; //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
 
-      result_frontEnd.rows.forEach(e=> arr_equipos.push(e.id))
+      result_frontEnd.rows.forEach((e) => arr_equipos.push(e.id));
 
-      
       //podria ordenar pór backend y front end para luego tomar los que me faltan en backend pero es bac hay que tener cuidado, luego ver sino hay de la tecnologia del mentor.
       //ver despues si no encuentra la cantidad de la tecnoligía principal asociada al mentor
-      const result_backend = await sql`
-          SELECT 
-            e.id,
-            COALESCE(
-            ARRAY_AGG(tecnologias.nombre) 
-            FILTER (WHERE tecnologias.id IS NOT NULL), 
-            '{}'
-            ) AS tecnologias
-          FROM 
-              estudiantes e
-          LEFT JOIN 
-              equipos_estudiantes ee ON e.id = ee.id_estudiante
-          LEFT JOIN 
-              estudiantes_tecnologias et ON e.id = et.id_estudiante
-          LEFT JOIN 
-              tecnologias ON et.id_tecnologia = tecnologias.id
-          WHERE 
-              ee.id_estudiante IS NULL 
-              AND e.estado = true
-              AND tecnologias.nombre ILIKE '%${result_mentor[0].tecnologia[0].nombre}%'
-          GROUP BY 
-              e.id
-          LIMIT ${backend};
-          `;
+      const { rows: result_backend } = await sql`
+        SELECT 
+          e.id
+        FROM 
+          estudiantes e
+        JOIN 
+          estudiantes_tecnologias et ON e.id = et.id_estudiante
+        JOIN 
+          tecnologias t ON et.id_tecnologia = t.id
+        LEFT JOIN 
+          equipos_estudiantes ee ON e.id = ee.id_estudiante
+        WHERE 
+          ee.id_equipo IS NULL  
+          AND t.nombre = 'NODE'  
+          AND t.tipo = 'BACKEND'  
+          AND e.estado = true
+        LIMIT 
+          ${backend}`;
 
-          if (!result_backend.rows.length) break;//VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
+      if (!result_backend.length) break; //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
 
-          result_backend.rows.forEach(e=> arr_equipos.push(e.id))
+      result_backend.forEach((e) => arr_equipos.push(e.id));
 
-
-          //despues ver lo de la fecha
-        const {rows:result_equipo}=   await sql`
+      //despues ver lo de la fecha
+      const { rows: result_equipo } = await sql`
             INSERT INTO equipos (nombre, tamano, fecha_inicio, fecha_fin, id_mentor, id_mentor_ux_ui, id_mentor_qa)
-            VALUES ("${nombre}-${contador}",${tamano}, ${new Date().toISOString()},${new Date().toISOString()},${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id})
+            VALUES ("${nombre}-${contador}",${tamano}, ${new Date().toISOString()},${new Date().toISOString()},${
+        result_mentor[0].id
+      },${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id})
             RETURNING id
-          `
+          `;
 
       arr_equipos.forEach(async (e) => {
         await sql`insert into equipos_estudiantes(id_equipo, id_estudiante)
@@ -385,15 +359,66 @@ FROM
     if (total_estudiantes) {
       //agoritmo de distribucion
 
-      
+      try {
 
+        const { rows:estudiantes_sin_grupos } = await sql`
+        SELECT 
+        e.id AS id_estudiante
+        FROM 
+            estudiantes e
+            LEFT JOIN 
+            equipos_estudiantes ee ON e.id = ee.id_estudiante
+            JOIN 
+            estudiantes_tecnologias et ON e.id = et.id_estudiante
+        JOIN 
+            tecnologias t ON et.id_tecnologia = t.id
+        WHERE 
+            ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
+        ORDER BY 
+            t.nombre DESC;  -- Ordena los resultados por tecnología
+            `
+
+            //SI SON 1MILLON DE GRUPOS NO LOS TRAERIA A MEMORIA SINO LOS AGREGARIA/TRAERIA CON UN OFFSET Y UN LIMIRT DE A UNO
+            const { rows:total_grupos } = await sql`
+            SELECT 
+              eq.id AS id_equipo,
+              t.id AS id_tecnologia,
+              t.nombre AS nombre_tecnologia,
+              t.tipo AS tipo_tecnologia
+            FROM 
+              equipos eq
+            JOIN 
+              mentores m ON eq.id_mentor = m.id
+            JOIN 
+              mentores_tecnologias mt ON m.id = mt.id_mentor
+            JOIN 
+              tecnologias t ON mt.id_tecnologia = t.id
+            ORDER BY 
+              t.nombre DESC;  -- Ordena los equipos por el nombre de la tecnología del mentor
+            `
+
+        for (let i = 0; i < total_estudiantes; i++) {
+          //VER SI HACERLO CON WHILE PARA PODER DESTRIBUIR CON TA TIPO DE TECNOLOGIA PARA CADA ESTUDIANTE EN CADA EQUIPO, SINO REPARTILOS ASI NOMAS PRIMERO LYEGO VER
+
+          
+        }
+
+      } catch (error) {
+        return NextResponse.json(
+          createResponse(false, [], getErrorMessageFromCode(error)),
+          {
+            status: 500,
+          }
+        );
+      }
     }
 
-    
-      return NextResponse.json(createResponse(true, [], "consulta exitosa"), {
+    return NextResponse.json(
+      createResponse(true, [], "Creación de equipos exitosa"),
+      {
         status: 200,
-      });
-    
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
@@ -404,35 +429,39 @@ FROM
 
 export async function GET(request: Request) {
   try {
-    const {rows:result_mentor} = await sql`
-            SELECT 
-            m.id,
-            COALESCE(
-                ARRAY_AGG(
-                    JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
-                ) FILTER (WHERE  tecnologias.id IS NOT NULL),
-                '{}'
-            ) AS tecnologias
-        FROM 
-            mentores m
-        LEFT JOIN 
-            mentores_tecnologias mt ON m.id = mt.id_mentor
-        LEFT JOIN 
-            tecnologias t ON mt.id_tecnologia = t.id
-        LEFT JOIN 
-            equipos e ON m.id = e.id_mentor 
-        WHERE 
-            e.id IS NULL  -- Mentores que no están asociados a ningún equipo
-            AND tecnologias.tipo = 'BACKEND'
-        GROUP BY 
-            m.id
+    const { rows: result_mentor } = await sql`
+    SELECT 
+    m.id,
+    COALESCE(
+        ARRAY_AGG(
+            JSON_BUILD_OBJECT('id', t.id, 'nombre', t.nombre, 'tipo', t.tipo)
+        ) FILTER (WHERE t.id IS NOT NULL), 
+        '{}'  -- Si no hay tecnologías, devuelve un array vacío
+    ) AS tecnologias
+FROM 
+    mentores m
+JOIN 
+    mentores_tecnologias mt ON m.id = mt.id_mentor
+JOIN 
+    tecnologias t ON mt.id_tecnologia = t.id
+LEFT JOIN 
+    equipos e ON m.id = e.id_mentor 
+WHERE 
+    t.tipo = 'BACKEND' 
+    AND e.id IS NULL 
+    AND m.estado = true
+GROUP BY 
+    m.id;
               `;
 
     console.log(result_mentor);
-    
-      return NextResponse.json(createResponse(true, [result_mentor], "consulta exitosa"), {
+
+    return NextResponse.json(
+      createResponse(true, [result_mentor], "consulta exitosa"),
+      {
         status: 200,
-      });
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       createResponse(false, [], getErrorMessageFromCode(error)),
