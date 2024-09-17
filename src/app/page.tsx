@@ -4,12 +4,12 @@ import Image from "next/image";
 
 export default async function Home() {
   const images = [
-    '/logo-empujar.png',
-    '/logo-fundacion-integrar.jpg',
-    '/logo-forge.png',
-    '/logo-silvertech.png',
-    '/logo-gestion-y-desarrollo.png',
-    '/logo-codo-a-codo.png'
+    '/empujar.png',
+    '/fundacion-integrar.png',
+    '/forge.png',
+    '/silvertech.png',
+    '/gestion-y-desarrollo.png',
+    '/codo-a-codo.png'
   ];
   return (
     <section className="container w-full  text-black ">
