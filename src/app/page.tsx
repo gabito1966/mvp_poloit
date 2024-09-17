@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default async function Home() {
   const images = [
-    '/logo-integrar.png',
     '/logo-empujar.png',
+    '/logo-integrar.png',
     '/logo-forge.png',
     '/logo-silvertech.png',
     '/logo-gestion-y-desarrollo.png',
@@ -21,7 +21,7 @@ export default async function Home() {
       </div>
       <div className="container border-2 border-gray-800 rounded-lg w-1/2 items-center ml-64">
         <h2 className="font-bold text-2xl text-center w-full underline">Organizaciones Participantes</h2>
-        <div className="h-auto w-full mt-3 flex items-center">
+        <div className="h-auto w-full my-3 flex items-center">
           <Carousel images={images} />
         </div>
 
