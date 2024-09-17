@@ -5,7 +5,7 @@ import Image from "next/image";
 export default async function Home() {
   const images = [
     '/logo-empujar.png',
-    '/logo-integrar.png',
+    '/logo-fundacion-integrar.jpg',
     '/logo-forge.png',
     '/logo-silvertech.png',
     '/logo-gestion-y-desarrollo.png',
