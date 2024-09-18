@@ -16,8 +16,8 @@ export default async function Home() {
       <div className="pt-5">
         <h1 className="text-3xl underline">Home</h1>
       </div>
-      <section className="flex flex-col-4 gap-5 mt-10 mx-auto justify-between text-blue-700">
-        <div className="w-60 h-32 rounded-lg border-2 border-slate-600  p-2 ">
+      <section className="flex flex-col-4 md:flex-cols-2 gap-5 mt-10 mx-auto justify-between text-blue-700">
+        <div className="w-full sm:w-60 h-32 rounded-lg border-2 border-slate-600  p-2 ">
           <h4 className="m-2 text-sm text-center text-black">
             Alumnos inscriptos
           </h4>
@@ -51,7 +51,7 @@ export default async function Home() {
         </div>
       </section>
       <section>
-      <div className="container mt-5 border-2 border-gray-800 rounded-lg w-1/2 items-center mx-auto">
+      <div className="container mt-5 border-2 border-gray-800 rounded-lg max-w-4xl items-center mx-auto">
         <h2 className="font-bold text-2xl text-center w-full underline">Organizaciones Participantes</h2>
         <div className="h-auto w-full my-3 flex items-center">
           <Carousel images={images} />
@@ -81,8 +81,8 @@ export default async function Home() {
         <div className="h-48 border-2 m-5 border-slate-600 rounded-lg">
             <h2 className="font-bold text-center text-xl mx-6 my-3">Acciones Rápidas</h2>
           <div className="p-2 flex flex-col justify-center">
-            <Link href='/register/estudiantes' className="bg-blue-400 hover:bg-blue-700 p-2 text-white rounded-full text-center min-w-45 mx-auto">Registrar Estudiante</Link>
-            <Link href='/register/mentores' className="bg-blue-400 hover:bg-blue-700 p-2 text-white rounded-full text-center min-w-45 mx-auto mt-3">Registrar Mentor</Link>
+            <Link href='/register/estudiantes' className="bg-blue-400 hover:bg-blue-700 p-2 text-white rounded-full text-center min-w-[180px] mx-auto">Registrar Estudiante</Link>
+            <Link href='/register/mentores' className="bg-blue-400 hover:bg-blue-700 p-2 text-white rounded-full text-center min-w-[180px] mx-auto mt-3">Registrar Mentor</Link>
           </div>
         </div>
       </section>
