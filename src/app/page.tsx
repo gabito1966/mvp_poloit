@@ -56,27 +56,6 @@ export default async function Home() {
         <div className="h-auto w-full my-3 flex items-center">
           <Carousel images={images} />
         </div>
-
-        {/*<div className="flex flex-wrap wrap gap-5 justify-around">
-          <div className="py-20 flex ">
-            <Image src='/logo-integrar.png' alt="logo integrar" width={150} height={50} className="object-center" />
-          </div>
-          <div className="py-20 flex  ">
-            <Image src='/logo-empujar.png' alt="logo empujar" width={150} height={50} className="object-center" />
-          </div>
-          <div className="py-20 flex  ">
-            <Image src='/logo-codo-a-codo.png' alt="logo codo a codo" width={150} height={50} className="object-center" />
-          </div>
-          <div className="py-20 flex  ">
-            <Image src='/logo-silvertech.png' alt="logo silvertech" width={150} height={50} className="object-center" />
-          </div>
-          <div className="py-20 flex  ">
-            <Image src='/logo-fundacion-gestion-y-desarrollo.png' alt="logo Fundacion gestion y desarrollo" width={150} height={50} className="object-center" />
-          </div>
-          <div className="py-20 flex  ">
-            <Image src='/logo-forge.png' alt="logo Forge" width={150} height={50} className="object-center" />
-          </div>
-        </div>*/}
       </div>
       </section>
       <section className="grid grid-cols-2 mt-5 gap-5">
