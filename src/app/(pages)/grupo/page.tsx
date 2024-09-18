@@ -1,7 +1,7 @@
 import CreateButton from "@/components/dashboard/CreateButton";
 import DeleteButton from "@/components/dashboard/DeleteButton";
 import EditButton from "@/components/dashboard/EditButton";
-import TableGrupo from "@/components/dashboard/grupo/TableGrupo";
+
 
 
 import Pagination from "@/components/dashboard/Pagination";
@@ -16,7 +16,7 @@ async function page({
 }: {
     searchParams?: { query?: string; page?: string };
 }) {
-
+ 
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
 
@@ -33,7 +33,7 @@ async function page({
        </div>
        {/* hacer esquleto de grupos */}
        <Suspense key={query + currentPage} fallback={<TableEstudianteSkeleton />}>
-         <TableGrupo  query={query} currentPage={currentPage} />
+         {/* <TableGrupo  query={query} currentPage={currentPage} /> */}
        </Suspense>
        <div className="mt-5 flex w-full justify-center">
          <Pagination totalPages={totalPages} />
