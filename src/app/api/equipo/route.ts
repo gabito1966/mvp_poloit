@@ -14,14 +14,14 @@ const CreateSchemaEquipos = z.object({
     .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(30, "El nombre debe tener menos de 30 caracteres")
     .regex(/^[a-zA-Z0-9\s]+$/, {
-      message: "No se permiten símbolos, solo letras y números",
+      message: "Solo se permiten letras y números",
     }),
   tamano: z.coerce
     .number({
       invalid_type_error: "El tamaño debe ser un número",
       message: "Ingrese un tamaño",
     })
-    .gt(5, { message: "Ingrese un numero mayor 0" })
+    .gt(4, { message: "Ingrese un numero mayor 4" })
     .lt(12, "El tamaño o debe ser menor a 12"),
   fecha_inicio: z.date().optional(),
   fecha_fin: z.date().optional(),
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
     if (
       cant_grupos.length == 0 &&
-      cant_estudiantes[0].total_estudiantes < tamano
+      total_estudiantes < tamano
     ) {
       return NextResponse.json(
         createResponse(
@@ -93,33 +93,34 @@ export async function POST(request: Request) {
 
     if (
       cant_grupos[0].total_grupos > 0 &&
-      cant_estudiantes[0].total_estudiantes < tamano
+      total_estudiantes < tamano
     ) {
       let index_grupos: number = 0;
       let index_estudiantes: number = 0;
 
-      console.log("total_estudiantes: ", total_estudiantes);
-
-      while (total_estudiantes) {
+      while (total_estudiantes!=0) {
         //veer fecha
+        console.log("dentre")
 
         await sql`
-          INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
-          SELECT 
-            (SELECT eq.id 
-             FROM equipos eq
-             ORDER BY eq.id  -- Ordena los equipos por su ID
-             LIMIT 1 
-             OFFSET ${index_grupos}) AS id_equipo,
-            (SELECT e.id 
-             FROM estudiantes e
-             LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-             JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-             JOIN tecnologias t ON et.id_tecnologia = t.id
-             WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
-             ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
-             LIMIT 1
-             OFFSET ${index_estudiantes}) AS id_estudiante;
+         INSERT INTO equipo_estudiantes(id_equipo, id_estudiante)
+  SELECT 
+    (SELECT eq.id 
+     FROM equipos eq
+     LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+     GROUP BY eq.id
+     ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+     LIMIT 1 
+     OFFSET ${index_grupos}) AS id_equipo,
+    (SELECT e.id 
+     FROM estudiantes e
+     LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+     JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+     JOIN tecnologias t ON et.id_tecnologia = t.id
+     WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
+     ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
+     LIMIT 1
+     OFFSET ${index_estudiantes}) AS id_estudiante;
         `;
 
         total_estudiantes--;
@@ -136,9 +137,24 @@ export async function POST(request: Request) {
       );
     }
 
-    //si ya hay equipos sacar el ultimo valor del ultimo equipo agregado y spasarlo a number y sumarlo en las iteraciones. o setearlo en cero para que no sume nada al final de cada iteracion que sea una variable aparte.
-
-    //si la cantidad grupos es mayor a cero, entonces sacar el numero del ultimo del ultimo que esta en el nombre. query de la tabla de grupos ordenarlos por id asc limit 1, split(-) posicion [1] pasarlo a numbre.
+    if (
+      cant_grupos[0].total_grupos > 0 &&
+      cant_estudiantes[0].total_estudiantes > tamano
+    ) {
+      const { rows: result_ultimo_equipo } = await sql`
+        SELECT 
+          nombre 
+        FROM
+         equipos
+        ORDER BY
+          id DESC
+        LIMIT
+          1;
+      `;
+      const nombre = result_ultimo_equipo[0].nombre;
+      const id = parseInt(nombre.split("-")[1]);
+      contador = id + 1;
+    }
 
     const { rows: result_mentor_ux_ui } = await sql`
       SELECT 
@@ -415,22 +431,24 @@ export async function POST(request: Request) {
 
       while (total_estudiantes) {
         await sql`
-          INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
-          SELECT 
-            (SELECT eq.id 
-             FROM equipos eq
-             ORDER BY eq.id  -- Ordena los equipos por su ID
-             LIMIT 1 
-             OFFSET ${index_grupos}) AS id_equipo,
-            (SELECT e.id 
-             FROM estudiantes e
-             LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-             JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-             JOIN tecnologias t ON et.id_tecnologia = t.id
-             WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
-             ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
-             LIMIT 1
-             OFFSET ${index_estudiantes}) AS id_estudiante;
+          INSERT INTO equipo_estudiantes(id_equipo, id_estudiante)
+  SELECT 
+    (SELECT eq.id 
+     FROM equipos eq
+     LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+     GROUP BY eq.id
+     ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+     LIMIT 1 
+     OFFSET ${index_grupos}) AS id_equipo,
+    (SELECT e.id 
+     FROM estudiantes e
+     LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+     JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+     JOIN tecnologias t ON et.id_tecnologia = t.id
+     WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
+     ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
+     LIMIT 1
+     OFFSET ${index_estudiantes}) AS id_estudiante;
         `;
 
         total_estudiantes--;

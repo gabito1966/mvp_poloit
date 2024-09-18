@@ -8,23 +8,23 @@ const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
   nombre: z
     .string({ message: "Ingrese un nombre" }).trim()
-    .min(3, "El nombre debe de tener al menos 3 caracteres")
-    .max(25, "El nombre debe de tener menos de 25 caracteres")
+    .min(2, "El nombre debe de contener al menos 2 caracteres")
+    .max(25, "El nombre debe de contener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
   apellido: z
     .string({ message: "Ingrese un apellido" }).trim()
-    .min(3, "El apellido debe tener al menos 3 caracter")
-    .max(25, "El nombre debe de tener menos de 25 caracteres")
+    .min(2, "El apellido debe contener al menos 2 caracter")
+    .max(25, "El nombre debe de contener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
     estado:z.boolean(),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "El email debe tener al menos 6 caracteres"),
+    .min(6, "El email debe contener al menos 6 caracteres"),
   telefono: z
     .string({ message: "Ingrese un teléfono" })
-    .min(6, "El teléfono debe tener al menos 6 números")
-    .max(20, "El teléfono debe tener menos de 20 números")
+    .min(6, "El teléfono debe contener al menos 6 números")
+    .max(20, "El teléfono debe contener menos de 20 números")
     .regex(/^[0-9]+$/, "Solo se permiten numéros"),
   id_ong: z.coerce.number({
     invalid_type_error: "Seleccione una organización",

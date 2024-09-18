@@ -3,7 +3,6 @@
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";

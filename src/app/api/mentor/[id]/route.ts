@@ -9,7 +9,7 @@ const UpdateScremaMentor = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .trim()
-    .min(3, "El nombre debe de contener al menos 3 caracteres")
+    .min(2, "El nombre debe de contener al menos 2 caracteres")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, {
       message: "Solo se permiten catacteres o espacios",
@@ -17,7 +17,7 @@ const UpdateScremaMentor = z.object({
   apellido: z
     .string({ message: "Ingrese un apellido" })
     .trim()
-    .min(3, "El apellido debe contener al menos e caracter")
+    .min(2, "El apellido debe contener al menos 2 caracter")
     .max(25, "El apellido debe contener menos de 25 caracteres")
     .regex(/^[a-zA-Z\s]+$/, {
       message: "Solo se permiten catacteres o espacios",

@@ -97,7 +97,7 @@ OFFSET ${offset};
       return mentores.rows;
   } catch (error) {
     console.log(
-      "Failed to fetch filtered invoices. Returning all invoices.",
+      "Failed to fetch filtered grupos. Returning all grupos.",
       error
     );
     return [];
