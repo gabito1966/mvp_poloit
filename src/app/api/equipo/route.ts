@@ -78,6 +78,20 @@ export async function POST(request: Request) {
     console.log(cant_grupos);
 
     if (
+      cant_grupos.length == 0 &&
+      cant_estudiantes[0].total_estudiantes < tamano
+    ) {
+      return NextResponse.json(
+        createResponse(
+          false,
+          [],
+          `No hay suficientes estudiantes para formar equipos`
+        ),
+        { status: 400 }
+      );
+    }
+
+    if (
       cant_grupos[0].total_grupos > 0 &&
       cant_estudiantes[0].total_estudiantes < tamano
     ) {
@@ -122,10 +136,9 @@ export async function POST(request: Request) {
       );
     }
 
-    //if (!rows[0].total_estudiantes) return;
-    //si la cantidad de estudiantes sin grupos es menor al tamano y la cantidad de grupos es cero, no se pueden armar grupos, no hay suficientes estudiantes o la cantidad de grupos es cero y la cantidad de mentores es cero entoces no se pueden armar grupos por que no hay suficientes mentores.
-
     //si ya hay equipos sacar el ultimo valor del ultimo equipo agregado y spasarlo a number y sumarlo en las iteraciones. o setearlo en cero para que no sume nada al final de cada iteracion que sea una variable aparte.
+
+    //si la cantidad grupos es mayor a cero, entonces sacar el numero del ultimo del ultimo que esta en el nombre. query de la tabla de grupos ordenarlos por id asc limit 1, split(-) posicion [1] pasarlo a numbre.
 
     const { rows: result_mentor_ux_ui } = await sql`
       SELECT 
@@ -172,6 +185,19 @@ export async function POST(request: Request) {
       `;
 
     console.log("mentor qa ", result_mentor_qa[0]);
+
+    if (result_mentor_qa.length == 0 || result_mentor_ux_ui.length == 0) {
+      return NextResponse.json(
+        createResponse(
+          false,
+          [],
+          `No hay suficientes mentores de ${
+            !result_mentor_qa ? "QA" : "UX/UI"
+          } para formar equipos`
+        ),
+        { status: 400 }
+      );
+    }
 
     let arr_equipos: number[] = [];
 
