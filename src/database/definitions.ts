@@ -97,3 +97,9 @@ export type empresas = {
   id: number;
   nombre: string;
 };
+
+export type EquipoData = {
+  
+  nombre: string;
+  tamano: number;
+};

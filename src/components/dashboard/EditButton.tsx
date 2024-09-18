@@ -1,7 +1,6 @@
 "use client";
 
 import { revalidateFuntion } from "@/lib/server/serverCache";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 function EditButton({ url }: { url: string }) {
