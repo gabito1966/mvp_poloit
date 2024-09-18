@@ -57,7 +57,6 @@ export async function POST(request: Request) {
     backend = Math.ceil((tamano - 2) * 0.6);
 
   try {
-   
     const { rows: cant_estudiantes } = await sql`
       SELECT 
         COUNT(*) AS total_estudiantes
@@ -71,22 +70,26 @@ export async function POST(request: Request) {
 
     let total_estudiantes: number = cant_estudiantes[0].total_estudiantes;
 
-    const {rows: cant_grupos} = await sql`
+    const { rows: cant_grupos } = await sql`
          SELECT COUNT(*) AS total_grupos
          FROM equipos;
-        `
+        `;
 
     console.log(cant_grupos);
 
-    if(cant_grupos[0].total_grupos > 0 && cant_estudiantes[0].total_estudiantes < tamano){
-    let index_grupos: number = 0;
-        let index_estudiantes: number = 0;
+    if (
+      cant_grupos[0].total_grupos > 0 &&
+      cant_estudiantes[0].total_estudiantes < tamano
+    ) {
+      let index_grupos: number = 0;
+      let index_estudiantes: number = 0;
 
-        console.log("total_estudiantes: ", total_estudiantes);
+      console.log("total_estudiantes: ", total_estudiantes);
 
-        while(total_estudiantes){//veer fecha
+      while (total_estudiantes) {
+        //veer fecha
 
-          await sql`
+        await sql`
           INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
           SELECT 
             (SELECT eq.id 
@@ -104,19 +107,19 @@ export async function POST(request: Request) {
              LIMIT 1
              OFFSET ${index_estudiantes}) AS id_estudiante;
         `;
-        
-          total_estudiantes--;
-          if(!total_estudiantes) break;
-          index_grupos = cant_grupos[0].total_grupos-1<index_grupos ?index_grupos++:0;
 
+        total_estudiantes--;
+        if (!total_estudiantes) break;
+        index_grupos =
+          cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
+      }
+
+      return NextResponse.json(
+        createResponse(true, [], "Creación de equipos exitosa"),
+        {
+          status: 200,
         }
-
-        return NextResponse.json(
-          createResponse(true, [], "Creación de equipos exitosa"),
-          {
-            status: 200,
-          }
-        );
+      );
     }
 
     //if (!rows[0].total_estudiantes) return;
@@ -169,8 +172,6 @@ export async function POST(request: Request) {
       `;
 
     console.log("mentor qa ", result_mentor_qa[0]);
-
-    
 
     let arr_equipos: number[] = [];
 
@@ -275,7 +276,7 @@ export async function POST(request: Request) {
           LIMIT 
             ${frontEnd}
               `;
-        console.log(result_frontEnd);
+      console.log(result_frontEnd);
 
       if (result_frontEnd.length < frontEnd) break; //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
 
@@ -303,11 +304,31 @@ export async function POST(request: Request) {
         AND e.estado = true
         LIMIT 
         ${backend}`;
-        
-        console.log("bacnkend1", result_backend);
-      if (result_backend.length < backend) //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
-      {
+
+      console.log("bacnkend1", result_backend);
+      if (result_backend.length < backend) {
+        //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
         const { rows: result_backend } = await sql`
+        SELECT 
+          e.id
+        FROM 
+          estudiantes e
+        JOIN 
+          estudiantes_tecnologias et ON e.id = et.id_estudiante
+        JOIN 
+        tecnologias t ON et.id_tecnologia = t.id
+        LEFT JOIN 
+        equipos_estudiantes ee ON e.id = ee.id_estudiante
+        WHERE 
+        ee.id_equipo IS NULL  
+        AND t.nombre = ${result_mentor[0].tecnologias[1].nombre}
+        AND t.tipo = 'BACKEND'  
+        AND e.estado = true
+        LIMIT 
+        ${backend}`;
+
+        if (result_backend.length < backend) {
+          const { rows: result_backend } = await sql`
         SELECT 
           e.id
         FROM 
@@ -320,26 +341,29 @@ export async function POST(request: Request) {
           equipos_estudiantes ee ON e.id = ee.id_estudiante
         WHERE 
           ee.id_equipo IS NULL  
-          AND t.nombre = ${result_mentor[0].tecnologias[1].nombre}
           AND t.tipo = 'BACKEND'  
           AND e.estado = true
         LIMIT 
           ${backend}`;
 
-        if (result_backend.length < backend) break;
+          if (result_backend.length < backend) break;
+          result_backend.forEach((e) => arr_equipos.push(e.id));
+        } else {
+          result_backend.forEach((e) => arr_equipos.push(e.id));
+        }
+      } else {
+        result_backend.forEach((e) => arr_equipos.push(e.id));
       }
 
       console.log("bacnkend2", result_backend);
-      result_backend.forEach((e) => arr_equipos.push(e.id));
 
-      const name:string =`${nombre}-${contador}`
+      const name: string = `${nombre}-${contador}`;
 
       //ver fecha
       const { rows: result_equipo } = await sql`
           INSERT INTO equipos (nombre, tamano, id_mentor, id_mentor_ux_ui, id_mentor_qa)
           VALUES (${name},${tamano}, ${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id})
           RETURNING id;`;
-
 
       arr_equipos.forEach(async (e) => {
         await sql`INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
@@ -349,23 +373,22 @@ export async function POST(request: Request) {
 
       total_estudiantes -= tamano;
       contador++;
-      arr_equipos=[];
+      arr_equipos = [];
       console.log(arr_equipos);
     }
 
     if (total_estudiantes) {
       //agoritmo de distribucion
 
-        const {rows: cant_grupos} = await sql`
+      const { rows: cant_grupos } = await sql`
           SELECT COUNT(*) AS total_grupos
           FROM equipos;
-        `    
-        let index_grupos: number = 0;
-        let index_estudiantes: number = 0;
+        `;
+      let index_grupos: number = 0;
+      let index_estudiantes: number = 0;
 
-        while(total_estudiantes){
-
-          await sql`
+      while (total_estudiantes) {
+        await sql`
           INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
           SELECT 
             (SELECT eq.id 
@@ -383,12 +406,12 @@ export async function POST(request: Request) {
              LIMIT 1
              OFFSET ${index_estudiantes}) AS id_estudiante;
         `;
-        
-          total_estudiantes--;
-          if(!total_estudiantes) break;
-          index_grupos = cant_grupos[0].total_grupos-1<index_grupos ?index_grupos++:0;
-        }
 
+        total_estudiantes--;
+        if (!total_estudiantes) break;
+        index_grupos =
+          cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
+      }
     }
 
     return NextResponse.json(
@@ -426,7 +449,6 @@ export async function GET(request: Request) {
     );
   }
 }
-
 
 export async function DELETE(request: Request) {
   try {

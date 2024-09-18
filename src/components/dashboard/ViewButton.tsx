@@ -1,11 +1,20 @@
-import Link from "next/link";
-import React from "react";
+"use client";
+import { revalidateFuntion } from "@/lib/server/serverCache";
+import { useRouter } from "next/navigation";
 
 export default function ViewButton({ url }: { url: string }) {
   const p = url.split("/")[2];
+
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    revalidateFuntion(url);
+    router.push(url);
+  };
+
   return (
     <>
-      <Link href={url} className="h-fit" title="Editar">
+      <button onClick={handleRedirect} className="h-fit" title="Editar">
         <div className="h-5 md:ml-4  " title={`ver ${p}`}>
           <svg className="h-5 w-5">
             <svg
@@ -17,7 +26,7 @@ export default function ViewButton({ url }: { url: string }) {
             </svg>
           </svg>
         </div>
-      </Link>
+      </button>
     </>
   );
 }

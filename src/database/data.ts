@@ -104,6 +104,80 @@ OFFSET ${offset};
   }
 }
 
+export async function fetchFilteredEquipos(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {//poner el tipo de dato
+    const equipos = await sql`
+      SELECT 
+        e.id,
+        e.nombre,
+        e.tamano,
+        e.fecha_inicio,
+        e.fecha_fin,
+        m.id AS id_mentor,
+        m.nombre AS mentor,
+        m.apellido AS mentor_apellido,
+        m.email AS mentor_email,
+        m.telefono AS mentor_telefono,
+        muxui.id AS id_mentor_ux_ui,
+        muxui.nombre AS mentor_ux_ui,
+        muxui.apellido AS mentor_ux_ui_apellido,
+        muxui.email AS mentor_ux_ui_email,
+        muxui.telefono AS mentor_ux_ui_telefono,
+        mqa.id AS id_mentor_qa,
+        mqa.nombre AS mentor_qa,
+        mqa.apellido AS mentor_qa_apellido,
+        mqa.email AS mentor_qa_email,
+        mqa.telefono AS mentor_qa_telefono,
+        ARRAY_AGG(s.nombre) AS estudiantes,
+        ARRAY_AGG(t.nombre) AS tecnologias,
+        ARRAY_AGG(o.nombre) AS ongs
+      FROM 
+        equipos e
+      LEFT JOIN 
+        equipos_estudiantes ces ON e.id = ces.id_equipo
+      LEFT JOIN 
+        estudiantes s ON ces.id_estudiante = s.id
+      LEFT JOIN 
+        estudiantes_tecnologias est ON s.id = est.id_estudiante
+      LEFT JOIN 
+        tecnologias t ON est.id_tecnologia = t.id
+      LEFT JOIN 
+        ongs o ON s.id_ong = o.id
+      LEFT JOIN 
+        mentores m ON e.id_mentor = m.id
+      LEFT JOIN 
+        mentores muxui ON e.id_mentor_ux_ui = muxui.id
+      LEFT JOIN 
+        mentores mqa ON e.id_mentor_qa = mqa.id
+      WHERE 
+        (e.nombre ILIKE ${`%${query}%`} OR
+        s.nombre ILIKE ${`%${query}%`} OR
+        s.apellido ILIKE ${`%${query}%`} OR
+        s.email ILIKE ${`%${query}%`} OR
+        s.telefono ILIKE ${`%${query}%`} )
+      GROUP BY 
+        e.id, m.id, muxui.id, mqa.id
+      ORDER BY 
+        e.id
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return equipos.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered equipos. Returning all equipos.",
+      error
+    );
+    return [];
+  }
+}
+
 export async function fetchFilteredEmpresas(
   query: string,
   currentPage: number
@@ -237,6 +311,24 @@ export async function fetchPagesOngs(query: string) {
       WHERE
         (nombre ILIKE ${`%${query}%`})
         AND id IS NOT NULL
+    `;
+
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
+
+
+export async function fetchPagesEquipos(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM equipos
+      WHERE
+        nombre ILIKE ${`%${query}%`}
     `;
 
     const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);

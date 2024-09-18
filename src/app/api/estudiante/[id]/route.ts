@@ -184,6 +184,7 @@ export async function PUT(
     await sql`INSERT INTO estudiantes_tecnologias (id_estudiante, id_tecnologia) VALUES (${id_estudiante}, ${tecnologias[0].id})`;
 
     revalidatePath("/estudiante");
+    revalidatePath(`/card/estudiante/${id_estudiante}`);
     return NextResponse.json(
       createResponse(true, [], "Actualización del estudiante exitosa"),
       { status: 200 }
