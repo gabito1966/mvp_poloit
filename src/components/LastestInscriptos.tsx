@@ -36,28 +36,12 @@ export default async function LastestInscriptos() {
         totalEquipos,
       } = await fetchCardData();
 
-      console.log(totalEstudiantes)
-      console.log(totalEstudiantesInactivos)
-      console.log(totalMentoresInactivos)
-      console.log(totalEquipos)
-
   return (
     <section className="p-5 flex flex-col-4 gap-5 justify-between text-blue-700">
-      {icons.map((element, i) => {
-        return (
-          <div key={`${element}-${i}`} className="h-[80px] flex flex-row align-middle justify-center rounded-xl bg-blue-50 p-2 shadow-md" title={`${element.name}`}>
-            <div className=" w-fit h-fit" dangerouslySetInnerHTML={{ __html: element.icon }} />
-            <div className="text-black h-full flex flex-col p-2 justify-between">
-            <h4 className=" text-xs font-medium text-nowrap capitalize">
-              {element.name}
-            </h4>
-            <span className="truncate  text-left font-bold	 text-2xl">
-                12
-            </span>
-            </div>
-          </div>
-        );
-      })}
+      <Card name ={icons[0].name} icon={icons[0].icon} cant ={totalEstudiantes}/>
+      <Card name ={icons[1].name} icon={icons[1].icon} cant ={totalEstudiantesInactivos}/>
+      <Card name ={icons[2].name} icon={icons[2].icon} cant ={totalMentoresInactivos}/>
+      <Card name ={icons[3].name} icon={icons[3].icon} cant ={totalEquipos}/>  
     </section>
   );
 }
@@ -81,7 +65,7 @@ export function Card({
           {name}
         </h4>
         <span className="truncate  text-left font-bold	 text-2xl">
-            12
+           {cant}
         </span>
         </div>
       </div>
