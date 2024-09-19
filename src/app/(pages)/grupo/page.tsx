@@ -1,12 +1,7 @@
 import CreateButton from "@/components/dashboard/CreateButton";
-import DeleteButton from "@/components/dashboard/DeleteButton";
-import EditButton from "@/components/dashboard/EditButton";
-
-
-
+import TableGrupos from "@/components/dashboard/grupo/TableGrupos";
 import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
-import ViewButton from "@/components/dashboard/ViewButton";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEquipos } from "@/database/data";
 import { Suspense } from "react";
@@ -24,16 +19,16 @@ async function page({
 
     return (
         <div className="w-full flex-grow p-3  md:p-12">
-        <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Estudiantes</h1>
+        <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Grupos</h1>
        <div className="flex w-full items-center justify-between">
        </div>
        <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
-         <Search placeholder="buscar estudiante..." />
-         <CreateButton url="/register/estudiantes" />
+         <Search placeholder="buscar grupos..." />
+         <CreateButton url="/register/grupos" />
        </div>
        {/* hacer esquleto de grupos */}
        <Suspense key={query + currentPage} fallback={<TableEstudianteSkeleton />}>
-         {/* <TableGrupo  query={query} currentPage={currentPage} /> */}
+         <TableGrupos  query={query} currentPage={currentPage} />
        </Suspense>
        <div className="mt-5 flex w-full justify-center">
          <Pagination totalPages={totalPages} />

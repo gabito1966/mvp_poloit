@@ -58,8 +58,8 @@ export default function FormGrupo() {
       loading: "Cargando...",
       success: (response: any) => {
         revalidateFuntion("/")
-        revalidateFuntion("/equipos")
-        router.push("/grupos");
+        revalidateFuntion("/grupo")
+        router.push("/grupo");
         return `${response?.message}`;
       },
       error: (error) => {

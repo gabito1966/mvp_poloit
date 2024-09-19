@@ -1,49 +1,29 @@
 "use client";
 
 import { fetchDeleteClient } from "@/lib/fetchFunctions";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function DeleteButton({ url }: { url: string }) {
-  const [deleted, setDeleted] = useState(false);
+  const router= useRouter();
+
   const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const data = await fetchDeleteClient(url);
 
-      if (!data.success) {
-        throw data;
-      }
+      const deletePromise  = fetchDeleteClient(url);
 
-      setDeleted(true);
-    } catch (error) {
-      console.log(error);
-    }
+      toast.promise(deletePromise,{
+        loading: "Eliminando...",
+        success: (response) => {
+          router.refresh();
+          return `${response.message}`;
+        },
+        error: (error)=>error.message,
+      })
+
   };
 
-  async function refreshStudentsList() {
-    try {
-      const data = await fetchDeleteClient(url);
-
-      if (!data.success) {
-        throw data;
-      }
-
-      setDeleted(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (deleted) {
-      // Refresca el componente que necesitas
-      // Por ejemplo, puedes llamar a una función que refresque la lista de estudiantes
-      refreshStudentsList();
-      setDeleted(false);
-    }
-  }, [deleted]);
-
-  return (
+    return (
     <form onSubmit={handleDelete}>
       <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
         <span className="sr-only">Eliminar</span>

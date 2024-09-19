@@ -139,7 +139,7 @@ export async function POST(request: Request) {
 
     if (
       cant_grupos[0].total_grupos > 0 &&
-      cant_estudiantes[0].total_estudiantes > tamano
+      cant_estudiantes[0].total_estudiantes >= tamano
     ) {
       const { rows: result_ultimo_equipo } = await sql`
         SELECT 
@@ -496,11 +496,11 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const resultDelete = await sql`
+     await sql`
       DELETE FROM equipos_estudiantes;
     `;
 
-    const resultEquipos = await sql`
+    await sql`
       DELETE FROM equipos;
     `;
 
