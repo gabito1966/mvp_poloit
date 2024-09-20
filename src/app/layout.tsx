@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className}`}>
-        <Toaster position="top-right" richColors />
+        <Toaster position="top-right"/>
         <Sidebar />
         <main className="flex flex-col h-full w-full lg:pl-60 max-lg:ml-10  items-center justify-center ">
           {children}

@@ -4,7 +4,7 @@ export async function fetchGet(url: string) {
   const response = await fetch(`${urlBase}${url}`);
 
   if (!response.ok) {
-    return await response.json()|| {
+    return await response.json() || {
       data: [],
       seccess: false,
       message: "los datos no estan disponibles en este momento",
@@ -23,8 +23,8 @@ export async function fetchPostClient(url: string, data: any) {
     body: JSON.stringify(data),
   });
 
-  if(!response.ok)
-    throw await response.json(); 
+  if (!response.ok)
+    throw await response.json();
 
   return await response.json();
 }
@@ -32,7 +32,8 @@ export async function fetchPostClient(url: string, data: any) {
 export async function fetchGetClient(url: string) {
   const response = await fetch(`${url}`);
   if (!response.ok) {
-    return await response.json()|| {
+
+    throw await response.json() || {
       data: [],
       seccess: false,
       message: "los datos no estan disponibles en este momento",
@@ -49,7 +50,9 @@ export async function fetchPutClient(url: string, data: any) {
     },
     body: JSON.stringify(data),
   });
-  
+  if (!response.ok)
+    throw await response.json();
+
   return await response.json();
 }
 
