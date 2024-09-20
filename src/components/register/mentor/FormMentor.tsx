@@ -149,18 +149,34 @@ function FormMentor({
       id_empresa: parseInt(form.id_empresa, 10),
       tecnologias: form.tecnologias,
     };
-
-    let response;
     
-    try {
-      response = await toast.promise(
+    toast.promise(
       (dataFetch
         ? fetchPutClient(`/api/mentor/${dataFetch.id}`, newMentor)
         : fetchPostClient(`/api/mentor`, newMentor)
       ),
       {
         loading: 'Cargando...',
-        success: 'Mentor creado exitosamente!!!',
+        success: (response) => { 
+          setForm({
+            id: "",
+            nombre: "",
+            apellido: "",
+            email: "",
+            telefono: "",
+            estado: "",
+            id_empresa: "",
+            tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
+              id: number;
+              nombre: string;
+              tipo: string;
+            }[],
+          });
+    
+          router.push("/mentor");
+          return response.message
+
+        },
         error: (err) => {
           // Manejar el error
           setResponseBack({ message: err.message, errors: err.errors || {} });
@@ -168,30 +184,8 @@ function FormMentor({
         },
       }
       );
-      
-      setForm({
-        id: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        telefono: "",
-        estado: "",
-        id_empresa: "",
-        tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
-          id: number;
-          nombre: string;
-          tipo: string;
-        }[],
-      });
-
-      router.push("/mentor");
-    } catch (error: any) {
-      console.log(error);
-      setResponseBack({ message: error.message, errors: error.errors });
-    }
   };
 
- 
   return (
     <>
       <div className="container mx-auto p-2 h-full">

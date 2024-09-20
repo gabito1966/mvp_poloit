@@ -51,7 +51,7 @@ const CreateSchemaEstudiante = z.object({
     .min(1, "Debe seleccionar una tecnología"),
 });
 
-const CreateEstudiante = CreateSchemaEstudiante.omit({id:true});
+const CreateEstudiante = CreateSchemaEstudiante.omit({ id: true });
 
 type EstudianteInterface = z.infer<typeof CreateSchemaEstudiante>;
 

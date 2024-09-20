@@ -129,47 +129,42 @@ function FormEstudiante({
       tecnologias: form.tecnologias,
     };
 
-    let response;
-
-    try {
-      response = await toast.promise(
-          (dataFetch 
-          ? fetchPutClient(`/api/estudiante/${dataFetch.id}`, newEstudiante)
-          : fetchPostClient('/api/estudiante', newEstudiante)
+   
+    toast.promise(
+      (dataFetch
+        ? fetchPutClient(`/api/estudiante/${dataFetch.id}`, newEstudiante)
+        : fetchPostClient('/api/estudiante', newEstudiante)
       ),
       {
         loading: 'Cargando...',
-        success: 'Estudiante creado con éxito',
+        success: (response) => {
+          
+          setForm({
+            id: "",
+            nombre: "",
+            apellido: "",
+            email: "",
+            telefono: "",
+            estado: "",
+            id_ong: "",
+            tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
+              id: number;
+              nombre: string;
+              tipo: string;
+            }[],
+          });
+    
+          router.push("/estudiante");
+          return response.message
+        },
         error: (err) => {
           // Manejar el error
           setResponseBack({ message: err.message, errors: err.errors || {} })
           return 'Error al crear el estudiante: ' + (err.message || 'Intente nuevamente');
         }
       }
-      );
-
-      setForm({
-        id: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        telefono: "",
-        estado: "",
-        id_ong: "",
-        tecnologias: [{ id: 0, nombre: "", tipo: "" }] as {
-          id: number;
-          nombre: string;
-          tipo: string;
-        }[],
-      });
-
-      router.push("/estudiante");
-    } catch (error: any) {
-      console.log(error);
-      setResponseBack({ message: error.message, errors: error.errors });
-    }
-  };
-
+    );
+  }
 
   return (
     <div className="container mx-auto p-2 h-full">
