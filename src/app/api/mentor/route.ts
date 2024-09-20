@@ -29,7 +29,7 @@ const CreateSchemaMentor = z.object({
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
     .min(6, "El email debe contener al menos 6 números")
-    .max(25, "El email debe contener menos de 25 números"),
+    .max(50, "El email debe contener menos de 50 caracteres"),
   telefono: z
     .string({ message: "Ingrese un teléfono" })
     .min(6, "El telefono debe contener al menos 6 caracteres")

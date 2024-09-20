@@ -1,3 +1,5 @@
+import { Estudiante, TecnologiaConEstudiantes } from "@/database/definitions";
+
 export function getErrorMessageFromCode(error: any) {
   try {
     let mensaje = "";
@@ -79,4 +81,21 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     '...',
     totalPages,
   ];
+};
+
+export const generateYAxis = (estudianteTecnologia: TecnologiaConEstudiantes[]) => {
+  // Calculate what labels we need to display on the y-axis
+  // based on highest record and in 1000s
+  const yAxisLabels:number[] = [];
+  const highestRecord = Math.max(...estudianteTecnologia.map((e) => e.cantidad_estudiantes));
+  // const topLabel = Math.ceil(highestRecord / 1000) * 1000;
+
+  // for (let i = topLabel; i >= 0; i -= 1000) {
+  //   yAxisLabels.push(`$${i / 1000}K`);
+  // }
+
+  estudianteTecnologia.forEach(e=>yAxisLabels.push(e.cantidad_estudiantes))
+
+  return { yAxisLabels, topLabel:highestRecord };
+
 };

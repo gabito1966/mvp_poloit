@@ -24,6 +24,16 @@ export type Estudiante = {
   id_ong: number ;
 };
 
+export type EstudianteFetch = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  estado: boolean;
+  nombre_ong: string ;
+};
+
 export type MentorData = {
   id: number;
   nombre: string;
@@ -103,3 +113,8 @@ export type EquipoData = {
   nombre: string;
   tamano: number;
 };
+
+export type TecnologiaConEstudiantes = {
+  nombre:string;
+  cantidad_estudiantes:number;
+}

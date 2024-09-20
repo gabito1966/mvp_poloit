@@ -7,20 +7,27 @@ import { z } from "zod";
 const UpdateEstudiante = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
   nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
+    .string({ message: "Ingrese un nombre" })
+    .trim()
     .min(2, "El nombre debe de contener al menos 2 caracteres")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten caracteres o espacios" }),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   apellido: z
-    .string({ message: "Ingrese un apellido" }).trim()
+    .string({ message: "Ingrese un apellido" })
+    .trim()
     .min(2, "El apellido debe contener al menos 2 caracter")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten caracteres o espacios" }),
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Solo se permiten catacteres o espacios",
+    }),
   estado: z.boolean(),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 caracteres"),
+    .min(6, "El email debe contener al menos 6 caracteres")
+    .max(50, "El email debe contener menos de 50 caracteres"),
   telefono: z
     .string({ message: "Ingrese un teléfono" })
     .min(6, "El teléfono debe contener al menos 6 números")
@@ -183,6 +190,7 @@ export async function PUT(
 
     await sql`INSERT INTO estudiantes_tecnologias (id_estudiante, id_tecnologia) VALUES (${id_estudiante}, ${tecnologias[0].id})`;
 
+    revalidatePath("/");
     revalidatePath("/estudiante");
     revalidatePath(`/card/estudiante/${id_estudiante}`);
     return NextResponse.json(
