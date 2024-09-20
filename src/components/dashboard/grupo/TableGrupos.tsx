@@ -9,9 +9,6 @@ export default async function TableGrupos({
     currentPage: number;
   }) {
     const grupos = await fetchFilteredEquipos(query, currentPage);
-  
-    console.log(grupos);
-
     return (
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
