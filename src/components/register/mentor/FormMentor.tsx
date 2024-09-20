@@ -5,6 +5,7 @@ import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Mentor {
   id?: "";
@@ -150,20 +151,24 @@ function FormMentor({
     };
 
     let response;
+    
     try {
-      if (dataFetch) {
-        response = await fetchPutClient(
-          `/api/mentor/${dataFetch.id}`,
-          newMentor
-        );
-      } else {
-        response = await fetchPostClient(`/api/mentor`, newMentor);
+      response = await toast.promise(
+      (dataFetch
+        ? fetchPutClient(`/api/mentor/${dataFetch.id}`, newMentor)
+        : fetchPostClient(`/api/mentor`, newMentor)
+      ),
+      {
+        loading: 'Cargando...',
+        success: 'Mentor creado exitosamente!!!',
+        error: (err) => {
+          // Manejar el error
+          setResponseBack({ message: err.message, errors: err.errors || {} });
+          return 'Error al crear el mentor: ' + (err.message || 'Intente nuevamente');
+        },
       }
-
-      if (!response.success) {
-        throw response;
-      }
-
+      );
+      
       setForm({
         id: "",
         nombre: "",
@@ -186,6 +191,7 @@ function FormMentor({
     }
   };
 
+ 
   return (
     <>
       <div className="container mx-auto p-2 h-full">
@@ -449,7 +455,7 @@ function FormMentor({
             </div>
           </div>
 
-          <button
+          <button             
             type="submit"
             className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full"
           >

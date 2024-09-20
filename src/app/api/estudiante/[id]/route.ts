@@ -10,13 +10,13 @@ const UpdateEstudiante = z.object({
     .string({ message: "Ingrese un nombre" }).trim()
     .min(2, "El nombre debe de contener al menos 2 caracteres")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
+    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten caracteres o espacios" }),
   apellido: z
     .string({ message: "Ingrese un apellido" }).trim()
     .min(2, "El apellido debe contener al menos 2 caracter")
     .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten catacteres o espacios" }),
-    estado:z.boolean(),
+    .regex(/^[a-zA-Z\s]+$/, { message: "Solo se permiten caracteres o espacios" }),
+  estado: z.boolean(),
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
@@ -114,7 +114,7 @@ export async function GET(
       );
     }
 
-    if(!rows[0].estado){
+    if (!rows[0].estado) {
       return NextResponse.json(
         createResponse(false, [], "El estudiante no existe"),
         { status: 404 }
