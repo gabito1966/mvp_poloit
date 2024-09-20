@@ -25,7 +25,8 @@ const UpdateScremaMentor = z.object({
   email: z
     .string({ message: "Ingrese un email" })
     .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 caracteres"),
+    .min(6, "El email debe contener al menos 6 caracteres")
+    .max(50, "El email debe contener menos de 50 caracteres"),
   estado: z.boolean(),
   telefono: z
     .string({ message: "Ingrese un teléfono" })
@@ -201,6 +202,7 @@ export async function PUT(
       await sql`INSERT INTO mentores_tecnologias (id_mentor, id_tecnologia) VALUES (${id_mentor}, ${tecnologia.id})`;
     }
 
+    revalidatePath("/");
     revalidatePath("/mentor");
     revalidatePath(`/card/mentor/${id_mentor}`);
     return NextResponse.json(

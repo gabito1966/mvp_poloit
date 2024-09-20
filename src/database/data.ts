@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { empresas, EstudiantesData, MentorData, Ong } from "./definitions";
+import { empresas, EstudianteFetch, EstudiantesData, MentorData, Ong, TecnologiaConEstudiantes } from "./definitions";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -368,5 +368,49 @@ export async function fetchCardData() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch card data.");
+  }
+}
+
+export async function fetchLatestStudents() {
+  try {
+    const data = await sql<EstudianteFetch>`
+      SELECT 
+         e.id, e.nombre, e.apellido, e.email, e.telefono, o.nombre AS nombre_ong
+      FROM 
+        estudiantes e
+      JOIN ongs o ON o.id = e.id_ong
+          ORDER BY 
+        e.id DESC
+      LIMIT 5`;
+
+    const latestStudents = data.rows.map((student) => ({
+      ...student,
+    }));
+    return latestStudents;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the latest students.");
+  }
+}
+
+export async function fetchTecnologiasConEstudiantes() {
+  try {
+    const data = await sql<TecnologiaConEstudiantes>`
+      SELECT 
+        t.nombre as nombre, 
+        COUNT(et.id_estudiante) AS cantidad_estudiantes
+      FROM 
+        tecnologias t
+      LEFT JOIN 
+        estudiantes_tecnologias et ON t.id = et.id_tecnologia
+      GROUP BY 
+        t.nombre
+      ORDER BY
+        cantidad_estudiantes DESC
+        `;
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch tecnologias con estudiantes data.");
   }
 }

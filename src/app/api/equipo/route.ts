@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 const CreateSchemaEquipos = z.object({
   id: z.coerce.number({
@@ -103,7 +104,7 @@ export async function POST(request: Request) {
         console.log("dentre")
 
         await sql`
-         INSERT INTO equipo_estudiantes(id_equipo, id_estudiante)
+         INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
   SELECT 
     (SELECT eq.id 
      FROM equipos eq
@@ -431,7 +432,7 @@ export async function POST(request: Request) {
 
       while (total_estudiantes) {
         await sql`
-          INSERT INTO equipo_estudiantes(id_equipo, id_estudiante)
+          INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
   SELECT 
     (SELECT eq.id 
      FROM equipos eq
@@ -450,6 +451,7 @@ export async function POST(request: Request) {
      LIMIT 1
      OFFSET ${index_estudiantes}) AS id_estudiante;
         `;
+        //sumar al grupo +1 tamnaño
 
         total_estudiantes--;
         if (!total_estudiantes) break;
@@ -504,6 +506,7 @@ export async function DELETE(request: Request) {
       DELETE FROM equipos;
     `;
 
+    revalidatePath("/grupo");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),
       { status: 200 }
