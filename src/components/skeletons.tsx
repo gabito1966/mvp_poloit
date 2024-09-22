@@ -301,21 +301,22 @@ export function CardSkeleton(){
 export function LatestInscriptosSkeleton() {
   return (
     <div
-      className={`${shimmer} relative flex w-full flex-col overflow-hidden md:col-span-4`}
+      className={`${shimmer} relative flex w-full flex-col overflow-hidden md:col-span-4 animate-pulse`}
     >
-      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-100 p-4">
-        <div className="bg-white px-6">
+        <div className="flex flex-row justify-between items-center">
+      <div className="mb-4 h-6 w-60 rounded-md bg-gray-200" />
+      <div className="mb-4 h-5 w-14 rounded-md bg-gray-200" />
+
+        </div>
+        <div className="bg-white px-6 ">
           <InscriptosSkeleton />
           <InscriptosSkeleton />
           <InscriptosSkeleton />
           <InscriptosSkeleton />
           <InscriptosSkeleton />
         </div>
-        <div className="flex items-center pb-2 pt-6">
-          <div className="h-5 w-5 rounded-full bg-gray-200" />
-          <div className="ml-2 h-4 w-20 rounded-md bg-gray-200" />
-        </div>
+        
       </div>
     </div>
   );
@@ -323,14 +324,31 @@ export function LatestInscriptosSkeleton() {
 
 export function AlumnosTecnologiasChartSkeleton() {
   return (
-    <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
-      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
+    <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4 animate-pulse`}>
+      
       <div className="rounded-xl bg-gray-100 p-4">
-        <div className="mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-white p-4 sm:grid-cols-13 md:gap-4" />
-        <div className="flex items-center pb-2 pt-6">
-          <div className="h-5 w-5 rounded-full bg-gray-200" />
-          <div className="ml-2 h-4 w-20 rounded-md bg-gray-200" />
+        <div className="flex items-center p-2">
+          
+          <div className=" h-7 w-96 rounded-md bg-gray-200" />
         </div>
+        <div className="mt-0 grid h-[300px] grid-cols-5 items-end justify-items-center gap-6 rounded-md bg-white p-4 sm:grid-cols-6 md:gap-2" >
+            <div className=" h-full w-7 lg:flex-col justify-between gap 2 rounded-xl hidden lg:flex">
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+              <div className=" bg-gray-200 h-4 w-4"/>
+            </div>
+            <div className="bg-blue-100 h-full w-9 rounded-xl"/>
+            <div className="bg-blue-100 h-4/5 w-9 rounded-xl"/>
+            <div className="bg-blue-100 h-1/2 w-9 rounded-xl"/>
+            <div className="bg-blue-100 h-1/2 w-9 rounded-xl"/>
+            <div className="bg-blue-100 h-1/4 w-9 rounded-xl"/>
+          </div>
       </div>
     </div>
   );
@@ -338,15 +356,14 @@ export function AlumnosTecnologiasChartSkeleton() {
 
 export function InscriptosSkeleton() {
   return (
-    <div className="flex flex-row items-center justify-between border-b border-gray-100 py-4">
+    <div className="flex flex-row items-center justify-between border-b border-gray-100 py-2">
       <div className="flex items-center">
-        <div className="mr-2 h-8 w-8 rounded-full bg-gray-200" />
         <div className="min-w-0">
-          <div className="h-5 w-40 rounded-md bg-gray-200" />
-          <div className="mt-2 h-4 w-12 rounded-md bg-gray-200" />
+          <div className="h-4 w-14 rounded-md bg-gray-200" />
+          <div className="mt-2 h-3 w-40 rounded-md bg-gray-200" />
         </div>
       </div>
-      <div className="mt-2 h-4 w-12 rounded-md bg-gray-200" />
+      <div className="mt-2 h-4 w-28 rounded-md bg-gray-200" />
     </div>
   );
 }
@@ -354,14 +371,14 @@ export function InscriptosSkeleton() {
 export function CardItemSkeleton() {
   return (
     <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
+      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 p-4 shadow-sm animate-pulse`}
     >
-      <div className="flex p-4">
-        <div className="h-5 w-5 rounded-md bg-gray-200" />
-        <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
+      <div className="flex items-center justify-center  rounded-xl bg-white p-0">
+        <div className="h-10 w-10 rounded-md bg-gray-200" />
+      <div className="flex p-4 flex-col gap-2">
+        <div className=" h-4 w-20 rounded-md bg-gray-200 text-sm font-medium" />
+        <div className="h-6 w-6 rounded-md bg-gray-200" />
       </div>
-      <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
-        <div className="h-7 w-20 rounded-md bg-gray-200" />
       </div>
     </div>
   );

@@ -90,11 +90,16 @@ export const generateYAxis = (estudianteTecnologia: TecnologiaConEstudiantes[]) 
   const highestRecord = Math.max(...estudianteTecnologia.map((e) => e.cantidad_estudiantes));
   // const topLabel = Math.ceil(highestRecord / 1000) * 1000;
 
-  // for (let i = topLabel; i >= 0; i -= 1000) {
-  //   yAxisLabels.push(`$${i / 1000}K`);
-  // }
+  console.log(highestRecord)
 
-  estudianteTecnologia.forEach(e=>yAxisLabels.push(e.cantidad_estudiantes))
+  for (let i = highestRecord; i >= 0; i--) {
+    yAxisLabels.push(i);
+  }
+  
+
+  console.log(yAxisLabels)
+
+  // estudianteTecnologia.forEach(e=>yAxisLabels.push(e.cantidad_estudiantes))
 
   return { yAxisLabels, topLabel:highestRecord };
 

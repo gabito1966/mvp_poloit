@@ -358,7 +358,7 @@ export async function fetchCardData() {
     const totalMentoresInactivos = Number(data[2].rows[0].count ?? "0");
     const totalEquipos = Number(data[3].rows[0].count ?? "0");
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
     return {
       totalEstudiantes,
       totalEstudiantesInactivos,
@@ -395,20 +395,40 @@ export async function fetchLatestStudents() {
 
 export async function fetchTecnologiasConEstudiantes() {
   try {
-    const data = await sql<TecnologiaConEstudiantes>`
+    const tecnologiasConEstudiantesPromise =  sql<TecnologiaConEstudiantes>`
       SELECT 
         t.nombre as nombre, 
         COUNT(et.id_estudiante) AS cantidad_estudiantes
       FROM 
         tecnologias t
       LEFT JOIN 
-        estudiantes_tecnologias et ON t.id = et.id_tecnologia
+      estudiantes_tecnologias et ON t.id = et.id_tecnologia
       GROUP BY 
         t.nombre
       ORDER BY
         cantidad_estudiantes DESC
         `;
-    return data.rows;
+
+      const cantTotalEstudiantesPromise =  sql`
+        SELECT
+         COUNT(*)
+        FROM
+          estudiantes
+      `
+
+
+      const data = await Promise.all([
+        tecnologiasConEstudiantesPromise,
+        cantTotalEstudiantesPromise
+      ]);
+
+      const tecnologiasConEstudiantes:TecnologiaConEstudiantes[] = data[0].rows
+      const cantTotalEstudiantes: number = Number(data[1].rows[0].count ?? "0")
+
+      console.log(tecnologiasConEstudiantes);
+      console.log(cantTotalEstudiantes);
+
+    return {tecnologiasConEstudiantes, cantTotalEstudiantes};
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch tecnologias con estudiantes data.");
