@@ -12,7 +12,7 @@ export default async function GrupoCard({
     return (
         <section className="container max-w-5xl">
 
-            <h1 className="text-4xl text-center font-bold p-2 mt-10">Card del Grupo: 'Nombre del grupo'</h1>
+            <h1 className="text-4xl text-center font-bold p-2 mt-10">Card del Grupo: Nombre del grupo</h1>
 
             {/*<div className="w-full m-5 max-h-124 flex-col p-1  md:p-12 text-black border-2 border-grey-200 bg-white rounded-lg ">
                 <div className="grid grid-cols-1 md:grid-cols-2 ">
