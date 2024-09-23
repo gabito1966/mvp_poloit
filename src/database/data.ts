@@ -1,5 +1,12 @@
 import { sql } from "@vercel/postgres";
-import { empresas, EstudianteFetch, EstudiantesData, MentorData, Ong, TecnologiaConEstudiantes } from "./definitions";
+import {
+  empresas,
+  EstudianteFetch,
+  EstudiantesData,
+  MentorData,
+  Ong,
+  TecnologiaConEstudiantes,
+} from "./definitions";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -53,7 +60,6 @@ OFFSET ${offset};
   }
 }
 
-
 export async function fetchFilteredMentores(
   query: string,
   currentPage: number
@@ -94,7 +100,7 @@ LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
 
-      return mentores.rows;
+    return mentores.rows;
   } catch (error) {
     console.log(
       "Failed to fetch filtered grupos. Returning all grupos.",
@@ -104,13 +110,11 @@ OFFSET ${offset};
   }
 }
 
-export async function fetchFilteredEquipos(
-  query: string,
-  currentPage: number
-) {
+export async function fetchFilteredEquipos(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  try {//poner el tipo de dato
+  try {
+    //poner el tipo de dato
     const equipos = await sql`
       SELECT 
         e.id,
@@ -209,10 +213,7 @@ export async function fetchFilteredEmpresas(
   }
 }
 
-export async function fetchFilteredOngs(
-  query: string,
-  currentPage: number
-) {
+export async function fetchFilteredOngs(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -232,19 +233,14 @@ export async function fetchFilteredOngs(
 
     return ongs.rows;
   } catch (error) {
-    console.log(
-      "Failed to fetch filtered ongs. Returning all ongs.",
-      error
-    );
+    console.log("Failed to fetch filtered ongs. Returning all ongs.", error);
     return [];
   }
 }
 
-
 export async function fetchPagesEstudiantes(query: string) {
   try {
-
-    const  rows  = await sql`
+    const rows = await sql`
       SELECT COUNT(*)
       FROM estudiantes
       WHERE
@@ -262,12 +258,9 @@ export async function fetchPagesEstudiantes(query: string) {
   }
 }
 
-
-
 export async function fetchPagesMentores(query: string) {
   try {
-
-    const  rows  = await sql`
+    const rows = await sql`
       SELECT COUNT(*)
       FROM mentores
       WHERE
@@ -320,7 +313,6 @@ export async function fetchPagesOngs(query: string) {
     return 0;
   }
 }
-
 
 export async function fetchPagesEquipos(query: string) {
   try {
@@ -395,7 +387,7 @@ export async function fetchLatestStudents() {
 
 export async function fetchTecnologiasConEstudiantes() {
   try {
-    const tecnologiasConEstudiantesPromise =  sql<TecnologiaConEstudiantes>`
+    const tecnologiasConEstudiantesPromise = sql<TecnologiaConEstudiantes>`
       SELECT 
         t.nombre as nombre, 
         COUNT(et.id_estudiante) AS cantidad_estudiantes
@@ -409,26 +401,21 @@ export async function fetchTecnologiasConEstudiantes() {
         cantidad_estudiantes DESC
         `;
 
-      const cantTotalEstudiantesPromise =  sql`
+    const cantTotalEstudiantesPromise = sql`
         SELECT
          COUNT(*)
         FROM
           estudiantes
-      `
+      `;
+    const data = await Promise.all([
+      tecnologiasConEstudiantesPromise,
+      cantTotalEstudiantesPromise,
+    ]);
 
+    const tecnologiasConEstudiantes: TecnologiaConEstudiantes[] = data[0].rows;
+    const cantTotalEstudiantes: number = Number(data[1].rows[0].count ?? "0");
 
-      const data = await Promise.all([
-        tecnologiasConEstudiantesPromise,
-        cantTotalEstudiantesPromise
-      ]);
-
-      const tecnologiasConEstudiantes:TecnologiaConEstudiantes[] = data[0].rows
-      const cantTotalEstudiantes: number = Number(data[1].rows[0].count ?? "0")
-
-      console.log(tecnologiasConEstudiantes);
-      console.log(cantTotalEstudiantes);
-
-    return {tecnologiasConEstudiantes, cantTotalEstudiantes};
+    return { tecnologiasConEstudiantes, cantTotalEstudiantes };
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch tecnologias con estudiantes data.");

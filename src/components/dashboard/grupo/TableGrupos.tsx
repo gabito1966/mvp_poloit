@@ -8,35 +8,45 @@ export default async function TableGrupos({
     query: string;
     currentPage: number;
   }) {
-    const grupos = await fetchFilteredEquipos(query, currentPage);
+    const equipo = await fetchFilteredEquipos(query, currentPage);
+
+    if(equipo.length == 0){
+      return (
+        <div className="mt-4 flex items-center justify-center text-lg">
+          <p className="text-gray-500">No se encontraron resultados</p>
+        </div>
+      )
+    }
+
     return (
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
           <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
             <div className="lg:hidden">
-              {grupos?.map((grupo) => (
+              {equipo?.map((equipo) => (
                 <div
-                  key={grupo.id}
+                  key={equipo.id}
                   className="mb-2 w-full rounded-md bg-white p-4"
                 >
                   <div className="flex items-center justify-between border-b pb-4">
                     <div>
                       <div className="mb-2 flex items-center">
-                        <p>{grupo.nombre}</p>
+                        <p>{equipo.nombre}</p>
                       </div>
-                      <p className="text-sm text-gray-500">{grupo.tamano}</p>
+                      <p className="text-sm text-gray-500">{equipo.tamano}</p>
+                      <p className="text-sm text-gray-500">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
                     </div>
                   </div>
                   <div className="flex w-full items-center justify-between pt-4">
                     <div>
-                      <p className="text-xl font-medium">{grupo.mentor} {grupo.apellido}</p>
+                      <p className="text-xl font-medium">{equipo.mentor} {equipo.apellido}</p>
                     </div>
                     <div className="flex justify-end gap-2">
                       <ViewButton
-                        url={`/card/equipo/${grupo.id.toString()}`}
+                        url={`/card/equipo/${equipo.id.toString()}`}
                       />
                       <DeleteButton
-                        url={`/api/equipo/${grupo.id.toString()}`}
+                        url={`/api/equipo/${equipo.id.toString()}`}
                       />
                     </div>
                   </div>
@@ -61,6 +71,12 @@ export default async function TableGrupos({
                   <th scope="col" className="capitalize px-3 py-5 font-medium">
                     mentor QA
                   </th>
+                  <th scope="col" className="capitalize px-3 py-5 font-medium">
+                    Fecha inicio
+                  </th>
+                  <th scope="col" className="capitalize px-3 py-5 font-medium">
+                    Fecha fin
+                  </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
                     <span className="sr-only">Editar</span>
                     <span className="sr-only">Eliminar</span>
@@ -68,41 +84,47 @@ export default async function TableGrupos({
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {grupos?.map((grupo) => (
+                {equipo?.map((equipo) => (
                   <tr
-                    key={grupo.id}
+                    key={equipo.id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-nowrap py-3 px-3" title={grupo.nombre}>
-                      {grupo.nombre.length < 15
-                        ? grupo.nombre
-                        : grupo.nombre.slice(0, 13) + "..."}
+                    <td className="whitespace-nowrap py-3 px-3" title={equipo.nombre}>
+                      {equipo.nombre.length < 15
+                        ? equipo.nombre
+                        : equipo.nombre.slice(0, 13) + "..."}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={grupo.tamano} >
-                      {grupo.tamano}
+                    <td className="whitespace-nowrap px-3 py-3" title={equipo.tamano} >
+                      {equipo.tamano}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${grupo.mentor} ${grupo.mentor_apellido}`} >
-                      {(grupo.mentor.length+ grupo.mentor_apellido.length) < 25
-                        ? `${grupo.mentor} ${grupo.mentor_apellido}`
-                        : `${grupo.mentor} ${grupo.mentor_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor} ${equipo.mentor_apellido}`} >
+                      {(equipo.mentor.length+ equipo.mentor_apellido.length) < 25
+                        ? `${equipo.mentor} ${equipo.mentor_apellido}`
+                        : `${equipo.mentor} ${equipo.mentor_apellido}`.slice(0, 20) + "..."}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${grupo.mentor_ux_ui} ${grupo.mentor_ux_ui_apellido}`} >
-                    {(grupo.mentor_ux_ui.length+ grupo.mentor_ux_ui_apellido.length) < 25
-                        ? `${grupo.mentor_ux_ui} ${grupo.mentor_ux_ui_apellido}`
-                        : `${grupo.mentor_ux_ui} ${grupo.mentor_ux_ui_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`} >
+                    {(equipo.mentor_ux_ui.length+ equipo.mentor_ux_ui_apellido.length) < 25
+                        ? `${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`
+                        : `${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`.slice(0, 20) + "..."}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${grupo.mentor_qa} ${grupo.mentor_qa_apellido}`} >
-                    {(grupo.mentor_qa.length+ grupo.mentor_qa_apellido.length) < 25
-                        ? `${grupo.mentor_qa} ${grupo.mentor_qa_apellido}`
-                        : `${grupo.mentor_qa} ${grupo.mentor_qa_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`} >
+                    {(equipo.mentor_qa.length+ equipo.mentor_qa_apellido.length) < 25
+                        ? `${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`
+                        : `${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`.slice(0, 20) + "..."}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.fecha_inicio.toLocaleDateString("es-ES")}}`} >
+                         {`${equipo.fecha_inicio.toLocaleDateString("es-ES")}`}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.fecha_fin.toLocaleDateString("es-ES")}`} >
+                    {`${equipo.fecha_fin.toLocaleDateString("es-ES")}`}
                     </td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex  justify-end gap-3">
                         <ViewButton
-                          url={`/card/equipo/${grupo.id.toString()}`}
+                          url={`/card/equipo/${equipo.id.toString()}`}
                         />
                         <DeleteButton
-                          url={`/api/equipo/${grupo.id.toString()}`}
+                          url={`/api/equipo/${equipo.id.toString()}`}
                         />
                       </div>
                     </td>

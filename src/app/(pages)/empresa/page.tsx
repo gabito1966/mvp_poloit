@@ -5,7 +5,7 @@ import Search from "@/components/dashboard/Search"
 export default function pageEmpresa() {
     return (
         <div className="w-full flex-grow p-6  md:p-12 ">
-            <h1 className="text-4xl font-semibold mb-4 text-center underline">Lista de Empresas</h1>
+            <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Empresas</h1>
             <div className="flex w-full items-center justify-between">
             </div>
             <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">

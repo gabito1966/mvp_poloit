@@ -112,6 +112,8 @@ export type EquipoData = {
   
   nombre: string;
   tamano: number;
+  fecha_inicio: string ;
+  fecha_fin: string 
 };
 
 export type TecnologiaConEstudiantes = {

@@ -24,6 +24,7 @@ export default async function Home() {
 
   return (
     <main className=" w-full p-6 max-w-screen-2xl">
+      <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Inicio</h1>
       <div className="w-full  gap-6 items-center justify-between grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 P-4 h-full sm:items-center sm:m-auto ">
         <Suspense fallback={<CardsWrapperSkeleton />}>
           <HomeCardWrapper />
@@ -37,20 +38,21 @@ export default async function Home() {
           <LastestInscriptos />
         </Suspense>
       </div>
-     
-        <section className=" mt-5 p-4 rounded-xl shadow-md w-full lg:hidden bg-gray-50 items-center ">
-          <h2 className="font-bold text-xl text-left w-full ">
-            Organizaciones Participantes
-          </h2>
-          <div className="h-auto w-full  flex items-center">
-            <Carousel images={images} />
-          </div>
-        </section>
-    
+
+      <section className=" mt-5 p-4 rounded-xl shadow-md w-full lg:hidden bg-gray-50 items-center ">
+        <h2 className="font-bold text-xl text-left w-full ">
+          Organizaciones Participantes
+        </h2>
+        <div className="h-auto w-full  flex items-center">
+          <Carousel images={images} />
+        </div>
+      </section>
 
       <section className="grid lg:grid-cols-2 grid-cols-1   mt-5 gap-5">
-       <Notification/>
-      <QuickActions/>
+        <Suspense fallback={<CardsWrapperSkeleton />}>
+          <Notification />
+        </Suspense>
+        <QuickActions />
       </section>
     </main>
   );

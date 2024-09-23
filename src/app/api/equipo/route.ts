@@ -24,15 +24,20 @@ const CreateSchemaEquipos = z.object({
     })
     .gt(4, { message: "Ingrese un numero mayor 4" })
     .lt(12, "El tamaño o debe ser menor a 12"),
-  fecha_inicio: z.date().optional(),
-  fecha_fin: z.date().optional(),
+  fecha_inicio: z.coerce.date({message:"Ingrese una fecha de inicio"}),
+  fecha_fin: z.coerce.date({message:"Ingrese una fecha final de entrega"}),
 });
 
-const CreateEquipos = CreateSchemaEquipos.omit({ id: true });
+const CreateEquipos = CreateSchemaEquipos.omit({ id: true }).refine((data) => data.fecha_inicio < data.fecha_fin, {
+  message: "La fecha de inicio debe ser anterior a la fecha de fin",
+  path: ["fecha_fin"], // Esta es la propiedad a la que se le asigna el error
+});
 
 type Equipos = z.infer<typeof CreateSchemaEquipos>;
 export async function POST(request: Request) {
   const body = (await request.json()) as Equipos;
+
+  console.log(body);
 
   const validatedFields = CreateEquipos.safeParse({
     ...body,
@@ -53,6 +58,12 @@ export async function POST(request: Request) {
   const { nombre, tamano, fecha_inicio, fecha_fin } = validatedFields.data;
 
   let contador: number = 1;
+
+  const inicio = fecha_inicio.toISOString().split("T")[0];
+  const fin = fecha_fin.toISOString().split("T")[0];
+
+  console.log("fecha inicio", inicio);
+  console.log("fecha fin", fin);
 
   const frontEnd = Math.floor((tamano - 2) * 0.4),
     backend = Math.ceil((tamano - 2) * 0.6);
@@ -78,10 +89,7 @@ export async function POST(request: Request) {
 
     console.log(cant_grupos);
 
-    if (
-      cant_grupos.length == 0 &&
-      total_estudiantes < tamano
-    ) {
+    if (cant_grupos.length == 0 && total_estudiantes < tamano) {
       return NextResponse.json(
         createResponse(
           false,
@@ -92,37 +100,48 @@ export async function POST(request: Request) {
       );
     }
 
-    if (
-      cant_grupos[0].total_grupos > 0 &&
-      total_estudiantes < tamano
-    ) {
+    if (cant_grupos[0].total_grupos > 0 && total_estudiantes < tamano) {
       let index_grupos: number = 0;
       let index_estudiantes: number = 0;
 
-      while (total_estudiantes!=0) {
+      while (total_estudiantes != 0) {
         //veer fecha
-        console.log("dentre")
+        console.log("dentre");
 
-        await sql`
-         INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
-  SELECT 
-    (SELECT eq.id 
-     FROM equipos eq
-     LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
-     GROUP BY eq.id
-     ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
-     LIMIT 1 
-     OFFSET ${index_grupos}) AS id_equipo,
-    (SELECT e.id 
-     FROM estudiantes e
-     LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-     JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-     JOIN tecnologias t ON et.id_tecnologia = t.id
-     WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
-     ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
-     LIMIT 1
-     OFFSET ${index_estudiantes}) AS id_estudiante;
-        `;
+        const { rows: equipoResult } = await sql`
+        SELECT eq.id as id
+        FROM equipos eq
+        LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+        GROUP BY eq.id
+        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+        LIMIT 1 
+        OFFSET ${index_grupos}
+           `;
+
+        console.log(equipoResult);
+
+        const equipoId = equipoResult[0].id;
+
+        await sql`     
+           INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
+          SELECT ${equipoId}, (
+            SELECT e.id
+            FROM estudiantes e
+            LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+            JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+            JOIN tecnologias t ON et.id_tecnologia = t.id
+            WHERE ee.id_equipo IS NULL AND e.estado = true
+            ORDER BY t.nombre
+            LIMIT 1
+            OFFSET ${index_estudiantes}
+          );
+          `;
+
+        await sql`UPDATE 
+            equipos 
+            SET tamano = tamano + 1
+            WHERE id = ${equipoId};
+          `;
 
         total_estudiantes--;
         if (!total_estudiantes) break;
@@ -130,6 +149,8 @@ export async function POST(request: Request) {
           cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
       }
 
+      revalidatePath("/");
+      revalidatePath("/grupo");
       return NextResponse.json(
         createResponse(true, [], "Creación de equipos exitosa"),
         {
@@ -404,8 +425,8 @@ export async function POST(request: Request) {
 
       //ver fecha
       const { rows: result_equipo } = await sql`
-          INSERT INTO equipos (nombre, tamano, id_mentor, id_mentor_ux_ui, id_mentor_qa)
-          VALUES (${name},${tamano}, ${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id})
+          INSERT INTO equipos (nombre, tamano, id_mentor, id_mentor_ux_ui, id_mentor_qa, fecha_inicio, fecha_fin)
+          VALUES (${name},${tamano}, ${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id}, ${inicio}, ${fin})
           RETURNING id;`;
 
       arr_equipos.forEach(async (e) => {
@@ -431,27 +452,47 @@ export async function POST(request: Request) {
       let index_estudiantes: number = 0;
 
       while (total_estudiantes) {
-        await sql`
-          INSERT INTO equipos_estudiantes(id_equipo, id_estudiante)
-  SELECT 
-    (SELECT eq.id 
-     FROM equipos eq
-     LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
-     GROUP BY eq.id
-     ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
-     LIMIT 1 
-     OFFSET ${index_grupos}) AS id_equipo,
-    (SELECT e.id 
-     FROM estudiantes e
-     LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-     JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-     JOIN tecnologias t ON et.id_tecnologia = t.id
-     WHERE ee.id_equipo IS NULL  -- Asegura que no están asociados a ningún equipo
-     ORDER BY t.nombre  -- Ordena los estudiantes por tecnología
-     LIMIT 1
-     OFFSET ${index_estudiantes}) AS id_estudiante;
-        `;
-        //sumar al grupo +1 tamnaño
+        const { rows: equipoResult } = await sql`
+        SELECT eq.id as id
+        FROM equipos eq
+        LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+        GROUP BY eq.id
+        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+        LIMIT 1 
+        OFFSET ${index_grupos}
+           `;
+
+        console.log(equipoResult);
+
+        const equipoId = equipoResult[0].id;
+
+        await sql`     
+           INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
+          SELECT ${equipoId}, (
+            SELECT e.id
+            FROM estudiantes e
+            LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+            JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+            JOIN tecnologias t ON et.id_tecnologia = t.id 
+            WHERE ee.id_equipo IS NULL AND e.estado = true
+            ORDER BY t.nombre
+            LIMIT 1
+            OFFSET ${index_estudiantes}
+          );
+          `;
+
+        await sql`UPDATE 
+            equipos 
+            SET tamano = tamano + 1
+            WHERE id = ${equipoId};
+          `;
+        //actializar tabla de prupos sumar al grupo +1 tamnaño
+
+        // await sql`
+        //   UPDATE equipos
+        //   SET tamano = tamano + 1
+        //   WHERE id = ${equipoResult[0].id}
+        // `;
 
         total_estudiantes--;
         if (!total_estudiantes) break;
@@ -459,6 +500,9 @@ export async function POST(request: Request) {
           cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
       }
     }
+
+    revalidatePath("/");
+    revalidatePath("/grupo");
 
     return NextResponse.json(
       createResponse(true, [], "Creación de equipos exitosa"),
@@ -498,7 +542,7 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-     await sql`
+    await sql`
       DELETE FROM equipos_estudiantes;
     `;
 
@@ -507,6 +551,7 @@ export async function DELETE(request: Request) {
     `;
 
     revalidatePath("/grupo");
+    revalidatePath("/");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),
       { status: 200 }

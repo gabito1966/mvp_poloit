@@ -165,7 +165,7 @@ function FormEstudiante({
 
   return (
     <div className="container mx-auto p-2 h-full">
-      <h1 className="text-2xl font-bold mb-4 text-center underline">
+      <h1 className=" font-bold mb-4 text-center  text-2xl">
         Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de
         Estudiantes
       </h1>
