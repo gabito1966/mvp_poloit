@@ -1,9 +1,10 @@
-import FormGrupo from "@/components/register/equipo/FormEquipo";
+import FormEquipo from "@/components/register/equipo/FormEquipo";
 
-export default function page() {
+
+export default function RegisterEquipos() {
   return (
     <>
-        <FormGrupo/>
+        <FormEquipo />
     </>
   )
 }

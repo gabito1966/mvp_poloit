@@ -4,7 +4,7 @@ import { ValidateIDSession } from "./database/serverAuth";
 const protectedRoutes = [
   "estudiante",
   "mentor",
-  "grupo",
+  "equipo",
   "ong",
   "tecnologia",
   "empresa",
@@ -17,10 +17,10 @@ const publicRoutes = ["/auth/login", "/"];
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.clone();
 
-  const {pathname} = path;
+  const { pathname } = path;
 
   const isPublicRoute = publicRoutes.includes(pathname);
-  const isProtectedRoute = protectedRoutes.some(e=>e==pathname.split("/")[1]);
+  const isProtectedRoute = protectedRoutes.some(e => e == pathname.split("/")[1]);
 
   const token = req.cookies.get("session");
 

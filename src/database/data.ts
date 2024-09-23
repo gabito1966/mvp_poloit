@@ -103,7 +103,7 @@ OFFSET ${offset};
     return mentores.rows;
   } catch (error) {
     console.log(
-      "Failed to fetch filtered grupos. Returning all grupos.",
+      "Failed to fetch filtered equipos. Returning all equipos.",
       error
     );
     return [];
