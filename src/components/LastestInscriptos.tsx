@@ -11,7 +11,7 @@ export default async function LastestInscriptos() {
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="w-full flex flex-row justify-between items-center">
           <h2 className={`mb-1 text-xl font-bold `}>
-            Últimos alumnos registrados
+            Últimos estudiantes registrados
           </h2>
 
           <Link

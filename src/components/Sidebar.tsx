@@ -72,7 +72,7 @@ const Sidebar: React.FC = () => {
     },
     {
       url: "/equipo",
-      name: "equipo",
+      name: "equipos",
       icon1: `
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 11C14.7614 11 17 13.2386 17 16V22H15V16C15 14.4023 13.7511 13.0963 12.1763 13.0051L12

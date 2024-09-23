@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 export default function QuickActions() {
   return (
@@ -11,8 +10,8 @@ export default function QuickActions() {
         <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full justify-center gap-3 bg-white rounded-xl p-4 ">
           <ItemQuickAction url="/register/estudiantes" content="registrar estudiantes"/>
           <ItemQuickAction url="/register/mentores" content="registrar mentores"/>
-          <ItemQuickAction url="/register/grupos" content="registrar grupos"/>
-          <ItemQuickAction url="/register/grupos" content="registrar grupos"/>
+          <ItemQuickAction url="/register/equipos" content="registrar equipos"/>
+          <ItemQuickAction url="/register/ong" content="registrar ongs"/>
         </div>
       </div>
     </>

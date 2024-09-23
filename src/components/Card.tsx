@@ -1,7 +1,6 @@
 // Card.tsx
 'use client';
 
-import React from 'react';
 import clsx from "clsx";
 import { AnimatedNumber } from './AnimatedNumber';
 
@@ -29,9 +28,9 @@ export function Card({ name, icon, cant, line }: CardProps) {
           }
         )}></div>
       </div>
-      <div className="text-black h-full flex flex-col p-2 justify-center">
-        <h4 className="text-xs font-medium text-nowrap capitalize">{name}</h4>
-        <AnimatedNumber value={cant} className="truncate text-left font-bold text-2xl" />
+      <div className="text-black h-full flex flex-col p-1 justify-center">
+        <h4 className="text-xs font-medium ml-4 text-nowrap capitalize">{name}</h4>
+        <AnimatedNumber value={cant} className="truncate text-left font-bold text-2xl ml-4" />
       </div>
     </div>
   );
