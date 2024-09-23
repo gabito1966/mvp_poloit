@@ -1,11 +1,12 @@
 import { fetchTecnologiasConEstudiantes } from "@/database/data";
 import { generateYAxis } from "@/lib/utils";
 import React from "react";
+import AnimatedBar from "./AnimatedBar";
 
 export default async function ChartAlumnosTecnologias() {
   const { tecnologiasConEstudiantes, cantTotalEstudiantes } =
     await fetchTecnologiasConEstudiantes();
-  const chartHeight = 230;
+  const chartHeight = 235;
 
   const { yAxisLabels, topLabel } = generateYAxis(tecnologiasConEstudiantes);
 
@@ -33,36 +34,55 @@ export default async function ChartAlumnosTecnologias() {
           </div>
 
           {tecnologiasConEstudiantes.map((e, i) => (
-            <div
-              key={`${e.nombre}-${i}`}
-              className="  flex flex-col items-center gap-2"
-            >
-              <div
-                className="w-9 rounded-sm bg-blue-400 z-10"
-                style={{
-                  height: `${
-                    (chartHeight / topLabel) * e.cantidad_estudiantes
-                  }px`,
-                }}
-                title={`${e.cantidad_estudiantes} estudiantes (${Math.round(
-                  (e.cantidad_estudiantes / cantTotalEstudiantes) * 100
-                )}%)`}
-              >
-                <span className="text-white text-lg font-semibold  text-nowrap -rotate-90 sm:hidden block mt-5">
-                  {Math.round(
-                    (e.cantidad_estudiantes / cantTotalEstudiantes) * 100
-                  )}{" "}
-                  %
-                </span>
-              </div>
+                   <div
+                   key={`${e.nombre}-${i}`}
+                   className="flex flex-col items-center gap-2"
+                 >
+                   <AnimatedBar
+                     chartHeight={chartHeight}
+                     topLabel={topLabel}
+                     cantTotalEstudiantes={cantTotalEstudiantes}
+                     tecnologia={e}
+                   />
+     
+                   <p
+                     className="-rotate-90 text-sm truncate text-gray-400 sm:rotate-0"
+                     title={e.nombre}
+                   >
+                     {e.nombre.length < 5 ? e.nombre : `${e.nombre.slice(0, 5)}...`}
+                   </p>
+                 </div>
+            // <div
+            //   key={`${e.nombre}-${i}`}
+            //   className="  flex flex-col items-center gap-2"
+            // >
+            //   <div
+            //     className="w-9 rounded-sm bg-blue-400 z-10 "
+            //     style={{
+                  
+            //       height: `${
+            //         (chartHeight / topLabel) * e.cantidad_estudiantes
+            //       }px`,
+            //     }}
+            //     title={`${e.cantidad_estudiantes} estudiantes (${Math.round(
+            //       (e.cantidad_estudiantes / cantTotalEstudiantes) * 100
+            //     )}%)`}
+            //   >
+            //     <span className="text-white text-lg font-semibold  text-nowrap -rotate-90 sm:hidden block mt-5">
+            //       {Math.round(
+            //         (e.cantidad_estudiantes / cantTotalEstudiantes) * 100
+            //       )}{" "}
+            //       %
+            //     </span>
+            //   </div>
 
-              <p
-                className="-rotate-90 text-sm truncate text-gray-400 sm:rotate-0"
-                title={e.nombre}
-              >
-                {e.nombre.length < 5 ? e.nombre : `${e.nombre.slice(0, 5)}...`}
-              </p>
-            </div>
+            //   <p
+            //     className="-rotate-90 text-sm truncate text-gray-400 sm:rotate-0"
+            //     title={e.nombre}
+            //   >
+            //     {e.nombre.length < 5 ? e.nombre : `${e.nombre.slice(0, 5)}...`}
+            //   </p>
+            // </div>
           ))}
         </div>
       </div>
