@@ -1,7 +1,8 @@
 import { fetchFilteredEquipos } from '@/database/data';
 import DeleteButton from "../DeleteButton";
 import ViewButton from "../ViewButton";
-export default async function TableGrupos({
+
+export default async function TableEquipos({
     query,
     currentPage,
   }: {

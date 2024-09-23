@@ -1,6 +1,6 @@
 import CreateButton from "@/components/dashboard/CreateButton";
 import DeleteButton from "@/components/dashboard/DeleteButton";
-import TableGrupos from "@/components/dashboard/grupo/TableGrupos";
+import TableGrupos from "@/components/dashboard/equipo/TableEquipoi";
 import MailButton from "@/components/dashboard/MailButton";
 import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
