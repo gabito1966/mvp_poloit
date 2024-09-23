@@ -1,4 +1,6 @@
 import { fetchCardData } from "@/database/data";
+import clsx from "clsx";
+import { Card } from "./Card";
 
 export default async function HomeCardWrapper() {
   const icons = [
@@ -42,39 +44,15 @@ export default async function HomeCardWrapper() {
         name={icons[1].name}
         icon={icons[1].icon}
         cant={totalEstudiantesInactivos}
-      />
+        line={true}
+        />
       <Card
         name={icons[2].name}
         icon={icons[2].icon}
         cant={totalMentoresInactivos}
+        line={true}
       />
       <Card name={icons[3].name} icon={icons[3].icon} cant={totalEquipos} />
     </>
-  );
-}
-
-export function Card({
-  name,
-  icon,
-  cant,
-}: {
-  name: string;
-  icon: string;
-  cant: number;
-}) {
-  return (
-    <div
-      className="h-[80px] flex flex-row align-middle justify-center rounded-xl bg-gray-50 p-2 shadow-md text-blue-400"
-      title={`${name}`}
-    >
-      <div
-        className=" w-fit h-fit"
-        dangerouslySetInnerHTML={{ __html: icon }}
-      />
-      <div className="text-black h-full flex flex-col p-2 justify-between">
-        <h4 className=" text-xs font-medium text-nowrap capitalize">{name}</h4>
-        <span className="truncate  text-left font-bold	 text-2xl">{cant}</span>
-      </div>
-    </div>
   );
 }

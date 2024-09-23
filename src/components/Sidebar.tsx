@@ -121,6 +121,7 @@ const Sidebar: React.FC = () => {
                   alt="logo"
                   width={150}
                   height={75}
+                  className="w-auto h-auto"
                 />
               </div>
             </Link>

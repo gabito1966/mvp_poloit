@@ -4,7 +4,7 @@ import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function DeleteButton({ url }: { url: string }) {
+function DeleteButton({ url, newClass, titulo }: { url: string, newClass?:string, titulo?:string }) {
   const router= useRouter();
 
   const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,8 +23,9 @@ function DeleteButton({ url }: { url: string }) {
 
   };
 
-    return (
-    <form onSubmit={handleDelete}>
+    return (<>
+    
+    <form onSubmit={handleDelete} className={`${newClass}`} title={`${titulo}`}>
       <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
         <span className="sr-only">Eliminar</span>
         <div
@@ -43,6 +44,10 @@ function DeleteButton({ url }: { url: string }) {
         </div>
       </button>
     </form>
+      <section>
+        
+      </section>
+    </>
   );
 }
 
