@@ -9,8 +9,8 @@ import { toast } from "sonner";
 
 interface Mentor {
   id?: "";
-  nombre: string;
   apellido: string;
+  nombre: string;
   email: string;
   telefono: string;
   estado?: string;
@@ -20,8 +20,8 @@ interface Mentor {
 
 interface MentorParams {
   id: number;
-  nombre: string;
   apellido: string;
+  nombre: string;
   email: string;
   telefono: string;
   estado: string;
@@ -49,8 +49,8 @@ function FormMentor({
 
   const [form, setForm] = useState({
     id: "",
-    nombre: "",
     apellido: "",
+    nombre: "",
     email: "",
     telefono: "",
     estado: "",
@@ -65,8 +65,8 @@ function FormMentor({
   const [responseBack, setResponseBack] = useState({
     message: "",
     errors: {
-      nombre: [],
       apellido: [],
+      nombre: [],
       email: [],
       telefono: [],
       estado: [],
@@ -80,8 +80,8 @@ function FormMentor({
     if (dataFetch) {
       setForm({
         id: dataFetch.id?.toString(),
-        nombre: dataFetch.nombre,
         apellido: dataFetch.apellido,
+        nombre: dataFetch.nombre,
         email: dataFetch.email,
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
@@ -142,8 +142,8 @@ function FormMentor({
     e.preventDefault();
 
     const newMentor: Mentor = {
-      nombre: form.nombre,
       apellido: form.apellido,
+      nombre: form.nombre,
       email: form.email,
       telefono: form.telefono,
       id_empresa: parseInt(form.id_empresa, 10),
@@ -160,8 +160,8 @@ function FormMentor({
         success: (response) => { 
           setForm({
             id: "",
-            nombre: "",
             apellido: "",
+            nombre: "",
             email: "",
             telefono: "",
             estado: "",
@@ -198,37 +198,6 @@ function FormMentor({
         >
           <div>
             <label
-              htmlFor="nombre"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Nombre:
-            </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-                {
-                  "border-red-500": responseBack.errors?.nombre?.length,
-                  "border-gray-300": !responseBack.errors?.nombre?.length,
-                }
-              )}
-              required
-            />
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.nombre?.map((error: string) => (
-                <p className="mt-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label
               htmlFor="apellido"
               className="block text-sm font-medium text-gray-500"
             >
@@ -257,6 +226,38 @@ function FormMentor({
               ))}
             </div>
           </div>
+
+          <div>
+            <label
+              htmlFor="nombre"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Nombre:
+            </label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              value={form.nombre}
+              onChange={handleChange}
+              className={clsx(
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                {
+                  "border-red-500": responseBack.errors?.nombre?.length,
+                  "border-gray-300": !responseBack.errors?.nombre?.length,
+                }
+              )}
+              required
+            />
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.nombre?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
+          </div>
+          
           <div>
             <label
               htmlFor="email"
@@ -319,46 +320,7 @@ function FormMentor({
             </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="id_empresa"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Empresa:
-            </label>
-            <select
-              id="id_empresa"
-              name="id_empresa"
-              value={form.id_empresa}
-              onChange={handleChange}
-              required
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                {
-                  "border-red-500": responseBack.errors?.id_empresa?.length,
-                  "border-gray-300": !responseBack.errors?.id_empresa?.length,
-                }
-              )}
-            >
-              <option value="" disabled hidden>
-                Seleccione una Empresa
-              </option>
-              {empresas.map((e, i) => {
-                return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                    {e.nombre}
-                  </option>
-                );
-              })}
-            </select>
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.id_empresa?.map((error: string) => (
-                <p className="mt-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+         
 
           <div className=" flex flex-col">
             <label
@@ -442,6 +404,46 @@ function FormMentor({
             </select>
             <div aria-live="polite" aria-atomic="true" className="mt-1">
               {responseBack.errors?.tecnologias2?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="id_empresa"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Empresa:
+            </label>
+            <select
+              id="id_empresa"
+              name="id_empresa"
+              value={form.id_empresa}
+              onChange={handleChange}
+              required
+              className={clsx(
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                {
+                  "border-red-500": responseBack.errors?.id_empresa?.length,
+                  "border-gray-300": !responseBack.errors?.id_empresa?.length,
+                }
+              )}
+            >
+              <option value="" disabled hidden>
+                Seleccione una Empresa
+              </option>
+              {empresas.map((e, i) => {
+                return (
+                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                    {e.nombre}
+                  </option>
+                );
+              })}
+            </select>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.id_empresa?.map((error: string) => (
                 <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>

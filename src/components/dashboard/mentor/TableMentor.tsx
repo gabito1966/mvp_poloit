@@ -47,11 +47,11 @@ export default async function Table({
           <table className=" hidden min-w-full text-gray-900 lg:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="capitalize px-4 py-5 font-medium ">
-                  nombre
-                </th>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   apellido
+                </th>
+                <th scope="col" className="capitalize px-4 py-5 font-medium ">
+                  nombre
                 </th>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   Correo electrónico
@@ -76,15 +76,15 @@ export default async function Table({
                   key={mentor.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap py-3 px-3">
-                    {mentor.nombre.length < 10
-                      ? mentor.nombre
-                      : mentor.nombre.slice(0, 7) + "..."}
-                  </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {mentor.apellido.length < 10
                       ? mentor.apellido
                       : mentor.apellido.slice(0, 7) + "..."}
+                  </td>
+                  <td className="whitespace-nowrap py-3 px-3">
+                    {mentor.nombre.length < 10
+                      ? mentor.nombre
+                      : mentor.nombre.slice(0, 7) + "..."}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {mentor.email.length < 20

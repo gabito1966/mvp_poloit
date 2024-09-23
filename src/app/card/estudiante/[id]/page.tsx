@@ -18,14 +18,14 @@ export default async function EstudianteCard({
                 {<div className="grid grid-cols-1 md:grid-cols-2 ">
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.nombre}</p>
+                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido:</h4>
+                            <p className="bg-transparent text-base mb-6">{estudiante.apellido}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.apellido}</p>
+                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
+                            <p className="bg-transparent text-base mb-6">{estudiante.nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">

@@ -21,8 +21,8 @@ interface Estudiante {
 
 interface EstudianteParams {
   id: number;
-  nombre: string;
   apellido: string;
+  nombre: string;
   email: string;
   telefono: string;
   estado: string;
@@ -50,8 +50,8 @@ function FormEstudiante({
 
   const [form, setForm] = useState({
     id: "",
-    nombre: "",
     apellido: "",
+    nombre: "",
     email: "",
     telefono: "",
     estado: "",
@@ -66,8 +66,8 @@ function FormEstudiante({
   const [responseBack, setResponseBack] = useState({
     message: "",
     errors: {
-      nombre: [],
       apellido: [],
+      nombre: [],
       email: [],
       telefono: [],
       estado: [],
@@ -80,8 +80,8 @@ function FormEstudiante({
     if (dataFetch) {
       setForm({
         id: dataFetch.id.toString(),
-        nombre: dataFetch.nombre,
         apellido: dataFetch.apellido,
+        nombre: dataFetch.nombre,
         email: dataFetch.email,
         telefono: dataFetch.telefono,
         estado: dataFetch.estado,
@@ -121,8 +121,8 @@ function FormEstudiante({
     e.preventDefault();
 
     const newEstudiante: Estudiante = {
-      nombre: form.nombre,
       apellido: form.apellido,
+      nombre: form.nombre,
       email: form.email,
       telefono: form.telefono,
       id_ong: form.id_ong ? parseInt(form.id_ong, 10) : null,
@@ -141,8 +141,8 @@ function FormEstudiante({
           
           setForm({
             id: "",
-            nombre: "",
             apellido: "",
+            nombre: "",
             email: "",
             telefono: "",
             estado: "",
