@@ -20,15 +20,3 @@ body {
     height: 100%;
   }
 }
-
-
-@keyframes growBar {
-  from {
-    height: 0;
-  }
-  to {
-    height: 100%;
-  }
-}
-
-

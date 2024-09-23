@@ -230,7 +230,7 @@ export async function POST(request: Request) {
           false,
           [],
           `No hay suficientes mentores de ${
-            !result_mentor_qa ? "QA" : "UX/UI"
+            !result_mentor_qa.length ? "QA" : "UX/UI"
           } para formar equipos`
         ),
         { status: 400 }
