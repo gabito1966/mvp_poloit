@@ -176,6 +176,37 @@ function FormEstudiante({
         onSubmit={handleSubmit}
         className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
       >
+         <div>
+          <label
+            htmlFor="apellido"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Apellido:
+          </label>
+          <input
+            type="text"
+            id="apellido"
+            name="apellido"
+            value={form.apellido}
+            onChange={handleChange}
+            className={clsx(
+              "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+              {
+                "border-red-500": responseBack.errors?.apellido?.length,
+                "border-gray-300": !responseBack.errors?.apellido?.length,
+              }
+            )}
+            required
+          />
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.apellido?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
+        </div>
+        
         <div>
           <label
             htmlFor="nombre"
@@ -207,36 +238,7 @@ function FormEstudiante({
           </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="apellido"
-            className="block text-sm font-medium text-gray-500"
-          >
-            Apellido:
-          </label>
-          <input
-            type="text"
-            id="apellido"
-            name="apellido"
-            value={form.apellido}
-            onChange={handleChange}
-            className={clsx(
-              "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-              {
-                "border-red-500": responseBack.errors?.apellido?.length,
-                "border-gray-300": !responseBack.errors?.apellido?.length,
-              }
-            )}
-            required
-          />
-          <div aria-live="polite" aria-atomic="true" className="mt-1">
-            {responseBack.errors?.apellido?.map((error: string) => (
-              <p className="m-0 text-sm text-red-500" key={error}>
-                {error}
-              </p>
-            ))}
-          </div>
-        </div>
+       
         <div>
           <label
             htmlFor="email"
@@ -297,6 +299,46 @@ function FormEstudiante({
             ))}
           </div>
         </div>
+        <div className=" flex flex-col  ">
+          <label
+            htmlFor="tecnologias"
+            className="block text-sm font-medium text-gray-500"
+          >
+            Tecnologías:
+          </label>
+          <select
+            id="tecnologias"
+            name="tecnologias"
+            value={form.tecnologias[0]?.id}
+            onChange={handleChange}
+            required
+            className={clsx(
+              "mt-2 text-black block w-full  border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
+              {
+                "border-red-500": responseBack.errors?.tecnologias?.length,
+                "border-gray-300": !responseBack.errors?.tecnologias?.length,
+              }
+            )}
+          >
+            <option value={0} disabled hidden>
+              Seleccione una Tecnología
+            </option>
+            {tecnologias.map((e, i) => {
+              return (
+                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  {e.nombre} - {e.tipo}
+                </option>
+              );
+            })}
+          </select>
+          <div aria-live="polite" aria-atomic="true" className="mt-1">
+            {responseBack.errors?.tecnologias?.map((error: string) => (
+              <p className="m-0 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
+        </div>
 
         <div>
           <label
@@ -339,46 +381,7 @@ function FormEstudiante({
           </div>
         </div>
 
-        <div className=" flex flex-col  ">
-          <label
-            htmlFor="tecnologias"
-            className="block text-sm font-medium text-gray-500"
-          >
-            Tecnologías:
-          </label>
-          <select
-            id="tecnologias"
-            name="tecnologias"
-            value={form.tecnologias[0]?.id}
-            onChange={handleChange}
-            required
-            className={clsx(
-              "mt-2 text-black block w-full  border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
-              {
-                "border-red-500": responseBack.errors?.tecnologias?.length,
-                "border-gray-300": !responseBack.errors?.tecnologias?.length,
-              }
-            )}
-          >
-            <option value={0} disabled hidden>
-              Seleccione una Tecnología
-            </option>
-            {tecnologias.map((e, i) => {
-              return (
-                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                  {e.nombre} - {e.tipo}
-                </option>
-              );
-            })}
-          </select>
-          <div aria-live="polite" aria-atomic="true" className="mt-1">
-            {responseBack.errors?.tecnologias?.map((error: string) => (
-              <p className="m-0 text-sm text-red-500" key={error}>
-                {error}
-              </p>
-            ))}
-          </div>
-        </div>
+        
         <button 
           type="submit"
           className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"

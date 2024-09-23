@@ -1,13 +1,13 @@
 "use client";
 import { EquipoData } from "@/database/definitions";
 import { fetchPostClient } from "@/lib/fetchFunctions";
-import clsx from "clsx";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { revalidateFuntion } from "@/lib/server/serverCache";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
 
-export default function FormGrupo() {
+export default function FormEquipo() {
   const router = useRouter();
   const [form, setForm] = useState({
     nombre: "",

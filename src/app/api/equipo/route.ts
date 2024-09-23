@@ -1,8 +1,8 @@
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sql } from "@vercel/postgres";
-import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 
 const CreateSchemaEquipos = z.object({
   id: z.coerce.number({
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
       let index_grupos: number = 0;
       let index_estudiantes: number = 0;
 
-      while (total_estudiantes!=0) {
+      while (total_estudiantes != 0) {
         //veer fecha
         console.log("dentre")
 
@@ -208,8 +208,7 @@ export async function POST(request: Request) {
         createResponse(
           false,
           [],
-          `No hay suficientes mentores de ${
-            !result_mentor_qa ? "QA" : "UX/UI"
+          `No hay suficientes mentores de ${!result_mentor_qa ? "QA" : "UX/UI"
           } para formar equipos`
         ),
         { status: 400 }
@@ -348,7 +347,7 @@ export async function POST(request: Request) {
         LIMIT 
         ${backend}`;
 
-      console.log("bacnkend1", result_backend);
+      console.log("backend1", result_backend);
       if (result_backend.length < backend) {
         //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
         const { rows: result_backend } = await sql`
@@ -498,7 +497,7 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-     await sql`
+    await sql`
       DELETE FROM equipos_estudiantes;
     `;
 

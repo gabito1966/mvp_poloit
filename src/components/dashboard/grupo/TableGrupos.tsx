@@ -99,7 +99,7 @@ export default async function TableGrupos({
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex  justify-end gap-3">
                         <ViewButton
-                          url={`/card/equipo/${grupo.id.toString()}`}
+                          url={`/card/grupo/${grupo.id.toString()}`}
                         />
                         <DeleteButton
                           url={`/api/equipo/${grupo.id.toString()}`}

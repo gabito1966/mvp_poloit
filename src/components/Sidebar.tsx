@@ -1,10 +1,10 @@
 // components/Sidebar.tsx
 import { roboto } from "@/lib/fonts";
+import { signOut, singIn } from "@/lib/server/session";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import LinkSideBar from "./LinkSideBar";
-import { signOut, singIn } from "@/lib/server/session";
-import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
   const links = [

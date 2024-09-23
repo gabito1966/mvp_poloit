@@ -1,4 +1,4 @@
-import FormGrupo from "@/components/register/grupo/FormGrupo";
+import FormGrupo from "@/components/register/equipo/FormEquipo";
 
 export default function page() {
   return (
