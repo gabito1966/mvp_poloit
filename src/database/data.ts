@@ -362,6 +362,33 @@ export async function fetchCardData() {
     throw new Error("Failed to fetch card data.");
   }
 }
+export async function fetchNotificationData() {
+  try {
+    const estudiantesCountPromise = sql`SELECT COUNT(*) FROM auditoria_estudiantes`;
+    const mentoresCountPromise = sql`SELECT COUNT(*) FROM auditoria_mentores`;
+    const equiposCountPromise = sql`SELECT COUNT(*) FROM auditoria_equipos`;
+
+    const data = await Promise.all([
+      estudiantesCountPromise,
+      mentoresCountPromise,
+      equiposCountPromise,
+    ]);
+
+    const cantEstudiantes = Number(data[0].rows[0].count ?? "0");
+    const cantMentores = Number(data[2].rows[0].count ?? "0");
+    const cantEquipos = Number(data[2].rows[0].count ?? "0");
+
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
+    return {
+      cantEstudiantes,
+      cantMentores,
+      cantEquipos,
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch notification data.");
+  }
+}
 
 export async function fetchLatestStudents() {
   try {
