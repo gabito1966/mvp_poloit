@@ -1,4 +1,4 @@
-import { CardSkeleton} from "@/components/skeletons";
+import { CardSkeleton } from "@/components/skeletons";
 import { Suspense } from "react";
 
 export default function layout({ children }: { children: React.ReactNode }) {
