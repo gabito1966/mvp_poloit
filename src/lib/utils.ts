@@ -1,4 +1,5 @@
 import { Estudiante, TecnologiaConEstudiantes } from "@/database/definitions";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export function getErrorMessageFromCode(error: any) {
   try {
@@ -94,4 +95,53 @@ export const generateYAxis = (
   }
 
   return { yAxisLabels, topLabel: highestRecord };
+};
+
+
+
+/**
+ * Funcion que utiliza la IA de Google Gemini para generar un cuerpo de email
+ * @param {string} destinatario nombre del destinatario
+ * @param {string} empresa nombre de la empresa del destinatario
+ * @param {string} tema tema del correo
+ * @param {string} informacion informacion especifica a incluir
+ * @returns {string} cuerpo del correo
+ */
+export const generarCuerpoEmailGemini = async (
+  destinatario: string,
+  empresa: string,
+  tema: string,
+  informacion: string
+) => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const genAI = new GoogleGenerativeAI(apiKey || "");
+
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+  });
+
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 64,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
+
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [
+      {
+        role: "user",
+       parts: [{text: `Escribe un correo electrónico profesional para enviar a ${destinatario} en ${empresa}. El correo debe tratar sobre ${tema}. Incluye la siguiente información: ${informacion}. También debe ser un correo cordial y amigable.`}],
+      },
+      {
+        role: "model",
+       parts: [{text: "Claro, dime qué información quieres incluir para el correo electrónico."}], 
+      },
+    ],
+  });
+
+  const result = await chatSession.sendMessage("");
+  return result.response.text();
 };

@@ -8,6 +8,7 @@ import {
   AlumnosTecnologiasChartSkeleton,
   CardsWrapperSkeleton,
   LatestInscriptosSkeleton,
+  NotificationSkeleton,
 } from "@/components/skeletons";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -49,7 +50,7 @@ export default async function Home() {
       </section>
 
       <section className="grid lg:grid-cols-2 grid-cols-1   mt-5 gap-5">
-        <Suspense fallback={<CardsWrapperSkeleton />}>
+        <Suspense fallback={<NotificationSkeleton />}>
           <Notification />
         </Suspense>
         <QuickActions />
