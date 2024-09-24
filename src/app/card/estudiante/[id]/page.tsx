@@ -19,37 +19,37 @@ export default async function EstudianteCard({
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.apellido}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.apellido}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.nombre}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.email}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.email}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.telefono}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.telefono}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Tecnologías:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.tecnologias[0].nombre}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.tecnologias[0].nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Tipo Tecnologia:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.tecnologias[0].tipo}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.tecnologias[0].tipo}</p>
                         </div>
                     </div>
 
@@ -57,14 +57,14 @@ export default async function EstudianteCard({
                         <div className="ml-16 max-md:ml-0 ">
 
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">ONG:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.nombre_ong}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.nombre_ong}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
 
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Estado:</h4>
-                            <p className="bg-transparent text-base mb-6">{estudiante.estado ? 'Activo' : 'Inactivo'}</p>
+                            <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.estado ? 'Activo' : 'Inactivo'}</p>
                         </div>
 
                     </div>

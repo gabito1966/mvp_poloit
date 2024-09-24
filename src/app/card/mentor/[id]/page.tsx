@@ -19,13 +19,13 @@ export default async function MentorCard({
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Nombre:</h4>
-                <p className="bg-transparent text-base mb-6">{mentor.nombre}</p>
+                <p className="bg-transparent text-base mb-6 font-semibold">{mentor.nombre}</p>
               </div>
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Apellido:</h4>
-                <p className="bg-transparent text-base mb-6">
+                <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.apellido}
                 </p>
               </div>
@@ -33,13 +33,13 @@ export default async function MentorCard({
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Email:</h4>
-                <p className="bg-transparent text-base mb-6">{mentor.email}</p>
+                <p className="bg-transparent text-base mb-6 font-semibold">{mentor.email}</p>
               </div>
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Teléfono:</h4>
-                <p className="bg-transparent text-base mb-6">
+                <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.telefono}
                 </p>
               </div>
@@ -49,7 +49,7 @@ export default async function MentorCard({
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">
                   Tecnologías:
                 </h4>
-                <p className="bg-transparent text-base mb-6">
+                <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.tecnologias.map((e: any, i: number) => i === (mentor.tecnologias.length - 1) ? `${e.nombre}` : `${e.nombre}, `)}
                 </p>
               </div>
@@ -57,7 +57,7 @@ export default async function MentorCard({
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Empresas:</h4>
-                <p className="bg-transparent text-base mb-6">
+                <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.nombre_empresa}
                 </p>
               </div>
