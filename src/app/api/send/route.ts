@@ -22,3 +22,16 @@ export async function POST() {
     return Response.json({ error }, { status: 500 });
   }
 }
+
+
+export async function GET() {
+  try {
+    const { data, error } = await resend.emails.get("ee8c22ab-383b-4f5a-8e26-86ed7b9c15ac");
+    if (error) {
+      return Response.json({ error }, { status: 500 });
+    }
+    return Response.json(data);
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+}
