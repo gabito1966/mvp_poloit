@@ -8,6 +8,19 @@ export default async function EquipoCard({
   params?: { id: string };
 }) {
     const { data: equipo } = await fetchGet(`/api/equipo/${params?.id}`);
+    const fecha_inicial =  new Date(equipo.fecha_inicio)
+    .toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    const fecha_final =  new Date(equipo.fecha_fin)
+    .toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    
 
     return (
         <>
@@ -19,31 +32,31 @@ export default async function EquipoCard({
                     <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
                             <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-base mb-3">{ equipo.nombre}</p>
+                                <p className="bg-transparent text-base mb-2 font-semibold">{ equipo.nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
-                            <h4 className="block mb-1 text-md text-gray-500 font-medium">Tamaño:</h4>
-                                <p className="bg-transparent text-base mb-3">{ equipo.tamano }</p>
+                            <h4 className="block mb-1 text-md text-gray-500 font-medium ">Tamaño:</h4>
+                                <p className="bg-transparent text-base mb-2 font-semibold">{ equipo.tamano }</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
                             <h4 className="block mb-1 text-md text-gray-500 font-medium">Fecha Inicio:</h4>
-                                <p className="bg-transparent text-base mb-3">{ equipo.fecha_inicio}</p>
+                                <p className="bg-transparent text-base mb-2 font-semibold">{ fecha_inicial}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
                             <h4 className="block mb-1 text-md text-gray-500 font-medium">Finaliza:</h4>
-                            <p className="bg-transparent text-base mb-3">{ equipo.fecha_fin}</p>
+                            <p className="bg-transparent text-base mb-2 font-semibold">{ fecha_final}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
                             <h4 className="block mb-1 text-md text-gray-500 font-medium"></h4>
-                                <p className="bg-transparent text-base mb-3"></p>
+                                <p className="bg-transparent text-base mb-2 font-semibold"></p>
                         </div>
                     </div>                   
                 </div>
@@ -54,32 +67,32 @@ export default async function EquipoCard({
                     <div className="grid grid-cols-2 md:grid-cols-5 ">
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_apellido}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Apellido</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_apellido}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_email}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Email:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_email}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_telefono}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Teléfono:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_telefono}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                         <div className="ml-8 max-md:ml-0 ">
                             <h4 className="block mb-1 text-md text-gray-500 font-medium">Mentor</h4>
-                                <p className="bg-transparent text-base mb-3">Tecnologias</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Tecnologias</p>
                         </div>
                     </div>
                     </div>
@@ -90,32 +103,32 @@ export default async function EquipoCard({
                     <div className="grid grid-cols-2 md:grid-cols-5 ">
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_qa}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_apellido}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Apellido</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_qa_apellido}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_email}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Email:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_qa_email}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_telefono}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Teléfono:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_qa_telefono}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Mentor</h4>
-                                <p className="bg-transparent text-base mb-3">QA</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Mentor</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">QA</p>
                             </div>
                         </div>
                         
@@ -127,32 +140,32 @@ export default async function EquipoCard({
                     <div className="grid grid-cols-2 md:grid-cols-5 ">
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-base mb-6">{equipo.mentor_ux_ui}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_ux_ui}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido</h4>
-                                <p className="bg-transparent text-base mb-6">{equipo.mentor_ux_ui_apellido}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Apellido</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_ux_ui_apellido}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
-                                <p className="bg-transparent text-base mb-6">{equipo.mentor_ux_ui_email}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Email:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_ux_ui_email}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
-                                <p className="bg-transparent text-base mb-6">{equipo.mentor_ux_ui_telefono}</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Teléfono:</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">{equipo.mentor_ux_ui_telefono}</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-2 text-md text-gray-500 font-medium">Mentor</h4>
-                                <p className="bg-transparent text-base mb-3">UX/UI</p>
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Mentor</h4>
+                                <p className="bg-transparent text-base mb-3 font-semibold">UX/UI</p>
                             </div>
                         </div>
                     </div>
@@ -164,31 +177,31 @@ export default async function EquipoCard({
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
                                 <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-base mb-3">Nombre del estudiante</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Nombre del estudiante</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
                                 <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido</h4>
-                                <p className="bg-transparent text-base mb-3">Apellido del estudiante</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Apellido del estudiante</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
                                 <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
-                                <p className="bg-transparent text-base mb-3">Email del estudiante</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Email del estudiante</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
                                 <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
-                                <p className="bg-transparent text-base mb-3">Telefono del estudiante</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Telefono del estudiante</p>
                             </div>
                         </div>
                         <div className="flex-auto">
                             <div className="ml-16 max-md:ml-0 ">
                                 <h4 className="block mb-2 text-md text-gray-500 font-medium">Tecnologia:</h4>
-                                <p className="bg-transparent text-base mb-3">Tecnologia del estudiante</p>
+                                <p className="bg-transparent text-base mb-3 font-semibold">Tecnologia del estudiante</p>
                             </div>
                         </div>
                     </div>

@@ -176,7 +176,7 @@ export default function FormEquipo() {
                   onChange={handleChange}
                   type="date"
                   id="fecha_inicio"
-                  name="fecha_inicion"
+                  name="fecha_inicio"
                   defaultValue={fechaHoyFormateada}
                   placeholder=""
                   className={clsx(
