@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-export default function FormGrupo() {
+export default function FormEquipo() {
   const fechaHoy = new Date(),
     fechaFin = new Date();
   const fechaHoyFormateada = `${fechaHoy.getFullYear()}-${String(
@@ -64,21 +64,21 @@ export default function FormGrupo() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newGrupo: EquipoData = {
+    const newEquipo: EquipoData = {
       nombre: form.nombre,
       tamano: form.tamano,
       fecha_inicio: form.fecha_inicio,
       fecha_fin: form.fecha_fin,
     };
 
-    const postPromise = fetchPostClient(`/api/equipo`, newGrupo);
+    const postPromise = fetchPostClient(`/api/equipo`, newEquipo);
 
     toast.promise(postPromise, {
       loading: "Cargando...",
       success: (response: any) => {
         revalidateFuntion("/");
-        revalidateFuntion("/grupo");
-        router.push("/grupo");
+        revalidateFuntion("/equipo");
+        router.push("/equipo");
         return `${response?.message}`;
       },
       error: (error) => {

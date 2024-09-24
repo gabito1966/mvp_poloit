@@ -24,8 +24,8 @@ const CreateSchemaEquipos = z.object({
     })
     .gt(4, { message: "Ingrese un numero mayor 4" })
     .lt(12, "El tamaño o debe ser menor a 12"),
-  fecha_inicio: z.coerce.date({message:"Ingrese una fecha de inicio"}),
-  fecha_fin: z.coerce.date({message:"Ingrese una fecha final de entrega"}),
+  fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
+  fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
 });
 
 const CreateEquipos = CreateSchemaEquipos.omit({ id: true }).refine((data) => data.fecha_inicio < data.fecha_fin, {
@@ -82,14 +82,14 @@ export async function POST(request: Request) {
 
     let total_estudiantes: number = cant_estudiantes[0].total_estudiantes;
 
-    const { rows: cant_grupos } = await sql`
-         SELECT COUNT(*) AS total_grupos
+    const { rows: cant_equipos } = await sql`
+         SELECT COUNT(*) AS total_equipos
          FROM equipos;
         `;
 
-    console.log(cant_grupos);
+    console.log(cant_equipos);
 
-    if (cant_grupos.length == 0 && total_estudiantes < tamano) {
+    if (cant_equipos.length == 0 && total_estudiantes < tamano) {
       return NextResponse.json(
         createResponse(
           false,
@@ -100,8 +100,8 @@ export async function POST(request: Request) {
       );
     }
 
-    if (cant_grupos[0].total_grupos > 0 && total_estudiantes < tamano) {
-      let index_grupos: number = 0;
+    if (cant_equipos[0].total_equipos > 0 && total_estudiantes < tamano) {
+      let index_equipos: number = 0;
       let index_estudiantes: number = 0;
 
       while (total_estudiantes != 0) {
@@ -113,9 +113,9 @@ export async function POST(request: Request) {
         FROM equipos eq
         LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
         GROUP BY eq.id
-        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
         LIMIT 1 
-        OFFSET ${index_grupos}
+        OFFSET ${index_equipos}
            `;
 
         console.log(equipoResult);
@@ -145,12 +145,12 @@ export async function POST(request: Request) {
 
         total_estudiantes--;
         if (!total_estudiantes) break;
-        index_grupos =
-          cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
+        index_equipos =
+          cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
       }
 
       revalidatePath("/");
-      revalidatePath("/grupo");
+      revalidatePath("/equipo");
       return NextResponse.json(
         createResponse(true, [], "Creación de equipos exitosa"),
         {
@@ -160,7 +160,7 @@ export async function POST(request: Request) {
     }
 
     if (
-      cant_grupos[0].total_grupos > 0 &&
+      cant_equipos[0].total_equipos > 0 &&
       cant_estudiantes[0].total_estudiantes >= tamano
     ) {
       const { rows: result_ultimo_equipo } = await sql`
@@ -229,8 +229,7 @@ export async function POST(request: Request) {
         createResponse(
           false,
           [],
-          `No hay suficientes mentores de ${
-            !result_mentor_qa.length ? "QA" : "UX/UI"
+          `No hay suficientes mentores de ${!result_mentor_qa.length ? "QA" : "UX/UI"
           } para formar equipos`
         ),
         { status: 400 }
@@ -444,11 +443,11 @@ export async function POST(request: Request) {
     if (total_estudiantes) {
       //agoritmo de distribucion
 
-      const { rows: cant_grupos } = await sql`
-          SELECT COUNT(*) AS total_grupos
+      const { rows: equipos } = await sql`
+          SELECT COUNT(*) AS total_equipos
           FROM equipos;
         `;
-      let index_grupos: number = 0;
+      let index_equipos: number = 0;
       let index_estudiantes: number = 0;
 
       while (total_estudiantes) {
@@ -457,9 +456,9 @@ export async function POST(request: Request) {
         FROM equipos eq
         LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
         GROUP BY eq.id
-        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el grupo (de menor a mayor)
+        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
         LIMIT 1 
-        OFFSET ${index_grupos}
+        OFFSET ${index_equipos}
            `;
 
         console.log(equipoResult);
@@ -486,7 +485,7 @@ export async function POST(request: Request) {
             SET tamano = tamano + 1
             WHERE id = ${equipoId};
           `;
-        //actializar tabla de prupos sumar al grupo +1 tamnaño
+        //actializar tabla de prupos sumar al equipo +1 tamnaño
 
         // await sql`
         //   UPDATE equipos
@@ -496,13 +495,13 @@ export async function POST(request: Request) {
 
         total_estudiantes--;
         if (!total_estudiantes) break;
-        index_grupos =
-          cant_grupos[0].total_grupos - 1 < index_grupos ? index_grupos++ : 0;
+        index_equipos =
+          cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
       }
     }
 
     revalidatePath("/");
-    revalidatePath("/grupo");
+    revalidatePath("/equipo");
 
     return NextResponse.json(
       createResponse(true, [], "Creación de equipos exitosa"),
@@ -550,7 +549,7 @@ export async function DELETE(request: Request) {
       DELETE FROM equipos;
     `;
 
-    revalidatePath("/grupo");
+    revalidatePath("/equipo");
     revalidatePath("/");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),

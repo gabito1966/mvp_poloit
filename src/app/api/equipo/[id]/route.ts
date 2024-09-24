@@ -1,8 +1,8 @@
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sql } from "@vercel/postgres";
-import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 
 const GetEquipo = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un numéro" }),
@@ -16,7 +16,7 @@ export async function GET(
 
   if (!id) {
     return NextResponse.json(
-      createResponse(false, [], "Debe proporcionar el ID del grupo"),
+      createResponse(false, [], "Debe proporcionar el ID del equipo"),
       { status: 400 }
     );
   }
@@ -37,7 +37,7 @@ export async function GET(
     );
   }
 
-  const { id: idgrupo } = validatedFields.data;
+  const { id: idequipo } = validatedFields.data;
 
   try {
     const { rows } = await sql`
@@ -84,7 +84,7 @@ export async function GET(
   LEFT JOIN 
     mentores mqa ON e.id_mentor_qa = mqa.id
   WHERE 
-    e.id = ${idgrupo}
+    e.id = ${idequipo}
   GROUP BY 
     e.id, m.id, muxui.id, mqa.id
 `;
@@ -138,23 +138,23 @@ export async function DELETE(
       );
     }
 
-    const { id: idgrupo } = validatedFields.data;
+    const { id: idequipo } = validatedFields.data;
 
     await sql`
     DELETE FROM 
       equipos_estudiantes
     WHERE
-      id_equipo = ${idgrupo};
+      id_equipo = ${idequipo};
         `;
 
     await sql`
       DELETE FROM
         equipos
       WHERE
-        id = ${idgrupo}
+        id = ${idequipo}
         `;
 
-    revalidatePath(`/grupo`)
+    revalidatePath(`/equipo`)
 
     return NextResponse.json(createResponse(true, [], "Equipo eliminado"), {
       status: 200,
