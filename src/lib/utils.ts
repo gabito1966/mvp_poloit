@@ -1,4 +1,5 @@
-import { Estudiante, TecnologiaConEstudiantes } from "@/database/definitions";
+import { TecnologiaConEstudiantes } from "@/database/definitions";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export function getErrorMessageFromCode(error: any) {
   try {
@@ -94,4 +95,102 @@ export const generateYAxis = (
   }
 
   return { yAxisLabels, topLabel: highestRecord };
+};
+
+
+/**
+ * Funcion que utiliza la IA de Google Gemini para generar un cuerpo de email
+ * @param {string} tipo tipo de email (true presentación y comunicación de los integrantes, false seguimiento de cada estudiante del equipo)
+ * @param {string} content nombre de la empresa del destinatario
+ * @returns {string} cuerpo del correo
+ */
+export const generarCuerpoEmailGemini = async (
+  tipo:string,
+  content:string
+) => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const genAI = new GoogleGenerativeAI(apiKey || "");
+
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+  });
+
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 64,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
+
+  let script ="estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final "
+
+  if(tipo=="true"){
+
+    script+=`
+    este es el cuerpo de un email de presentacion de los integrantes del grupo
+
+      ejemplo de email:
+      
+      ¡Hola equipo!
+
+      Gracias por sumarse y participar de este Acelerador Polo IT
+
+      Como les mencionamos hoy  en el kick off, les compartimos los datos del equipo con el que estarán trabajando y el mentor/a que los acompañará:
+
+      Los/las invitamos a contactarse con sus compañeros/as de equipo y con su mentor/a para comenzar esta aventura.
+
+      Les deseamos muchos éxitos y desde ya a disposición por si surgen dudas
+
+      Saludos.
+
+      Comisión Talento e Inclusión
+      Polo IT de Buenos Aires
+    `
+    
+  }else{
+
+    script+=`
+    este es un email de seguimiento de cada intengrante, si te agrego más preguntas referentes al seguimiento del grupo lo agregas.
+
+    ejemplo de email:
+    Hola, ¿cómo estás? Espero que muy bien.
+
+    Me comunico desde el Ministerio de Educación para hacerte algunas preguntas respecto al programa Polo IT, ya que queremos saber un poco más acerca de tu experiencia.
+
+    1) ¿Ya se te asignó un proyecto?
+    2) ¿Tuvieron su primer encuentro?
+    3) ¿Cada cuanto son las reuniones de equipo?
+    4) ¿La comunicación y las explicaciones son adecuadas?
+    5) ¿Tu equipo está completo?
+
+    Cualquier otro comentario u observación que quieras hacernos es más que bienvenido!
+
+    ¡Muchísimas gracias!
+      
+    Comisión Talento e Inclusión
+    Polo IT de Buenos Aires
+        `
+    
+  }
+
+  script+=`${content?` agregar ${content}, mejorando la narración de la pregunta si es necesario y sin faltas de ortografias`:""}`
+
+
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [
+      // {
+      //   role: "user",
+      //  parts: [{text: `${script}`}],
+      // },
+      // {
+      //   role: "model",
+      //  parts: [{text: "Claro, dime qué información quieres incluir para el correo electrónico."}], 
+      // },
+    ],
+  });
+
+  const result = await chatSession.sendMessage(script);
+  return result.response.text();
 };

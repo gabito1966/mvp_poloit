@@ -103,3 +103,76 @@ CREATE TABLE sesiones (
     fecha_creacion DATE,
     FOREIGN KEY (id_administrador) REFERENCES administradores(id)
 );
+
+
+-- Recrear tablas de auditoría
+CREATE TABLE auditoria_estudiantes (
+    id SERIAL PRIMARY KEY,
+    id_estudiante INTEGER NOT NULL,
+    fecha_baja TIMESTAMP NOT NULL,
+    estado BOOLEAN NOT NULL
+);
+
+CREATE TABLE auditoria_mentores (
+    id SERIAL PRIMARY KEY,
+    id_mentor INTEGER NOT NULL,
+    fecha_baja TIMESTAMP NOT NULL,
+    estado BOOLEAN NOT NULL
+);
+
+CREATE TABLE auditoria_equipos (
+    id SERIAL PRIMARY KEY,
+    id_equipo INTEGER,
+    nombre VARCHAR(255) NOT NULL,
+    cantidad_estudiantes INTEGER NOT NULL,
+    fecha_eliminacion TIMESTAMP NOT NULL
+);
+
+-- Trigger para estudiantes
+CREATE OR REPLACE FUNCTION auditoria_estudiantes_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.estado = TRUE AND NEW.estado = FALSE THEN
+        INSERT INTO auditoria_estudiantes (id_estudiante, fecha_baja, estado)
+        VALUES (OLD.id, CURRENT_TIMESTAMP, NEW.estado);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_auditoria_estudiantes
+AFTER UPDATE ON estudiantes
+FOR EACH ROW
+EXECUTE FUNCTION auditoria_estudiantes_trigger();
+
+-- Trigger para mentores
+CREATE OR REPLACE FUNCTION auditoria_mentores_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.estado = TRUE AND NEW.estado = FALSE THEN
+        INSERT INTO auditoria_mentores (id_mentor, fecha_baja, estado)
+        VALUES (OLD.id, CURRENT_TIMESTAMP, NEW.estado);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_auditoria_mentores
+AFTER UPDATE ON mentores
+FOR EACH ROW
+EXECUTE FUNCTION auditoria_mentores_trigger();
+
+-- Trigger para equipos
+CREATE OR REPLACE FUNCTION auditoria_equipos_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO auditoria_equipos (id_equipo, nombre, cantidad_estudiantes, fecha_eliminacion)
+    VALUES (OLD.id, OLD.nombre, OLD.tamano, CURRENT_TIMESTAMP);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_auditoria_equipos
+BEFORE DELETE ON equipos
+FOR EACH ROW
+EXECUTE FUNCTION auditoria_equipos_trigger();

@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { QueryResultRow, sql } from "@vercel/postgres";
 import {
   empresas,
   EstudianteFetch,
@@ -7,6 +7,7 @@ import {
   Ong,
   TecnologiaConEstudiantes,
 } from "./definitions";
+import { revalidatePath } from "next/cache";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -362,6 +363,33 @@ export async function fetchCardData() {
     throw new Error("Failed to fetch card data.");
   }
 }
+export async function fetchNotificationData() {
+  try {
+    const estudiantesCountPromise = sql`SELECT COUNT(*) FROM auditoria_estudiantes`;
+    const mentoresCountPromise = sql`SELECT COUNT(*) FROM auditoria_mentores`;
+    const equiposCountPromise = sql`SELECT COUNT(*) FROM auditoria_equipos`;
+
+    const data = await Promise.all([
+      estudiantesCountPromise,
+      mentoresCountPromise,
+      equiposCountPromise,
+    ]);
+
+    const cantEstudiantes = Number(data[0].rows[0].count ?? "0");
+    const cantMentores = Number(data[2].rows[0].count ?? "0");
+    const cantEquipos = Number(data[2].rows[0].count ?? "0");
+
+    // await new Promise((resolve) => setTimeout(resolve, 1500));
+    return {
+      cantEstudiantes,
+      cantMentores,
+      cantEquipos,
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch notification data.");
+  }
+}
 
 export async function fetchLatestStudents() {
   try {
@@ -421,3 +449,76 @@ export async function fetchTecnologiasConEstudiantes() {
     throw new Error("Failed to fetch tecnologias con estudiantes data.");
   }
 }
+
+export async function equiposDistribution(
+  total_estudiantes: number,
+  cant_equipos: QueryResultRow[]
+) {
+  let index_equipos: number = 0;
+  let index_estudiantes: number = 0;
+
+  while (total_estudiantes != 0) {
+    const { rows: equipoResult } = await sql`
+        SELECT eq.id as id
+        FROM equipos eq
+        LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+        GROUP BY eq.id
+        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
+        LIMIT 1 
+        OFFSET ${index_equipos}
+           `;
+
+    const equipoId = equipoResult[0].id;
+
+    await sql`     
+           INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
+          SELECT ${equipoId}, (
+            SELECT e.id
+            FROM estudiantes e
+            LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+            JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+            JOIN tecnologias t ON et.id_tecnologia = t.id 
+            WHERE ee.id_equipo IS NULL AND e.estado = true
+            ORDER BY t.nombre
+            LIMIT 1
+            OFFSET ${index_estudiantes}
+          );
+          `;
+
+    await sql`UPDATE 
+            equipos 
+            SET tamano = tamano + 1
+            WHERE id = ${equipoId};
+          `;
+
+    total_estudiantes--;
+    if (!total_estudiantes) break;
+    index_equipos =
+      cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
+  }
+
+  revalidatePath("/");
+  revalidatePath("/equipo");
+}
+
+
+export async function getCantEstudiantesSinGrupo() {
+
+  try {
+    const {rows:result} = await sql`SELECT COUNT(*) 
+                              FROM estudiantes 
+                              WHERE estado = true 
+                              AND id NOT IN (
+                                  SELECT id_estudiante
+                                  FROM equipos_estudiantes
+                              )`;
+  
+    return result[0].count;
+    
+  } catch (error) {
+    console.log(error)
+    return 0;
+  }
+
+}
+

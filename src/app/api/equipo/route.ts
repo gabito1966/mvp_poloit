@@ -1,3 +1,4 @@
+import { equiposDistribution } from "@/database/data";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
@@ -22,7 +23,7 @@ const CreateSchemaEquipos = z.object({
       invalid_type_error: "El tamaño debe ser un número",
       message: "Ingrese un tamaño",
     })
-    .gt(4, { message: "Ingrese un numero mayor 4" })
+    .gt(5, { message: "Ingrese un numero mayor 5" })
     .lt(12, "El tamaño o debe ser menor a 12"),
   fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
   fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
@@ -37,7 +38,6 @@ type Equipos = z.infer<typeof CreateSchemaEquipos>;
 export async function POST(request: Request) {
   const body = (await request.json()) as Equipos;
 
-  console.log(body);
 
   const validatedFields = CreateEquipos.safeParse({
     ...body,
@@ -62,9 +62,6 @@ export async function POST(request: Request) {
   const inicio = fecha_inicio.toISOString().split("T")[0];
   const fin = fecha_fin.toISOString().split("T")[0];
 
-  console.log("fecha inicio", inicio);
-  console.log("fecha fin", fin);
-
   const frontEnd = Math.floor((tamano - 2) * 0.4),
     backend = Math.ceil((tamano - 2) * 0.6);
 
@@ -87,8 +84,6 @@ export async function POST(request: Request) {
          FROM equipos;
         `;
 
-    console.log(cant_equipos);
-
     if (cant_equipos.length == 0 && total_estudiantes < tamano) {
       return NextResponse.json(
         createResponse(
@@ -101,58 +96,55 @@ export async function POST(request: Request) {
     }
 
     if (cant_equipos[0].total_equipos > 0 && total_estudiantes < tamano) {
-      let index_equipos: number = 0;
-      let index_estudiantes: number = 0;
 
-      while (total_estudiantes != 0) {
-        //veer fecha
-        console.log("dentre");
+      await equiposDistribution(total_estudiantes, cant_equipos);
 
-        const { rows: equipoResult } = await sql`
-        SELECT eq.id as id
-        FROM equipos eq
-        LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
-        GROUP BY eq.id
-        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
-        LIMIT 1 
-        OFFSET ${index_equipos}
-           `;
+      // let index_equipos: number = 0;
+      // let index_estudiantes: number = 0;
 
-        console.log(equipoResult);
+      // while (total_estudiantes != 0) {
 
-        const equipoId = equipoResult[0].id;
+      //   const { rows: equipoResult } = await sql`
+      //   SELECT eq.id as id
+      //   FROM equipos eq
+      //   LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
+      //   GROUP BY eq.id
+      //   ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
+      //   LIMIT 1 
+      //   OFFSET ${index_equipos}
+      //      `;
 
-        await sql`     
-           INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
-          SELECT ${equipoId}, (
-            SELECT e.id
-            FROM estudiantes e
-            LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-            JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-            JOIN tecnologias t ON et.id_tecnologia = t.id
-            WHERE ee.id_equipo IS NULL AND e.estado = true
-            ORDER BY t.nombre
-            LIMIT 1
-            OFFSET ${index_estudiantes}
-          );
-          `;
+      //   const equipoId = equipoResult[0].id;
 
-        await sql`UPDATE 
-            equipos 
-            SET tamano = tamano + 1
-            WHERE id = ${equipoId};
-          `;
+      //   await sql`     
+      //      INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
+      //     SELECT ${equipoId}, (
+      //       SELECT e.id
+      //       FROM estudiantes e
+      //       LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+      //       JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+      //       JOIN tecnologias t ON et.id_tecnologia = t.id
+      //       WHERE ee.id_equipo IS NULL AND e.estado = true
+      //       ORDER BY t.nombre
+      //       LIMIT 1
+      //       OFFSET ${index_estudiantes}
+      //     );
+      //     `;
 
-        total_estudiantes--;
-        if (!total_estudiantes) break;
-        index_equipos =
-          cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
-      }
+      //   await sql`UPDATE 
+      //       equipos 
+      //       SET tamano = tamano + 1
+      //       WHERE id = ${equipoId};
+      //     `;
 
-      revalidatePath("/");
-      revalidatePath("/equipo");
+      //   total_estudiantes--;
+      //   if (!total_estudiantes) break;
+      //   index_equipos =
+      //     cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
+      // }
+
       return NextResponse.json(
-        createResponse(true, [], "Creación de equipos exitosa"),
+        createResponse(true, [], "Distribución de estudiantes exitosa"),
         {
           status: 200,
         }
@@ -199,8 +191,6 @@ export async function POST(request: Request) {
         1;
       `;
 
-    console.log("mentor ux ", result_mentor_ux_ui[0]);
-
     const { rows: result_mentor_qa } = await sql`
       SELECT 
         m.id,
@@ -221,8 +211,6 @@ export async function POST(request: Request) {
       LIMIT
         1;
       `;
-
-    console.log("mentor qa ", result_mentor_qa[0]);
 
     if (result_mentor_qa.length == 0 || result_mentor_ux_ui.length == 0) {
       return NextResponse.json(
@@ -266,8 +254,6 @@ export async function POST(request: Request) {
           1;
         `;
 
-      console.log("mentor ", result_mentor[0]);
-
       if (!result_mentor.length) break;
 
       const { rows: result_ux_ui } = await sql`
@@ -288,8 +274,6 @@ export async function POST(request: Request) {
             LIMIT
               1;
               `;
-
-      console.log("ux_ui ", result_ux_ui[0]);
 
       if (!result_ux_ui.length) break;
 
@@ -316,8 +300,6 @@ export async function POST(request: Request) {
 
       if (!result_qa.length) break; //ver el length si es igual a cero no por id
 
-      console.log("qa ", result_qa);
-
       arr_equipos.push(result_qa[0].id);
 
       //podria ordenar por front end y despues por back end para luego tomar los que faltan siempre
@@ -339,11 +321,8 @@ export async function POST(request: Request) {
           LIMIT 
             ${frontEnd}
               `;
-      console.log(result_frontEnd);
 
       if (result_frontEnd.length < frontEnd) break; //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
-
-      console.log("here");
 
       result_frontEnd.forEach((e) => arr_equipos.push(e.id));
 
@@ -368,7 +347,6 @@ export async function POST(request: Request) {
         LIMIT 
         ${backend}`;
 
-      console.log("backend1", result_backend);
       if (result_backend.length < backend) {
         //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
         const { rows: result_backend } = await sql`
@@ -418,8 +396,6 @@ export async function POST(request: Request) {
         result_backend.forEach((e) => arr_equipos.push(e.id));
       }
 
-      console.log("bacnkend2", result_backend);
-
       const name: string = `${nombre}-${contador}`;
 
       //ver fecha
@@ -437,20 +413,15 @@ export async function POST(request: Request) {
       total_estudiantes -= tamano;
       contador++;
       arr_equipos = [];
-      console.log(arr_equipos);
+    
     }
 
     if (total_estudiantes) {
-      //agoritmo de distribucion
 
-      const { rows: equipos } = await sql`
-          SELECT COUNT(*) AS total_equipos
-          FROM equipos;
-        `;
       let index_equipos: number = 0;
       let index_estudiantes: number = 0;
 
-      while (total_estudiantes) {
+      while (total_estudiantes!=0) {
         const { rows: equipoResult } = await sql`
         SELECT eq.id as id
         FROM equipos eq
@@ -460,8 +431,6 @@ export async function POST(request: Request) {
         LIMIT 1 
         OFFSET ${index_equipos}
            `;
-
-        console.log(equipoResult);
 
         const equipoId = equipoResult[0].id;
 
@@ -485,19 +454,20 @@ export async function POST(request: Request) {
             SET tamano = tamano + 1
             WHERE id = ${equipoId};
           `;
-        //actializar tabla de prupos sumar al equipo +1 tamnaño
-
-        // await sql`
-        //   UPDATE equipos
-        //   SET tamano = tamano + 1
-        //   WHERE id = ${equipoResult[0].id}
-        // `;
 
         total_estudiantes--;
         if (!total_estudiantes) break;
         index_equipos =
           cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
       }
+      
+      return NextResponse.json(
+        createResponse(true, [], "Creación y distribucion de equipos exitosa"),
+        {
+          status: 200,
+        }
+      );
+
     }
 
     revalidatePath("/");
@@ -522,8 +492,6 @@ export async function GET(request: Request) {
     const { rows: result_mentor } = await sql`
       select * from equipos;
               `;
-
-    console.log(result_mentor);
 
     return NextResponse.json(
       createResponse(true, [result_mentor], "consulta exitosa"),
