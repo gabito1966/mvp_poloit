@@ -59,7 +59,7 @@ export default async function Table({
                 <th scope="col" className="capitalize px-4 py-5 font-medium ">
                   nombre
                 </th>
-                <th scope="col" className="capitalize px-3 py-5 font-medium">
+                <th scope="col" className="capitalize px-5 py-5 font-medium">
                   Correo electrónico
                 </th>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
