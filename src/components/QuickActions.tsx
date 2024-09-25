@@ -24,7 +24,7 @@ export function ItemQuickAction({url, content}:{url:string;content:string}) {
       
         <Link
           href={url}
-          className=" md:px-7 lg:px-1 py-3 px-4 xl:px-8 rounded-md bg-blue-400  hover:bg-blue-700 w-full  transition-colors  text-white   text-center  text-nowrap capitalize"
+          className=" md:px-7 lg:px-1 py-3 px-4 xl:px-8 rounded-md bg-blue-400  hover:bg-blue-700 w-full  transition-colors  text-white   text-center  text-nowrap capitalize" title={content}
         >
           <span>
           {content}

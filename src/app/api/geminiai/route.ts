@@ -1,12 +1,14 @@
 import { generarCuerpoEmailGemini } from "@/lib/utils";
 import { NextResponse } from "next/server";
+import { boolean } from "zod";
 
 
 export async function POST(request:Request) {
-    const {content} = (await request.json()) ;
+    const { tipo, content} = (await request.json()) ;
 
     try {
-        const message = await generarCuerpoEmailGemini("nicolas espindola","polo it", "presentacion","presentacion de un proyecto web");
+        // const message = await generarCuerpoEmailGemini(tipo, content);
+        const message = await generarCuerpoEmailGemini(tipo, content);
         
         return NextResponse.json({message}, {status:200});
     } catch (error) {

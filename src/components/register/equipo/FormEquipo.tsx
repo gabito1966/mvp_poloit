@@ -91,7 +91,6 @@ export default function FormEquipo() {
       },
     });
   };
-  //use efect para traer la cantidad de alumnos
 
   return (
     <>

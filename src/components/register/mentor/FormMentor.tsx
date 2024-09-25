@@ -178,9 +178,8 @@ function FormMentor({
 
         },
         error: (err) => {
-          // Manejar el error
           setResponseBack({ message: err.message, errors: err.errors || {} });
-          return 'Error al crear el mentor: ' + (err.message || 'Intente nuevamente');
+          return  (err.message || 'Intente nuevamente');
         },
       }
       );
