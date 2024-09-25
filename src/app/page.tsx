@@ -53,7 +53,11 @@ export default async function Home() {
         <Suspense fallback={<NotificationSkeleton />}>
           <Notification />
         </Suspense>
-        <QuickActions />
+
+        <Suspense fallback={<NotificationSkeleton/>}>
+          <QuickActions />
+        </Suspense>
+
       </section>
     </main>
   );

@@ -8,17 +8,13 @@ export async function POST(request: Request) {
 
   const {bodyEmail, tipo} = (await request.json());
 
-
-  
 //nombre del grupo en el subject
 //necesito a los grupos, con sus integrantes para enviar los emails , tengo que enviar cada 
-
-
 
   try {
     const { data, error } = await resend.emails.send({
       from: 'Polo-IT <onboarding@resend.dev>',
-      to: ['nicoespindola899@gmail.com' ],
+      to: ['espindolajavier2013@gmail.com' ],
       subject: `Acelerador Polo IT - `,
       react: EmailTemplate({ firstName: 'John', content:bodyEmail }),
     });

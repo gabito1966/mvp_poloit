@@ -98,7 +98,6 @@ export const generateYAxis = (
 };
 
 
-
 /**
  * Funcion que utiliza la IA de Google Gemini para generar un cuerpo de email
  * @param {string} tipo tipo de email (true presentación y comunicación de los integrantes, false seguimiento de cada estudiante del equipo)
@@ -150,8 +149,6 @@ export const generarCuerpoEmailGemini = async (
     `
     
   }else{
-
-    console.log("dentre");
 
     script+=`
     este es un email de seguimiento de cada intengrante, si te agrego más preguntas referentes al seguimiento del grupo lo agregas.

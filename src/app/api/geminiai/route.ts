@@ -1,7 +1,5 @@
 import { generarCuerpoEmailGemini } from "@/lib/utils";
 import { NextResponse } from "next/server";
-import { boolean } from "zod";
-
 
 export async function POST(request:Request) {
     const { tipo, content} = (await request.json()) ;
@@ -17,6 +15,3 @@ export async function POST(request:Request) {
     }
 
 }
-
-
-
