@@ -31,7 +31,7 @@ export async function middleware(req: NextRequest) {
 
     if (!tokenverify.success) {
       const response = NextResponse.redirect(
-        new URL("/auth/login", process.env.NEXT_BASE_URL)
+        new URL(`/auth/login?error=auth_required&url=${pathname.toString()}`, process.env.NEXT_BASE_URL)
       );
       response.cookies.delete("session");
       response.cookies.delete("user");

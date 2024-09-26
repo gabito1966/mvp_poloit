@@ -1,10 +1,14 @@
 import FormEquipo from "@/components/register/equipo/FormEquipo";
+import { getCantEstudiantesSinGrupo } from "@/database/data";
 
 
-export default function RegisterEquipos() {
+export default async function RegisterEquipos() {
+
+  const cantEstudiantesSinEquipo:number = await getCantEstudiantesSinGrupo();
+
   return (
     <>
-        <FormEquipo />
+        <FormEquipo  estudiantesNoGrupos={cantEstudiantesSinEquipo} />
     </>
   )
 }

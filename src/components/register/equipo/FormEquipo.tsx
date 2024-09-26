@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-export default function FormEquipo() {
+export default function FormEquipo({estudiantesNoGrupos}:{estudiantesNoGrupos:number}) {
   const fechaHoy = new Date(),
     fechaFin = new Date();
   const fechaHoyFormateada = `${fechaHoy.getFullYear()}-${String(
@@ -27,7 +27,6 @@ export default function FormEquipo() {
     fecha_inicio: fechaHoyFormateada,
     fecha_fin: fechaFinFormateada,
   });
-
 
   const [responseBack, setResponseBack] = useState({
     message: "",
@@ -64,12 +63,30 @@ export default function FormEquipo() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    
     const newEquipo: EquipoData = {
-      nombre: form.nombre,
-      tamano: form.tamano,
-      fecha_inicio: form.fecha_inicio,
-      fecha_fin: form.fecha_fin,
+      nombre: "",
+      tamano: 0,
+      fecha_inicio: "",
+      fecha_fin: "",
     };
+
+if(estudiantesNoGrupos>=7){
+  const newEquipo: EquipoData = {
+    nombre: form.nombre,
+    tamano: form.tamano,
+    fecha_inicio: form.fecha_inicio,
+    fecha_fin: form.fecha_fin,
+  };
+}else{
+  const newEquipo: EquipoData = {
+    nombre: "no equipos",
+    tamano: 7,
+    fecha_inicio: form.fecha_inicio,
+    fecha_fin: form.fecha_fin,
+  };
+
+}
 
     const postPromise = fetchPostClient(`/api/equipo`, newEquipo);
 
@@ -96,7 +113,9 @@ export default function FormEquipo() {
     <>
       <div className="w-full flex-grow p-6  md:p-12">
         <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">
-          Generación de equipos
+          {
+            estudiantesNoGrupos<7?"Asignación de Estudiantes Sobrantes":"Generación de equipos"
+          }
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -116,11 +135,13 @@ export default function FormEquipo() {
                   id="nombre"
                   name="nombre"
                   placeholder=""
+                  disabled={estudiantesNoGrupos<7}
                   className={clsx(
                     "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
+                      "hover:cursor-not-allowed":estudiantesNoGrupos<7
                     }
                   )}
                   onChange={handleChange}
@@ -142,6 +163,7 @@ export default function FormEquipo() {
                 </label>
                 <input
                   onChange={handleChange}
+                  disabled={estudiantesNoGrupos<7}
                   type="number"
                   id="tamano"
                   pattern="[5-12]*"
@@ -149,10 +171,11 @@ export default function FormEquipo() {
                   name="tamano"
                   placeholder=""
                   className={clsx(
-                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2  text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.tamano?.length,
                       "border-gray-300": !responseBack.errors?.tamano?.length,
+                      "hover:cursor-not-allowed":estudiantesNoGrupos<7
                     }
                   )}
                 />
@@ -172,6 +195,7 @@ export default function FormEquipo() {
                   Fecha de inicio:
                 </label>
                 <input
+                disabled={estudiantesNoGrupos<7}
                   onChange={handleChange}
                   type="date"
                   id="fecha_inicio"
@@ -185,6 +209,7 @@ export default function FormEquipo() {
                         responseBack.errors?.fecha_inicio?.length,
                       "border-gray-300":
                         !responseBack.errors?.fecha_inicio?.length,
+                        "hover:cursor-not-allowed":estudiantesNoGrupos<7
                     }
                   )}
                 />
@@ -204,6 +229,7 @@ export default function FormEquipo() {
                   Fecha final de entrega:
                 </label>
                 <input
+                disabled={estudiantesNoGrupos<7}
                   onChange={handleChange}
                   type="date"
                   id="fecha_fin"
@@ -216,6 +242,7 @@ export default function FormEquipo() {
                       "border-red-500": responseBack.errors?.fecha_fin?.length,
                       "border-gray-300":
                         !responseBack.errors?.fecha_fin?.length,
+                        "hover:cursor-not-allowed":estudiantesNoGrupos<7
                     }
                   )}
                 />
@@ -228,13 +255,24 @@ export default function FormEquipo() {
                 </div>
               </div>
             </div>
-            {/* agregar fechas */}
+
             <button
               type="submit"
-              className="px-4 py-2 max-h-11 self-center sm:self-end bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 w-64 m-0 sm:justify-self-end sm:ml-auto"
+              disabled={estudiantesNoGrupos==0}
+              className="px-4 py-2 max-h-11 self-center sm:self-end bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 w-64 m-0 sm:justify-self-end sm:ml-auto capitalize"
             >
-              Generar Equipos
+              {estudiantesNoGrupos<=6?"Asignar Estudiantes":"Generar Equipos"}
             </button>
+          </div>
+          <div  className={clsx(" border-t-2 mt-3",{
+            "hidden":estudiantesNoGrupos>6
+          })}>
+            <span className="align-top">* </span>
+            {
+              estudiantesNoGrupos > 0 ?<span className="text-red-500 text-sm">{estudiantesNoGrupos} estudiante{estudiantesNoGrupos!=1?"s":""} sin grupos</span>:<span className="text-red-500 text-base">No hay estudiantes para crear/asignar a ningun grupo</span>
+            }
+
+            
           </div>
         </form>
       </div>
