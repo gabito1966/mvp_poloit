@@ -10,7 +10,6 @@ import {
   LatestInscriptosSkeleton,
   NotificationSkeleton,
 } from "@/components/skeletons";
-import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Home() {

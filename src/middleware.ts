@@ -54,10 +54,13 @@ export async function middleware(req: NextRequest) {
   }
 
   if (isProtectedRoute) {
-    //crear usuario a partir del del token
-    return NextResponse.redirect(
-      new URL("/auth/login", process.env.NEXT_BASE_URL)
+  
+    const response = NextResponse.redirect(
+      new URL(`/auth/login?error=auth_required&url=${pathname.toString()}`, process.env.NEXT_BASE_URL)
     );
+ 
+    return response;
+    
   } else {
     return NextResponse.next();
   }

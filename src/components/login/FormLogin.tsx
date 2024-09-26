@@ -3,11 +3,26 @@
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 function FormLogin() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const error = params.get("error");
+    const url = params.get("url");
+    if (error === "auth_required") {
+      toast.error("Inicie sesión para acceder a esta página");
+      revalidateFuntion(url?.replace("%2","/") || "/");
+    } else if (error === "session_expired") {
+      toast.error("Su sesión ha expirado. Por favor, inicie sesión nuevamente");
+    }
+  }, [searchParams]);
+
   const [data, setData] = useState({ email: "", password: "" });
   const [responseBack, setResponseBack] = useState({
     success: false,
@@ -17,7 +32,6 @@ function FormLogin() {
       password: [],
     },
   });
-  const router = useRouter();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -50,12 +64,14 @@ function FormLogin() {
         const now = new Date();
         const expire = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        const cookie = `session=${response.session
-          }; expires=${expire.toUTCString()}; path=/`;
+        const cookie = `session=${
+          response.session
+        }; expires=${expire.toUTCString()}; path=/`;
         document.cookie = cookie;
 
-        const user = `user=${response.data.email}#${response.data.nombre}#${response.data.apellido
-          }; expires=${expire.toUTCString()}; path=/`;
+        const user = `user=${response.data.email}#${response.data.nombre}#${
+          response.data.apellido
+        }; expires=${expire.toUTCString()}; path=/`;
         document.cookie = user;
 
         revalidateFuntion("/");

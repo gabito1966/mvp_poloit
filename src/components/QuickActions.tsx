@@ -23,7 +23,7 @@ export default async function QuickActions() {
           <ItemQuickAction
             url="/register/equipos"
             content="registrar equipos"
-            estado={cantEstudiantesSinGrupo >= 0}
+            estado={cantEstudiantesSinGrupo > 0}
           />
           <ItemQuickAction url="/register/ong" content="registrar ongs" />
         </div>
