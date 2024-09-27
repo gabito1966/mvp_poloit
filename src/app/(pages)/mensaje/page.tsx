@@ -5,69 +5,68 @@ export default function mensaje() {
       
     <div className="flex flex-col w-full max-h-screen">
       <div className="flex w-full mt-20">
-        <h1 className="text-4xl font-bold ml-12">Mensajeria</h1>
+        <h1 className="text-3xl font-bold ml-12">Mensajería</h1>
       </div>
 
-      {/* Tarjetas */}
-      <div className="grid grid-cols-5 gap-4 px-10 py-4">
-        {/* Tarjeta 1 (40% del ancho) */}
+      
+      <div className="grid grid-cols-5 gap-4 px-10 py-4 max-h-80">
+        
         <div className="col-span-2 m-2 p-10 bg-white text-black rounded-lg shadow-lg">
           <div>
-            <h2 className="text-md items-center justify-center w-fit border-2 p-3 border-[#335B9D] rounded-xl">Enviar mensajes a todos los equipos</h2>
+            <h2 className="text-base font-normal items-center justify-center w-fit border-2 p-2 mx-auto border-[#335B9D] rounded-xl">Enviar mensajes a todos los equipos</h2>
           </div>
           <div>
-          <p className="border my-5">
+          <p className="border-[#a6a6a6] my-5">
             <hr />
           </p>
-            <h3 className="font-bold text-xl mb-2">Equipo 1</h3>
-            <div  className="grid grid-cols-6 text-sm text-gray-700 gap-5">
+            <h3 className="font-bold text-2xl mb-2">Equipo 1</h3>
+            <div  className="grid grid-cols-6 text-sm font-light text-gray-700 gap-5">
               <p className="col-span-2">7 Integrantes</p>
               <p className="text-end col-span-3">Lorem</p>
             </div>
           </div>
           <div>
-          <p className="border my-5">
+          <p className="border-[#a6a6a6] my-5">
             <hr />
           </p>
-            <h3 className="font-bold text-xl mb-2">Equipo 2</h3>
-            <div  className="grid grid-cols-6 text-sm text-gray-700 gap-5">
+            <h3 className="font-bold text-2xl mb-2">Equipo 2</h3>
+            <div  className="grid grid-cols-6 text-sm font-light text-gray-700 gap-5">
               <p className="col-span-2">7 Integrantes</p>
               <p className="text-end col-span-3">Lorem</p>
             </div>
           </div>
           <div>
-          <p className="border my-5">
+          <p className="border-[#a6a6a6] my-5">
             <hr />
           </p>
-            <h3 className="font-bold text-xl mb-2">Equipo 3</h3>
-            <div  className="grid grid-cols-6 text-sm text-gray-700 gap-5">
+            <h3 className="font-bold text-2xl mb-2">Equipo 3</h3>
+            <div  className="grid grid-cols-6 text-sm font-light text-gray-700 gap-5">
               <p className="col-span-2">7 Integrantes</p>
               <p className="text-end col-span-3">Lorem</p>
             </div>
           </div>
           <div>
-          <p className="border my-5">
+          <p className="border-[#a6a6a6] my-5">
             <hr />
           </p>
-            <h3 className="font-bold text-xl mb-2">Equipo 4</h3>
-            <div  className="grid grid-cols-6 text-sm text-gray-700 gap-5">
+            <h3 className="font-bold text-2xl mb-2">Equipo 4</h3>
+            <div  className="grid grid-cols-6 text-sm font-light text-gray-700 gap-5">
               <p className="col-span-2">7 Integrantes</p>
               <p className="text-end col-span-3">Lorem</p>
             </div>
           </div>
           <div>
-          <p className="border my-5">
+          <p className="border-[#a6a6a6] my-5">
             <hr />
           </p>
-            <h3 className="font-bold text-xl mb-2">Equipo 5</h3>
-            <div  className="grid grid-cols-6 text-sm text-gray-700 gap-5">
+            <h3 className="font-bold text-2xl mb-2">Equipo 5</h3>
+            <div  className="grid grid-cols-6 text-sm font-light text-gray-700 gap-5">
               <p className="col-span-2">7 Integrantes</p>
               <p className="text-end col-span-3">Lorem</p>
             </div>
           </div>
         </div>
 
-        {/* Tarjeta 2 (60% del ancho) */}
         <div className="col-span-3 m-2 p-10 bg-white  text-black rounded-lg shadow-lg">
           <div className="flex grid-cols-3 justify-between">
             <div className="col-span-1">
@@ -80,7 +79,14 @@ export default function mensaje() {
               <h2 className="text-center text-md "> Generado con IA</h2>
             </div>
           </div>
-          <p className="border my-5"><hr /></p>
+          <p className=" border-[#a6a6a6] my-5"><hr /></p>
+          <div className="h-3/4">
+
+          </div>
+          <p className=" border-[#a6a6a6] mb-5 w-full"><hr /></p>
+          <div className="w-full p-1 mb-5 border-2 rounded-lg border-[#a6a6a6]">
+              <input name="mensaje" id="mensaje" placeholder="Escribe un mensaje" />
+          </div>
         </div>
       </div>
     </div>
