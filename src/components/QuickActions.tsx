@@ -3,7 +3,7 @@ import Link from "next/link";
 import AnimationDot from "./AnimationDot";
 
 export default async function QuickActions() {
-  const cantEstudiantesSinGrupo = await getCantEstudiantesSinGrupo();
+  
 
   return (
     <>
@@ -23,7 +23,6 @@ export default async function QuickActions() {
           <ItemQuickAction
             url="/register/equipos"
             content="registrar equipos"
-            estado={cantEstudiantesSinGrupo > 0}
           />
           <ItemQuickAction url="/register/ong" content="registrar ongs" />
         </div>
@@ -35,22 +34,18 @@ export default async function QuickActions() {
 export function ItemQuickAction({
   url,
   content,
-  estado,
 }: {
   url: string;
   content: string;
-  estado?: boolean;
 }) {
   return (
     <>
       <Link
         href={url}
-        className=" relative md:px-7 lg:px-1 py-3 px-4 xl:px-8 rounded-md bg-blue-400  hover:bg-blue-700 w-full  transition-colors  text-white   text-center  text-nowrap capitalize"
+        className=" md:px-7 lg:px-1 py-3 px-4 xl:px-8 rounded-md bg-blue-400  hover:bg-blue-700 w-full  transition-colors  text-white   text-center  text-nowrap capitalize"
         title={content}
       >
         <span>{content}</span>
-
-        {estado && <AnimationDot />}
       </Link>
     </>
   );

@@ -62,9 +62,8 @@ export default function FormEquipo({estudiantesNoGrupos}:{estudiantesNoGrupos:nu
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    
-    const newEquipo: EquipoData = {
+  
+    let newEquipo: EquipoData = {
       nombre: "",
       tamano: 0,
       fecha_inicio: "",
@@ -72,20 +71,19 @@ export default function FormEquipo({estudiantesNoGrupos}:{estudiantesNoGrupos:nu
     };
 
 if(estudiantesNoGrupos>=7){
-  const newEquipo: EquipoData = {
+   newEquipo = {
     nombre: form.nombre,
     tamano: form.tamano,
     fecha_inicio: form.fecha_inicio,
     fecha_fin: form.fecha_fin,
   };
 }else{
-  const newEquipo: EquipoData = {
+   newEquipo = {
     nombre: "no equipos",
     tamano: 7,
     fecha_inicio: form.fecha_inicio,
     fecha_fin: form.fecha_fin,
   };
-
 }
 
     const postPromise = fetchPostClient(`/api/equipo`, newEquipo);
