@@ -495,6 +495,8 @@ export async function equiposDistribution(
     if (!total_estudiantes) break;
     index_equipos =
       cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
+
+    revalidatePath("/register/equipos")
   }
 
   revalidatePath("/");

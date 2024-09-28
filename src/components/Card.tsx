@@ -1,4 +1,3 @@
-// Card.tsx
 'use client';
 
 import clsx from "clsx";
@@ -14,7 +13,7 @@ interface CardProps {
 export function Card({ name, icon, cant, line }: CardProps) {
   return (
     <div
-      className="h-[100px] flex flex-row items-center justify-center justify-items-center rounded-xl bg-gray-50 p-5 shadow-md text-blue-400"
+      className="h-[100px] flex shadow-blue-50 flex-row items-center justify-center justify-items-center rounded-xl bg-gray-50 p-5 shadow-md text-blue-400"
       title={`${name}`}
     >
       <div className="relative w-fit h-fit bg-blue-50 rounded-lg p-1">

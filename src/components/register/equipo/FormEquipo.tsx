@@ -70,7 +70,7 @@ export default function FormEquipo({estudiantesNoGrupos}:{estudiantesNoGrupos:nu
       fecha_fin: "",
     };
 
-if(estudiantesNoGrupos>=7){
+if(estudiantesNoGrupos>5){
    newEquipo = {
     nombre: form.nombre,
     tamano: form.tamano,
@@ -112,7 +112,7 @@ if(estudiantesNoGrupos>=7){
       <div className="w-full flex-grow p-6  md:p-12">
         <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">
           {
-            estudiantesNoGrupos<7?"Asignación de Estudiantes Sobrantes":"Generación de equipos"
+            estudiantesNoGrupos<5?"Asignación de Estudiantes Sobrantes":"Generación de equipos"
           }
         </h1>
         <form
@@ -133,13 +133,13 @@ if(estudiantesNoGrupos>=7){
                   id="nombre"
                   name="nombre"
                   placeholder=""
-                  disabled={estudiantesNoGrupos<7}
+                  disabled={estudiantesNoGrupos<6}
                   className={clsx(
                     "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
-                      "hover:cursor-not-allowed":estudiantesNoGrupos<7
+                      "hover:cursor-not-allowed":estudiantesNoGrupos<6
                     }
                   )}
                   onChange={handleChange}
@@ -161,7 +161,7 @@ if(estudiantesNoGrupos>=7){
                 </label>
                 <input
                   onChange={handleChange}
-                  disabled={estudiantesNoGrupos<7}
+                  disabled={estudiantesNoGrupos<6}
                   type="number"
                   id="tamano"
                   pattern="[5-12]*"
@@ -173,7 +173,7 @@ if(estudiantesNoGrupos>=7){
                     {
                       "border-red-500": responseBack.errors?.tamano?.length,
                       "border-gray-300": !responseBack.errors?.tamano?.length,
-                      "hover:cursor-not-allowed":estudiantesNoGrupos<7
+                      "hover:cursor-not-allowed":estudiantesNoGrupos<6
                     }
                   )}
                 />
@@ -193,7 +193,7 @@ if(estudiantesNoGrupos>=7){
                   Fecha de inicio:
                 </label>
                 <input
-                disabled={estudiantesNoGrupos<7}
+                disabled={estudiantesNoGrupos<6}
                   onChange={handleChange}
                   type="date"
                   id="fecha_inicio"
@@ -207,7 +207,7 @@ if(estudiantesNoGrupos>=7){
                         responseBack.errors?.fecha_inicio?.length,
                       "border-gray-300":
                         !responseBack.errors?.fecha_inicio?.length,
-                        "hover:cursor-not-allowed":estudiantesNoGrupos<7
+                        "hover:cursor-not-allowed":estudiantesNoGrupos<6
                     }
                   )}
                 />
@@ -227,7 +227,7 @@ if(estudiantesNoGrupos>=7){
                   Fecha final de entrega:
                 </label>
                 <input
-                disabled={estudiantesNoGrupos<7}
+                disabled={estudiantesNoGrupos<6}
                   onChange={handleChange}
                   type="date"
                   id="fecha_fin"
@@ -240,7 +240,7 @@ if(estudiantesNoGrupos>=7){
                       "border-red-500": responseBack.errors?.fecha_fin?.length,
                       "border-gray-300":
                         !responseBack.errors?.fecha_fin?.length,
-                        "hover:cursor-not-allowed":estudiantesNoGrupos<7
+                        "hover:cursor-not-allowed":estudiantesNoGrupos<6
                     }
                   )}
                 />
@@ -257,17 +257,22 @@ if(estudiantesNoGrupos>=7){
             <button
               type="submit"
               disabled={estudiantesNoGrupos==0}
-              className="px-4 py-2 max-h-11 self-center sm:self-end bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 w-64 m-0 sm:justify-self-end sm:ml-auto capitalize"
+              className={
+                clsx("px-4 py-2 max-h-11 self-center sm:self-end bg-blue-400 text-white rounded-md shadow-sm  w-64 m-0 sm:justify-self-end sm:ml-auto capitalize",
+                  {
+                    " cursor-not-allowed":estudiantesNoGrupos==0,
+                    " hover:bg-blue-700 ":estudiantesNoGrupos!=0,
+                  }
+                )
+              }
             >
-              {estudiantesNoGrupos<=6?"Asignar Estudiantes":"Generar Equipos"}
+              {estudiantesNoGrupos<6?"Asignar Estudiantes":"Generar Equipos"}
             </button>
           </div>
-          <div  className={clsx(" border-t-2 mt-3",{
-            "hidden":estudiantesNoGrupos>6
-          })}>
+          <div  className={clsx("text-red-500 border-t-2 mt-3")}>
             <span className="align-top">* </span>
             {
-              estudiantesNoGrupos > 0 ?<span className="text-red-500 text-sm">{estudiantesNoGrupos} estudiante{estudiantesNoGrupos!=1?"s":""} sin grupos</span>:<span className="text-red-500 text-base">No hay estudiantes para crear/asignar a ningun grupo</span>
+              estudiantesNoGrupos > 0 ?<span className="text-sm">{estudiantesNoGrupos} estudiante{estudiantesNoGrupos!=1?"s":""} sin grupos</span>:<span className="text-base">No hay estudiantes para crear/asignar a ningun grupo</span>
             }
 
             

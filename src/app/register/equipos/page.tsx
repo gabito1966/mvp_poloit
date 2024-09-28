@@ -1,4 +1,5 @@
 import FormEquipo from "@/components/register/equipo/FormEquipo";
+import { FormEquiposSkeleton } from "@/components/skeletons";
 import { getCantEstudiantesSinGrupo } from "@/database/data";
 
 

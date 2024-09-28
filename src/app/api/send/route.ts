@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const { data, error } = await resend.emails.send({
       from: 'Polo-IT <onboarding@resend.dev>',
       to: ['espindolajavier2013@gmail.com' ],
-      subject: `Acelerador Polo IT - `,
+      subject: `Acelerador Polo IT - squad 1`,
       react: EmailTemplate({ firstName: 'John', content:bodyEmail }),
     });
 

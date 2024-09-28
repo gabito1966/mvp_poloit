@@ -15,11 +15,11 @@ export default async function Notification() {
         <div className="p-4 bg-white mt-2 rounded-xl">
           <div className="flex flex-col">
            {cantEstudiantesNoGrupos>0 &&
-            <ItemNotification cant={cantEstudiantesNoGrupos} message={`estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0} />
+            <ItemNotification cant={cantEstudiantesNoGrupos} message={`estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
            }
-            <ItemNotification cant={cantEstudiantes} message={`estudiante${cantEstudiantes==1?" que se dio":"s que se dieron"} de baja`} />
-            <ItemNotification cant={cantMentores} message={`mentor${cantMentores==1?" que se dio":"es que se dieron"} de baja`}/>
-            <ItemNotification cant={cantEquipos} message={`equipo${cantEquipos==1?" que se dio":"s que se dieron"} de baja`}/>
+            <ItemNotification cant={cantEstudiantes} message={`estudiante${cantEstudiantes==1?" que se dio":"s que se dieron"} de baja`}  url="" />
+            <ItemNotification cant={cantMentores} message={`mentor${cantMentores==1?" que se dio":"es que se dieron"} de baja`} url="" />
+            <ItemNotification cant={cantEquipos} message={`equipo${cantEquipos==1?" que se dio":"s que se dieron"} de baja`} url="" />
           </div>
         </div>
       </div>
@@ -27,10 +27,10 @@ export default async function Notification() {
   );
 }
 
-export function ItemNotification({cant, message, estado}:{cant:number; message:string;estado?:boolean}) {
+export function ItemNotification({cant, message, estado, url}:{cant:number; message:string;estado?:boolean, url:string}) {
   return (
     <>
-      <div className=" flex p-1 items-center">
+      <Link href={url} className=" flex p-1 items-center">
       <div className="relative">
       {estado &&<AnimationDot/>}
       <svg xmlns="http://www.w3.org/2000/svg" width={17} height={17} viewBox="0 0 24 24" fill="currentColor">
@@ -38,7 +38,7 @@ export function ItemNotification({cant, message, estado}:{cant:number; message:s
       </div>
         <p className="text-md ml-1">{cant} {message}</p>
 
-      </div>
+      </Link>
     </>
   );
 }

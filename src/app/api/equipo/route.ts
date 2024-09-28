@@ -99,50 +99,6 @@ export async function POST(request: Request) {
 
       await equiposDistribution(total_estudiantes, cant_equipos);
 
-      // let index_equipos: number = 0;
-      // let index_estudiantes: number = 0;
-
-      // while (total_estudiantes != 0) {
-
-      //   const { rows: equipoResult } = await sql`
-      //   SELECT eq.id as id
-      //   FROM equipos eq
-      //   LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
-      //   GROUP BY eq.id
-      //   ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
-      //   LIMIT 1 
-      //   OFFSET ${index_equipos}
-      //      `;
-
-      //   const equipoId = equipoResult[0].id;
-
-      //   await sql`     
-      //      INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
-      //     SELECT ${equipoId}, (
-      //       SELECT e.id
-      //       FROM estudiantes e
-      //       LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-      //       JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-      //       JOIN tecnologias t ON et.id_tecnologia = t.id
-      //       WHERE ee.id_equipo IS NULL AND e.estado = true
-      //       ORDER BY t.nombre
-      //       LIMIT 1
-      //       OFFSET ${index_estudiantes}
-      //     );
-      //     `;
-
-      //   await sql`UPDATE 
-      //       equipos 
-      //       SET tamano = tamano + 1
-      //       WHERE id = ${equipoId};
-      //     `;
-
-      //   total_estudiantes--;
-      //   if (!total_estudiantes) break;
-      //   index_equipos =
-      //     cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
-      // }
-
       return NextResponse.json(
         createResponse(true, [], "Distribución de estudiantes exitosa"),
         {
@@ -298,11 +254,11 @@ export async function POST(request: Request) {
           1;
           `;
 
-      if (!result_qa.length) break; //ver el length si es igual a cero no por id
+      if (!result_qa.length) break;
 
       arr_equipos.push(result_qa[0].id);
 
-      //podria ordenar por front end y despues por back end para luego tomar los que faltan siempre
+      
       const { rows: result_frontEnd } = await sql`
           SELECT 
             e.id
@@ -322,12 +278,11 @@ export async function POST(request: Request) {
             ${frontEnd}
               `;
 
-      if (result_frontEnd.length < frontEnd) break; //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
+      if (result_frontEnd.length < frontEnd) break; 
 
       result_frontEnd.forEach((e) => arr_equipos.push(e.id));
 
-      //podria ordenar pór backend y front end para luego tomar los que me faltan en backend pero es bac hay que tener cuidado, luego ver sino hay de la tecnologia del mentor.
-      //ver despues si no encuentra la cantidad de la tecnoligía principal asociada al mentor
+      
       const { rows: result_backend } = await sql`
         SELECT 
           e.id
@@ -348,7 +303,6 @@ export async function POST(request: Request) {
         ${backend}`;
 
       if (result_backend.length < backend) {
-        //VER QUE PARA SI NO TENGO DE FRINT END PUEDO LLENAR CON LO QUE FALTA CON LOS DE BACKEND
         const { rows: result_backend } = await sql`
         SELECT 
           e.id
@@ -398,7 +352,6 @@ export async function POST(request: Request) {
 
       const name: string = `${nombre}-${contador}`;
 
-      //ver fecha
       const { rows: result_equipo } = await sql`
           INSERT INTO equipos (nombre, tamano, id_mentor, id_mentor_ux_ui, id_mentor_qa, fecha_inicio, fecha_fin)
           VALUES (${name},${tamano}, ${result_mentor[0].id},${result_mentor_ux_ui[0].id},${result_mentor_qa[0].id}, ${inicio}, ${fin})
@@ -413,54 +366,14 @@ export async function POST(request: Request) {
       total_estudiantes -= tamano;
       contador++;
       arr_equipos = [];
-    
+      revalidatePath("/register/equipos")
+
     }
 
     if (total_estudiantes) {
 
-      let index_equipos: number = 0;
-      let index_estudiantes: number = 0;
+      await equiposDistribution(total_estudiantes, cant_equipos);
 
-      while (total_estudiantes!=0) {
-        const { rows: equipoResult } = await sql`
-        SELECT eq.id as id
-        FROM equipos eq
-        LEFT JOIN equipos_estudiantes ee ON eq.id = ee.id_equipo
-        GROUP BY eq.id
-        ORDER BY COUNT(ee.id_estudiante) ASC  -- Ordena los equipos por la cantidad de estudiantes en el equipo (de menor a mayor)
-        LIMIT 1 
-        OFFSET ${index_equipos}
-           `;
-
-        const equipoId = equipoResult[0].id;
-
-        await sql`     
-           INSERT INTO equipos_estudiantes (id_equipo, id_estudiante)
-          SELECT ${equipoId}, (
-            SELECT e.id
-            FROM estudiantes e
-            LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
-            JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
-            JOIN tecnologias t ON et.id_tecnologia = t.id 
-            WHERE ee.id_equipo IS NULL AND e.estado = true
-            ORDER BY t.nombre
-            LIMIT 1
-            OFFSET ${index_estudiantes}
-          );
-          `;
-
-        await sql`UPDATE 
-            equipos 
-            SET tamano = tamano + 1
-            WHERE id = ${equipoId};
-          `;
-
-        total_estudiantes--;
-        if (!total_estudiantes) break;
-        index_equipos =
-          cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
-      }
-      
       return NextResponse.json(
         createResponse(true, [], "Creación y distribucion de equipos exitosa"),
         {

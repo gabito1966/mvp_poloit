@@ -9,6 +9,7 @@ import {
   CardsWrapperSkeleton,
   LatestInscriptosSkeleton,
   NotificationSkeleton,
+  QuickActionsSkeleton,
 } from "@/components/skeletons";
 import { Suspense } from "react";
 
@@ -53,7 +54,7 @@ export default async function Home() {
           <Notification />
         </Suspense>
 
-        <Suspense fallback={<NotificationSkeleton/>}>
+        <Suspense fallback={<QuickActionsSkeleton/>}>
           <QuickActions />
         </Suspense>
 

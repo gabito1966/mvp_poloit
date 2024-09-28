@@ -45,6 +45,27 @@ export function FormMentorSkeleton() {
   );
 }
 
+export function FormEquiposSkeleton() {
+  return (
+    <div
+      className={`container mt-10  px-16 py-4 h-full bg-white  max-w-7xl  justify-between`}
+    >
+      <div className=" mt-2 h-8 my-5 w-full max-w-80 lg:max-w-2xl  p-1 animate-pulse flex-start rounded bg-gray-100 " />
+      <div className="flex flex-col  lg:flex-row  justify-between shadow-sm pb-4 shadow-blue-50  w-full animate-pulse gap-5">
+        <div className="grid grid-cols-1  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5">
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
+        </div>
+        <div className="flex  justify-center sm:justify-end items-center  mt-auto w-full">
+          <div className="h-9  rounded bg-blue-300 w-56 lg:w-64 " />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MobileSkeleton() {
   return (
     <div className="mb-2 w-full rounded-md bg-white p-4 animate-pulse">
@@ -394,9 +415,7 @@ export function CardsWrapperSkeleton() {
 
 export function NotificationSkeleton() {
   return (
-    <div
-      className={`${shimmer} relative w-full h-full inline animate-pulse`}
-    >
+    <div className={`${shimmer} relative w-full h-full inline animate-pulse`}>
       <div className="rounded-xl bg-gray-100 p-6">
         <div className="flex items-center py-2">
           <div className=" h-7 w-48 rounded-md bg-gray-200" />
@@ -417,6 +436,32 @@ export function NotificationSkeleton() {
           <div className="flex flex-row gap-2 ">
             <div className=" bg-gray-100 h-5 w-5 rounded-md" />
             <div className=" bg-gray-100 h-5 w-96 rounded-md" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function QuickActionsSkeleton() {
+  return (
+    <div className={`${shimmer} relative w-full h-full inline animate-pulse`}>
+      <div className="rounded-xl bg-gray-100 p-6">
+        <div className="flex items-center py-2">
+          <div className=" h-7 w-48 rounded-md bg-gray-200" />
+        </div>
+        <div className=" mt-0  bg-white rounded-xl p-3 grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2  gap-2">
+          <div className=" ">
+            <div className=" bg-blue-100 h-12 w-full rounded-md" />
+          </div>
+          <div className=" ">
+            <div className=" bg-blue-100 h-12 w-full rounded-md" />
+          </div>
+          <div className=" ">
+            <div className=" bg-blue-100 h-12 w-full rounded-md" />
+          </div>
+          <div className=" ">
+            <div className=" bg-blue-100 h-12 w-full rounded-md" />
           </div>
         </div>
       </div>
