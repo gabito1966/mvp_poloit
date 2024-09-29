@@ -38,7 +38,6 @@ type Equipos = z.infer<typeof CreateSchemaEquipos>;
 export async function POST(request: Request) {
   const body = (await request.json()) as Equipos;
 
-
   const validatedFields = CreateEquipos.safeParse({
     ...body,
   });
