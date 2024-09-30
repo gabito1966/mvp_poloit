@@ -112,7 +112,7 @@ export async function GET(
         GROUP BY 
           s.id, s.nombre, s.apellido, s.email, s.telefono, s.estado, o.id, o.nombre
          HAVING 
-          s.id =${idEstudiante};`;
+          s.id =${idEstudiante} ;`;
 
     if (rows.length === 0) {
       return NextResponse.json(
@@ -123,7 +123,7 @@ export async function GET(
 
     if (!rows[0].estado) {
       return NextResponse.json(
-        createResponse(false, [], "El estudiante no existe"),
+        createResponse(false, [], "El estudiante no fue eliminado"),
         { status: 404 }
       );
     }
@@ -220,6 +220,10 @@ export async function DELETE(
 
   try {
     await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
+
+    revalidatePath("/");
+    revalidatePath("/estudiante");
+    revalidatePath("/notificaciones/estudiante");
 
     return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),

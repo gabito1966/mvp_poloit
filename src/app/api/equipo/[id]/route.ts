@@ -39,6 +39,8 @@ export async function GET(
 
   const { id: idequipo } = validatedFields.data;
 
+  revalidatePath(`/card/equipo/${idequipo}`);
+
   try {
     const { rows } = await sql`
   SELECT 
@@ -62,7 +64,11 @@ export async function GET(
     mqa.apellido AS mentor_qa_apellido,
     mqa.email AS mentor_qa_email,
     mqa.telefono AS mentor_qa_telefono,
-    ARRAY_AGG(s.nombre) AS estudiantes,
+    ARRAY_AGG(s.nombre) AS nombres_estudiantes,
+    ARRAY_AGG(s.apellido) AS apellidos_estudiantes,
+    ARRAY_AGG(s.email) AS emails_estudiantes,
+    ARRAY_AGG(s.telefono) AS telefonos_estudiantes,
+    ARRAY_AGG(s.estado) AS estados_estudiantes,
     ARRAY_AGG(t.nombre) AS tecnologias,
     ARRAY_AGG(o.nombre) AS ongs
   FROM 
@@ -154,7 +160,8 @@ export async function DELETE(
         id = ${idequipo}
         `;
 
-    revalidatePath(`/equipo`)
+    revalidatePath(`/equipo`);
+    revalidatePath("/notificaciones/equipo");
 
     return NextResponse.json(createResponse(true, [], "Equipo eliminado"), {
       status: 200,

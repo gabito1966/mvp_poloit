@@ -90,11 +90,27 @@ export const generateYAxis = (
   const highestRecord = Math.max(
     ...estudianteTecnologia.map((e) => e.cantidad_estudiantes)
   );
-  for (let i = highestRecord; i >= 0; i--) {
+  // for (let i = highestRecord; i >= 0; i--) {
+  //   yAxisLabels.push(i);
+  // }
+
+  let y_axis :number = 0
+
+  if((highestRecord/10)<5){
+    y_axis = 5
+  }else{
+    if((highestRecord/10)<10){
+      y_axis = 10
+    }else{
+      y_axis = 100
+    }
+  }
+
+  for (let i = 0; i <= highestRecord; i=i+y_axis) {
     yAxisLabels.push(i);
   }
 
-  return { yAxisLabels, topLabel: highestRecord };
+  return { yAxisLabels:yAxisLabels.reverse(), topLabel: highestRecord };
 };
 
 

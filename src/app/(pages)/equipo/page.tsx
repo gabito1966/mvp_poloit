@@ -5,7 +5,7 @@ import MailButton from "@/components/dashboard/MailButton";
 import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
-import { fetchPagesEquipos } from "@/database/data";
+import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
 import { Suspense } from "react";
 
 async function page({
@@ -17,7 +17,7 @@ async function page({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
 
-    const totalPages = await fetchPagesEquipos(query);
+    const [totalPages, contador ] = await Promise.all([fetchPagesEquipos(query), getCantEstudiantesSinGrupo()]);
 
     return (
         <div className="w-full flex-grow p-3  md:p-12">
@@ -27,7 +27,7 @@ async function page({
          <div className="flex flex-row items-center gap-3">
           <MailButton/>
          <DeleteButton url={"/api/equipo"} newClass="scale-125 pt-2" titulo="Eliminar todos"/>
-         <CreateButton url="/register/equipos" />
+         <CreateButton url="/register/equipos" estado={contador>0}/>
          </div>
        </div>
        {/* hacer esquleto de equipos */}

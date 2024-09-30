@@ -1,16 +1,17 @@
 import Link from "next/link";
+import AnimationDot from "../AnimationDot";
 
-function CreateButton({ url }: { url: string }) {
+function CreateButton({ url, estado }: { url: string; estado?: boolean }) {
   const p = url.split("/")[2];
 
   return (
     <>
       <Link
         href={url}
-        className=" text-nowrap flex h-10 items-center rounded-lg bg-blue-400 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 gap-2"
+        className="relative text-nowrap flex h-10 items-center rounded-lg bg-blue-400 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 gap-2"
         title={`crear ${p}`}
       >
-      
+        {estado && <AnimationDot />}
         <span className="hidden md:block">Crear {p}</span>{" "}
         <div className="h-5   ">
           <svg className="h-5 w-5">
