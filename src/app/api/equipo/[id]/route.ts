@@ -160,7 +160,8 @@ export async function DELETE(
         id = ${idequipo}
         `;
 
-    revalidatePath(`/equipo`)
+    revalidatePath(`/equipo`);
+    revalidatePath("/notificaciones/equipo");
 
     return NextResponse.json(createResponse(true, [], "Equipo eliminado"), {
       status: 200,

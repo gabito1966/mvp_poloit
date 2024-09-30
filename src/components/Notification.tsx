@@ -5,7 +5,8 @@ import AnimationDot from "./AnimationDot";
 export default async function Notification() {
 
   const [{cantEstudiantes, cantMentores, cantEquipos},cantEstudiantesNoGrupos]= await Promise.all([fetchNotificationData(), getCantEstudiantesSinGrupo()])
-
+  
+ 
   return (
     <>
       <div className="h-full rounded-xl bg-gray-50 p-4 shadow-md">
@@ -17,9 +18,9 @@ export default async function Notification() {
            {cantEstudiantesNoGrupos>0 &&
             <ItemNotification cant={cantEstudiantesNoGrupos} message={`estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
            }
-            <ItemNotification cant={cantEstudiantes} message={`estudiante${cantEstudiantes==1?" que se dio":"s que se dieron"} de baja`}  url="" />
-            <ItemNotification cant={cantMentores} message={`mentor${cantMentores==1?" que se dio":"es que se dieron"} de baja`} url="" />
-            <ItemNotification cant={cantEquipos} message={`equipo${cantEquipos==1?" que se dio":"s que se dieron"} de baja`} url="" />
+            <ItemNotification cant={cantEstudiantes} message={`estudiante${cantEstudiantes==1?" que se dio":"s que se dieron"} de baja`}  url="/notificaciones/estudiante" />
+            <ItemNotification cant={cantMentores} message={`mentor${cantMentores==1?" que se dio":"es que se dieron"} de baja`} url="/notificaciones/mentor" />
+            <ItemNotification cant={cantEquipos} message={`equipo${cantEquipos==1?" que se dio":"s que se dieron"} de baja`} url="/notificaciones/equipo" />
           </div>
         </div>
       </div>

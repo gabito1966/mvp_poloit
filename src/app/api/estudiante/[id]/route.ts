@@ -223,6 +223,7 @@ export async function DELETE(
 
     revalidatePath("/");
     revalidatePath("/estudiante");
+    revalidatePath("/notificaciones/estudiante");
 
     return NextResponse.json(
       createResponse(true, [], "Eliminación del estudiante exitosa"),
