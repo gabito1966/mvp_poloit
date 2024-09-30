@@ -1,8 +1,5 @@
-// src/services/email/NodemailerService.ts
-
 import nodemailer, { Transporter } from 'nodemailer';
 import { IEmailService, EmailOptions } from './IEmailService';
-import { renderTemplate } from '@/lib/renderTemplate';
 
 export class NodemailerService implements IEmailService {
   private transporter: Transporter;
@@ -11,7 +8,7 @@ export class NodemailerService implements IEmailService {
     this.transporter = nodemailer.createTransport({
       host: smtpHost,
       port: smtpPort,
-      secure: smtpPort === 465, // true para puerto 465, false para otros puertos
+      secure: smtpPort === 465, 
       auth: {
         user: smtpUser,
         pass: smtpPass,
@@ -21,13 +18,18 @@ export class NodemailerService implements IEmailService {
 
   async sendEmail(options: EmailOptions) {
     try {
-      const htmlContent = renderTemplate(options.template);
 
       const mailOptions = {
         from: options.from,
         to: options.to.join(', '),
         subject: options.subject,
-        html: htmlContent,
+        html: `
+          <div>
+            <h1>Welcome, ${options.firstName}!</h1>
+            <p>${options.content}</p>
+            <p>Saludos,<br />Equipo Polo IT</p>
+          </div>
+        `,
       };
 
       const info = await this.transporter.sendMail(mailOptions);
@@ -38,12 +40,10 @@ export class NodemailerService implements IEmailService {
   }
 
   async getEmail(emailId: string) {
-    // Nodemailer no proporciona una API para obtener correos enviados de forma directa.
     return { data: null, error: 'Not implemented' };
   }
 
   async deleteEmail(emailId: string) {
-    // Similar a getEmail, depende de la funcionalidad de la librería
     return { data: null, error: 'Not implemented' };
   }
 }

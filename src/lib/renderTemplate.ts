@@ -1,5 +1,3 @@
-// src/utils/renderTemplate.ts
-
 import ReactDOMServer from 'react-dom/server';
 import { ReactNode } from 'react';
 

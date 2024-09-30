@@ -1,11 +1,8 @@
-// src/pages/api/email.ts
-
-import { EmailTemplate } from '@/components/email/email-template';
 import { EmailServiceFactory, EmailServiceType } from '@/lib/service/email/EmailsServiceFactory';
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { bodyEmail, tipo } = await request.json();
+  const { bodyEmail, tipo, firstName } = await request.json();
 
   // Determinar el tipo de servicio de correo a utilizar
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
@@ -29,9 +26,10 @@ export async function POST(request: Request) {
   try {
     const { data, error } = await emailService.sendEmail({
       from: 'Polo-IT <onboarding@resend.dev>',
-      to: ['espindolajavier2013@gmail.com'],
+      to: ['espindolajavier2013@gmail.com',"nicoespindola899@gmail.com"],
       subject: `Acelerador Polo IT - squad 1`,
-      template: EmailTemplate({ firstName: 'John', content: bodyEmail }),
+      firstName, // Añadido
+      content: bodyEmail, // Añadido
     });
 
     if (error) {

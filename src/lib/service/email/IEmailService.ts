@@ -2,7 +2,8 @@ export interface EmailOptions {
     from: string;
     to: string[];
     subject: string;
-    template: React.ReactNode; // Puedes ajustar esto según cómo manejas las plantillas
+    firstName: string;
+    content: string;
   }
   
   export interface IEmailService {

@@ -16,7 +16,7 @@ export class ResendService implements IEmailService {
         from: options.from,
         to: options.to,
         subject: options.subject,
-        react: options.template,
+        html: options.content,
       });
       return { data, error };
     } catch (error) {
