@@ -1,4 +1,5 @@
 import { QueryResultRow, sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import {
   empresas,
   EquipoEliminadoData,
@@ -10,7 +11,6 @@ import {
   Ong,
   TecnologiaConEstudiantes,
 } from "./definitions";
-import { revalidatePath } from "next/cache";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -604,6 +604,7 @@ export async function fetchFilteredEstudiantesBaja(
     return [];
   }
 }
+
 
 export async function fetchEquiposEliminados(
   query: string,
