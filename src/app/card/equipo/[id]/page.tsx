@@ -82,8 +82,7 @@ export default async function EquipoCard({
               <table className="table-auto w-full">
                 <thead className="text-left bg-gray-100">
                    <tr>
-                     <th className="px-4 py-2">Nombre</th>
-                     <th className="px-4 py-2">Apellido</th>
+                     <th className="px-4 py-2">Apellido y Nombre</th>
                      <th className="px-4 py-2">Email</th>
                      <th className="px-4 py-2">Teléfono</th>
                      <th className="px-4 py-2">Tecnología</th>
@@ -91,22 +90,19 @@ export default async function EquipoCard({
                  </thead>
                 <tbody>
                   <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Nombre">{equipo.mentor}</td>
-                    <td className="px-4 py-2" title="Apellido">{equipo.mentor_apellido}</td>
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_apellido} , {equipo.mentor}</td>
                     <td className="px-4 py-2" title="Email">{equipo.mentor_email}</td>
                     <td className="px-4 py-2" title="Teléfono">{equipo.mentor_telefono}</td>
                     <td className="px-4 py-2" title="Mentor">Tecnologias</td>
                   </tr>
                   <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Nombre">{equipo.mentor_qa}</td>
-                    <td className="px-4 py-2" title="Apellido">{equipo.mentor_qa_apellido}</td>
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_qa_apellido}, {equipo.mentor_qa}</td>
                     <td className="px-4 py-2" title="Email">{equipo.mentor_qa_email}</td>
                     <td className="px-4 py-2" title="Teléfono">{equipo.mentor_qa_telefono}</td>
                     <td className="px-4 py-2" title="QA">QA</td>
                   </tr>
                   <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Nombre">{equipo.mentor_ux_ui}</td>
-                    <td className="px-4 py-2" title="Apellido">{equipo.mentor_ux_ui_apellido}</td>
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_ux_ui_apellido}, {equipo.mentor_ux_ui}</td>
                     <td className="px-4 py-2" title="Email">{equipo.mentor_ux_ui_email}</td>
                     <td className="px-4 py-2" title="Teléfono">{equipo.mentor_ux_ui_telefono}</td>
                     <td className="px-4 py-2" title="UX/UI">UX/UI</td>
@@ -125,8 +121,7 @@ export default async function EquipoCard({
                <table className="table-auto w-full">
                  <thead className="text-left bg-gray-100">
                    <tr>
-                     <th className="px-4 py-2">Nombre</th>
-                     <th className="px-4 py-2">Apellido</th>
+                     <th className="px-4 py-2">Apellido y Nombre</th>
                      <th className="px-4 py-2">Email</th>
                      <th className="px-4 py-2">Teléfono</th>
                      <th className="px-4 py-2">Tecnología</th>
@@ -135,8 +130,7 @@ export default async function EquipoCard({
                  <tbody>
                    {equipo.nombres_estudiantes.map((e:any, i:number) => (
                      <tr key={`${e}-${i}`} className="hover:bg-gray-100">
-                       <td className="px-4 py-2">{e}</td>
-                       <td className="px-4 py-2">{equipo.apellidos_estudiantes[i]}</td>
+                       <td className="px-4 py-2">{equipo.apellidos_estudiantes[i]} , {e}</td>
                        <td className="px-4 py-2">{equipo.emails_estudiantes[i]}</td>
                        <td className="px-4 py-2">{equipo.telefonos_estudiantes[i]}</td>
                        <td className="px-4 py-2">{equipo.tecnologias[i]}</td>
