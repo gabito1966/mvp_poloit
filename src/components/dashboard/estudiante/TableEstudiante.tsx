@@ -54,10 +54,7 @@ export default async function Table({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
-                  apellido
-                </th>
-                <th scope="col" className="capitalize px-4 py-5 font-medium ">
-                  nombre
+                  apellido y nombre
                 </th>
                 <th scope="col" className="capitalize px-5 py-5 font-medium">
                   Correo electrónico
@@ -83,12 +80,10 @@ export default async function Table({
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.apellido.length < 10
+                    {estudiante.apellido.length < 20
                       ? estudiante.apellido
-                      : estudiante.apellido.slice(0, 7) + "..."}
-                  </td>
-                  <td className="whitespace-nowrap py-3 px-3">
-                    {estudiante.nombre.length < 10
+                      : estudiante.apellido.slice(0, 7) + "..."} , {" "} 
+                    {estudiante.nombre.length < 15
                       ? estudiante.nombre
                       : estudiante.nombre.slice(0, 7) + "..."}
                   </td>

@@ -205,6 +205,7 @@ export async function PUT(
     revalidatePath("/");
     revalidatePath("/mentor");
     revalidatePath(`/card/mentor/${id_mentor}`);
+    revalidatePath("/notificaciones/mentor");
     return NextResponse.json(
       createResponse(true, [], "Actualización del mentor exitosa"),
       { status: 200 }

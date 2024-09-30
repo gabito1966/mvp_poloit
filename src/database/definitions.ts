@@ -120,3 +120,29 @@ export type TecnologiaConEstudiantes = {
   nombre:string;
   cantidad_estudiantes:number;
 }
+
+export interface EstudianteBajaData {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  fecha_baja: Date;
+  estado: boolean;
+}
+
+export interface MentorBajaData {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  fecha_baja: Date;
+  estado: boolean;
+}
+
+export interface EquipoEliminadoData {
+  id: number;
+  id_equipo: number;
+  nombre: string;
+  cantidad_estudiantes: number;
+  fecha_eliminacion: Date;
+}

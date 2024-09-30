@@ -48,7 +48,7 @@ export default async function Table({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
-                  apellido
+                  apellido y nombre
                 </th>
                 <th scope="col" className="capitalize px-4 py-5 font-medium ">
                   nombre
@@ -77,12 +77,10 @@ export default async function Table({
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap px-3 py-3">
-                    {mentor.apellido.length < 10
+                    {mentor.apellido.length < 15
                       ? mentor.apellido
-                      : mentor.apellido.slice(0, 7) + "..."}
-                  </td>
-                  <td className="whitespace-nowrap py-3 px-3">
-                    {mentor.nombre.length < 10
+                      : mentor.apellido.slice(0, 7) + "..."}, {" "}   
+                    {mentor.nombre.length < 15
                       ? mentor.nombre
                       : mentor.nombre.slice(0, 7) + "..."}
                   </td>

@@ -1,22 +1,35 @@
-import { EmailTemplate } from '@/components/email/email-template';
-import { Resend } from 'resend';
+import { EmailServiceFactory, EmailServiceType } from '@/lib/service/email/EmailsServiceFactory';
 import { NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
+  const { bodyEmail, tipo, firstName } = await request.json();
 
-  const {bodyEmail, tipo} = (await request.json());
+  // Determinar el tipo de servicio de correo a utilizar
+  const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
+  
+  // Determinar el apiKey correspondiente
+  let apiKey = '';
+  switch (emailServiceType) {
+    case EmailServiceType.RESEND:
+      apiKey = process.env.RESEND_API_KEY || '';
+      break;
+    case EmailServiceType.NODEMAILER:
+      apiKey = ''; // Nodemailer no usa apiKey, las configuraciones se obtienen de process.env
+      break;
+    default:
+      throw new Error('Unsupported Email Service Type');
+  }
 
-//nombre del grupo en el subject
-//necesito a los grupos, con sus integrantes para enviar los emails , tengo que enviar cada 
+  // Instanciar el servicio de correo
+  const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
   try {
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await emailService.sendEmail({
       from: 'Polo-IT <onboarding@resend.dev>',
-      to: ['espindolajavier2013@gmail.com' ],
-      subject: `Acelerador Polo IT - `,
-      react: EmailTemplate({ firstName: 'John', content:bodyEmail }),
+      to: ['espindolajavier2013@gmail.com',"nicoespindola899@gmail.com"],
+      subject: `Acelerador Polo IT - squad 1`,
+      firstName, // Añadido
+      content: bodyEmail, // Añadido
     });
 
     if (error) {
@@ -29,16 +42,27 @@ export async function POST(request: Request) {
   }
 }
 
-
 export async function GET() {
-    //crear un array con para agregale elcontenido de los mensajes y a quien se le envio, po lo menos uno de cada uno supongo talvez de los mentores guardar en la base de datos.
+  const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
+  
+  let apiKey = '';
+  switch (emailServiceType) {
+    case EmailServiceType.RESEND:
+      apiKey = process.env.RESEND_API_KEY || '';
+      break;
+    case EmailServiceType.NODEMAILER:
+      apiKey = ''; // Nodemailer no usa apiKey
+      break;
+    default:
+      throw new Error('Unsupported Email Service Type');
+  }
+
+  const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
   try {
-    // const { data, error } = await resend.emails.get("ee8c22ab-383b-4f5a-8e26-86ed7b9c15ac");
-    // const { data, error } = await resend.emails.get("6e00a12c-d127-49c1-91b2-41d6af462a11");
-    const { data, error } = await resend.emails.get("1b4a6a3b-ad3f-40ed-80ac-3ed3e36fec34");
-    //foreach para cuadar el contenido de lo que te trae la api luego enviar el arrar y de objetos.
-    
+    const emailId = "1b4a6a3b-ad3f-40ed-80ac-3ed3e36fec34"; // Esto debería venir de algún parámetro o lógica
+    const { data, error } = await emailService.getEmail(emailId);
+
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
@@ -49,11 +73,28 @@ export async function GET() {
 }
 
 export async function DELETE(request: Request) {
+  const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
   
+  let apiKey = '';
+  switch (emailServiceType) {
+    case EmailServiceType.RESEND:
+      apiKey = process.env.RESEND_API_KEY || '';
+      break;
+
+  
+    case EmailServiceType.NODEMAILER:
+      apiKey = ''; // Nodemailer no usa apiKey
+      break;
+    default:
+      throw new Error('Unsupported Email Service Type');
+  }
+
+  const emailService = EmailServiceFactory(emailServiceType, apiKey);
+
   try {
-    //
-    const { data, error } = await resend.delete("ee8c22ab-383b-4f5a-8e26-86ed7b9c15ac");//ver esto de delete
-    //foreach para cuadar el contenido de lo que te trae la api luego enviar el arrar y de objetos.
+    const emailId = "ee8c22ab-383b-4f5a-8e26-86ed7b9c15ac"; // Esto debería venir de algún parámetro o lógica
+    const { data, error } = await emailService.deleteEmail(emailId);
+
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
     }

@@ -1,8 +1,11 @@
 import { QueryResultRow, sql } from "@vercel/postgres";
 import {
   empresas,
+  EquipoEliminadoData,
+  EstudianteBajaData,
   EstudianteFetch,
   EstudiantesData,
+  MentorBajaData,
   MentorData,
   Ong,
   TecnologiaConEstudiantes,
@@ -376,10 +379,9 @@ export async function fetchNotificationData() {
     ]);
 
     const cantEstudiantes = Number(data[0].rows[0].count ?? "0");
-    const cantMentores = Number(data[2].rows[0].count ?? "0");
+    const cantMentores = Number(data[1].rows[0].count ?? "0");
     const cantEquipos = Number(data[2].rows[0].count ?? "0");
 
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
     return {
       cantEstudiantes,
       cantMentores,
@@ -495,6 +497,8 @@ export async function equiposDistribution(
     if (!total_estudiantes) break;
     index_equipos =
       cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
+
+    revalidatePath("/register/equipos")
   }
 
   revalidatePath("/");
@@ -522,3 +526,115 @@ export async function getCantEstudiantesSinGrupo() {
 
 }
 
+export async function fetchFilteredMentoresBaja(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const mentoresBaja = await sql<MentorBajaData>`
+      SELECT 
+        m.id,
+        m.nombre,
+        m.apellido,
+        m.email,
+        am.fecha_baja,
+        am.estado
+      FROM 
+        mentores m
+      INNER JOIN 
+        auditoria_mentores am ON m.id = am.id_mentor
+      WHERE 
+        (m.nombre ILIKE ${`%${query}%`} OR
+        m.apellido ILIKE ${`%${query}%`} OR
+        m.email ILIKE ${`%${query}%`}) 
+      ORDER BY 
+        m.id ASC
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return mentoresBaja.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered mentores baja. Returning all mentores baja.",
+      error
+    );
+    return [];
+  }
+}
+
+export async function fetchFilteredEstudiantesBaja(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const estudiantesBaja = await sql<EstudianteBajaData>`
+      SELECT 
+        e.id,
+        e.nombre,
+        e.apellido,
+        e.email,
+        ae.fecha_baja,
+        ae.estado
+      FROM 
+        estudiantes e
+      INNER JOIN 
+        auditoria_estudiantes ae ON e.id = ae.id_estudiante
+      WHERE 
+        (e.nombre ILIKE ${`%${query}%`} OR
+        e.apellido ILIKE ${`%${query}%`} OR
+        e.email ILIKE ${`%${query}%`}) AND
+        ae.estado = false
+      ORDER BY 
+        e.id
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return estudiantesBaja.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch filtered estudiantes baja. Returning all estudiantes baja.",
+      error
+    );
+    return [];
+  }
+}
+
+export async function fetchEquiposEliminados(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const equiposEliminados = await sql<EquipoEliminadoData>`
+      SELECT 
+        ae.id,
+        ae.id_equipo,
+        ae.nombre,
+        ae.cantidad_estudiantes,
+        ae.fecha_eliminacion
+      FROM 
+        auditoria_equipos ae
+      WHERE 
+        ae.nombre ILIKE ${`%${query}%`}
+      ORDER BY 
+        ae.id
+      LIMIT ${ITEMS_PER_PAGE}
+      OFFSET ${offset};
+    `;
+
+    return equiposEliminados.rows;
+  } catch (error) {
+    console.log(
+      "Failed to fetch equipos eliminados. Returning all equipos eliminados.",
+      error
+    );
+    return [];
+  }
+}
