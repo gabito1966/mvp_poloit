@@ -24,7 +24,7 @@ export default async function EquipoCard({
   return (
     <>
       <section className="container flex flex-col max-w-5xl">
-        <h2 className="text-4xl text-left font-bold p-2 m-5 ">
+        <h2 className="text-4xl text-center font-bold p-2 m-3 ">
           Card del Equipo: {equipo.nombre}
         </h2>
         <div className="  rounded-xl bg-gray-50 shadow-md p-4">
@@ -73,113 +73,77 @@ export default async function EquipoCard({
                 </div>
               </div>
             }
-            </div>   
-            <div className="w-full mb-5 border-2 border-gray-200 flex-col p-1 md:p-2 bg-white rounded-lg shadow-md text-black ">
-                <h2 className="text-center font-bold pt-2 pb-5 underline text-xl">Mentores</h2>
+          </div>
+          <div className="w-full mb-5  flex-col p-1 md:p-2 bg-white rounded-lg  text-black ">
+            <h2 className="text-left font-bold pt-1 pb-2  text-xl">
+              Mentores
+            </h2>
             {
-                    <div className="grid grid-cols-1 md:grid-cols-4 ">
-                        <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">
-                                <h4 className="block mb-1 text-md text-black text-left font-semibold bg-gray-100">Apellido y Nombre</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_apellido}, {equipo.mentor}</p>
-                            </div>
-                        </div>                      
-                        <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">
-                                <h4 className="block mb-1 text-md text-black text-left font-semibold bg-gray-100">Email:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_email}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-16 max-md:ml-0 ">
-                                <h4 className="block mb-1 text-md text-black text-left font-semibold bg-gray-100">Teléfono:</h4>
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_telefono}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                        <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-1 text-md text-black text-left font-semibold bg-gray-100">Mentor</h4>
-                            <p className="bg-transparent text-base mb-3">Tecnologias</p>
-                        </div>
-                    </div>
-                    <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">                              
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_apellido}, {equipo.mentor_qa}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">   
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_email}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-16 max-md:ml-0 ">                           
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_qa_telefono}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-16 max-md:ml-0 ">
-                                <p className="bg-transparent text-base mb-3">QA</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">
-                               <p className="bg-transparent text-base mb-3">{equipo.mentor_ux_ui_apellido}, {equipo.mentor_ux_ui}</p>
-                            </div>
-                        </div>
-                        
-                        <div className="flex-auto">
-                            <div className="ml-10 max-md:ml-0 ">
+              <table className="table-auto w-full">
+                <thead className="text-left bg-gray-100">
+                   <tr>
+                     <th className="px-4 py-2">Apellido y Nombre</th>
+                     <th className="px-4 py-2">Email</th>
+                     <th className="px-4 py-2">Teléfono</th>
+                     <th className="px-4 py-2">Tecnología</th>
+                   </tr>
+                 </thead>
+                <tbody>
+                  <tr className="hover:bg-gray-100">
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_apellido},  {equipo.mentor}</td>
+                    <td className="px-4 py-2" title="Email">{equipo.mentor_email}</td>
+                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_telefono}</td>
+                    <td className="px-4 py-2" title="Mentor">Tecnologias</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_qa_apellido},  {equipo.mentor_qa}</td>
+          <td className="px-4 py-2" title="Email">{equipo.mentor_qa_email}</td>
+                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_qa_telefono}</td>
+                    <td className="px-4 py-2" title="QA">QA</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_ux_ui_apellido}, {equipo.mentor_ux_ui}</td>
+                    <td className="px-4 py-2" title="Email">{equipo.mentor_ux_ui_email}</td>
+                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_ux_ui_telefono}</td>
+                    <td className="px-4 py-2" title="UX/UI">UX/UI</td>
+                  </tr>
+                </tbody>
+              </table>
 
-                                <p className="bg-transparent text-base mb-3">{equipo.mentor_ux_ui_email}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-16 max-md:ml-0 ">
-                                <p className="bg-transparent text-base mb-3 ">{equipo.mentor_ux_ui_telefono}</p>
-                            </div>
-                        </div>
-                        <div className="flex-auto">
-                            <div className="ml-16 max-md:ml-0 ">
-                                <p className="bg-transparent text-base mb-3">UX/UI</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-                <div className="w-full  max-h-124 flex-col p-1  md:p-2 text-black border-2 border-gray-200 bg-white rounded-lg shadow-md">
-                <h2 className="text-center font-bold pt-2 pb-4 underline text-xl">Integrantes</h2>
-                    {
-                   <div className="overflow-x-auto">
-                   <table className="table-auto w-full">
-                     <thead className="text-left bg-gray-100">
-                       <tr>
-                         <th className="px-4 py-2">Apellido y Nombre</th>
-                         <th className="px-4 py-2">Email</th>
-                         <th className="px-4 py-2">Teléfono</th>
-                         <th className="px-4 py-2">Tecnología</th>
-                       </tr>
-                     </thead>
-                     <tbody>
-                       {equipo.nombres_estudiantes.map((e:any, i:number) => (
-                         <tr key={`${e}-${i}`} className="hover:bg-gray-100">
-                           <td className="px-4 py-2">{equipo.apellidos_estudiantes[i]}, {e} </td>
-                           <td className="px-4 py-2">{equipo.emails_estudiantes[i]}</td>
-                           <td className="px-4 py-2">{equipo.telefonos_estudiantes[i]}</td>
-                           <td className="px-4 py-2">{equipo.tecnologias[i]}</td>
-                         </tr>
-                       ))}
-                     </tbody>
-                   </table>
-                 </div>
-                    }
-                </div>
-                </div>
-                <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-xl text-center text-white p-4 mt-10">
-                    <Link href="/equipo">
-                        Volver a equipo
-                    </Link>
-                </div>
-            </section></>
-    )
+            }
+          </div>
+          <div className="w-full  max-h-124 flex-col p-1  md:p-2 text-black  bg-white rounded-lg ">
+            <h2 className="text-left font-bold pt-2 pb-3  text-xl">
+              Integrantes
+            </h2>
+            {
+               <div className="overflow-x-auto">
+               <table className="table-auto w-full">
+                 <thead className="text-left bg-gray-100">
+                   <tr>
+                     <th className="px-4 py-2">Apellido y Nombre</th>
+                     <th className="px-4 py-2">Email</th>
+                     <th className="px-4 py-2">Teléfono</th>
+                     <th className="px-4 py-2">Tecnología</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   {equipo.nombres_estudiantes.map((e:any, i:number) => (
+                     <tr key={`${e}-${i}`} className="hover:bg-gray-100">
+                       <td className="px-4 py-2">{equipo.apellidos_estudiantes[i]}, {e}</td>
+                       <td className="px-4 py-2">{equipo.emails_estudiantes[i]}</td>
+                       <td className="px-4 py-2">{equipo.telefonos_estudiantes[i]}</td>
+                       <td className="px-4 py-2">{equipo.tecnologias[i]}</td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
+             </div>
+            }
+          </div>
+        </div>
+          <Link href="/equipo" className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-xl text-center text-white p-3 my-5">Volver a equipo</Link>
+      </section>
+    </>
+  );
 }
