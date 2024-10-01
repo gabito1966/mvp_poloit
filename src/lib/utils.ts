@@ -210,3 +210,4 @@ export const generarCuerpoEmailGemini = async (
   const result = await chatSession.sendMessage(script);
   return result.response.text();
 };
+

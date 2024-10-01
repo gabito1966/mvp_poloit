@@ -1,5 +1,3 @@
-// src/services/email/ResendService.ts
-
 import { IEmailService, EmailOptions } from './IEmailService';
 import { Resend } from 'resend';
 

@@ -4,15 +4,23 @@ import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { TextTypingEffectWithTexts } from "../email/TypingEffect";
+import useTypingEffect from "../email/useTypingEffect";
 
 export default function MensajeComponent() {
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [form, setForm] = useState({
     mensaje: "",
   });
+  const [iaForm, setIaForm] = useState({
+    mensaje: "",
+  });
+
+  const [iaFormState, setIaFormState] = useState(false);
 
   const [responseBack, setResponseBack] = useState({
     message: "",
@@ -21,6 +29,7 @@ export default function MensajeComponent() {
     },
   });
 
+  const typingEffectValue = useTypingEffect(iaForm.mensaje, 150, false);
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setForm({
       ...form,
@@ -37,7 +46,7 @@ export default function MensajeComponent() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const postPromise = fetchPostClient(`/api/send`, form);
+    const postPromise = fetchPostClient(`/api/send`, {...form,tipo:true });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
@@ -45,26 +54,39 @@ export default function MensajeComponent() {
         revalidateFuntion("/mensaje");
         router.push("/equipo");
         return `${response?.message}`;
-    },
-    error: (error) => {
+      },
+      error: (error) => {
         console.log(error);
         setResponseBack({
-            message: error.message,
-            errors: error.errors,
+          message: error.message,
+          errors: error.errors,
         });
         return `${error?.message}`;
-    },
-});
-};
+      },
+    });
+  };
+  
 
-  const handleIA = () => {
-    const postPromise = fetchPostClient(`/api/geminiai`, {...form,tipo:"true"});
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
+    }
+  }, [typingEffectValue, form.mensaje]);
+
+  const handleIA = async () => {
+    const postPromise = fetchPostClient(`/api/geminiai`, {
+      ...form,
+      tipo: "true",
+    });
+    setIaForm({ mensaje: "" });
+    setIaFormState(true);
 
     toast.promise(postPromise, {
       loading: "Cargando...",
       success: (response: any) => {
-        setForm({mensaje:response.data[0].message});
-        console.log(response);
+        setIaForm({ mensaje: response.data[0].message });
+
+        setForm({ mensaje: response.data[0].message });
         return `${response?.message}`;
       },
       error: (error) => {
@@ -136,7 +158,11 @@ export default function MensajeComponent() {
                 </div>
               </div>
 
-              <button type="button"  onClick={handleIA} className="flex  border-2  rounded-xl w-fit justify-center px-4 py-2  items-center gap-3 bg-blue-400 text-white hover:bg-blue-700">
+              <button
+                type="button"
+                onClick={handleIA}
+                className="flex  border-2  rounded-xl w-fit justify-center px-4 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -150,29 +176,37 @@ export default function MensajeComponent() {
               </button>
             </div>
 
-            <div className="h-3/4 border-gray-100 border-t"></div>
+            <div className="h-3/4 border-gray-100 border-t">
+              {iaFormState ? typingEffectValue : form.mensaje}
+            </div>
 
             <form
               onSubmit={handleSubmit}
               className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
             >
               <textarea
+              ref={textareaRef}
                 onChange={handleChange}
-                value={form.mensaje}
+                value={iaFormState ? typingEffectValue : form.mensaje}
+                // disabled={iaFormState}
                 className={clsx(
                   "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
                   {
                     "border-red-500": responseBack.errors?.message.length,
                     "border-gray-100": !responseBack.errors?.message.length,
+                    "cursor-pointer": iaFormState,
                   }
                 )}
+                onClick={() => {
+                  setIaFormState(false);
+                }}
                 name="mensaje"
                 id="mensaje"
                 placeholder="Escribe un mensaje"
               />
               <button
                 type="submit"
-                className="bg-blue-400 hover:bg-blue-700 text-white capitalize px-4 py-2 rounded-lg flex gap-2 justify-center items-center"
+                className="bg-blue-400 transition-colors duration-500 hover:bg-blue-700 text-white capitalize px-4 py-2 rounded-lg flex gap-2 justify-center items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
