@@ -1,23 +1,27 @@
-import { EmailServiceFactory, EmailServiceType } from '@/lib/service/email/EmailsServiceFactory';
+import {
+  EmailServiceFactory,
+  EmailServiceType,
+} from "@/lib/service/email/EmailsServiceFactory";
+import { createResponse } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { bodyEmail, tipo, firstName } = await request.json();
+  const { mensaje, tipo } = await request.json();
 
   // Determinar el tipo de servicio de correo a utilizar
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
-  
+
   // Determinar el apiKey correspondiente
-  let apiKey = '';
+  let apiKey = "";
   switch (emailServiceType) {
     case EmailServiceType.RESEND:
-      apiKey = process.env.RESEND_API_KEY || '';
+      apiKey = process.env.RESEND_API_KEY || "";
       break;
     case EmailServiceType.NODEMAILER:
-      apiKey = ''; // Nodemailer no usa apiKey, las configuraciones se obtienen de process.env
+      apiKey = ""; // Nodemailer no usa apiKey, las configuraciones se obtienen de process.env
       break;
     default:
-      throw new Error('Unsupported Email Service Type');
+      throw new Error("Unsupported Email Service Type");
   }
 
   // Instanciar el servicio de correo
@@ -25,18 +29,21 @@ export async function POST(request: Request) {
 
   try {
     const { data, error } = await emailService.sendEmail({
-      from: 'Polo-IT <onboarding@resend.dev>',
-      to: ['espindolajavier2013@gmail.com',"nicoespindola899@gmail.com"],
-      subject: `Acelerador Polo IT - squad 1`,
-      firstName, // Añadido
-      content: bodyEmail, // Añadido
+      from: "Polo-IT ",
+      to: ["nicoespindola899@gmail.com"],
+      subject: `Acelerador Polo IT`,
+      firstName: "",
+      content: mensaje,
     });
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(
+      createResponse(true, [data], "email enviado correctamente"),
+      {status:200}
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
@@ -44,17 +51,17 @@ export async function POST(request: Request) {
 
 export async function GET() {
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
-  
-  let apiKey = '';
+
+  let apiKey = "";
   switch (emailServiceType) {
     case EmailServiceType.RESEND:
-      apiKey = process.env.RESEND_API_KEY || '';
+      apiKey = process.env.RESEND_API_KEY || "";
       break;
     case EmailServiceType.NODEMAILER:
-      apiKey = ''; // Nodemailer no usa apiKey
+      apiKey = ""; // Nodemailer no usa apiKey
       break;
     default:
-      throw new Error('Unsupported Email Service Type');
+      throw new Error("Unsupported Email Service Type");
   }
 
   const emailService = EmailServiceFactory(emailServiceType, apiKey);
@@ -74,19 +81,18 @@ export async function GET() {
 
 export async function DELETE(request: Request) {
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
-  
-  let apiKey = '';
+
+  let apiKey = "";
   switch (emailServiceType) {
     case EmailServiceType.RESEND:
-      apiKey = process.env.RESEND_API_KEY || '';
+      apiKey = process.env.RESEND_API_KEY || "";
       break;
 
-  
     case EmailServiceType.NODEMAILER:
-      apiKey = ''; // Nodemailer no usa apiKey
+      apiKey = ""; // Nodemailer no usa apiKey
       break;
     default:
-      throw new Error('Unsupported Email Service Type');
+      throw new Error("Unsupported Email Service Type");
   }
 
   const emailService = EmailServiceFactory(emailServiceType, apiKey);

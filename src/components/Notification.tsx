@@ -6,7 +6,6 @@ export default async function Notification() {
 
   const [{cantEstudiantes, cantMentores, cantEquipos},cantEstudiantesNoGrupos]= await Promise.all([fetchNotificationData(), getCantEstudiantesSinGrupo()])
   
- 
   return (
     <>
       <div className="h-full rounded-xl bg-gray-50 p-4 shadow-md">
