@@ -26,6 +26,6 @@ export async function ValidateIDSession(value: string) {
   } catch (error) {
     console.log(error);
 
-    return createResponse(false, [], "error en la base de datos");
+    return createResponse(false, [], "Error en la base de datos", );
   }
 }

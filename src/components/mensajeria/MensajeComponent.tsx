@@ -25,8 +25,9 @@ export default function MensajeComponent() {
   const [responseBack, setResponseBack] = useState({
     message: "",
     errors: {
-      message: [],
-      tipo:[]
+      mensaje: [],
+      tipo:[],
+      session:[]
     },
   });
 
@@ -50,7 +51,15 @@ export default function MensajeComponent() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const postPromise = fetchPostClient(`/api/send`, { ...form, tipo: tipo });
+
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('session'));
+    const session = cookie && cookie.split('=')[1];
+
+    if (!session) {
+      router.push("/auth/login?error=auth_required")
+    }
+
+    const postPromise = fetchPostClient(`/api/send`, { ...form,  tipo, session });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
@@ -94,11 +103,14 @@ export default function MensajeComponent() {
         return `${response?.message}`;
       },
       error: (error) => {
-        console.log(error);
+        
         setResponseBack({
           message: error.message,
           errors: error.errors,
         });
+        if(responseBack.errors.session.length>0 || error.message=="Sesión invalida"){
+          router.push("/auth/login?error=auth_required");
+        }
         return `${error?.message}`;
       },
     });
@@ -185,8 +197,8 @@ export default function MensajeComponent() {
               <select
                 className={clsx( "w-full  border-2 rounded-lg p-1",
                   {
-                    "border-red-500": responseBack.errors?.tipo.length,
-                    "border-gray-100": !responseBack.errors?.tipo.length,
+                    "border-red-500": responseBack.errors?.tipo?.length,
+                    "border-gray-100": !responseBack.errors?.tipo?.length,
                   }
                 )            }
                 defaultValue={""}
@@ -212,7 +224,7 @@ export default function MensajeComponent() {
               onSubmit={handleSubmit}
               className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
             >
-              <div className="w-full flex flex-col gap-1">
+              <div className="w-full flex flex-col ">
               <textarea
                 ref={textareaRef}
                 onChange={handleChange}
@@ -220,8 +232,8 @@ export default function MensajeComponent() {
                 className={clsx(
                   "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
                   {
-                    "border-red-500": responseBack.errors?.message.length,
-                    "border-gray-100": !responseBack.errors?.message.length,
+                    "border-red-500": responseBack.errors?.mensaje?.length,
+                    "border-gray-100": !responseBack.errors?.mensaje?.length,
                     "cursor-pointer": iaFormState,
                   }
                 )}
@@ -232,14 +244,14 @@ export default function MensajeComponent() {
                 id="mensaje"
                 placeholder="Escribe un mensaje"
                 />
-                <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.message?.map((error: string) => (
+                <div aria-live="polite" aria-atomic="true" >
+              {responseBack.errors?.mensaje?.map((error: string) => (
                 <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
             </div>
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
+            <div aria-live="polite" aria-atomic="true" >
               {responseBack.errors?.tipo?.map((error: string) => (
                 <p className="mt-0 text-sm text-red-500" key={error}>
                   {error}

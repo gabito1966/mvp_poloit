@@ -124,6 +124,7 @@ export const generarCuerpoEmailGemini = async (
     topK: 64,
     maxOutputTokens: 8192,
     responseMimeType: "text/plain",
+    
   };
 
   let script =

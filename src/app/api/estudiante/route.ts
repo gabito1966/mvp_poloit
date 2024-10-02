@@ -102,7 +102,7 @@ export async function POST(request: Request) {
       createResponse(
         false,
         [],
-        "Error En Algun Campo",
+        "Error en algún campo",
         validatedFields.error.flatten().fieldErrors
       ),
       { status: 400 }

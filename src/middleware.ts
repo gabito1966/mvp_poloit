@@ -10,7 +10,9 @@ const protectedRoutes = [
   "empresa",
   "edit",
   "register",
-  "card"
+  "card",
+  "api",
+  "notificaciones"
 ];
 const publicRoutes = ["/auth/login", "/"];
 

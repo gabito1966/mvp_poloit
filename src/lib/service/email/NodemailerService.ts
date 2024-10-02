@@ -29,7 +29,7 @@ export class NodemailerService implements IEmailService {
       console.log(messageArr);
 
       let mensaje: string = `<div>
-            <h1>Welcome, ${options.firstName}!</h1>`;
+            <h1>Bienvenido, ${options.firstName}!</h1>`;
 
       messageArr.forEach((e, i) => {
         mensaje += (e!='')? `<p>${e}</p>`:`</br>`;

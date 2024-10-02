@@ -176,3 +176,17 @@ CREATE TRIGGER trigger_auditoria_equipos
 BEFORE DELETE ON equipos
 FOR EACH ROW
 EXECUTE FUNCTION auditoria_equipos_trigger();
+
+
+CREATE TABLE correos (
+    id SERIAL PRIMARY KEY,
+    asunto VARCHAR(255) NOT NULL,
+    cuerpo TEXT NOT NULL,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    id_administrador INTEGER NOT NULL,
+    id_equipo INTEGER NOT NULL,
+    
+    -- Claves foráneas
+    FOREIGN KEY (id_administrador) REFERENCES administradores(id),
+    FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+);
