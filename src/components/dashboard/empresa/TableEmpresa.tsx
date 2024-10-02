@@ -9,7 +9,7 @@ export default function TableEmpresa() {
             <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Empresas</h1>
             <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
                 <Search placeholder="buscar empresa..." />
-                <CreateButton url="/register/empresa" />
+                <CreateButton url="/register/empresas" />
             </div>
             <div className="mt-6 flow-root">
                 <div className="inline-block min-w-full align-middle">
