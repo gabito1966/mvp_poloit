@@ -6,21 +6,45 @@ import { createResponse } from "@/lib/utils";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const PostSchema = z.object({
-  mensaje: z.string({message:"Ingrese un mensaje" }).min(20, "El mensaje no puede estar vacio"),
+const CreateSchemaMensaje = z.object({
+  mensaje: z.string({message:"Ingrese un mensaje" }).min(20, "El mensaje debe contener al menos 20 caracteres"),
   tipo: z.string().refine((value) => value === "true" || value === "false", {
     message: "Seleccione un tipo",
   }),
 });
+
+type MensajeInterface = z.infer<typeof CreateSchemaMensaje>;
 
 // export async function POST(request: Request) {
 //   const { mensaje, tipo } = PostSchema.parse(await request.json());
 // /******  7c361ec2-91c7-496e-8c36-1833b8bf3b77  *******/
 
 export async function POST(request: Request) {
-  const { mensaje, tipo } = await request.json();
+  const  body  = (await request.json()) as MensajeInterface;
+
+  const validatedFields = CreateSchemaMensaje.safeParse({
+    ...body
+  });
+
+  if (!validatedFields.success) {
+    return NextResponse.json(
+      createResponse(
+        false,
+        [],
+        "Error en algún campo",
+        validatedFields.error.flatten().fieldErrors
+      ),
+      { status: 400 }
+    );
+  }
+
+  const {mensaje, tipo} = validatedFields.data;
 
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
+
+  if(tipo=="true"){
+    
+  }
  
   let apiKey = "";
   switch (emailServiceType) {

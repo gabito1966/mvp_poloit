@@ -1,6 +1,5 @@
 
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -19,7 +18,6 @@ export async function signOut() {
 }
 
 export  function singIn(){
-
 
     return cookies().get("session")?true:false;
 

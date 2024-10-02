@@ -50,7 +50,15 @@ export default function MensajeComponent() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const postPromise = fetchPostClient(`/api/send`, { ...form, tipo: tipo });
+
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('session'));
+    const session = cookie && cookie.split('=')[1];
+
+    if (!session) {
+      router.push("/auth/login?error=auth_required")
+    }
+
+    const postPromise = fetchPostClient(`/api/send`, { ...form,  tipo, session });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
