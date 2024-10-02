@@ -107,7 +107,6 @@ function FormMentor({
         nombre: "",
         tipo: "",
       };
-      console.log("value", value);
 
       if (tec[0].nombre === "UX/UI" || tec[0].nombre === "QA") {
         console.log(tec[0].nombre === "UX/UI");

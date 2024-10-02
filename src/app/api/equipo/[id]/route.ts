@@ -160,6 +160,7 @@ export async function DELETE(
         id = ${idequipo}
         `;
 
+    revalidatePath('/');
     revalidatePath(`/equipo`);
     revalidatePath("/notificaciones/equipo");
 

@@ -4,6 +4,18 @@ import {
 } from "@/lib/service/email/EmailsServiceFactory";
 import { createResponse } from "@/lib/utils";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const PostSchema = z.object({
+  mensaje: z.string({message:"Ingrese un mensaje" }).min(20, "El mensaje no puede estar vacio"),
+  tipo: z.string().refine((value) => value === "true" || value === "false", {
+    message: "Seleccione un tipo",
+  }),
+});
+
+// export async function POST(request: Request) {
+//   const { mensaje, tipo } = PostSchema.parse(await request.json());
+// /******  7c361ec2-91c7-496e-8c36-1833b8bf3b77  *******/
 
 export async function POST(request: Request) {
   const { mensaje, tipo } = await request.json();

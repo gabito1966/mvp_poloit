@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { TextTypingEffectWithTexts } from "../email/TypingEffect";
 import useTypingEffect from "../email/useTypingEffect";
 
 export default function MensajeComponent() {
@@ -26,7 +25,8 @@ export default function MensajeComponent() {
   const [responseBack, setResponseBack] = useState({
     message: "",
     errors: {
-      message: "",
+      message: [],
+      tipo:[]
     },
   });
 
@@ -40,15 +40,17 @@ export default function MensajeComponent() {
     if (responseBack.message != "") {
       setResponseBack({
         ...responseBack,
-        message: "",
-        [e.target.name]: [],
+        errors: {
+          ...responseBack.errors,
+          [e.target.name]: [],
+        },
       });
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const postPromise = fetchPostClient(`/api/send`, { ...form, tipo: true });
+    const postPromise = fetchPostClient(`/api/send`, { ...form, tipo: tipo });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
@@ -139,7 +141,7 @@ export default function MensajeComponent() {
             </div>
           </div>
 
-          <div className="col-span-3 m-2 px-5 pt-2 bg-white  text-black rounded-lg shadow-lg">
+          <div className="col-span-3 m-2 px-5 pt-4 pb-8 bg-white  text-black rounded-lg shadow-lg">
             <div className="flex items-center justify-between py-2">
               <div className="flex flex-row justify-center items-center gap-2">
                 <svg
@@ -181,7 +183,12 @@ export default function MensajeComponent() {
                 </button>
 
               <select
-                className="w-full border-gray-100 border-2 rounded-lg p-1"
+                className={clsx( "w-full  border-2 rounded-lg p-1",
+                  {
+                    "border-red-500": responseBack.errors?.tipo.length,
+                    "border-gray-100": !responseBack.errors?.tipo.length,
+                  }
+                )            }
                 defaultValue={""}
                 onChange={(e) => {
                   setForm({ mensaje:"" });
@@ -189,7 +196,7 @@ export default function MensajeComponent() {
                   setTipo( e.target.value )
                 }}
               >
-                <option className="capitalize" selected hidden value={""}>tipo</option>
+                <option className="capitalize" selected hidden >tipo</option>
                 <option className="capitalize" value={"true"}>bienvenida</option>
                 <option className="capitalize" value={"false"}>seguimiento</option>
               </select>
@@ -205,6 +212,7 @@ export default function MensajeComponent() {
               onSubmit={handleSubmit}
               className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
             >
+              <div className="w-full flex flex-col gap-1">
               <textarea
                 ref={textareaRef}
                 onChange={handleChange}
@@ -223,7 +231,22 @@ export default function MensajeComponent() {
                 name="mensaje"
                 id="mensaje"
                 placeholder="Escribe un mensaje"
-              />
+                />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.message?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+              {responseBack.errors?.tipo?.map((error: string) => (
+                <p className="mt-0 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
+                </div>
               <button
                 type="submit"
                 className="bg-blue-400 transition-colors duration-500 hover:bg-blue-700 text-white capitalize px-4 py-2 rounded-lg flex gap-2 justify-center items-center"
