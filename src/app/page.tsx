@@ -1,4 +1,3 @@
-'use client'
 import Carousel from "@/components/Carousel";
 import ChartAlumnosTecnologias from "@/components/ChartAlumnosTecnologias";
 import HomeCardWrapper from "@/components/HomeCardWrapper";
@@ -25,11 +24,8 @@ export default async function Home() {
   ];
 
   return (
-    
-    <main className=" w-full p-6 max-w-screen-2xl dark:bg-gray-950">
-      <header className="flex justify-between">
-        <h1 className="sm:text-4xl mb-6 font-bold text-2xl">Inicio</h1>
-      </header>
+    <main className=" w-full p-6 max-w-screen-2xl">
+      <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Inicio</h1>
       <div className="w-full  gap-6 items-center justify-between grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 P-4 h-full sm:items-center sm:m-auto ">
         <Suspense fallback={<CardsWrapperSkeleton />}>
           <HomeCardWrapper />
@@ -64,6 +60,5 @@ export default async function Home() {
 
       </section>
     </main>
-
   );
 }
