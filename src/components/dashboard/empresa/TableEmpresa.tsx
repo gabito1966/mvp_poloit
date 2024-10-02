@@ -2,15 +2,14 @@ import CreateButton from "@/components/dashboard/CreateButton"
 import EditButton from "@/components/dashboard/EditButton"
 import Search from "@/components/dashboard/Search"
 
-function pageEmpresa() {
+export default function TableEmpresa() {
 
     return (
-        <div className="w-full flex-grow p-6  md:p-12 ">
-            <h1 className="text-4xl font-semibold mb-4 text-left">Lista de Empresas</h1>
-            <div className="flex w-full items-center justify-between"></div>
+        <div className="container max-w-6xl flex-grow p-6  md:p-12 ">
+            <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Empresas</h1>
             <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
                 <Search placeholder="buscar empresa..." />
-                <CreateButton url="/register/empresas" />
+                <CreateButton url="/register/empresa" />
             </div>
             <div className="mt-6 flow-root">
                 <div className="inline-block min-w-full align-middle">
@@ -29,7 +28,7 @@ function pageEmpresa() {
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex  justify-end gap-3">
-                                            <EditButton url={'/edit/empresa'} />
+                                            <EditButton url={'/edit/empresa/[id]'} />
                                         </div>
                                     </td>
                                 </tr>
@@ -39,7 +38,6 @@ function pageEmpresa() {
                 </div>
             </div>
         </div>
+        
     )
 }
-
-export default pageEmpresa

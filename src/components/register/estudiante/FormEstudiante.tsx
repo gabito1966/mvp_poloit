@@ -3,6 +3,7 @@
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -167,7 +168,8 @@ function FormEstudiante({
   }
 
   return (
-    <div className="container mx-auto p-2 h-full">
+    <section className="container flex flex-col max-w-5xl">
+    <div className="container mx-auto p-10 h-full">
       <h1 className=" font-bold mb-4 text-center  text-2xl">
         Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de
         Estudiantes
@@ -380,8 +382,6 @@ function FormEstudiante({
             ))}
           </div>
         </div>
-
-        
         <button 
           type="submit"
           className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
@@ -390,6 +390,8 @@ function FormEstudiante({
         </button>
       </form>
     </div>
+    <Link href="/estudiante" className="bg-blue-400 hover:bg-blue-700 w-52 rounded-md text-xl text-center text-white p-2 my-3">Volver a Estudiante</Link>  
+    </section>
   );
 }
 

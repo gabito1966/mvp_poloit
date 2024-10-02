@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import LinkSideBar from "./LinkSideBar";
+import ResponsiveImage from "./ResponsiveImage";
 
 const Sidebar: React.FC = () => {
   const links = [
@@ -130,16 +131,10 @@ const Sidebar: React.FC = () => {
             </Link>
           </li>
           <li className="lg:hidden">
-            <Link href="/">
+            
               <div className="flex justify-center  rounded-sm">
-                <Image
-                  src="/polo-logo-mobile.png"
-                  alt="logo"
-                  width={20}
-                  height={20}
-                />
+              <ResponsiveImage />
               </div>
-            </Link>
           </li>
           {links.map((link, i) => (
             <li key={`${link.name}${i}`}>

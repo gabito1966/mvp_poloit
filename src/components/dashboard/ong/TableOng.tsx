@@ -2,12 +2,11 @@ import CreateButton from "@/components/dashboard/CreateButton"
 import EditButton from "@/components/dashboard/EditButton"
 import Search from "@/components/dashboard/Search"
 
-function pageOng() {
+export default function TableOng() {
 
     return (
-        <div className="w-full flex-grow p-6  md:p-12 ">
-            <h1 className="text-4xl font-semibold mb-4 text-left">Lista de ONGs</h1>
-            <div className="flex w-full items-center justify-between"></div>
+        <div className="container max-w-6xl flex-grow p-6  md:p-12 ">
+            <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de ONGs</h1>
             <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
                 <Search placeholder="buscar ong..." />
                 <CreateButton url="/register/ong" />
@@ -29,7 +28,7 @@ function pageOng() {
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex  justify-end gap-3">
-                                            <EditButton url={'/'} />
+                                            <EditButton url={'/edit/ong/[id]'} />
                                         </div>
                                     </td>
                                 </tr>
@@ -41,5 +40,3 @@ function pageOng() {
         </div>
     )
 }
-
-export default pageOng

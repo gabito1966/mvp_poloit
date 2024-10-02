@@ -3,6 +3,7 @@
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -185,8 +186,8 @@ function FormMentor({
   };
 
   return (
-    <>
-      <div className="container mx-auto p-2 h-full">
+    <section className="container flex flex-col max-w-5xl">
+      <div className="container mx-auto p-10 h-full">
         <h1 className=" font-bold mb-4 text-center  text-2xl">
           Formulario de {tipo == "Registrar" ? "Inscripción" : "Actualización"} de Mentores
         </h1>
@@ -457,7 +458,8 @@ function FormMentor({
           </button>
         </form>
       </div>
-    </>
+      <Link href="/mentor" className="bg-blue-400 hover:bg-blue-700 w-52 rounded-md text-xl text-center text-white p-2 my-3">Volver a Mentor</Link>
+    </section>
   );
 }
 

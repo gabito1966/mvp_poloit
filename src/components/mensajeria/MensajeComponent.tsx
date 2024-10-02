@@ -194,25 +194,24 @@ export default function MensajeComponent() {
                   </span>
                 </button>
 
-              <select
-                className={clsx( "w-full  border-2 rounded-lg p-1",
-                  {
-                    "border-red-500": responseBack.errors?.tipo?.length,
-                    "border-gray-100": !responseBack.errors?.tipo?.length,
-                  }
-                )            }
-                defaultValue={""}
-                onChange={(e) => {
-                  setForm({ mensaje:"" });
-                  setIaForm({ mensaje:"" });
-                  setTipo( e.target.value )
-                }}
-              >
-                <option className="capitalize" selected hidden >tipo</option>
-                <option className="capitalize" value={"true"}>bienvenida</option>
-                <option className="capitalize" value={"false"}>seguimiento</option>
-              </select>
-
+                <select
+                  className={clsx( "w-full  border-2 rounded-lg p-1",
+                    {
+                      "border-red-500": responseBack.errors?.tipo?.length,
+                      "border-gray-100": !responseBack.errors?.tipo?.length,
+                    }
+                  )            }
+                  defaultValue={""}
+                  onChange={(e) => {
+                    setForm({ mensaje:"" });
+                    setIaForm({ mensaje:"" });
+                    setTipo( e.target.value )
+                  }}
+                >
+                  <option className="capitalize" selected hidden >tipo</option>
+                  <option className="capitalize" value={"true"}>bienvenida</option>
+                  <option className="capitalize" value={"false"}>seguimiento</option>
+                </select>
               </form>
             </div>
 
