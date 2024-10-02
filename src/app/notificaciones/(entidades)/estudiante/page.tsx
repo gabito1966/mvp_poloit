@@ -2,7 +2,7 @@ import Pagination from '@/components/dashboard/Pagination';
 import Search from '@/components/dashboard/Search';
 import TableNotificationEstudiante from '@/components/notificaciones/estudiante/TableNotificacionEstudiante';
 import { TableEstudianteSkeleton } from '@/components/skeletons';
-import { fetchPagesEstudiantes } from '@/database/data';
+import { fetchPagesEstudiantesBaja } from '@/database/data';
 import { Suspense } from 'react';
 
 export default async function page({
@@ -14,7 +14,7 @@ export default async function page({
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchPagesEstudiantes(query);
+  const totalPages = await fetchPagesEstudiantesBaja(query);
 
   return (
     <div className="w-full flex-grow p-3  md:p-12">
