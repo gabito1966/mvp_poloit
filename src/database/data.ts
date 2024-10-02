@@ -261,7 +261,25 @@ export async function fetchPagesEstudiantes(query: string) {
     return 0;
   }
 }
+export async function fetchPagesEstudiantesBaja(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM estudiantes
+      WHERE
+       ( nombre ILIKE ${`%${query}%`} OR
+        apellido ILIKE ${`%${query}%`} OR
+        email ILIKE ${`%${query}%`})
+        AND estado = false
+    `;
 
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
 export async function fetchPagesMentores(query: string) {
   try {
     const rows = await sql`
@@ -272,6 +290,25 @@ export async function fetchPagesMentores(query: string) {
         apellido ILIKE ${`%${query}%`} OR
         email ILIKE ${`%${query}%`})
         AND estado = true
+    `;
+
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
+export async function fetchPagesMentoresBaja(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM mentores
+      WHERE
+       ( nombre ILIKE ${`%${query}%`} OR
+        apellido ILIKE ${`%${query}%`} OR
+        email ILIKE ${`%${query}%`})
+        AND estado = false
     `;
 
     const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
@@ -334,7 +371,22 @@ export async function fetchPagesEquipos(query: string) {
     return 0;
   }
 }
+export async function fetchPagesEquiposBaja(query: string) {
+  try {
+    const rows = await sql`
+      SELECT COUNT(*)
+      FROM equipos
+      WHERE
+        nombre ILIKE ${`%${query}%`}
+    `;
 
+    const totalPages = Math.ceil(Number(rows.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    return 0;
+  }
+}
 export async function fetchCardData() {
   try {
     const estudiantesCountPromise = sql`SELECT COUNT(*) FROM estudiantes`;

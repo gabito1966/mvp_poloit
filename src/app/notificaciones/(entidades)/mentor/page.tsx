@@ -5,8 +5,8 @@ import Search from '@/components/dashboard/Search';
 import TableNotificationMentor from '@/components/notificaciones/mentor/TableNotificationMentor';
 
 import { TableEstudianteSkeleton } from '@/components/skeletons';
-import { fetchPagesMentores } from '@/database/data';
-import  { Suspense } from 'react'
+import { fetchPagesMentoresBaja } from '@/database/data';
+import { Suspense } from 'react';
 
 export default async function page({
   searchParams,
@@ -17,7 +17,7 @@ export default async function page({
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchPagesMentores(query);
+  const totalPages = await fetchPagesMentoresBaja(query);
 
   return (
     <div className="w-full flex-grow p-3  md:p-12">
