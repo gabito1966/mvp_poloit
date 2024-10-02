@@ -8,23 +8,20 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const { mensaje, tipo } = await request.json();
 
-  // Determinar el tipo de servicio de correo a utilizar
   const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
-
-  // Determinar el apiKey correspondiente
+ 
   let apiKey = "";
   switch (emailServiceType) {
     case EmailServiceType.RESEND:
       apiKey = process.env.RESEND_API_KEY || "";
       break;
     case EmailServiceType.NODEMAILER:
-      apiKey = ""; // Nodemailer no usa apiKey, las configuraciones se obtienen de process.env
+      apiKey = ""; 
       break;
     default:
       throw new Error("Unsupported Email Service Type");
   }
 
-  // Instanciar el servicio de correo
   const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
   try {
@@ -58,7 +55,7 @@ export async function GET() {
       apiKey = process.env.RESEND_API_KEY || "";
       break;
     case EmailServiceType.NODEMAILER:
-      apiKey = ""; // Nodemailer no usa apiKey
+      apiKey = "";
       break;
     default:
       throw new Error("Unsupported Email Service Type");
@@ -67,8 +64,8 @@ export async function GET() {
   const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
   try {
-    const emailId = "1b4a6a3b-ad3f-40ed-80ac-3ed3e36fec34"; // Esto debería venir de algún parámetro o lógica
-    const { data, error } = await emailService.getEmail(emailId);
+    
+    const { data, error } = await emailService.getEmail("");
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -89,7 +86,7 @@ export async function DELETE(request: Request) {
       break;
 
     case EmailServiceType.NODEMAILER:
-      apiKey = ""; // Nodemailer no usa apiKey
+      apiKey = ""; 
       break;
     default:
       throw new Error("Unsupported Email Service Type");
@@ -98,8 +95,8 @@ export async function DELETE(request: Request) {
   const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
   try {
-    const emailId = "ee8c22ab-383b-4f5a-8e26-86ed7b9c15ac"; // Esto debería venir de algún parámetro o lógica
-    const { data, error } = await emailService.deleteEmail(emailId);
+    
+    const { data, error } = await emailService.deleteEmail("");
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });

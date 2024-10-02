@@ -2,11 +2,10 @@ import { createResponse, generarCuerpoEmailGemini } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(request:Request) {
-    const { tipo, mensaje} = (await request.json()) ;
-    console.log(tipo,mensaje)
-
+    const { tipo, mensaje}:{tipo:string, mensaje:string} = (await request.json()) ;
+    console.log(tipo);
+    console.log(typeof tipo);
     try {
-        // const message = await generarCuerpoEmailGemini(tipo, content);
         const message = await generarCuerpoEmailGemini(tipo, mensaje);
         
         return NextResponse.json(

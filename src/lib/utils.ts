@@ -51,27 +51,18 @@ export function createResponse(
 }
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
   if (currentPage <= 3) {
     return [1, 2, 3, "...", totalPages - 1, totalPages];
   }
 
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
   if (currentPage >= totalPages - 2) {
     return [1, 2, "...", totalPages - 2, totalPages - 1, totalPages];
   }
 
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
   return [
     1,
     "...",
@@ -90,29 +81,25 @@ export const generateYAxis = (
   const highestRecord = Math.max(
     ...estudianteTecnologia.map((e) => e.cantidad_estudiantes)
   );
-  // for (let i = highestRecord; i >= 0; i--) {
-  //   yAxisLabels.push(i);
-  // }
 
-  let y_axis :number = 0
+  let y_axis: number = 0;
 
-  if((highestRecord/10)<5){
-    y_axis = 5
-  }else{
-    if((highestRecord/10)<10){
-      y_axis = 10
-    }else{
-      y_axis = 100
+  if (highestRecord / 10 < 5) {
+    y_axis = 5;
+  } else {
+    if (highestRecord / 10 < 10) {
+      y_axis = 10;
+    } else {
+      y_axis = 100;
     }
   }
 
-  for (let i = 0; i <= highestRecord; i=i+y_axis) {
+  for (let i = 0; i <= highestRecord; i = i + y_axis) {
     yAxisLabels.push(i);
   }
 
-  return { yAxisLabels:yAxisLabels.reverse(), topLabel: highestRecord };
+  return { yAxisLabels: yAxisLabels.reverse(), topLabel: highestRecord };
 };
-
 
 /**
  * Funcion que utiliza la IA de Google Gemini para generar un cuerpo de email
@@ -121,8 +108,8 @@ export const generateYAxis = (
  * @returns {string} cuerpo del correo
  */
 export const generarCuerpoEmailGemini = async (
-  tipo:string,
-  content:string
+  tipo: string,
+  content: string
 ) => {
   const apiKey = process.env.GEMINI_API_KEY;
   const genAI = new GoogleGenerativeAI(apiKey || "");
@@ -139,11 +126,11 @@ export const generarCuerpoEmailGemini = async (
     responseMimeType: "text/plain",
   };
 
-  let script ="estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final "
+  let script =
+    "estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final ";
 
-  if(tipo=="true"){
-
-    script+=`
+  if (tipo=='true') {
+    script += `
     este es el cuerpo de un email de presentacion de los integrantes del grupo
 
       ejemplo de email:
@@ -162,11 +149,9 @@ export const generarCuerpoEmailGemini = async (
 
       Comisión Talento e Inclusión
       Polo IT de Buenos Aires
-    `
-    
-  }else{
-
-    script+=`
+    `;
+  } else {
+    script += `
     este es un email de seguimiento de cada intengrante, si te agrego más preguntas referentes al seguimiento del grupo lo agregas.
 
     ejemplo de email:
@@ -186,28 +171,20 @@ export const generarCuerpoEmailGemini = async (
       
     Comisión Talento e Inclusión
     Polo IT de Buenos Aires
-        `
-    
+        `;
   }
 
-  script+=`${content?` agregar ${content}, mejorando la narración de la pregunta si es necesario y sin faltas de ortografias`:""}`
-
+  script += `${
+    content
+      ? ` agregar ${content}, mejorando la narración de la pregunta si es necesario y sin faltas de ortografias`
+      : ""
+  }`;
 
   const chatSession = model.startChat({
     generationConfig,
-    history: [
-      // {
-      //   role: "user",
-      //  parts: [{text: `${script}`}],
-      // },
-      // {
-      //   role: "model",
-      //  parts: [{text: "Claro, dime qué información quieres incluir para el correo electrónico."}], 
-      // },
-    ],
+    history: [],
   });
 
   const result = await chatSession.sendMessage(script);
   return result.response.text();
 };
-

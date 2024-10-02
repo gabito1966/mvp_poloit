@@ -19,6 +19,7 @@ export default function MensajeComponent() {
   const [iaForm, setIaForm] = useState({
     mensaje: "",
   });
+  const [tipo, setTipo] = useState("");
 
   const [iaFormState, setIaFormState] = useState(false);
 
@@ -46,7 +47,8 @@ export default function MensajeComponent() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const postPromise = fetchPostClient(`/api/send`, {...form,tipo:true });
+    e.preventDefault();
+    const postPromise = fetchPostClient(`/api/send`, { ...form, tipo: true });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
@@ -65,7 +67,6 @@ export default function MensajeComponent() {
       },
     });
   };
-  
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -73,10 +74,11 @@ export default function MensajeComponent() {
     }
   }, [typingEffectValue, form.mensaje]);
 
-  const handleIA = async () => {
+  const handleIA = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const postPromise = fetchPostClient(`/api/geminiai`, {
       ...form,
-      tipo: "true",
+      tipo: tipo,
     });
     setIaForm({ mensaje: "" });
     setIaFormState(true);
@@ -121,7 +123,7 @@ export default function MensajeComponent() {
                 <path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2ZM18 4H6V19.4324L12 15.6707L18 19.4324V4Z"></path>
               </svg>
               <h2 className="text-base  font-semibold text-nowrap  w-fit  border-[#335B9D] rounded-xl">
-                Historial de mensajes
+                Historial de Emails
               </h2>
             </div>
 
@@ -137,8 +139,8 @@ export default function MensajeComponent() {
             </div>
           </div>
 
-          <div className="col-span-3 m-2 px-5 pt-5 bg-white  text-black rounded-lg shadow-lg">
-            <div className="flex items-center justify-between py-5">
+          <div className="col-span-3 m-2 px-5 pt-2 bg-white  text-black rounded-lg shadow-lg">
+            <div className="flex items-center justify-between py-2">
               <div className="flex flex-row justify-center items-center gap-2">
                 <svg
                   className="text-blue-400"
@@ -158,22 +160,41 @@ export default function MensajeComponent() {
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={handleIA}
-                className="flex  border-2  rounded-xl w-fit justify-center px-4 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="26"
-                  height="26"
-                  fill="currentColor"
+              <form onSubmit={handleIA} className="flex flex-col gap-1">
+                <button
+                  type="submit"
+                  className="flex  border-2  rounded-xl w-fit justify-center px-4 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
                 >
-                  <path d="M11.1244 1.09094H12.8753L12.9269 1.9453C13.2227 6.85075 17.1493 10.7773 22.0546 11.0732L22.909 11.1247V12.8757L22.0546 12.9272C17.1493 13.2231 13.2227 17.1498 12.9269 22.0551L12.8753 22.9095H11.1244L11.0728 22.0551C10.777 17.1498 6.85036 13.2231 1.94518 12.9272L1.09082 12.8757V11.1247L1.94518 11.0732C6.85036 10.7773 10.777 6.85075 11.0728 1.9453L11.1244 1.09094ZM11.9999 5.85023C10.83 8.61547 8.61512 10.8304 5.84996 12.0002C8.61512 13.1701 10.83 15.385 11.9999 18.1502C13.1697 15.385 15.3846 13.1701 18.1498 12.0002C15.3846 10.8304 13.1697 8.61547 11.9999 5.85023Z"></path>
-                </svg>
-                <span className="text-center text-md "> Generado con IA</span>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                  >
+                    <path d="M11.1244 1.09094H12.8753L12.9269 1.9453C13.2227 6.85075 17.1493 10.7773 22.0546 11.0732L22.909 11.1247V12.8757L22.0546 12.9272C17.1493 13.2231 13.2227 17.1498 12.9269 22.0551L12.8753 22.9095H11.1244L11.0728 22.0551C10.777 17.1498 6.85036 13.2231 1.94518 12.9272L1.09082 12.8757V11.1247L1.94518 11.0732C6.85036 10.7773 10.777 6.85075 11.0728 1.9453L11.1244 1.09094ZM11.9999 5.85023C10.83 8.61547 8.61512 10.8304 5.84996 12.0002C8.61512 13.1701 10.83 15.385 11.9999 18.1502C13.1697 15.385 15.3846 13.1701 18.1498 12.0002C15.3846 10.8304 13.1697 8.61547 11.9999 5.85023Z"></path>
+                  </svg>
+                  <span className="text-center text-md ">
+                    {" "}
+                    Generar con IA
+                  </span>
+                </button>
+
+              <select
+                className="w-full border-gray-100 border-2 rounded-lg p-1"
+                defaultValue={""}
+                onChange={(e) => {
+                  setForm({ mensaje:"" });
+                  setIaForm({ mensaje:"" });
+                  setTipo( e.target.value )
+                }}
+              >
+                <option className="capitalize" selected hidden value={""}>tipo</option>
+                <option className="capitalize" value={"true"}>bienvenida</option>
+                <option className="capitalize" value={"false"}>seguimiento</option>
+              </select>
+
+              </form>
             </div>
 
             <div className="h-3/4 border-gray-100 border-t">
@@ -185,10 +206,9 @@ export default function MensajeComponent() {
               className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
             >
               <textarea
-              ref={textareaRef}
+                ref={textareaRef}
                 onChange={handleChange}
                 value={iaFormState ? typingEffectValue : form.mensaje}
-                // disabled={iaFormState}
                 className={clsx(
                   "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
                   {
