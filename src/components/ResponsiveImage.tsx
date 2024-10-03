@@ -4,10 +4,10 @@ import Image from 'next/image';
 
 const ResponsiveImage = () => {
   return (
-    <div className="relative">
+    <div className="flex">
       {/* Imagen para dispositivos móviles */}
       <Image
-        src="/polo-logo-mobile.png" 
+        src="/logo-polo-mobile.png" 
         alt="Logo de Polo It mobile"
         objectFit="cover"
         className="block lg:hidden"

@@ -116,10 +116,8 @@ const Sidebar: React.FC = () => {
     >
       <div>
         <ul className="space-y-4 p-2 lg:p-6">
-          <li >
-              <div className="flex justify-center rounded-sm">
+          <li>
                 <ResponsiveImage />
-              </div>
           </li>
           
           {links.map((link, i) => (
