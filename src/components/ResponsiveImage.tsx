@@ -1,17 +1,18 @@
 
 import Image from 'next/image';
 
+
 const ResponsiveImage = () => {
   return (
-    <div className="relative w-full h-6 lg:h-12">
+    <div className="flex">
       {/* Imagen para dispositivos móviles */}
       <Image
-        src="/polo-logo-mobile.png" 
+        src="/logo-polo-mobile.png" 
         alt="Logo de Polo It mobile"
         objectFit="cover"
         className="block lg:hidden"
-        width={90} 
-        height={60}
+        width={30} 
+        height={30}
       />
       {/* Imagen para dispositivos de escritorio */}
       <Image
