@@ -10,7 +10,7 @@ const ResponsiveImage = () => {
         alt="Logo de Polo It mobile"
         objectFit="cover"
         className="block lg:hidden"
-        width={80} 
+        width={90} 
         height={60}
       />
       {/* Imagen para dispositivos de escritorio */}
