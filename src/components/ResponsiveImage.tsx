@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const ResponsiveImage = () => {
   return (
-    <div className="relative w-full h-6 md:h-14">
+    <div className="relative w-full h-6 lg:h-12">
       {/* Imagen para dispositivos móviles */}
       <Image
         src="/polo-logo-mobile.png" 
