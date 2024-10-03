@@ -1,14 +1,13 @@
-// components/ResponsiveImage.tsx
 
 import Image from 'next/image';
 
 const ResponsiveImage = () => {
   return (
-    <div className="relative w-full h-6 md:h-20">
+    <div className="relative w-full h-6 md:h-14">
       {/* Imagen para dispositivos móviles */}
       <Image
         src="/polo-logo-mobile.png" 
-        alt="logo de Polo It mobile"
+        alt="Logo de Polo It mobile"
         layout="fill"
         objectFit="cover"
         className="block md:hidden" 
