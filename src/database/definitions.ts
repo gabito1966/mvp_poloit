@@ -146,3 +146,8 @@ export interface EquipoEliminadoData {
   cantidad_estudiantes: number;
   fecha_eliminacion: Date;
 }
+
+export interface TipoEMails {
+  id: number;
+  tipo: string;
+}

@@ -11,9 +11,11 @@ const CreateSchemaMensaje = z.object({
   mensaje: z
     .string({ message: "Ingrese un mensaje" })
     .min(20, "El mensaje debe contener al menos 20 caracteres"),
-  tipo: z.string().refine((value) => value === "true" || value === "false", {
-    message: "Seleccione un tipo de mensaje del email",
-  }),
+  // tipo: z.string().refine((value) => value === "true" || value === "false", {
+  //   message: "Seleccione un tipo de mensaje del email",
+  // }),
+  tipo: z.coerce.number({message:"seleccione tipo", invalid_type_error:"seleccione tipo valido"})
+  .gt(0,{message:"seleccione tipo"}),
   session: z.string({ message: "Inicie sesión" }),
 });
 
@@ -55,9 +57,10 @@ export async function POST(request: Request) {
 
     const emailServiceType = process.env.EMAIL_SERVICE as EmailServiceType;
 
-    if (tipo == "true") {
-      //concatenar los datos de mentores y estudiantes de un grupo 
-    }
+    // if (tipo == "true") {
+    //   //concatenar los datos de mentores y estudiantes de un grupo 
+    // }
+    //conectar con base de datos para obtener el script
 
     let apiKey = "";
     switch (emailServiceType) {
@@ -123,11 +126,19 @@ export async function GET() {
     const { data, error } = await emailService.getEmail("");
 
     if (error) {
-      return NextResponse.json({ error }, { status: 500 });
+      return NextResponse.json(createResponse(
+        false,
+        [],
+        getErrorMessageFromCode(error)
+      ), { status: 500 });
     }
-    return NextResponse.json(data);
+    return NextResponse.json(createResponse(true,data,"Historial de Emails"), {status:200});
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json(createResponse(
+      false,
+      [],
+      getErrorMessageFromCode(error)
+    ), { status: 500 });
   }
 }
 

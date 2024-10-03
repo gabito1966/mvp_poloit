@@ -1,5 +1,6 @@
 import nodemailer, { Transporter } from "nodemailer";
 import { IEmailService, EmailOptions } from "./IEmailService";
+import { sql } from "@vercel/postgres";
 
 export class NodemailerService implements IEmailService {
   private transporter: Transporter;
@@ -38,7 +39,22 @@ export class NodemailerService implements IEmailService {
   }
 
   async getEmail(emailId: string) {
-    return { data: null, error: "Not implemented" };
+
+
+    try {
+      
+      const {rows:resultEmails} = await sql`
+
+      `
+
+      return { data: resultEmails[0], error: "Not implemented" };
+      
+    } catch (error) {
+      
+      return { data:null, error: error };
+    }
+
+
   }
 
   async deleteEmail(emailId: string) {

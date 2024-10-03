@@ -7,8 +7,18 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useTypingEffect from "../email/useTypingEffect";
+import { TipoEMails } from "@/database/definitions";
 
-export default function MensajeComponent() {
+export default function MensajeComponent(
+  {
+    emailsBienvenida, emailsSeguimiento, tiposEmail
+  }:{
+    emailsBienvenida:any[];
+    emailsSeguimiento:any[];
+    tiposEmail:TipoEMails[];
+  }
+  
+) {
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -21,6 +31,7 @@ export default function MensajeComponent() {
   });
   
   const [tipo, setTipo] = useState("");
+  const [tipoEmailsHistory, setTipoEmailsHistory] = useState("");
 
   const [iaFormState, setIaFormState] = useState(false);
 
@@ -63,9 +74,7 @@ export default function MensajeComponent() {
       router.push("/auth/login?error=auth_required");
     }
 
-    console.log(form.mensaje);
     const msj:string=form.mensaje.replaceAll("\n","<br>");
-    console.log(msj)
 
     const postPromise = fetchPostClient(`/api/send`, {
       mensaje:msj,
@@ -139,7 +148,9 @@ export default function MensajeComponent() {
 
         <div className="grid grid-cols-5 gap-4 px-10 py-4 ">
           <div className="col-span-2 m-2 px-7 py-5 bg-white text-black rounded-lg shadow-lg ">
-            <div className="py-2 flex gap-2 justify-left items-center">
+            <div className="py-2 flex gap-2 justify-between items-center">
+              <div className=" flex  justify-left items-center">
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
@@ -147,23 +158,54 @@ export default function MensajeComponent() {
                 className="text-blue-400"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-              >
+                >
                 <path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2ZM18 4H6V19.4324L12 15.6707L18 19.4324V4Z"></path>
               </svg>
               <h2 className="text-base  font-semibold text-nowrap  w-fit  border-[#335B9D] rounded-xl">
                 Historial de Emails
               </h2>
+                </div>
+              <select
+                  className={clsx("w-fit  border-2 rounded-lg p-1 capitalize", {
+                    "border-red-500 animate-pulse border-3 bg-red-100": responseBack.errors?.tipo?.length,
+                    "border-gray-100 text-sm": !responseBack.errors?.tipo?.length,
+                  })}
+                  defaultValue={tiposEmail[0].tipo}
+                  onChange={(e) => {
+                    setTipoEmailsHistory(e.target.value);
+                  }}
+                >
+                      {tiposEmail.map((e,i)=>
+                  <option key={`${e.id}-${i}`} className="capitalize" value={e.id}>
+                      {e.tipo.toLowerCase()}
+                  </option>
+                    )}
+
+                </select>
             </div>
 
-            <div className="flex flex-col gap-2 max-h-[700px] overflow-y-auto">
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
-              <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
+            <div className="flex flex-col gap-2 min-h-[750px] max-h-[750px] overflow-y-auto">
+
+                {tipoEmailsHistory=="1" &&
+                  emailsBienvenida.length>0?
+                  // mapeo
+                  <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
+                  :
+                    <div className="text-center text-lg font-semibold text-gray-500 capitalize">
+                    <p>No hay emails de Bienvenida</p>
+                  </div>
+                }
+                {
+                  tipoEmailsHistory=="2" &&
+                  emailsSeguimiento.length>0?
+                  // mapeo
+                  <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
+                  :
+                  <div className="text-center text-lg font-semibold text-gray-500 capitalize">
+                    <p>No hay emails de seguimiento</p>
+                  </div>
+                }
+                
             </div>
           </div>
 
@@ -206,8 +248,8 @@ export default function MensajeComponent() {
                 </button>
 
                 <select
-                  className={clsx("w-full  border-2 rounded-lg p-1", {
-                    "border-red-500": responseBack.errors?.tipo?.length,
+                  className={clsx("w-full  border-2 rounded-lg p-1 capitalize", {
+                    "border-red-500 animate-pulse border-3 bg-red-100": responseBack.errors?.tipo?.length,
                     "border-gray-100": !responseBack.errors?.tipo?.length,
                   })}
                   defaultValue={""}
@@ -228,15 +270,16 @@ export default function MensajeComponent() {
                     }
                   }}
                 >
-                  <option className="capitalize" value={""} hidden>
+                  <option className="capitalize" value={"0"} hidden>
                     tipo
                   </option>
-                  <option className="capitalize" value={"true"}>
-                    bienvenida
+
+                    {tiposEmail.map((e,i)=>
+                  <option key={`${e.id}-${i}`} className="capitalize" value={e.id}>
+                      {e.tipo.toLowerCase()}
                   </option>
-                  <option className="capitalize" value={"false"}>
-                    seguimiento
-                  </option>
+                    )}
+
                 </select>
               </form>
             </div>
