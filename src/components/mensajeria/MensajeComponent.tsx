@@ -15,9 +15,11 @@ export default function MensajeComponent() {
   const [form, setForm] = useState({
     mensaje: "",
   });
+
   const [iaForm, setIaForm] = useState({
     mensaje: "",
   });
+  
   const [tipo, setTipo] = useState("");
 
   const [iaFormState, setIaFormState] = useState(false);
@@ -26,8 +28,8 @@ export default function MensajeComponent() {
     message: "",
     errors: {
       mensaje: [],
-      tipo:[],
-      session:[]
+      tipo: [],
+      session: [],
     },
   });
 
@@ -52,14 +54,24 @@ export default function MensajeComponent() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('session'));
-    const session = cookie && cookie.split('=')[1];
+    const cookie = document.cookie
+      .split(";")
+      .find((c) => c.trim().startsWith("session"));
+    const session = cookie && cookie.split("=")[1];
 
     if (!session) {
-      router.push("/auth/login?error=auth_required")
+      router.push("/auth/login?error=auth_required");
     }
 
-    const postPromise = fetchPostClient(`/api/send`, { ...form,  tipo, session });
+    console.log(form.mensaje);
+    const msj:string=form.mensaje.replaceAll("\n","<br>");
+    console.log(msj)
+
+    const postPromise = fetchPostClient(`/api/send`, {
+      mensaje:msj,
+      tipo,
+      session,
+    });
 
     toast.promise(postPromise, {
       loading: "Cargando...",
@@ -103,12 +115,14 @@ export default function MensajeComponent() {
         return `${response?.message}`;
       },
       error: (error) => {
-        
         setResponseBack({
           message: error.message,
           errors: error.errors,
         });
-        if(responseBack.errors.session.length>0 || error.message=="Sesión invalida"){
+        if (
+          responseBack.errors.session.length > 0 ||
+          error.message == "Sesión invalida"
+        ) {
           router.push("/auth/login?error=auth_required");
         }
         return `${error?.message}`;
@@ -188,36 +202,53 @@ export default function MensajeComponent() {
                   >
                     <path d="M11.1244 1.09094H12.8753L12.9269 1.9453C13.2227 6.85075 17.1493 10.7773 22.0546 11.0732L22.909 11.1247V12.8757L22.0546 12.9272C17.1493 13.2231 13.2227 17.1498 12.9269 22.0551L12.8753 22.9095H11.1244L11.0728 22.0551C10.777 17.1498 6.85036 13.2231 1.94518 12.9272L1.09082 12.8757V11.1247L1.94518 11.0732C6.85036 10.7773 10.777 6.85075 11.0728 1.9453L11.1244 1.09094ZM11.9999 5.85023C10.83 8.61547 8.61512 10.8304 5.84996 12.0002C8.61512 13.1701 10.83 15.385 11.9999 18.1502C13.1697 15.385 15.3846 13.1701 18.1498 12.0002C15.3846 10.8304 13.1697 8.61547 11.9999 5.85023Z"></path>
                   </svg>
-                  <span className="text-center text-md ">
-                    {" "}
-                    Generar con IA
-                  </span>
+                  <span className="text-center text-md "> Generar con IA</span>
                 </button>
 
-              <select
-                className={clsx( "w-full  border-2 rounded-lg p-1",
-                  {
+                <select
+                  className={clsx("w-full  border-2 rounded-lg p-1", {
                     "border-red-500": responseBack.errors?.tipo?.length,
                     "border-gray-100": !responseBack.errors?.tipo?.length,
-                  }
-                )            }
-                defaultValue={""}
-                onChange={(e) => {
-                  setForm({ mensaje:"" });
-                  setIaForm({ mensaje:"" });
-                  setTipo( e.target.value )
-                }}
-              >
-                <option className="capitalize" selected hidden >tipo</option>
-                <option className="capitalize" value={"true"}>bienvenida</option>
-                <option className="capitalize" value={"false"}>seguimiento</option>
-              </select>
-
+                  })}
+                  defaultValue={""}
+                  onChange={(e) => {
+                    if(tipo!=""){
+                      setForm({ mensaje: "" });
+                      setIaForm({ mensaje: "" });
+                    }
+                    setTipo(e.target.value);
+                    if (responseBack.errors.tipo?.length > 0) {
+                      setResponseBack({
+                        ...responseBack,
+                        errors: {
+                          ...responseBack.errors,
+                          tipo: [],
+                        },
+                      });
+                    }
+                  }}
+                >
+                  <option className="capitalize" value={""} hidden>
+                    tipo
+                  </option>
+                  <option className="capitalize" value={"true"}>
+                    bienvenida
+                  </option>
+                  <option className="capitalize" value={"false"}>
+                    seguimiento
+                  </option>
+                </select>
               </form>
             </div>
 
             <div className="h-3/4 border-gray-100 border-t">
-              {iaFormState ? typingEffectValue : form.mensaje}
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: iaFormState
+                    ? typingEffectValue.replaceAll("\n", "</br>")
+                    : form.mensaje.replaceAll("\n", "</br>"),
+                }}
+              ></p>
             </div>
 
             <form
@@ -225,40 +256,40 @@ export default function MensajeComponent() {
               className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
             >
               <div className="w-full flex flex-col ">
-              <textarea
-                ref={textareaRef}
-                onChange={handleChange}
-                value={iaFormState ? typingEffectValue : form.mensaje}
-                className={clsx(
-                  "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
-                  {
-                    "border-red-500": responseBack.errors?.mensaje?.length,
-                    "border-gray-100": !responseBack.errors?.mensaje?.length,
-                    "cursor-pointer": iaFormState,
-                  }
-                )}
-                onClick={() => {
-                  setIaFormState(false);
-                }}
-                name="mensaje"
-                id="mensaje"
-                placeholder="Escribe un mensaje"
+                <textarea
+                  ref={textareaRef}
+                  onChange={handleChange}
+                  value={iaFormState ? typingEffectValue : form.mensaje}
+                  className={clsx(
+                    "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
+                    {
+                      "border-red-500": responseBack.errors?.mensaje?.length,
+                      "border-gray-100": !responseBack.errors?.mensaje?.length,
+                      "cursor-pointer": iaFormState,
+                    }
+                  )}
+                  onClick={() => {
+                    setIaFormState(false);
+                  }}
+                  name="mensaje"
+                  id="mensaje"
+                  placeholder="Escribe un mensaje"
                 />
-                <div aria-live="polite" aria-atomic="true" >
-              {responseBack.errors?.mensaje?.map((error: string) => (
-                <p className="mt-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-            <div aria-live="polite" aria-atomic="true" >
-              {responseBack.errors?.tipo?.map((error: string) => (
-                <p className="mt-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
+                <div aria-live="polite" aria-atomic="true">
+                  {responseBack.errors?.mensaje?.map((error: string) => (
+                    <p className="mt-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
                 </div>
+                <div aria-live="polite" aria-atomic="true">
+                  {responseBack.errors?.tipo?.map((error: string) => (
+                    <p className="mt-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
               <button
                 type="submit"
                 className="bg-blue-400 transition-colors duration-500 hover:bg-blue-700 text-white capitalize px-4 py-2 rounded-lg flex gap-2 justify-center items-center"

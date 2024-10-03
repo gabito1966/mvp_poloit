@@ -2,7 +2,7 @@ import {
   EmailServiceFactory,
   EmailServiceType,
 } from "@/lib/service/email/EmailsServiceFactory";
-import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { createResponse, generateHTMLString, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -18,10 +18,6 @@ const CreateSchemaMensaje = z.object({
 });
 
 type MensajeInterface = z.infer<typeof CreateSchemaMensaje>;
-
-// export async function POST(request: Request) {
-//   const { mensaje, tipo } = PostSchema.parse(await request.json());
-// /******  7c361ec2-91c7-496e-8c36-1833b8bf3b77  *******/
 
 export async function POST(request: Request) {
   const body = (await request.json()) as MensajeInterface;
@@ -77,13 +73,15 @@ export async function POST(request: Request) {
 
     const emailService = EmailServiceFactory(emailServiceType, apiKey);
 
+    const emailBody= generateHTMLString(mensaje,"",""); 
+
     // va a estar en un foreatch
     const { data, error } = await emailService.sendEmail({
       from: "Polo-IT ",
       to: ["nicoespindola899@gmail.com"],//todos de ese grupo si es true, si es false individual a cada uno
       subject: `Acelerador Polo IT`,
       firstName: "",//agregar el nombre del admin
-      content: mensaje,
+      content: emailBody,
     });
 
     if (error) {
