@@ -3,7 +3,6 @@ import { roboto } from "@/lib/fonts";
 import { signOut, singIn } from "@/lib/server/session";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import LinkSideBar from "./LinkSideBar";
 import ResponsiveImage from "./ResponsiveImage";
 
@@ -118,7 +117,6 @@ const Sidebar: React.FC = () => {
       <div>
         <ul className="space-y-4 p-2">
           <li className="max-lg:hidden w-fit m-auto p-5">
-            <Link href="/">
               <div className="flex gap-3 justify-center  rounded-sm">
                 <Image
                   src="/logo-polo-it.png"
@@ -128,7 +126,6 @@ const Sidebar: React.FC = () => {
                   className="w-auto h-auto"
                 />
               </div>
-            </Link>
           </li>
           <li className="lg:hidden">
             
