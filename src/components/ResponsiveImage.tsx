@@ -8,17 +8,19 @@ const ResponsiveImage = () => {
       <Image
         src="/polo-logo-mobile.png" 
         alt="Logo de Polo It mobile"
-        layout="fill"
         objectFit="cover"
-        className="block md:hidden" 
+        className="block lg:hidden"
+        width={80} 
+        height={60}
       />
       {/* Imagen para dispositivos de escritorio */}
       <Image
         src="/logo-polo-it.png" 
-        alt="Logo de Polo It"
-        layout="fill"
+        alt="Logo de Polo It"       
         objectFit="cover"
-        className="hidden md:block" 
+        className="hidden lg:block" 
+        width={150} 
+        height={50}
       />
     </div>
   );
