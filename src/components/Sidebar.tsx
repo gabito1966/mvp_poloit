@@ -2,8 +2,9 @@
 import { roboto } from "@/lib/fonts";
 import { signOut, singIn } from "@/lib/server/session";
 import clsx from "clsx";
+import Image from "next/image";
 import LinkSideBar from "./LinkSideBar";
-import ResponsiveImage from "./ResponsiveImage";
+
 
 const Sidebar: React.FC = () => {
   const links = [
@@ -117,7 +118,22 @@ const Sidebar: React.FC = () => {
         <ul className="space-y-4 p-2 lg:p-6">
           <li >
               <div className="flex justify-center rounded-sm">
-              <ResponsiveImage />
+              <Image 
+                src="/logo-polo-it.png" 
+                alt="Logo de Polo It"       
+                objectFit="cover"
+                className="hidden lg:block" 
+                width={150} 
+                height={50}
+              />
+               <Image
+                src="/polo-logo-mobile.png" 
+                alt="Logo de Polo It mobile"
+                objectFit="cover"
+                className="block lg:hidden"
+                width={90} 
+                height={60}
+              />
               </div>
           </li>
           
