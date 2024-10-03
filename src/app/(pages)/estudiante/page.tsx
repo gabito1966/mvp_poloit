@@ -4,7 +4,13 @@ import Search from "@/components/dashboard/Search";
 import TableEstudiante from "@/components/dashboard/estudiante/TableEstudiante";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEstudiantes } from "@/database/data";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Estudiantes",
+  description: "Encuentra el listado de estudiantes",
+};
 
 async function page({
   searchParams,

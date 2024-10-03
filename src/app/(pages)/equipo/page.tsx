@@ -6,7 +6,13 @@ import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Equipos",
+  description: "Encuentra el listado de equipos",
+};
 
 async function page({
   searchParams,
