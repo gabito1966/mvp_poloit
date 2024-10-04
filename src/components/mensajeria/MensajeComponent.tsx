@@ -1,5 +1,6 @@
 "use client";
 
+import { TipoEMails } from "@/database/definitions";
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
@@ -7,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useTypingEffect from "../email/useTypingEffect";
-import { TipoEMails } from "@/database/definitions";
 
 export default function MensajeComponent(
   {
@@ -248,7 +248,6 @@ export default function MensajeComponent(
                     Generar con IA
                   </span>
                 </button>
-
                 <select
                   className={clsx("w-full  border-2 rounded-lg p-1 capitalize", {
                     "border-red-500 animate-pulse border-3 bg-red-100": responseBack.errors?.tipo?.length,
@@ -275,13 +274,11 @@ export default function MensajeComponent(
                   <option className="capitalize" value={"0"} hidden>
                     tipo
                   </option>
-
                     {tiposEmail.map((e,i)=>
                   <option key={`${e.id}-${i}`} className="capitalize" value={e.id}>
                       {e.tipo.toLowerCase()}
                   </option>
                     )}
-
                 </select>
               </form>
             </div>
@@ -351,11 +348,8 @@ export default function MensajeComponent(
               </button>
             </form>
           </div>
-          
           </div>
-
         </div>
-        
     </>
   );
 }
