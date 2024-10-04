@@ -95,6 +95,7 @@ export default function MensajeComponent(
           message: error.message,
           errors: error.errors,
         });
+        
         return `${error?.message}`;
       },
     });
@@ -166,10 +167,7 @@ export default function MensajeComponent(
               </h2>
                 </div>
               <select
-                  className={clsx("w-fit  border-2 rounded-lg p-1 capitalize", {
-                    "border-red-500 animate-pulse border-3 bg-red-100": responseBack.errors?.tipo?.length,
-                    "border-gray-100 text-sm": !responseBack.errors?.tipo?.length,
-                  })}
+                  className={clsx("w-fit  border-2 rounded-lg p-1 capitalize border-gray-100 text-sm")}
                   defaultValue={tiposEmail[0].tipo}
                   onChange={(e) => {
                     setTipoEmailsHistory(e.target.value);
@@ -186,7 +184,7 @@ export default function MensajeComponent(
 
             <div className="flex flex-col gap-2 min-h-[750px] max-h-[750px] overflow-y-auto">
 
-                {tipoEmailsHistory=="1" &&
+                {tipoEmailsHistory=="1" &&(
                   emailsBienvenida.length>0?
                   // mapeo
                   <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
@@ -194,9 +192,9 @@ export default function MensajeComponent(
                     <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de Bienvenida</p>
                   </div>
-                }
+                )}
                 {
-                  tipoEmailsHistory=="2" &&
+                  tipoEmailsHistory=="2" &&(
                   emailsSeguimiento.length>0?
                   // mapeo
                   <ItemMensajeria name="equipo 1" cant="15" descripcion="lorem" />
@@ -204,7 +202,7 @@ export default function MensajeComponent(
                   <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de seguimiento</p>
                   </div>
-                }
+                )}
                 
             </div>
           </div>
