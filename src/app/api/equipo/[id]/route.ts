@@ -95,7 +95,7 @@ export async function GET(
     e.id, m.id, muxui.id, mqa.id
 `;
 
-    ///me quede aca lethal xd
+    
 
     if (rows.length === 0) {
       return NextResponse.json(

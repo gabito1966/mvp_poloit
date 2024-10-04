@@ -115,36 +115,21 @@ export async function POST(request: Request) {
   e.tamano,
   e.fecha_inicio,
   e.fecha_fin,
-  ARRAY_AGG(
-    json_build_object(
-      'id', m.id,
-      'nombre', m.nombre,
-      'apellido', m.apellido,
-      'email', m.email,
-      'telefono', m.telefono,
-      'rol', 'Mentor'
-    )
-  ) AS mentores,
-  ARRAY_AGG(
-    json_build_object(
-      'id', muxui.id,
-      'nombre', muxui.nombre,
-      'apellido', muxui.apellido,
-      'email', muxui.email,
-      'telefono', muxui.telefono,
-      'rol', 'Mentor UX/UI'
-    )
-  ) AS mentores_ux_ui,
-  ARRAY_AGG(
-    json_build_object(
-      'id', mqa.id,
-      'nombre', mqa.nombre,
-      'apellido', mqa.apellido,
-      'email', mqa.email,
-      'telefono', mqa.telefono,
-      'rol', 'Mentor QA'
-    )
-  ) AS mentores_qa,
+  m.id AS id_mentor,
+  m.nombre AS nombre_mentor,
+  m.apellido AS apellido_mentor,
+  m.email AS email_mentor,
+  m.telefono AS telefono_mentor,
+  muxui.id AS id_mentor_ux_ui,
+  muxui.nombre AS nombre_mentor_ux_ui,
+  muxui.apellido AS apellido_mentor_ux_ui,
+  muxui.email AS email_mentor_ux_ui,
+  muxui.telefono AS telefono_mentor_ux_ui,
+  mqa.id AS id_mentor_qa,
+  mqa.nombre AS nombre_mentor_qa,
+  mqa.apellido AS apellido_mentor_qa,
+  mqa.email AS email_mentor_qa,
+  mqa.telefono AS telefono_mentor_qa,
   ARRAY_AGG(s.nombre) AS nombres_estudiantes,
   ARRAY_AGG(s.apellido) AS apellidos_estudiantes,
   ARRAY_AGG(s.email) AS emails_estudiantes,
@@ -174,27 +159,103 @@ GROUP BY
   e.id, m.id, muxui.id, mqa.id
             `
 
-    console.log(resultGrupos);
-    console.log(resultGrupos[0]);
+    // console.log(resultGrupos);
+    // console.log(resultGrupos[0]);
 
     // va a estar en un foreatch
-    const { data, error } = await emailService.sendEmail({
-      from: "Polo-IT ",
-      to: ["nicoespindola899@gmail.com"], //todos de ese grupo si es true, si es false individual a cada uno
-      subject: `Acelerador Polo IT - ${resultTipo[0].tipo}`,
-      content: emailBody,
-    });
+    
+    resultGrupos.map(async (e,i)=>{
+      let tablaGrupos:string = "";
+      
+      tablaGrupos += `
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+  <thead>
+    <tr>
+      <th style="padding: 8px;">Nombre</th>
+      <th style="padding: 8px;">Apellido</th>
+      <th style="padding: 8px;">Email</th>
+      <th style="padding: 8px;">Teléfono</th>
+      <th style="padding: 8px;">Estado</th>
+      <th style="padding: 8px;">Tecnología</th>
+      <th style="padding: 8px;">ONG</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${e.nombres_estudiantes.map((nombre:string, index:number) => `
+      <tr>
+        <td style="padding: 8px;">${nombre}</td>
+        <td style="padding: 8px;">${e.apellidos_estudiantes[index]}</td>
+        <td style="padding: 8px;">${e.emails_estudiantes[index]}</td>
+        <td style="padding: 8px;">${e.telefonos_estudiantes[index]}</td>
+        <td style="padding: 8px;">${e.estados_estudiantes[index] ? 'Activo' : 'Inactivo'}</td>
+        <td style="padding: 8px;">${e.tecnologias[index]}</td>
+        <td style="padding: 8px;">${e.ongs[index]}</td>
+      </tr>
+    `).join('')}
+  </tbody>
+</table>
+      <br>
+      ` 
 
-    if (error) {
-      throw new Error(error);
-    }
+      tablaGrupos +=`
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+  <thead>
+    <tr>
+      <th style="padding: 8px;">Nombre</th>
+      <th style="padding: 8px;">Apellido</th>
+      <th style="padding: 8px;">Email</th>
+      <th style="padding: 8px;">Teléfono</th>
+      <th style="padding: 8px;">Rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px;">${e.nombre_mentor}</td>
+      <td style="padding: 8px;">${e.apellido_mentor}</td>
+      <td style="padding: 8px;">${e.email_mentor}</td>
+      <td style="padding: 8px;">${e.telefono_mentor}</td>
+      <td style="padding: 8px;">Mentor Técnico</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px;">${e.nombre_mentor_ux_ui}</td>
+      <td style="padding: 8px;">${e.apellido_mentor_ux_ui}</td>
+      <td style="padding: 8px;">${e.email_mentor_ux_ui}</td>
+      <td style="padding: 8px;">${e.telefono_mentor_ux_ui}</td>
+      <td style="padding: 8px;">Mentor UX/UI</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px;">${e.nombre_mentor_qa}</td>
+      <td style="padding: 8px;">${e.apellido_mentor_qa}</td>
+      <td style="padding: 8px;">${e.email_mentor_qa}</td>
+      <td style="padding: 8px;">${e.telefono_mentor_qa}</td>
+      <td style="padding: 8px;">Mentor QA</td>
+    </tr>
+  </tbody>
+</table>
+      `
+      const { data, error } = await emailService.sendEmail({
+        from: "Polo-IT ",
+        to: ["nicoespindola899@gmail.com"], //todos de ese grupo si es true, si es false individual a cada uno
+        subject: `Acelerador Polo IT - ${resultTipo[0].tipo}`,
+        content: emailBody+tablaGrupos,
+      });
+  
+      if (error) {
+        throw new Error(error);
+      }
+      tablaGrupos = "";
+    })
+    
+    //ver de la caoncatenacion que sea en el medio xd;
+
+
 
     //guardar en la base de datos
 
     revalidatePath("/mensaje");
 
     return NextResponse.json(
-      createResponse(true, [data], "Email enviado correctamente"),
+      createResponse(true, [], "Email enviado correctamente"),
       { status: 200 }
     );
   } catch (error) {
