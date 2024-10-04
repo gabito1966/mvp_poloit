@@ -158,12 +158,7 @@ FROM
 GROUP BY 
   e.id, m.id, muxui.id, mqa.id
             `
-
-    // console.log(resultGrupos);
-    // console.log(resultGrupos[0]);
-
-    // va a estar en un foreatch
-    
+            
     resultGrupos.map(async (e,i)=>{
       let tablaGrupos:string = "";
       
