@@ -349,7 +349,6 @@ export default function MensajeComponent(
             </form>
           </div>
         </div>
-      </div>
     </>
   );
 }
