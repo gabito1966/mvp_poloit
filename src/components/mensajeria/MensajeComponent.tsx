@@ -147,8 +147,12 @@ export default function MensajeComponent(
           <h1 className="text-3xl font-bold ml-12 text-center md:text:left">Mensajería</h1>
         </div>
 
-        <div className="grid grid-cols-5 gap-4 px-4 lg:px-10 py-4 ">
-          <div className="col-span-5 lg:col-span-2 m-2 px-7 py-5 bg-white text-black rounded-lg shadow-lg ">
+ 
+        
+      
+        <div className="grid grid-cols-5  gap-4 p-4 lg:px-10 ">
+            
+          <div className="col-span-5 lg:col-span-2 m-2 px-7 py-5 bg-white text-black rounded-lg shadow-lg min-h-[800px]">
             <div className="py-1 flex gap-2 justify-left items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -178,9 +182,8 @@ export default function MensajeComponent(
                     )}
 
                 </select>
-            </div>
 
-            <div className="flex flex-col gap-2 min-h-[750px] max-h-[750px] overflow-y-auto">
+                <div className=" flex flex-col gap-2 min-h-[750px] max-h-[750px] overflow-y-auto">
 
                 {tipoEmailsHistory=="1" &&(
                   emailsBienvenida.length>0?
@@ -203,7 +206,7 @@ export default function MensajeComponent(
                 )}
                 
             </div>
-          </div>
+            </div>
 
           <div className="col-span-5 lg:col-span-3 min-h-[800px] m-2 px-2 pt-4 pb-8 bg-white  text-black rounded-lg shadow-lg">
             <div className="flex items-center justify-between py-1 gap-2">
@@ -348,7 +351,11 @@ export default function MensajeComponent(
               </button>
             </form>
           </div>
+          
+          </div>
+
         </div>
+        
     </>
   );
 }
