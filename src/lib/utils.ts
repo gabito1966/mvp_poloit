@@ -196,34 +196,33 @@ export const generateHTMLString = (
   e:any
 ) => {
   let html: string = "";
-
-  let tablaGrupos:string = "";
   
   html += `<p style="color:black;">${mensaje}</p>`;
 
   html += `     <br>
+                <h2 style="color:black;">Estudiantes</h2>
                 <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
             <thead>
             <tr>
-              <th style="padding: 1px;">Nombre</th>
-              <th style="padding: 1px;">Apellido</th>
-              <th style="padding: 1px;">Email</th>
-              <th style="padding: 1px;">Teléfono</th>
-              <th style="padding: 1px;">Estado</th>
-              <th style="padding: 1px;">Tecnología</th>
-              <th style="padding: 1px;">ONG</th>
+              <th style="padding: 1px; color:black;">Nombre</th>
+              <th style="padding: 1px; color:black;">Apellido</th>
+              <th style="padding: 1px; color:black;">Email</th>
+              <th style="padding: 1px; color:black;">Teléfono</th>
+              <th style="padding: 1px; color:black;">Estado</th>
+              <th style="padding: 1px; color:black;">Tecnología</th>
+              <th style="padding: 1px; color:black;">ONG</th>
             </tr>
             </thead>
             <tbody>
             ${e.nombres_estudiantes.map((nombre:string, index:number) => `
               <tr>
-                <td style="padding: 1px;">${nombre}</td>
-                <td style="padding: 1px;">${e.apellidos_estudiantes[index]}</td>
-                <td style="padding: 1px;">${e.emails_estudiantes[index]}</td>
-                <td style="padding: 1px;">${e.telefonos_estudiantes[index]}</td>
-                <td style="padding: 1px;">${e.estados_estudiantes[index] ? 'Activo' : 'Inactivo'}</td>
-                <td style="padding: 1px;">${e.tecnologias[index]}</td>
-                <td style="padding: 1px;">${e.ongs[index]}</td>
+                <td style="padding: 1px; color:black;">${nombre}</td>
+                <td style="padding: 1px; color:black;">${e.apellidos_estudiantes[index]}</td>
+                <td style="padding: 1px; color:black;">${e.emails_estudiantes[index]}</td>
+                <td style="padding: 1px; color:black;">${e.telefonos_estudiantes[index]}</td>
+                <td style="padding: 1px; color:black;">${e.estados_estudiantes[index] ? 'Activo' : 'Inactivo'}</td>
+                <td style="padding: 1px; color:black;">${e.tecnologias[index]}</td>
+                <td style="padding: 1px; color:black;">${e.ongs[index]}</td>
               </tr>
             `).join('')}
             </tbody>
@@ -232,37 +231,38 @@ export const generateHTMLString = (
               ` 
 
   html +=`
+                <h2 style="color:black;">Mentores</h2>
                 <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
             <thead>
             <tr>
-              <th style="padding: 1px;">Nombre</th>
-              <th style="padding: 1px;">Apellido</th>
-              <th style="padding: 1px;">Email</th>
-              <th style="padding: 1px;">Teléfono</th>
-              <th style="padding: 1px;">Rol</th>
+              <th style="padding: 1px; color:black;">Nombre</th>
+              <th style="padding: 1px; color:black;">Apellido</th>
+              <th style="padding: 1px; color:black;">Email</th>
+              <th style="padding: 1px; color:black;">Teléfono</th>
+              <th style="padding: 1px; color:black;">Rol</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-              <td style="padding: 1px;">${e.nombre_mentor}</td>
-              <td style="padding: 1px;">${e.apellido_mentor}</td>
-              <td style="padding: 1px;">${e.email_mentor}</td>
-              <td style="padding: 1px;">${e.telefono_mentor}</td>
-              <td style="padding: 1px;">Mentor Técnico</td>
+              <td style="padding: 1px; color:black;">${e.nombre_mentor}</td>
+              <td style="padding: 1px; color:black;">${e.apellido_mentor}</td>
+              <td style="padding: 1px; color:black;">${e.email_mentor}</td>
+              <td style="padding: 1px; color:black;">${e.telefono_mentor}</td>
+              <td style="padding: 1px; color:black;">Mentor Técnico</td>
             </tr>
             <tr>
-              <td style="padding: 1px;">${e.nombre_mentor_ux_ui}</td>
-              <td style="padding: 1px;">${e.apellido_mentor_ux_ui}</td>
-              <td style="padding: 1px;">${e.email_mentor_ux_ui}</td>
-              <td style="padding: 1px;">${e.telefono_mentor_ux_ui}</td>
-              <td style="padding: 1px;">Mentor UX/UI</td>
+              <td style="padding: 1px; color:black;">${e.nombre_mentor_ux_ui}</td>
+              <td style="padding: 1px; color:black;">${e.apellido_mentor_ux_ui}</td>
+              <td style="padding: 1px; color:black;">${e.email_mentor_ux_ui}</td>
+              <td style="padding: 1px; color:black;">${e.telefono_mentor_ux_ui}</td>
+              <td style="padding: 1px; color:black;">Mentor UX/UI</td>
             </tr>
             <tr>
-              <td style="padding: 1px;">${e.nombre_mentor_qa}</td>
-              <td style="padding: 1px;">${e.apellido_mentor_qa}</td>
-              <td style="padding: 1px;">${e.email_mentor_qa}</td>
-              <td style="padding: 1px;">${e.telefono_mentor_qa}</td>
-              <td style="padding: 1px;">Mentor QA</td>
+              <td style="padding: 1px; color:black;">${e.nombre_mentor_qa}</td>
+              <td style="padding: 1px; color:black;">${e.apellido_mentor_qa}</td>
+              <td style="padding: 1px; color:black;">${e.email_mentor_qa}</td>
+              <td style="padding: 1px; color:black;">${e.telefono_mentor_qa}</td>
+              <td style="padding: 1px; color:black;">Mentor QA</td>
             </tr>
             </tbody>
             </table>
