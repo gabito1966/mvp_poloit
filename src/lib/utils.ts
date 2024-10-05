@@ -127,7 +127,7 @@ export const generarCuerpoEmailGemini = async (
   };
 
   let script =
-    "estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final ";
+    "estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final, solo los link colocamelos entre una equiqueta 'a' (<a></a>)";
 
   if (tipo == "true") {
     script += `
@@ -192,14 +192,83 @@ export const generarCuerpoEmailGemini = async (
 export const generateHTMLString = (
   mensaje: string,
   firstName: string,
-  lastName: string
+  lastName: string,
+  e:any
 ) => {
   let html: string = "";
 
+  let tablaGrupos:string = "";
+  
   html += `<p style="color:black;">${mensaje}</p>`;
 
+  html += `     <br>
+                <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
+            <thead>
+            <tr>
+              <th style="padding: 1px;">Nombre</th>
+              <th style="padding: 1px;">Apellido</th>
+              <th style="padding: 1px;">Email</th>
+              <th style="padding: 1px;">Teléfono</th>
+              <th style="padding: 1px;">Estado</th>
+              <th style="padding: 1px;">Tecnología</th>
+              <th style="padding: 1px;">ONG</th>
+            </tr>
+            </thead>
+            <tbody>
+            ${e.nombres_estudiantes.map((nombre:string, index:number) => `
+              <tr>
+                <td style="padding: 1px;">${nombre}</td>
+                <td style="padding: 1px;">${e.apellidos_estudiantes[index]}</td>
+                <td style="padding: 1px;">${e.emails_estudiantes[index]}</td>
+                <td style="padding: 1px;">${e.telefonos_estudiantes[index]}</td>
+                <td style="padding: 1px;">${e.estados_estudiantes[index] ? 'Activo' : 'Inactivo'}</td>
+                <td style="padding: 1px;">${e.tecnologias[index]}</td>
+                <td style="padding: 1px;">${e.ongs[index]}</td>
+              </tr>
+            `).join('')}
+            </tbody>
+            </table>
+              <br>
+              ` 
+
+  html +=`
+                <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
+            <thead>
+            <tr>
+              <th style="padding: 1px;">Nombre</th>
+              <th style="padding: 1px;">Apellido</th>
+              <th style="padding: 1px;">Email</th>
+              <th style="padding: 1px;">Teléfono</th>
+              <th style="padding: 1px;">Rol</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td style="padding: 1px;">${e.nombre_mentor}</td>
+              <td style="padding: 1px;">${e.apellido_mentor}</td>
+              <td style="padding: 1px;">${e.email_mentor}</td>
+              <td style="padding: 1px;">${e.telefono_mentor}</td>
+              <td style="padding: 1px;">Mentor Técnico</td>
+            </tr>
+            <tr>
+              <td style="padding: 1px;">${e.nombre_mentor_ux_ui}</td>
+              <td style="padding: 1px;">${e.apellido_mentor_ux_ui}</td>
+              <td style="padding: 1px;">${e.email_mentor_ux_ui}</td>
+              <td style="padding: 1px;">${e.telefono_mentor_ux_ui}</td>
+              <td style="padding: 1px;">Mentor UX/UI</td>
+            </tr>
+            <tr>
+              <td style="padding: 1px;">${e.nombre_mentor_qa}</td>
+              <td style="padding: 1px;">${e.apellido_mentor_qa}</td>
+              <td style="padding: 1px;">${e.email_mentor_qa}</td>
+              <td style="padding: 1px;">${e.telefono_mentor_qa}</td>
+              <td style="padding: 1px;">Mentor QA</td>
+            </tr>
+            </tbody>
+            </table>
+              `
   html += `
-    <font color="#888888"><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div><div dir="ltr" class="gmail_signature"><div dir="ltr"><div><div><font color="#000000"><b>${firstName} ${lastName}</b></font></div><font color="#888888" style="color:rgb(136,136,136)"><span style="font-size:12px">Administración&nbsp;</span></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">|&nbsp;</font><font color="#0b5394" style="color:rgb(136,136,136)"><b>SQUAD 7</b></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">&nbsp;</font><br></div><div style="color:rgb(136,136,136)"><img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" class="CToWUd" data-bit="iit"></div></div></div></div></font>
+    <font color="#888888"><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div><div dir="ltr" class="gmail_signature"><div dir="ltr"><div><div><font color="#000000"><b>${firstName} ${lastName}</b></font></div><font color="#888888" style="color:rgb(136,136,136)"><span style="font-size:12px">ADMINISTRACIÓN&nbsp;</span></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">|&nbsp;</font><font color="#0b5394" style="color:rgb(136,136,136)"><b>SQUAD 7</b></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">&nbsp;</font><br></div><div style="color:rgb(136,136,136)"><img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" class="CToWUd" data-bit="iit"></div></div></div></div></font>
   `;
 
   return html;
