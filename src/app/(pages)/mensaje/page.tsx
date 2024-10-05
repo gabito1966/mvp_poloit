@@ -8,6 +8,9 @@ export default async function mensaje() {
 
   const [emailsBienvenida, emailsSeguimiento, tiposEmail] = await Promise.all([getEmailsTipo("BIENVENIDA"),getEmailsTipo("SEGUIMIENTO"),getTipoEmails()]);
 
+  console.log(emailsBienvenida)
+  console.log(emailsSeguimiento)
+  
   return (
   
     <Suspense fallback={<FormEstudianteSkeleton/>}>
