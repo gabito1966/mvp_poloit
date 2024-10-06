@@ -1,68 +1,172 @@
-import CreateButton from "@/components/dashboard/CreateButton";
-import DeleteButton from "@/components/dashboard/DeleteButton";
-import TableEquipos from "@/components/dashboard/equipo/TableEquipo";
-import MailButton from "@/components/dashboard/MailButton";
-import Pagination from "@/components/dashboard/Pagination";
-import Search from "@/components/dashboard/Search";
-import { TableEstudianteSkeleton } from "@/components/skeletons";
-import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
-import { Metadata } from "next";
-import { Suspense } from "react";
+import { fetchGet } from "@/lib/fetchFunctions";
+import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Equipos",
-  description: "Encuentra el listado de equipos",
+type Mentor = {
+    apellido: string;
+    nombre: string;
+    email: string;
+    telefono: string;
+    tecnologia: string;
 };
 
-interface PageProps {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}
+type Equipo = {
+    id: string;
+    nombre: string;
+    fecha_inicio: string;
+    fecha_fin: string;
+    tamano: number;
+    mentor_apellido: string;
+    mentor: string;
+    mentor_email: string;
+    mentor_telefono: string;
+    mentor_qa_apellido: string;
+    mentor_qa: string;
+    mentor_qa_email: string;
+    mentor_qa_telefono: string;
+    mentor_ux_ui_apellido: string;
+    mentor_ux_ui: string;
+    mentor_ux_ui_email: string;
+    mentor_ux_ui_telefono: string;
+    nombres_estudiantes: string[];
+    apellidos_estudiantes: string[];
+    emails_estudiantes: string[];
+    telefonos_estudiantes: string[];
+    tecnologias: string[];
+};
 
-async function page({ searchParams }: PageProps) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
+const formatFecha = (fecha: string) =>
+    new Date(fecha).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    });
 
-  const [totalPages, contador] = await Promise.all([
-    fetchPagesEquipos(query),
-    getCantEstudiantesSinGrupo(),
-  ]);
+const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
+    <table className="table-auto w-full">
+        <thead className="text-left bg-gray-100">
+            <tr>
+                <th className="px-4 py-2">Apellido y Nombre</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Teléfono</th>
+                <th className="px-4 py-2">Tecnología</th>
+            </tr>
+        </thead>
+        <tbody>
+            {mentores.map((mentor, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                    <td className="px-4 py-2">{`${mentor.apellido}, ${mentor.nombre}`}</td>
+                    <td className="px-4 py-2">{mentor.email}</td>
+                    <td className="px-4 py-2">{mentor.telefono}</td>
+                    <td className="px-4 py-2">{mentor.tecnologia}</td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+);
 
-  return (
-    <section className="container max-w-7xl pt-20">
-      <div className="w-full flex-grow p-3 text-black bg-white rounded-xl shadow-xl md:p-12">
-        <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
-          Lista de Equipos
-        </h1>
-        <HeaderActions contador={contador} />
-        <Suspense key={`${query}-${currentPage}`} fallback={<TableEstudianteSkeleton />}>
-          <TableEquipos query={query} currentPage={currentPage} />
-        </Suspense>
-      </div>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
-    </section>
-  );
-}
-
-const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
-  return (
-    <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
-      <Search placeholder="buscar equipos..." />
-      <div className="flex flex-row items-center gap-3">
-        <MailButton />
-        <DeleteButton
-          url="/api/equipo"
-          newClass="scale-125 pt-2"
-          titulo="Eliminar todos"
-        />
-        <CreateButton url="/register/equipos" estado={contador > 0} />
-      </div>
+const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
+    <div className="overflow-x-auto">
+        <table className="table-auto w-full">
+            <thead className="text-left bg-gray-100">
+                <tr>
+                    <th className="px-4 py-2">Apellido y Nombre</th>
+                    <th className="px-4 py-2">Email</th>
+                    <th className="px-4 py-2">Teléfono</th>
+                    <th className="px-4 py-2">Tecnología</th>
+                </tr>
+            </thead>
+            <tbody>
+                {equipo.nombres_estudiantes.map((nombre, index) => (
+                    <tr key={index} className="hover:bg-gray-100">
+                        <td className="px-4 py-2">{`${equipo.apellidos_estudiantes[index]}, ${nombre}`}</td>
+                        <td className="px-4 py-2">{equipo.emails_estudiantes[index]}</td>
+                        <td className="px-4 py-2">{equipo.telefonos_estudiantes[index]}</td>
+                        <td className="px-4 py-2">{equipo.tecnologias[index]}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     </div>
-  );
-};
+);
 
-export default page;
+export default async function EquipoCard({
+    params,
+}: {
+    params?: { id: string };
+}) {
+    const { data: equipo } = await fetchGet(`/api/equipo/${params?.id}`);
+
+    if (!equipo) {
+        return <p>Error al cargar el equipo.</p>; // Manejo de errores básico
+    }
+
+    const fecha_inicial = formatFecha(equipo.fecha_inicio);
+    const fecha_final = formatFecha(equipo.fecha_fin);
+
+    const mentores = [
+        {
+            apellido: equipo.mentor_apellido,
+            nombre: equipo.mentor,
+            email: equipo.mentor_email,
+            telefono: equipo.mentor_telefono,
+            tecnologia: "Tecnologías",
+        },
+        {
+            apellido: equipo.mentor_qa_apellido,
+            nombre: equipo.mentor_qa,
+            email: equipo.mentor_qa_email,
+            telefono: equipo.mentor_qa_telefono,
+            tecnologia: "QA",
+        },
+        {
+            apellido: equipo.mentor_ux_ui_apellido,
+            nombre: equipo.mentor_ux_ui,
+            email: equipo.mentor_ux_ui_email,
+            telefono: equipo.mentor_ux_ui_telefono,
+            tecnologia: "UX/UI",
+        },
+    ];
+
+    return (
+        <section className="container max-w-5xl pt-10">
+            <div className="flex flex-col w-full bg-white rounded-xl shadow-xl p-5">
+                <h2 className="text-4xl text-center font-bold p-2 m-3">
+                    Card del Equipo: {equipo.nombre}
+                </h2>
+                <div className="rounded-xl bg-gray-50 shadow-md p-4">
+                    <div className="w-full mb-5 max-h-36 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                        <div className="grid grid-cols-2 md:grid-cols-4">
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.nombre}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Integrantes:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.tamano}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Fecha Inicio:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_inicial}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Finaliza:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_final}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full mb-5 flex-col p-1 md:p-2 bg-white rounded-lg text-black">
+                        <h2 className="text-left font-bold pt-1 pb-2 text-xl">Mentores</h2>
+                        <MentorTable mentores={mentores} />
+                    </div>
+                    <div className="w-full max-h-124 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                        <h2 className="text-left font-bold pt-2 pb-3 text-xl">Integrantes</h2>
+                        <IntegrantesTable equipo={equipo} />
+                    </div>
+                </div>
+            </div>
+            <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-3 mt-10">
+                <Link href="/equipo">Volver a equipo</Link>
+            </div>
+        </section>
+    );
+}

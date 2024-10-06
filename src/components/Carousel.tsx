@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type CarouselProps = {
     images: string[];
@@ -8,6 +8,14 @@ type CarouselProps = {
 
 const Carousel: React.FC<CarouselProps> = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    
+    useEffect(() => {
+      const interval = setInterval(() => {
+          setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      }, 3000); 
+
+      return () => clearInterval(interval);
+  }, [images.length]);
 
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
@@ -45,3 +53,4 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
 };
 
 export default Carousel;
+

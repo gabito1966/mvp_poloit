@@ -10,6 +10,7 @@ import {
   MentorData,
   Ong,
   TecnologiaConEstudiantes,
+  TipoEMails,
 } from "./definitions";
 
 const ITEMS_PER_PAGE = 7;
@@ -691,3 +692,66 @@ export async function fetchEquiposEliminados(
     return [];
   }
 }
+
+
+export async function  getEmailsTipo(tipo:string){
+
+  try {
+
+    const {rows:emailsBienvenida} = await sql`
+    SELECT
+    c.id AS correo_id,
+    c.asunto,
+    c.cuerpo,
+    c.fecha,
+    CONCAT(a.nombre, ' ', a.apellido) AS remitente_nombre,
+    ARRAY_AGG(e.nombre) AS nombres_equipos,
+    ARRAY_AGG(e.tamano) AS cantidad_equipos
+FROM
+    correos c
+    JOIN tipo_correo tc ON c.tipo_id = tc.id
+    JOIN administradores a ON c.remitente_id = a.id
+    JOIN correo_equipo ce ON c.id = ce.correo_id
+    JOIN equipos e ON ce.equipo_id = e.id
+WHERE
+    tc.tipo = ${tipo}
+GROUP BY
+    c.id,
+    c.asunto,
+    c.cuerpo,
+    c.fecha,
+    a.nombre,
+    a.apellido
+ORDER BY
+    c.fecha DESC;`
+
+    return emailsBienvenida;
+
+  }catch(error){
+    console.log(error)
+    return []
+  }
+
+}
+
+export async function getTipoEmails() {
+
+  try {
+    
+    const {rows:resultTipo} = await sql<TipoEMails>`
+    SELECT
+      *
+    FROM
+      tipo_correo
+    `
+    return resultTipo;
+
+  } catch (error) {
+    
+    console.log(error)
+    return []
+
+  }
+
+  
+} 

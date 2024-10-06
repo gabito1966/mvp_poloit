@@ -178,15 +178,52 @@ FOR EACH ROW
 EXECUTE FUNCTION auditoria_equipos_trigger();
 
 
+``
+CREATE TYPE tipo_correo_enum AS ENUM ('BIENVENIDA', 'SEGUIMIENTO');
+
+-- 2. Crear la tabla tipo_correo
+CREATE TABLE tipo_correo (
+    id SERIAL PRIMARY KEY,
+    tipo tipo_correo_enum NOT NULL UNIQUE
+);
+
+-- 3. Insertar los tipos de correo predefinidos
+INSERT INTO tipo_correo (tipo) VALUES
+('BIENVENIDA'),
+('SEGUIMIENTO');
+
+-- 4. Crear la tabla correos sin la columna equipo_id
 CREATE TABLE correos (
     id SERIAL PRIMARY KEY,
     asunto VARCHAR(255) NOT NULL,
     cuerpo TEXT NOT NULL,
     fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    id_administrador INTEGER NOT NULL,
-    id_equipo INTEGER NOT NULL,
-    
+    remitente_id INTEGER NOT NULL,
+    tipo_id INTEGER NOT NULL,
+
     -- Claves foráneas
-    FOREIGN KEY (id_administrador) REFERENCES administradores(id),
-    FOREIGN KEY (id_equipo) REFERENCES equipos(id)
+    FOREIGN KEY (remitente_id) REFERENCES administradores(id) ON DELETE CASCADE,
+    FOREIGN KEY (tipo_id) REFERENCES tipo_correo(id) ON DELETE RESTRICT
+);
+
+-- 6. Crear la tabla intermedia correo_equipo
+CREATE TABLE correo_equipo (
+    id SERIAL PRIMARY KEY,
+    correo_id INTEGER NOT NULL,
+    equipo_id INTEGER NOT NULL,
+
+    -- Claves foráneas
+    FOREIGN KEY (correo_id) REFERENCES correos(id) ON DELETE CASCADE,
+    FOREIGN KEY (equipo_id) REFERENCES equipos(id) ON DELETE CASCADE
+);
+
+-- 8. Crear la tabla intermedia correo_estudiante
+CREATE TABLE correo_estudiante (
+    id SERIAL PRIMARY KEY,
+    correo_id INTEGER NOT NULL,
+    estudiante_id INTEGER NOT NULL,
+
+    -- Claves foráneas
+    FOREIGN KEY (correo_id) REFERENCES correos(id) ON DELETE CASCADE,
+    FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id) ON DELETE CASCADE
 );

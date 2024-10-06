@@ -22,6 +22,19 @@ interface PageProps {
 }
 
 async function page({ searchParams }: PageProps) {
+export const metadata: Metadata = {
+  title: "Equipos",
+  description: "Encuentra el listado de equipos",
+};
+
+interface PageProps {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}
+
+async function page({ searchParams }: PageProps) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
@@ -65,4 +78,4 @@ const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
   );
 };
 
-export default page;
+export default page

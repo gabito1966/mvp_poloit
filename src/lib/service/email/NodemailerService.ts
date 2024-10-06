@@ -1,5 +1,6 @@
 import nodemailer, { Transporter } from "nodemailer";
 import { IEmailService, EmailOptions } from "./IEmailService";
+import { sql } from "@vercel/postgres";
 
 export class NodemailerService implements IEmailService {
   private transporter: Transporter;
@@ -23,28 +24,11 @@ export class NodemailerService implements IEmailService {
 
   async sendEmail(options: EmailOptions) {
     try {
-      const messageArr = options.content.split("\n");
-
-      console.log(options.content);
-      console.log(messageArr);
-
-      let mensaje: string = `<div>
-            <h1>Bienvenido, ${options.firstName}!</h1>`;
-
-      messageArr.forEach((e, i) => {
-        mensaje += (e!='')? `<p>${e}</p>`:`</br>`;
-      });
-
-      mensaje += `<p>Saludos,<br />Equipo Polo IT</p>
-          </div>`;
-
-      console.log(mensaje);
-
       const mailOptions = {
         from: options.from,
         to: options.to.join(", "),
         subject: options.subject,
-        html: mensaje,
+        html: options.content,
       };
 
       const info = await this.transporter.sendMail(mailOptions);
@@ -55,7 +39,22 @@ export class NodemailerService implements IEmailService {
   }
 
   async getEmail(emailId: string) {
-    return { data: null, error: "Not implemented" };
+
+
+    try {
+      
+      const {rows:resultEmails} = await sql`
+
+      `
+
+      return { data: resultEmails[0], error: "Not implemented" };
+      
+    } catch (error) {
+      
+      return { data:null, error: error };
+    }
+
+
   }
 
   async deleteEmail(emailId: string) {

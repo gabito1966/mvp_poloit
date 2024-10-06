@@ -95,6 +95,8 @@ export async function GET(
     e.id, m.id, muxui.id, mqa.id
 `;
 
+    
+
     if (rows.length === 0) {
       return NextResponse.json(
         createResponse(false, [], "El estudiante no existe"),

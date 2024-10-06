@@ -5,8 +5,22 @@ import TableMentor from "@/components/dashboard/mentor/TableMentor";
 import { TableMentorSkeleton } from "@/components/skeletons";
 import { fetchPagesMentores } from "@/database/data";
 import { Metadata } from "next";
+import { Metadata } from "next";
 import { Suspense } from "react";
 
+export const metadata: Metadata = {
+    title: "Mentores",
+    description: "Encuentra el listado de mentores",
+};
+
+interface PageProps {
+    searchParams?: {
+        query?: string;
+        page?: string;
+    };
+}
+
+async function page({ searchParams }: PageProps) {
 export const metadata: Metadata = {
     title: "Mentores",
     description: "Encuentra el listado de mentores",

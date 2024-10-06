@@ -2,7 +2,6 @@ export interface EmailOptions {
     from: string;
     to: string[];
     subject: string;
-    firstName: string;
     content: string;
   }
   

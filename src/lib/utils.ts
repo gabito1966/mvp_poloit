@@ -124,13 +124,12 @@ export const generarCuerpoEmailGemini = async (
     topK: 64,
     maxOutputTokens: 8192,
     responseMimeType: "text/plain",
-    
   };
 
   let script =
     "estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final ";
 
-  if (tipo=='true') {
+  if (tipo == "true") {
     script += `
     este es el cuerpo de un email de presentacion de los integrantes del grupo
 
@@ -188,4 +187,20 @@ export const generarCuerpoEmailGemini = async (
 
   const result = await chatSession.sendMessage(script);
   return result.response.text();
+};
+
+export const generateHTMLString = (
+  mensaje: string,
+  firstName: string,
+  lastName: string
+) => {
+  let html: string = "";
+
+  html += `<p style="color:black;">${mensaje}</p>`;
+
+  html += `
+    <font color="#888888"><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div><div dir="ltr" class="gmail_signature"><div dir="ltr"><div><div><font color="#000000"><b>${firstName} ${lastName}</b></font></div><font color="#888888" style="color:rgb(136,136,136)"><span style="font-size:12px">Administración&nbsp;</span></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">|&nbsp;</font><font color="#0b5394" style="color:rgb(136,136,136)"><b>SQUAD 7</b></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">&nbsp;</font><br></div><div style="color:rgb(136,136,136)"><img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" class="CToWUd" data-bit="iit"></div></div></div></div></font>
+  `;
+
+  return html;
 };

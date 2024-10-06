@@ -117,13 +117,11 @@ const Sidebar: React.FC = () => {
       <div>
         <ul className="space-y-4 p-2 md:p-6">
           <li >
-              <div className="flex justify-center rounded-sm">
+              <div className="flex justify-center  rounded-sm">
               <ResponsiveImage />
               </div>
           </li>
-          <li className="lg:hidden m-2">
-
-          </li>
+          
           {links.map((link, i) => (
             <li key={`${link.name}${i}`}>
               <LinkSideBar data={link} />

@@ -64,9 +64,8 @@ export default async function EstudianteCard({
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.estado ? 'Activo' : 'Inactivo'}</p>
                         </div>
                     </div>
-                    </div>
-                }
                 </div>
+                }
             </div>
             <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-4 mt-20">
                 <Link href="/estudiante">

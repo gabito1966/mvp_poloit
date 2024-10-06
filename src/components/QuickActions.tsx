@@ -22,7 +22,7 @@ export default async function QuickActions() {
             url="/register/equipos"
             content="registrar equipos"
           />
-          <ItemQuickAction url="/register/ong" content="registrar ongs" />
+          <ItemQuickAction url="/partners" content="Partners" />
         </div>
       </div>
     </>
