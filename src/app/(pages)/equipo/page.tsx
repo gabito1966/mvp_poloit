@@ -28,7 +28,7 @@ async function page({
   ]);
 
   return (
-    <section className="container max-w-5xl pt-20">
+    <section className="container max-w-7xl pt-20">
     <div className="w-full flex-grow p-5 bg-white rounded-xl shadow-xl  md:p-12">
       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">
         Lista de Equipos
