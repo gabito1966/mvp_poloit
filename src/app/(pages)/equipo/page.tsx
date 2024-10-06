@@ -7,22 +7,8 @@ import Search from "@/components/dashboard/Search";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
 import { Metadata } from "next";
-
 import { Suspense } from "react";
 
-export const metadata: Metadata = {
-  title: "Equipos",
-  description: "Encuentra el listado de equipos",
-};
-
-interface PageProps {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}
-
-async function page({ searchParams }: PageProps) {
 export const metadata: Metadata = {
   title: "Equipos",
   description: "Encuentra el listado de equipos",
@@ -47,9 +33,9 @@ async function page({ searchParams }: PageProps) {
   return (
     <section className="container max-w-7xl pt-20">
       <div className="w-full flex-grow p-5 bg-white rounded-xl shadow-xl md:p-12">
-        <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
+        <h2 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
           Lista de Equipos
-        </h1>
+        </h2>
         <HeaderActions contador={contador} />
         <Suspense key={`${query}-${currentPage}`} fallback={<TableEstudianteSkeleton />}>
           <TableEquipos query={query} currentPage={currentPage} />

@@ -12,15 +12,15 @@ export default async function QuickActions() {
         <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full justify-center gap-3 bg-white rounded-xl p-4 ">
           <ItemQuickAction
             url="/register/estudiantes"
-            content="registrar estudiantes"
+            content="Registrar Estudiantes"
           />
           <ItemQuickAction
             url="/register/mentores"
-            content="registrar mentores"
+            content="Registrar Mentores"
           />
           <ItemQuickAction
             url="/register/equipos"
-            content="registrar equipos"
+            content="Generar Equipos"
           />
           <ItemQuickAction url="/partners" content="Partners" />
         </div>

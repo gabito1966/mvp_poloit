@@ -11,10 +11,11 @@ export default async function EstudianteCard({
 
     return (
         <section className="container max-w-5xl pt-20">
-            <div className="bg-white rounded-xl shadow-xl text-black mt-20">
-                <h1 className="text-4xl text-center font-bold p-2  " >Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h1>       
-                <div className="w-full max-h-124 flex-col p-1  md:p-12 text-black bg-white rounded-lg shadow-lg">
-                {<div className="grid grid-cols-1 md:grid-cols-2 ">
+            <div className="bg-white rounded-xl shadow-xl p-5">
+                <h2 className="text-4xl text-center font-bold m-5" >Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h2>       
+                <div className="w-full max-h-124 flex-col p-1 lg:p-12 text-black">
+                    <hr />
+                {<div className="grid grid-cols-1 md:grid-cols-2  mt-5">
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido:</h4>
@@ -66,6 +67,7 @@ export default async function EstudianteCard({
                     </div>
                 </div>
                 }
+            </div>
             </div>
             <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-4 mt-20">
                 <Link href="/estudiante">

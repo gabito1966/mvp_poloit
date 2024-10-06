@@ -12,6 +12,7 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ title, images }) => {
             <h2 className="font-bold text-xl lg:text-3xl my-10 text-center">
                 {title}
             </h2>
+            <hr />
             <div className="h-auto w-full flex items-center">
                 <Carousel images={images} />
             </div>

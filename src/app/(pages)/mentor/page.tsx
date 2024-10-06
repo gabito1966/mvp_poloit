@@ -28,7 +28,7 @@ async function page({ searchParams }: PageProps) {
     return (
         <section className="container max-w-7xl pt-20">
             <div className="w-full flex-grow p-3 md:p-12 bg-white rounded-xl shadow-xl">
-                <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-black text-center lg:text-left">Lista de Mentores</h1>
+                <h2 className="text-2xl sm:text-4xl font-bold mb-8 text-black text-center lg:text-left">Lista de Mentores</h2>
                 <HeaderActions />
                 <Suspense key={`${query}-${currentPage}`} fallback={<TableMentorSkeleton />}>
                     <TableMentor query={query} currentPage={currentPage} />
