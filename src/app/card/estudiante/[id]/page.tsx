@@ -11,10 +11,8 @@ export default async function EstudianteCard({
 
     return (
         <section className="container max-w-5xl">
-
-            <h1 className="text-4xl text-center font-bold p-2 mt-10">Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h1>
-            <div className="bg-gray-100 border-2 border-gray-200 rounded shadow-md p-5">
-            <div className="w-full max-h-124 flex-col p-1  md:p-12 text-black border-2 border-grey-200 bg-white rounded-lg ">
+            <h1 className="text-4xl text-center font-bold p-2 m-10">Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h1>       
+            <div className="w-full max-h-124 flex-col p-1  md:p-12 text-black bg-white rounded-lg shadow-lg">
                 {<div className="grid grid-cols-1 md:grid-cols-2 ">
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
@@ -55,14 +53,12 @@ export default async function EstudianteCard({
 
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">ONG:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.nombre_ong}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-
                             <h4 className="block mb-2 text-md text-gray-500 font-medium">Estado:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.estado ? 'Activo' : 'Inactivo'}</p>
                         </div>
@@ -70,7 +66,6 @@ export default async function EstudianteCard({
                     </div>
                 }
                 </div>
-            </div>
             <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-4 mt-20">
                 <Link href="/estudiante">
                     Volver a estudiante

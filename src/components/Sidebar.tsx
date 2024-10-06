@@ -4,6 +4,7 @@ import { signOut, singIn } from "@/lib/server/session";
 import clsx from "clsx";
 import LinkSideBar from "./LinkSideBar";
 import ResponsiveImage from "./ResponsiveImage";
+import ThemeToggle from "./ThemeToggle";
 
 const Sidebar: React.FC = () => {
   const links = [
@@ -111,12 +112,12 @@ const Sidebar: React.FC = () => {
 
   return (
     <nav
-      className={`${roboto.className} lg:w-64 max-lg:w-12 max-lg:px-0 fixed  flex flex-col h-full bg-white text-black border-2 border-gray-200 px-2`}
+      className={`${roboto.className} lg:w-64 max-lg:w-12 max-lg:px-0 fixed  flex flex-col h-full bg-white text-black border-2 border-gray-300 px-2 dark:bg-slate-800 dark:text-white dark:hover:text-black`}
     >
       <div>
         <ul className="space-y-4 p-2 md:p-6">
           <li >
-              <div className="flex justify-center  rounded-sm">
+              <div className="flex justify-center rounded-sm">
               <ResponsiveImage />
               </div>
           </li>
@@ -128,8 +129,12 @@ const Sidebar: React.FC = () => {
               <LinkSideBar data={link} />
             </li>
           ))}
+          <li className="flex flex-row gap-1 items-center mt-auto py-4 max-sm:py-1 border-t-2 gray-300 max-lg:px-1   rounded-sm capitalize ">
+            <ThemeToggle />
+          </li>
         </ul>
       </div>
+      
 
       <div
         className={clsx(
