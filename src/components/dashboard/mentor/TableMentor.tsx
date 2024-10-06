@@ -15,12 +15,12 @@ export default async function Table({
   return (
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 md:pt-0">
           <div className="lg:hidden">
             {mentores?.map((mentor) => (
               <div
                 key={mentor.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-white"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
@@ -49,9 +49,6 @@ export default async function Table({
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   apellido y nombre
-                </th>
-                <th scope="col" className="capitalize px-4 py-5 font-medium ">
-                  nombre
                 </th>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   Correo electrónico

@@ -1,4 +1,5 @@
-import Carousel from "@/components/Carousel";
+import Carousel from '@/components/Carousel';
+import React from "react";
 
 interface PartnersSectionProps {
     title: string;

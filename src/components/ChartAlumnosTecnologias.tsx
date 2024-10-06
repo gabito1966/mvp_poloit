@@ -1,6 +1,5 @@
 import { fetchTecnologiasConEstudiantes } from "@/database/data";
 import { generateYAxis } from "@/lib/utils";
-import React from "react";
 import AnimatedBar from "./AnimatedBar";
 
 export default async function ChartAlumnosTecnologias() {
@@ -16,7 +15,7 @@ export default async function ChartAlumnosTecnologias() {
 
   return (
     <div className="w-full rounded-xl md:col-span-4 shadow-md">
-      <div className=" rounded-xl bg-gray-50 p-4">
+      <div className=" rounded-xl bg-white text-black p-4">
         <h2 className={` text-xl mb-1 font-bold`}>
           Tecnologías dominadas por estudiantes
         </h2>

@@ -8,11 +8,11 @@ export default async function Notification() {
   
   return (
     <>
-      <div className="h-full rounded-xl bg-gray-50 p-4 shadow-md">
+      <div className="h-full rounded-xl bg-white text-black p-4 shadow-md">
         <div className="flex flex-row justify-between items-center">
           <h3 className="font-semibold text-xl ">Notificaciones</h3>
         </div>
-        <div className="p-4 bg-white mt-2 rounded-xl">
+        <div className="p-4 bg-white  mt-2 rounded-xl">
           <div className="flex flex-col">
            {cantEstudiantesNoGrupos>0 &&
             <ItemNotification cant={cantEstudiantesNoGrupos} message={`estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
