@@ -7,6 +7,7 @@ import Search from "@/components/dashboard/Search";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
 import { Metadata } from "next";
+
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -78,4 +79,4 @@ const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
   );
 };
 
-export default page
+export default page;

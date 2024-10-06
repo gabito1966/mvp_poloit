@@ -5,22 +5,8 @@ import TableMentor from "@/components/dashboard/mentor/TableMentor";
 import { TableMentorSkeleton } from "@/components/skeletons";
 import { fetchPagesMentores } from "@/database/data";
 import { Metadata } from "next";
-import { Metadata } from "next";
 import { Suspense } from "react";
 
-export const metadata: Metadata = {
-    title: "Mentores",
-    description: "Encuentra el listado de mentores",
-};
-
-interface PageProps {
-    searchParams?: {
-        query?: string;
-        page?: string;
-    };
-}
-
-async function page({ searchParams }: PageProps) {
 export const metadata: Metadata = {
     title: "Mentores",
     description: "Encuentra el listado de mentores",
@@ -42,7 +28,7 @@ async function page({ searchParams }: PageProps) {
     return (
         <section className="container max-w-7xl pt-20">
             <div className="w-full flex-grow p-3 md:p-12 bg-white rounded-xl shadow-xl">
-                <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-center text-black lg:text-left">Lista de Mentores</h1>
+                <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-black text-center lg:text-left">Lista de Mentores</h1>
                 <HeaderActions />
                 <Suspense key={`${query}-${currentPage}`} fallback={<TableMentorSkeleton />}>
                     <TableMentor query={query} currentPage={currentPage} />
