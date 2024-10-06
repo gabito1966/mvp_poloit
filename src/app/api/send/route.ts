@@ -184,12 +184,11 @@ export async function POST(request: Request) {
 
           console.log("correo resultado", resultCorreos);
 
-          e.ids_estudiantes.map(async (estudiante_id: number) => {
             await sql`INSERT INTO
               correo_equipo (correo_id,equipo_id)
-              VALUES (${resultCorreos[0].id},${estudiante_id});
+              VALUES (${resultCorreos[0].id},${e.id});
               `;
-          });
+          
         });
 
         break;
