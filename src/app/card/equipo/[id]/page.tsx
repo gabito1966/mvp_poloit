@@ -22,8 +22,8 @@ export default async function EquipoCard({
   });
 
   return (
-    <>
-      <section className="container flex flex-col max-w-5xl">
+    <section className="container max-w-5xl pt-10">
+      <div className="container flex flex-col w-full bg-white rounded-xl shadow-xl p-5">
         <h2 className="text-4xl text-center font-bold p-2 m-3 ">
           Card del Equipo: {equipo.nombre}
         </h2>
@@ -142,8 +142,10 @@ export default async function EquipoCard({
             }
           </div>
         </div>
-          <Link href="/equipo" className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-xl text-center text-white p-3 my-5">Volver a equipo</Link>
-      </section>
-    </>
+      </div>
+      <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-3 mt-10">
+          <Link href="/equipo">Volver a equipo</Link>
+      </div>
+    </section>
   );
 }

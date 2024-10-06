@@ -1,6 +1,4 @@
-import { getCantEstudiantesSinGrupo } from "@/database/data";
 import Link from "next/link";
-import AnimationDot from "./AnimationDot";
 
 export default async function QuickActions() {
   
@@ -24,7 +22,7 @@ export default async function QuickActions() {
             url="/register/equipos"
             content="registrar equipos"
           />
-          <ItemQuickAction url="/register/ong" content="registrar ongs" />
+          <ItemQuickAction url="/partners" content="Partners" />
         </div>
       </div>
     </>

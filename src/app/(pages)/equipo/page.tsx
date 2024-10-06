@@ -28,7 +28,8 @@ async function page({
   ]);
 
   return (
-    <div className="w-full flex-grow p-3  md:p-12">
+    <section className="container max-w-5xl pt-20">
+    <div className="w-full flex-grow p-5 bg-white rounded-xl shadow-xl  md:p-12">
       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">
         Lista de Equipos
       </h1>
@@ -50,10 +51,11 @@ async function page({
       >
         <TableEquipos query={query} currentPage={currentPage} />
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
     </div>
+    <div className="mt-5 flex w-full justify-center">
+      <Pagination totalPages={totalPages} />
+    </div>
+    </section>
   );
 }
 

@@ -23,7 +23,8 @@ async function page({
   const totalPages = await fetchPagesEstudiantes(query);
 
   return (
-    <div className="w-full flex-grow p-3  md:p-12">
+    <section className="container max-w-8xl p-10">
+    <div className="w-full flex-grow p-3  md:p-12 bg-white rounded-xl shadow-xl">
        <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Estudiantes</h1>
       <div className="flex w-full items-center justify-between">
       </div>
@@ -34,10 +35,11 @@ async function page({
       <Suspense key={query + currentPage} fallback={<TableEstudianteSkeleton />}>
         <TableEstudiante query={query} currentPage={currentPage} />
       </Suspense>
+    </div>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+    </section>
   );
 }
 

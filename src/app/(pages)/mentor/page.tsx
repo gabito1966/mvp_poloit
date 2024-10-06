@@ -23,21 +23,23 @@ async function page({
     const totalPages = await fetchPagesMentores(query);
 
     return (
-        <div className="w-full flex-grow p-3  md:p-12 ">
-            <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Mentores</h1>
-            <div className="flex w-full items-center justify-between">
+        <section className="container max-w-8xl p-10">
+            <div className="w-full flex-grow p-3  md:p-12 bg-white rounded-xl shadow-xl">
+                <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Mentores</h1>
+                <div className="flex w-full items-center justify-between">
+                </div>
+                <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
+                    <Search placeholder="buscar mentor..." />
+                    <CreateButton url="/register/mentores" />
+                </div>
+                <Suspense key={query + currentPage} fallback={<TableMentorSkeleton />}>
+                    <TableMentor query={query} currentPage={currentPage} />
+                </Suspense>
             </div>
-            <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
-                <Search placeholder="buscar mentor..." />
-                <CreateButton url="/register/mentores" />
-            </div>
-            <Suspense key={query + currentPage} fallback={<TableMentorSkeleton />}>
-                <TableMentor query={query} currentPage={currentPage} />
-            </Suspense>
-            <div className="mt-5 flex w-full justify-center">
-                <Pagination totalPages={totalPages} />
-            </div>
-        </div>
+                <div className="mt-5 flex w-full justify-center">
+                    <Pagination totalPages={totalPages} />
+                </div>
+        </section>
     );
 }
 

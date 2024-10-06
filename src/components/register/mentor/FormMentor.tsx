@@ -186,7 +186,8 @@ function FormMentor({
   };
 
   return (
-    <section className="container flex flex-col max-w-5xl">
+  <section className="container mt-5">
+    <div className="container flex flex-col max-w-5xl my-10 mx-auto bg-white rounded-xl shadow-xl">
       <div className="container mx-auto p-10 h-full">
         <h1 className=" font-bold mb-4 text-center  text-2xl">
           Formulario de {tipo == "Registrar" ? "Inscripción" : "Actualización"} de Mentores
@@ -458,8 +459,11 @@ function FormMentor({
           </button>
         </form>
       </div>
-      <Link href="/mentor" className="bg-blue-400 hover:bg-blue-700 w-52 rounded-md text-xl text-center text-white p-2 my-3">Volver a Mentor</Link>
-    </section>
+    </div>
+    <div className="container mx-auto max-w-5xl">
+      <Link href="/mentor" className="bg-blue-400 hover:bg-blue-700 w-56 rounded-md text-xl text-center text-white p-3 my-3">Volver a Mentor</Link>
+    </div>
+  </section>
   );
 }
 
