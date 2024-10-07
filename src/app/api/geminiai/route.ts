@@ -1,10 +1,13 @@
+import { JWTValidate } from "@/lib/server/auth";
 import { createResponse, generarCuerpoEmailGemini } from "@/lib/utils";
+import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const CreateSchemaGemini = z.object({
   tipo: z.coerce.number().int().gt(0, { message: "seleccione tipo" }),
   mensaje: z.string().optional(),
+  session: z.string({ message: "Inicie sesión" }),
 });
 
 type GeminiInterface = z.infer<typeof CreateSchemaGemini>;
@@ -27,10 +30,30 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  const { tipo, mensaje } = validatedFields.data;
+  const { tipo, mensaje,session } = validatedFields.data;
 
   try {
-    const message = await generarCuerpoEmailGemini(tipo, mensaje || "");
+    const { rows: resultAdmin } = await sql`SELECT * FROM sesiones WHERE id = ${
+      session.split("#")[0]
+    }`;
+
+    if (!resultAdmin.length) {
+      return NextResponse.json(createResponse(false, [], "Sesión invalida"), {
+        status: 500,
+      });
+    }
+
+    const validateJWT = await JWTValidate(resultAdmin[0].token);
+
+    if (!validateJWT) {
+      return NextResponse.json(createResponse(false, [], "Sesión invalida"), {
+        status: 500,
+      });
+    }
+
+    console.log(validateJWT);
+
+    const message = await generarCuerpoEmailGemini(tipo, mensaje || "", session);
 
     return NextResponse.json(
       createResponse(

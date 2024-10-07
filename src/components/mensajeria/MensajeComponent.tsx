@@ -33,7 +33,7 @@ export default function MensajeComponent({
     fecha:"",
     cuerpo:"",
     tipo:"",
-    title:"",
+    title:"Seleccione o Genere un Email",
     subTitle:""
   });
 
@@ -57,6 +57,13 @@ export default function MensajeComponent({
       ...form,
       [e.target.name]: e.target.value,
     });
+    setPreview({
+      fecha:"",
+      cuerpo:"",
+      tipo:"",
+      title:"Email Creación", 
+      subTitle:"Vista Previa"
+    })
 
     if (responseBack.message != "") {
       setResponseBack({
@@ -69,9 +76,7 @@ export default function MensajeComponent({
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const verificateCookieSession = ()=>{
     const cookie = document.cookie
       .split(";")
       .find((c) => c.trim().startsWith("session"));
@@ -80,6 +85,14 @@ export default function MensajeComponent({
     if (!session) {
       router.push("/auth/login?error=auth_required");
     }
+
+    return session
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const session = verificateCookieSession();
 
     const msj: string = form.mensaje.replaceAll("\n", "<br>");
 
@@ -116,18 +129,23 @@ export default function MensajeComponent({
 
   const handleIA = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const session = verificateCookieSession();
+
     const postPromise = fetchPostClient(`/api/geminiai`, {
       ...form,
       tipo: tipo,
+      session,
     });
     setIaForm({ mensaje: "" });
-    setPreview({
-      fecha:"",
-      cuerpo:"",
-      tipo:"",
-      title:"Email Generado con IA", 
-      subTitle:""
-    })
+
+        setPreview({...preview ,...{
+          fecha:"",
+          cuerpo:"",
+          tipo:"",
+          title:"Email Generado con IA", 
+        }})
+
     setIaFormState(true);
 
     toast.promise(postPromise, {
@@ -252,19 +270,23 @@ export default function MensajeComponent({
             </div>
           </div>
 
-          <div className="col-span-5 lg:col-span-3 min-h-[800px] m-2 px-2 pt-4 pb-8 bg-white  text-black rounded-lg shadow-lg">
+          <div className="col-span-5 lg:col-span-3 min-h-[800px] m-2 px-4 pt-4  pb-8 bg-white  text-black rounded-lg shadow-lg">
             <div className="flex items-center justify-between py-1 gap-2">
               <div className="flex flex-row justify-center items-center gap-2">
-                <svg
-                  className="text-blue-400"
+               {preview.cuerpo.length>0? <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
+                  className="text-blue-400"
                   width="55"
                   height="55"
                   fill="currentColor"
                 >
                   <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"></path>
-                </svg>
+                </svg>:
+                <svg xmlns="http://www.w3.org/2000/svg" className="text-blue-400"
+                width="55"
+                height="55" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3C21.5523 3 22 3.44772 22 4V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V19H20V7.3L12 14.5L2 5.5V4C2 3.44772 2.44772 3 3 3H21ZM8 15V17H0V15H8ZM5 10V12H0V10H5ZM19.5659 5H4.43414L12 11.8093L19.5659 5Z"></path></svg>
+                }
                 <div className=" flex flex-col">
                   <h2 className="text-md md:text-xl font-semibold flex gap-2">
                     {preview.title}
@@ -338,7 +360,7 @@ export default function MensajeComponent({
               </form>
             </div>
 
-            <div className="h-3/4 border-gray-100 border-t">
+            <div className="h-3/4 border-gray-100 border-t min-h-[750px] max-h-[750px] overflow-y-auto">
               <p
                 dangerouslySetInnerHTML={{
                   __html: iaFormState
@@ -440,16 +462,15 @@ export function ItemMensajeria({
         onClick={() => {
           
           setIaFormState(false);
-          console.log(tipo)
 
           switch(tipo){
             case "1":
               setPreview({
                 fecha,
                 cuerpo,
-                tipo,
+                tipo:"",
                 title:name,
-                subTitle:""
+                subTitle:"Bienvenida"
               })
               
               break;
@@ -459,7 +480,7 @@ export function ItemMensajeria({
                 cuerpo,
                 tipo,
                 title:name,
-                subTitle:""
+                subTitle:"Seguimiento"
               })
               break;
 
@@ -469,7 +490,7 @@ export function ItemMensajeria({
       >
         <h3 className="font-bold capitalize text-2xl  pb-2">{name}</h3>
         <div className="flex flex-row justify-between text-sm font-light text-gray-700 gap-5">
-          <p className="">{cant} </p>
+          <p className="">{cant}</p>
           <p className="text-end ">{fecha}</p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 export type Tecnologia = {
   id: number;
   nombre: string;
@@ -150,4 +151,10 @@ export interface EquipoEliminadoData {
 export interface TipoEMails {
   id: number;
   tipo: string;
+}
+
+export interface TipoCorreoInterface {
+  id:number;
+  tipo:string;
+  descripcion:string;
 }

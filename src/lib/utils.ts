@@ -1,4 +1,4 @@
-import { TecnologiaConEstudiantes } from "@/database/definitions";
+import { TecnologiaConEstudiantes, TipoCorreoInterface } from "@/database/definitions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { sql } from "@vercel/postgres";
 
@@ -110,7 +110,8 @@ export const generateYAxis = (
  */
 export const generarCuerpoEmailGemini = async (
   tipo: number,
-  content: string
+  content: string,
+  session:any
 ) => {
   const apiKey = process.env.GEMINI_API_KEY;
   const genAI = new GoogleGenerativeAI(apiKey || "");
@@ -128,9 +129,33 @@ export const generarCuerpoEmailGemini = async (
   };
 
   let script =
-    "estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final, solo los link colocamelos entre una equiqueta 'a' (<a></a>)";
+    `mi nombre es ${session.nombre} y mi apellido es ${session.apellido} estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si no se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final, solo los link colocamelos entre una etiqueta 'a' (<a></a>), estilos en linea:color azul, hover subrayado y atributos target="__black".
+    Esta es la decripción del el proyecto:
+    Proyecto: Gestión de Inscripciones
 
-  const { rows: resultTipo } = await sql`
+    El proyecto consiste en armar un MVP de un sistema para armado de cursos para iniciativas como la que estamos llevando adelante desde el POLO IT con el Acelerador.
+    
+    Tenemos ONG o Programa de enseñanza que dictan distintos cursos de formación técnica como ser Programación en desarrollo WEB, Full Stack, QA, UX, Marketing digital, entre otros.
+    
+    De cada formación dictada (fecha de inicio y fin), egresan una cantidad importante de estudiantes que salen con conocimientos en las distintas temáticas una vez que cumplan la cursada.
+    
+    Por otro lado, las empresas socias del polo IT tienen colaboradores que se proponen para realizar mentorías con conocimientos en una tecnología principal y otras secundarias.e
+    
+    El objetivo del MVP es poder mostrar un proyecto de un sistema de gestión de inscripciones para actividades como el acelerador, que ocurrirá entre un tiempo determinado y podra vincular de forma automática Mentores Técnicos con Egresados en base a distintos parámetros de configuración de equipos (Tamaño de equipos máximos, perfiles de egresados por equipos, mentores técnicos por tecnología). También podrán tener la posibilidad de manejar la comunicación vía e-mails entre los candidatos/mentores y hacer el seguimiento durante la mentoría de los egresados.
+    
+    Ustedes podrán armar los ABM necesarios para la carga de los datos y la generación de procesos formales usando buenas prácticas de UX/UI y teniendo en cuenta técnicas de QA necesarios.
+    
+    El stack tecnológico que se pide para realizar el proyecto es:
+    
+    HTML,CSS, JAVASCRIPT, REACT,  NODE /JAVA, MONGO o MYSQL. Según sepan los distintos integrantes del SQUAD.
+    
+    El método de comunicación lo definirán con el equipo y mentor.
+    
+    Sugerimos utilizar ambientes de desarrollo, testing y productivos para poder tener mejor control del proyecto y recomendamos utilizar un sistema de control de código.
+    
+        `;
+
+  const { rows: resultTipo } = await sql<TipoCorreoInterface>`
     SELECT 
       * 
     FROM 
@@ -138,57 +163,18 @@ export const generarCuerpoEmailGemini = async (
     WHERE
       id = ${tipo}`;
 
+  // console.log(resultTipo[0])
+
   switch (tipo) {
     case 1:
+      script+=resultTipo[0].descripcion
       break;
-    case 2:
+      case 2:
+      script+=resultTipo[0].descripcion
       break;
   }
 
-  if (tipo == 1) {
-    script += `
-    este es el cuerpo de un email de presentacion de los integrantes del grupo
-
-      ejemplo de email:
-      
-      ¡Hola equipo!
-
-      Gracias por sumarse y participar de este Acelerador Polo IT
-
-      Como les mencionamos hoy  en el kick off, les compartimos los datos del equipo con el que estarán trabajando y el mentor/a que los acompañará:
-
-      Los/las invitamos a contactarse con sus compañeros/as de equipo y con su mentor/a para comenzar esta aventura.
-
-      Les deseamos muchos éxitos y desde ya a disposición por si surgen dudas
-
-      Saludos.
-
-      Comisión Talento e Inclusión
-      Polo IT de Buenos Aires
-    `;
-  } else {
-    script += `
-    este es un email de seguimiento de cada intengrante, si te agrego más preguntas referentes al seguimiento del grupo lo agregas.
-
-    ejemplo de email:
-    Hola, ¿cómo estás? Espero que muy bien.
-
-    Me comunico desde el Ministerio de Educación para hacerte algunas preguntas respecto al programa Polo IT, ya que queremos saber un poco más acerca de tu experiencia.
-
-    1) ¿Ya se te asignó un proyecto?
-    2) ¿Tuvieron su primer encuentro?
-    3) ¿Cada cuanto son las reuniones de equipo?
-    4) ¿La comunicación y las explicaciones son adecuadas?
-    5) ¿Tu equipo está completo?
-
-    Cualquier otro comentario u observación que quieras hacernos es más que bienvenido!
-
-    ¡Muchísimas gracias!
-      
-    Comisión Talento e Inclusión
-    Polo IT de Buenos Aires
-        `;
-  }
+  
 
   script += `${
     content

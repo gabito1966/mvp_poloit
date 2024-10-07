@@ -9,7 +9,7 @@ export default async function mensaje() {
 
   
   // console.log(emailsSeguimiento)
-  console.log(emailsBienvenida[1])
+  // console.log(emailsBienvenida[1])
   
   return (
   

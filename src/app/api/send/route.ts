@@ -78,8 +78,6 @@ export async function POST(request: Request) {
       WHERE
         id = ${tipo}`;
 
-    console.log(validateJWT);
-
     let apiKey = "";
     switch (emailServiceType) {
       case EmailServiceType.RESEND:
@@ -168,7 +166,7 @@ export async function POST(request: Request) {
 
           if (error) {
             console.log(error);
-            throw new Error(error);
+            
           }
 
           const { rows: resultCorreos } = await sql`
