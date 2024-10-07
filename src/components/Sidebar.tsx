@@ -127,7 +127,7 @@ const Sidebar: React.FC = () => {
               <LinkSideBar data={link} />
             </li>
           ))}
-          <li className="flex flex-row gap-1 items-center mt-auto py-4 max-sm:py-1 border-t-2 gray-300 max-lg:px-1   rounded-sm capitalize ">
+          <li className="flex flex-row gap-1 items-center mt-auto py-4 border-t-2 max-lg:px-1  rounded-sm capitalize ">
             <ThemeToggle />
           </li>
         </ul>
