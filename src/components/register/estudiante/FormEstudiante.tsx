@@ -182,7 +182,7 @@ function FormEstudiante({
            <div>
             <label
               htmlFor="apellido"
-              className="block text-sm font-medium text-gray-500"
+              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
             >
               Apellido:
             </label>
@@ -213,7 +213,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="nombre"
-              className="block text-sm font-medium text-gray-500"
+              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
             >
               Nombre:
             </label>
@@ -244,7 +244,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-500"
+              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
             >
               Email:
             </label>
@@ -274,7 +274,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="telefono"
-              className="block text-sm font-medium text-gray-500"
+              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
             >
               Teléfono:
             </label>
@@ -345,7 +345,7 @@ function FormEstudiante({
           <div>
             <label
               htmlFor="id_ong"
-              className="block text-sm font-medium text-gray-500"
+              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
             >
               ONG:
             </label>

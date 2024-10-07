@@ -42,7 +42,7 @@ export default function RegisterEmpresas() {
                 <h1 className="text-2xl font-bold mb-4 text-center">Formulario de Inscripción de Empresas</h1>
                 <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">
                     <div>
-                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-500">Nombre:</label>
+                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-500 dark:text-gray-400">Nombre:</label>
                         <input
                             type="text"
                             id="nombre"

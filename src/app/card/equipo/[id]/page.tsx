@@ -137,19 +137,19 @@ export default async function EquipoCard({
                     <div className="w-full mb-5 max-h-36 flex-col p-1 md:p-2 bg-white dark:bg-gray-700 rounded-lg">
                         <div className="grid grid-cols-2 md:grid-cols-4">
                             <div className="flex-auto">
-                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Nombre:</h4>
                                 <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.nombre}</p>
                             </div>
                             <div className="flex-auto">
-                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Integrantes:</h4>
+                                <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Integrantes:</h4>
                                 <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.tamano}</p>
                             </div>
                             <div className="flex-auto">
-                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Fecha Inicio:</h4>
+                                <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Fecha Inicio:</h4>
                                 <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_inicial}</p>
                             </div>
                             <div className="flex-auto">
-                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Finaliza:</h4>
+                                <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Finaliza:</h4>
                                 <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_final}</p>
                             </div>
                         </div>

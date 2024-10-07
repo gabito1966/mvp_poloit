@@ -1,5 +1,4 @@
 import { fetchFilteredMentoresBaja } from '@/database/data';
-import React from 'react'
 
 export default async function TableNotificationMentor({
     query,
@@ -14,7 +13,7 @@ export default async function TableNotificationMentor({
         <>
         <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
-          <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
+          <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white p-2 md:pt-0">
             <div className="lg:hidden">
               {auditoriaMentores?.map((mentor) => (
                 <div
@@ -38,7 +37,7 @@ export default async function TableNotificationMentor({
                 </div>
               ))}
             </div>
-            <table className=" hidden min-w-full text-gray-900 lg:table">
+            <table className=" hidden min-w-full text-gray-900 dark:text-white lg:table">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="capitalize px-4 py-5 font-medium ">
@@ -55,7 +54,7 @@ export default async function TableNotificationMentor({
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white">
+              <tbody className="bg-white dark:bg-gray-700 dark:text-white">
                 {auditoriaMentores?.map((mentor) => (
                   <tr
                     key={mentor.id}
