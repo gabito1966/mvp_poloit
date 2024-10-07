@@ -8,12 +8,12 @@ interface PartnersSectionProps {
 
 const PartnersSection: React.FC<PartnersSectionProps> = ({ title, images }) => {
     return (
-        <section className="mt-20 p-4 rounded-xl mx-auto w-full bg-white shadow-xl">
+        <section className="mt-20 p-4 rounded-xl mx-auto w-full bg-white dark:bg-gray-700 shadow-xl">
             <h2 className="font-bold text-xl lg:text-3xl my-10 text-center">
                 {title}
             </h2>
-            <hr />
-            <div className="h-auto w-full flex items-center">
+            
+            <div className="h-auto w-full flex rounded-lg items-center">
                 <Carousel images={images} />
             </div>
         </section>
