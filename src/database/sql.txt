@@ -184,7 +184,8 @@ CREATE TYPE tipo_correo_enum AS ENUM ('BIENVENIDA', 'SEGUIMIENTO');
 -- 2. Crear la tabla tipo_correo
 CREATE TABLE tipo_correo (
     id SERIAL PRIMARY KEY,
-    tipo tipo_correo_enum NOT NULL UNIQUE
+    tipo tipo_correo_enum NOT NULL UNIQUE,
+    descripcion TEXT
 );
 
 -- 3. Insertar los tipos de correo predefinidos
@@ -227,3 +228,4 @@ CREATE TABLE correo_estudiante (
     FOREIGN KEY (correo_id) REFERENCES correos(id) ON DELETE CASCADE,
     FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id) ON DELETE CASCADE
 );
+

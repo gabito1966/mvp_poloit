@@ -3,6 +3,7 @@
 import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { revalidateFuntion } from './../../lib/server/serverCache';
 
 function DeleteButton({
   url,
@@ -23,6 +24,7 @@ function DeleteButton({
     toast.promise(deletePromise, {
       loading: "Eliminando...",
       success: (response) => {
+        // revalidateFuntion("");
         router.refresh();
         return `${response.message}`;
       },

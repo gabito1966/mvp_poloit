@@ -26,7 +26,7 @@ export class NodemailerService implements IEmailService {
     try {
       const mailOptions = {
         from: options.from,
-        to: options.to.join(", "),
+        to: options.to,
         subject: options.subject,
         html: options.content,
       };
