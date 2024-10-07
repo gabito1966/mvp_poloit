@@ -193,12 +193,25 @@ export default function MensajeComponent({
               {tipoEmailsHistory == "1" &&
                 (emailsBienvenida.length > 0 ? (
                   // mapeo
-                  <ItemMensajeria
-                    name="equipo 1"
-                    cant="15"
-                    descripcion="lorem"
-                  />
-                ) : (
+
+                  
+                  emailsBienvenida.map((e:any, i:number)=>{
+                    return(
+                      <ItemMensajeria
+                      key={`${i}-bienvenida`}
+                      name={e.nombres_equipos}
+                      cant={e.cantidad_equipos}
+                      descripcion={`${e.fecha.toLocaleDateString("es-ES")}`}
+                      />
+
+
+
+                  // <ItemMensajeria
+                  //   name={}
+                  //   cant="15"
+                  //   descripcion="lorem"
+                  // />
+                )})) : (
                   <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de Bienvenida</p>
                   </div>
@@ -206,11 +219,22 @@ export default function MensajeComponent({
               {tipoEmailsHistory == "2" &&
                 (emailsSeguimiento.length > 0 ? (
                   // mapeo
-                  <ItemMensajeria
-                    name="equipo 1"
-                    cant="15"
-                    descripcion="lorem"
-                  />
+                  
+                  
+                    emailsSeguimiento.map((e:any, i:number)=>{
+                        return(
+                          <ItemMensajeria
+                          key={`${i}-seguimiento`}
+                          name={e.nombres_estudiantes.length<15?e.nombres_estudiantes:e.nombres_estudiantes.slice(0,15)+"..."}
+                          cant={e.remitente_nombre}
+                          descripcion={`${e.fecha.toLocaleDateString("es-ES")}`}
+                          />
+
+                        )
+                    })
+
+
+                  
                 ) : (
                   <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de seguimiento</p>
@@ -245,7 +269,7 @@ export default function MensajeComponent({
               <form onSubmit={handleIA} className="flex flex-col gap-1">
                 <button
                   type="submit"
-                  className="flex  border-2  rounded-xl w-fit justify-center px-2 py-1  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
+                  className="flex  border-2  rounded-xl w-fit justify-center px-3 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -388,10 +412,13 @@ export function ItemMensajeria({
 }) {
   return (
     <>
-      <div className="border-gray-100 border-t  rounded-lg p-2 hover:cursor-pointer hover:bg-gray-50">
+      <div className="border-gray-100 border-t  rounded-lg p-2 hover:cursor-pointer hover:bg-gray-50" onClick={()=>{
+        console.log("hola");
+        //seteo todos lo parametros
+      }}>
         <h3 className="font-bold capitalize text-2xl  pb-2">{name}</h3>
         <div className="flex flex-row justify-between text-sm font-light text-gray-700 gap-5">
-          <p className="">{cant} Integrantes</p>
+          <p className="">{cant} </p>
           <p className="text-end ">{descripcion}</p>
         </div>
       </div>

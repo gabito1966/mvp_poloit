@@ -184,11 +184,10 @@ export async function POST(request: Request) {
 
           console.log("correo resultado", resultCorreos);
 
-            await sql`INSERT INTO
+          await sql`INSERT INTO
               correo_equipo (correo_id,equipo_id)
               VALUES (${resultCorreos[0].id},${e.id});
               `;
-          
         });
 
         break;
@@ -200,10 +199,12 @@ export async function POST(request: Request) {
           JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
           WHERE e.estado = TRUE;
                   `;
-        console.log( resultEstudiantesEquipos);
+        console.log(resultEstudiantesEquipos);
 
-        const id_Estudiantes:string[] = resultEstudiantesEquipos[0].ids.split(",");
-        const emails_estudiantes:string[] = resultEstudiantesEquipos[0].emails.split(",");
+        const id_Estudiantes: string[] =
+          resultEstudiantesEquipos[0].ids.split(",");
+        const emails_estudiantes: string[] =
+          resultEstudiantesEquipos[0].emails.split(",");
 
         id_Estudiantes.map(async (e, i) => {
           const emailBody = generateHTMLString(
