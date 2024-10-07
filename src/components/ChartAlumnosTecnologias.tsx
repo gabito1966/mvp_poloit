@@ -14,13 +14,13 @@ export default async function ChartAlumnosTecnologias() {
   }
 
   return (
-    <div className="w-full rounded-xl md:col-span-4 shadow-md">
-      <div className=" rounded-xl bg-white text-black p-4">
+    <div className="w-full rounded-xl md:col-span-4 dark:bg-gray-600 shadow-md">
+      <div className=" rounded-xl p-4">
         <h2 className={` text-xl mb-1 font-bold`}>
           Tecnologías dominadas por estudiantes
         </h2>
-        <div className="relative flex flex-row gap-5 w-full  rounded-md bg-white py-4 ">
-          <div className="  absolute inset-0 h-full w-full bg-white bg-[linear-gradient(to_bottom,#80808012_2px,transparent_2px)] bg-[size:24px_24px]"></div>
+        <div className="relative flex flex-row gap-5 w-full  rounded-md bg-white  py-4 ">
+          <div className="  absolute inset-0 h-full w-full bg-white dark:bg-gray-700 bg-[linear-gradient(to_bottom,#80808012_2px,transparent_2px)] bg-[size:24px_24px]"></div>
           <div
             className="  z-10 mb-6 hidden flex-col ml-4 justify-between items-center text-xs  text-gray-400 sm:flex h-full"
             style={{ height: `${chartHeight}px` }}

@@ -13,10 +13,10 @@ interface CardProps {
 export function Card({ name, icon, cant, line }: CardProps) {
   return (
     <div
-      className="h-[100px] flex shadow-blue-50 flex-row items-center justify-center justify-items-center rounded-xl bg-gray-50 p-5 shadow-md text-blue-400"
+      className="h-[100px] flex shadow-blue-50 flex-row items-center justify-center justify-items-center rounded-xl bg-gray-50 dark:bg-gray-700 p-5 shadow-md text-blue-400"
       title={`${name}`}
     >
-      <div className="relative w-fit h-fit bg-blue-50 rounded-lg p-1">
+      <div className="relative w-fit h-fit bg-blue-50 dark:bg-gray-700 dark:text-white rounded-lg p-1">
         <div
           className="relative z-10"
           dangerouslySetInnerHTML={{ __html: icon }}
@@ -27,7 +27,7 @@ export function Card({ name, icon, cant, line }: CardProps) {
           }
         )}></div>
       </div>
-      <div className="text-black h-full flex flex-col p-1 justify-center">
+      <div className="text-black dark:text-white h-full flex flex-col p-1 justify-center">
         <h4 className="text-xs font-medium ml-4 text-nowrap capitalize">{name}</h4>
         <AnimatedNumber value={cant} className="truncate text-left font-bold text-2xl ml-4" />
       </div>

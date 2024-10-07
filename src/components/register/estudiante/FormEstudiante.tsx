@@ -169,7 +169,7 @@ function FormEstudiante({
 
   return (
     <section  className="container p-10">
-      <div className="container flex flex-col max-w-5xl my-10 mx-auto bg-white rounded-xl shadow-xl">
+      <div className="container flex flex-col max-w-5xl my-10 mx-auto bg-white dark:bg-gray-700 rounded-xl shadow-xl">
         <div className="container mx-auto p-10 h-full">
         <h1 className=" font-bold mb-4 text-center text-black text-2xl">
           Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de

@@ -18,8 +18,8 @@ body {
   @apply bg-gray-200 text-black dark:bg-gray-800 dark:text-white;
 }
 
-h2{
-  @apply dark:text-black text-black;
+h1, h2, p{
+  @apply dark:text-white text-black;
 }
 
 

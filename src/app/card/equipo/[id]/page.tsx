@@ -43,7 +43,7 @@ const formatFecha = (fecha: string) =>
 
 const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
     <table className="table-auto w-full">
-        <thead className="text-left bg-gray-100">
+        <thead className="text-left bg-gray-100 dark:bg-gray-600">
             <tr>
                 <th className="px-4 py-2">Apellido y Nombre</th>
                 <th className="px-4 py-2">Email</th>
@@ -67,7 +67,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
 const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
     <div className="overflow-x-auto">
         <table className="table-auto w-full">
-            <thead className="text-left bg-gray-100">
+            <thead className="text-left bg-gray-100 dark:bg-gray-600">
                 <tr>
                     <th className="px-4 py-2">Apellido y Nombre</th>
                     <th className="px-4 py-2">Email</th>
@@ -77,7 +77,7 @@ const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
             </thead>
             <tbody>
                 {equipo.nombres_estudiantes.map((nombre, index) => (
-                    <tr key={index} className="hover:bg-gray-100">
+                    <tr key={index} className="hover:bg-gray-100 ">
                         <td className="px-4 py-2">{`${equipo.apellidos_estudiantes[index]}, ${nombre}`}</td>
                         <td className="px-4 py-2">{equipo.emails_estudiantes[index]}</td>
                         <td className="px-4 py-2">{equipo.telefonos_estudiantes[index]}</td>
@@ -97,7 +97,7 @@ export default async function EquipoCard({
     const { data: equipo } = await fetchGet(`/api/equipo/${params?.id}`);
 
     if (!equipo) {
-        return <p>Error al cargar el equipo.</p>; // Manejo de errores básico
+        return <p>Error al cargar el equipo.</p>; 
     }
 
     const fecha_inicial = formatFecha(equipo.fecha_inicio);
@@ -129,12 +129,12 @@ export default async function EquipoCard({
 
     return (
         <section className="container max-w-5xl pt-10">
-            <div className="flex flex-col w-full bg-white rounded-xl shadow-xl p-5">
+            <div className="flex flex-col w-full bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
                 <h2 className="text-4xl text-center font-bold p-2 m-3">
                     Card del Equipo: {equipo.nombre}
                 </h2>
-                <div className="rounded-xl bg-gray-50 shadow-md p-4">
-                    <div className="w-full mb-5 max-h-36 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                <div className="rounded-xl bg-gray-600 shadow-md p-4">
+                    <div className="w-full mb-5 max-h-36 flex-col p-1 md:p-2 bg-white dark:bg-gray-700 rounded-lg">
                         <div className="grid grid-cols-2 md:grid-cols-4">
                             <div className="flex-auto">
                                 <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
@@ -154,11 +154,11 @@ export default async function EquipoCard({
                             </div>
                         </div>
                     </div>
-                    <div className="w-full mb-5 flex-col p-1 md:p-2 bg-white rounded-lg text-black">
+                    <div className="w-full mb-5 flex-col p-1 md:p-2 bg-white dark:bg-gray-700 rounded-lg">
                         <h2 className="text-left font-bold pt-1 pb-2 text-xl">Mentores</h2>
                         <MentorTable mentores={mentores} />
                     </div>
-                    <div className="w-full max-h-124 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                    <div className="w-full max-h-124 flex-col p-1 md:p-2 bg-white dark:bg-gray-700 rounded-lg">
                         <h2 className="text-left font-bold pt-2 pb-3 text-xl">Integrantes</h2>
                         <IntegrantesTable equipo={equipo} />
                     </div>

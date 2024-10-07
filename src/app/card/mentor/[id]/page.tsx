@@ -10,7 +10,7 @@ export default async function MentorCard({
 
   return (
     <section className="container max-w-5xl pt-20">
-      <div className="bg-white rounded-xl shadow-xl p-5">
+      <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
       <h2 className="text-4xl text-center m-5 font-bold">
         Card del Mentor {mentor.nombre} {mentor.apellido}{" "}
       </h2>

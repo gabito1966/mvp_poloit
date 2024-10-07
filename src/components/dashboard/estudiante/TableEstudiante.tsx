@@ -15,7 +15,7 @@ export default async function Table({
   return (
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-100 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
           <div className="lg:hidden">
             {estudiantes?.map((estudiante) => (
               <div
@@ -50,7 +50,7 @@ export default async function Table({
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 lg:table">
+          <table className="hidden min-w-full text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg lg:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
@@ -73,7 +73,7 @@ export default async function Table({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-gray-700">
               {estudiantes?.map((estudiante) => (
                 <tr
                   key={estudiante.id}

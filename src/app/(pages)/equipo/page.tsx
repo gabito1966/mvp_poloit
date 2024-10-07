@@ -32,10 +32,10 @@ async function page({ searchParams }: PageProps) {
 
   return (
     <section className="container max-w-7xl pt-20">
-      <div className="w-full flex-grow p-5 bg-white rounded-xl shadow-xl md:p-12">
-        <h2 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
+      <div className="w-full flex-grow p-5 bg-white dark:bg-gray-700 rounded-xl shadow-xl md:p-12">
+        <h1 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
           Lista de Equipos
-        </h2>
+        </h1>
         <HeaderActions contador={contador} />
         <Suspense key={`${query}-${currentPage}`} fallback={<TableEstudianteSkeleton />}>
           <TableEquipos query={query} currentPage={currentPage} />

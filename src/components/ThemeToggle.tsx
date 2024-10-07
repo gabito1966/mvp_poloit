@@ -33,13 +33,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-3 bg-gray-800 dark:bg-gray-200 text-black dark:text-white rounded-md flex items-center justify-center"
+      className="p-1 bg-gray-800 dark:bg-gray-200 text-black dark:text-white rounded-lg flex items-center justify-center"
     >
       
       {theme === "light" ? (
-        <MoonIcon className="w-6 h-6 text-white" />
+        <MoonIcon className="w-4 h-4 lg:w-6 lg:h-6 text-yellow-100" />
       ) : (
-        <SunIcon className="w-6 h-6 text-orange-500" />
+        <SunIcon className="w-4 h-4 lg:w-6 lg:h-6 text-orange-500" />
       )}
     </button>
   );
