@@ -29,6 +29,14 @@ export default function MensajeComponent({
     mensaje: "",
   });
 
+  const [preview, setPreview] = useState({
+    fecha:"",
+    cuerpo:"",
+    tipo:"",
+    title:"",
+    subTitle:""
+  });
+
   const [tipo, setTipo] = useState("");
   const [tipoEmailsHistory, setTipoEmailsHistory] = useState("1");
 
@@ -113,6 +121,13 @@ export default function MensajeComponent({
       tipo: tipo,
     });
     setIaForm({ mensaje: "" });
+    setPreview({
+      fecha:"",
+      cuerpo:"",
+      tipo:"",
+      title:"Email Generado con IA", 
+      subTitle:""
+    })
     setIaFormState(true);
 
     toast.promise(postPromise, {
@@ -152,89 +167,83 @@ export default function MensajeComponent({
           <div className="col-span-5 lg:col-span-2 m-2 px-7 py-5 bg-white text-black rounded-lg shadow-lg min-h-[800px]">
             <div className="py-1 flex gap-2 justify-between items-center">
               <div className="flex items-center justify-center">
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                className="text-blue-400"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2ZM18 4H6V19.4324L12 15.6707L18 19.4324V4Z"></path>
-              </svg>
-              <h2 className="text-base  font-semibold text-nowrap  w-fit  border-[#335B9D] rounded-xl">
-                Historial de Emails
-              </h2>
-                </div>
-              <select
-              className={clsx(
-                "w-fit  border-2 rounded-lg p-1 capitalize border-gray-100 text-sm"
-              )}
-              defaultValue={tiposEmail[0].tipo}
-              onChange={(e) => {
-                setTipoEmailsHistory(e.target.value);
-              }}
-            >
-              {tiposEmail.map((e, i) => (
-                <option
-                  key={`${e.id}-${i}`}
-                  className="capitalize"
-                  value={e.id}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  className="text-blue-400"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
                 >
-                  {e.tipo.toLowerCase()}
-                </option>
-              ))}
-            </select>
+                  <path d="M5 2H19C19.5523 2 20 2.44772 20 3V22.1433C20 22.4194 19.7761 22.6434 19.5 22.6434C19.4061 22.6434 19.314 22.6168 19.2344 22.5669L12 18.0313L4.76559 22.5669C4.53163 22.7136 4.22306 22.6429 4.07637 22.4089C4.02647 22.3293 4 22.2373 4 22.1433V3C4 2.44772 4.44772 2 5 2ZM18 4H6V19.4324L12 15.6707L18 19.4324V4Z"></path>
+                </svg>
+                <h2 className="text-base  font-semibold text-nowrap  w-fit  border-[#335B9D] rounded-xl">
+                  Historial de Emails
+                </h2>
+              </div>
+              <select
+                className={clsx(
+                  "w-fit  border-2 rounded-lg p-1 capitalize border-gray-100 text-sm"
+                )}
+                defaultValue={tiposEmail[0].tipo}
+                onChange={(e) => {
+                  setTipoEmailsHistory(e.target.value);
+                }}
+              >
+                {tiposEmail.map((e, i) => (
+                  <option
+                    key={`${e.id}-${i}`}
+                    className="capitalize"
+                    value={e.id}
+                  >
+                    {e.tipo.toLowerCase()}
+                  </option>
+                ))}
+              </select>
             </div>
-          
 
             <div className=" flex flex-col gap-2 min-h-[750px] max-h-[750px] overflow-y-auto">
               {tipoEmailsHistory == "1" &&
                 (emailsBienvenida.length > 0 ? (
-                  // mapeo
-
-                  
-                  emailsBienvenida.map((e:any, i:number)=>{
-                    return(
+                  emailsBienvenida.map((e: any, i: number) => {
+                    return (
                       <ItemMensajeria
-                      key={`${i}-bienvenida`}
-                      name={e.nombres_equipos}
-                      cant={e.cantidad_equipos}
-                      descripcion={`${e.fecha.toLocaleDateString("es-ES")}`}
+                        key={`${i}-bienvenida`}
+                        name={e.nombres_equipos}
+                        cant={e.cantidad_equipos}
+                        fecha={`${e.fecha.toLocaleDateString("es-ES")}`}
+                        tipo={tipoEmailsHistory}
+                        cuerpo={e.cuerpo}
+                        setPreview={setPreview}
+                        setIaFormState={setIaFormState}
                       />
-
-
-
-                  // <ItemMensajeria
-                  //   name={}
-                  //   cant="15"
-                  //   descripcion="lorem"
-                  // />
-                )})) : (
+                    );
+                  })
+                ) : (
                   <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de Bienvenida</p>
                   </div>
                 ))}
               {tipoEmailsHistory == "2" &&
                 (emailsSeguimiento.length > 0 ? (
-                  // mapeo
-                  
-                  
-                    emailsSeguimiento.map((e:any, i:number)=>{
-                        return(
-                          <ItemMensajeria
-                          key={`${i}-seguimiento`}
-                          name={e.nombres_estudiantes.length<15?e.nombres_estudiantes:e.nombres_estudiantes.slice(0,15)+"..."}
-                          cant={e.remitente_nombre}
-                          descripcion={`${e.fecha.toLocaleDateString("es-ES")}`}
-                          />
-
-                        )
-                    })
-
-
-                  
+                  emailsSeguimiento.map((e: any, i: number) => {
+                    return (
+                      <ItemMensajeria
+                        key={`${i}-seguimiento`}
+                        name={
+                          e.nombres_estudiantes.length < 15
+                            ? e.nombres_estudiantes
+                            : e.nombres_estudiantes.slice(0, 15) + "..."
+                        }
+                        cant={e.remitente_nombre}
+                        fecha={`${e.fecha.toLocaleDateString("es-ES")}`}
+                        tipo={tipoEmailsHistory}
+                        cuerpo={e.cuerpo}
+                        setPreview={setPreview}
+                        setIaFormState={setIaFormState}
+                      />
+                    );
+                  })
                 ) : (
                   <div className="text-center text-lg font-semibold text-gray-500 capitalize">
                     <p>No hay emails de seguimiento</p>
@@ -258,10 +267,10 @@ export default function MensajeComponent({
                 </svg>
                 <div className=" flex flex-col">
                   <h2 className="text-md md:text-xl font-semibold flex gap-2">
-                    Equipo 3{" "}
+                    {preview.title}
                   </h2>
                   <p className="text-gray-700 text-sm md:text-md">
-                    Integrantes:
+                    {preview.subTitle}
                   </p>
                 </div>
               </div>
@@ -337,6 +346,13 @@ export default function MensajeComponent({
                     : form.mensaje.replaceAll("\n", "</br>"),
                 }}
               ></p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: preview.cuerpo.length
+                    ? preview.cuerpo
+                    : "",
+                }}
+              ></p>
             </div>
             <form
               onSubmit={handleSubmit}
@@ -403,22 +419,58 @@ export default function MensajeComponent({
 export function ItemMensajeria({
   name,
   cant,
-  descripcion,
+  fecha,
+  cuerpo,
+  tipo,
+  setPreview,
+  setIaFormState,
 }: {
   name: string;
   cant: string;
-  descripcion: string;
+  fecha: string;
+  cuerpo:string;
+  tipo: string;
+  setPreview:any;
+  setIaFormState:any;
 }) {
   return (
     <>
-      <div className="border-gray-100 border-t  rounded-lg p-2 hover:cursor-pointer hover:bg-gray-50" onClick={()=>{
-        console.log("hola");
-        //seteo todos lo parametros
-      }}>
+      <div
+        className="border-gray-100 border-t  rounded-lg p-2 hover:cursor-pointer hover:bg-gray-50"
+        onClick={() => {
+          
+          setIaFormState(false);
+          console.log(tipo)
+
+          switch(tipo){
+            case "1":
+              setPreview({
+                fecha,
+                cuerpo,
+                tipo,
+                title:name,
+                subTitle:""
+              })
+              
+              break;
+            case "2":
+              setPreview({
+                fecha,
+                cuerpo,
+                tipo,
+                title:name,
+                subTitle:""
+              })
+              break;
+
+          }
+         
+        }}
+      >
         <h3 className="font-bold capitalize text-2xl  pb-2">{name}</h3>
         <div className="flex flex-row justify-between text-sm font-light text-gray-700 gap-5">
           <p className="">{cant} </p>
-          <p className="text-end ">{descripcion}</p>
+          <p className="text-end ">{fecha}</p>
         </div>
       </div>
     </>

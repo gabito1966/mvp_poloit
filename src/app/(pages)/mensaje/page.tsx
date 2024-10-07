@@ -1,7 +1,6 @@
 import MensajeComponent from "@/components/mensajeria/MensajeComponent";
 import { FormEstudianteSkeleton } from "@/components/skeletons";
 import { getEmailsTipo, getEmailsTipoSeguimiento, getTipoEmails } from "@/database/data";
-import { fetchGet } from "@/lib/fetchFunctions";
 import { Suspense } from "react";
 
 export default async function mensaje() {
