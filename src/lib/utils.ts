@@ -163,7 +163,6 @@ export const generarCuerpoEmailGemini = async (
     WHERE
       id = ${tipo}`;
 
-  // console.log(resultTipo[0])
 
   switch (tipo) {
     case 1:

@@ -6,10 +6,6 @@ import { Suspense } from "react";
 export default async function mensaje() {
 
   const [emailsBienvenida, emailsSeguimiento, tiposEmail] = await Promise.all([getEmailsTipo("BIENVENIDA"),getEmailsTipoSeguimiento(),getTipoEmails()]);
-
-  
-  // console.log(emailsSeguimiento)
-  // console.log(emailsBienvenida[1])
   
   return (
   

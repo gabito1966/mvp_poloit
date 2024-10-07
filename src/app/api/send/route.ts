@@ -180,7 +180,6 @@ export async function POST(request: Request) {
           }, ${resultTipo[0].id}) RETURNING id;
               `;
 
-          console.log("correo resultado", resultCorreos);
 
           await sql`INSERT INTO
               correo_equipo (correo_id,equipo_id)
@@ -197,7 +196,6 @@ export async function POST(request: Request) {
           JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
           WHERE e.estado = TRUE;
                   `;
-        console.log(resultEstudiantesEquipos);
 
         const id_Estudiantes: string[] =
           resultEstudiantesEquipos[0].ids.split(",");

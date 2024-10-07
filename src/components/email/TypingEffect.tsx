@@ -23,8 +23,6 @@ type TextTypingEffectProps = {
   texts
 }) => {
 
-    console.log(texts);
-
   const [textIndex, setTextIndex] = useState(0);
   const textToShow = useTypingEffect(
     texts,
