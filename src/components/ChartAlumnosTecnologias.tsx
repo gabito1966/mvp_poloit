@@ -14,8 +14,8 @@ export default async function ChartAlumnosTecnologias() {
   }
 
   return (
-    <div className="w-full rounded-xl md:col-span-4 dark:bg-gray-600 shadow-md">
-      <div className=" rounded-xl p-4">
+    <div className="w-full rounded-xl md:col-span-4 bg-gray-100 dark:bg-gray-600 shadow-md">
+      <div className=" rounded-xl  p-4">
         <h2 className={` text-xl mb-1 font-bold`}>
           Tecnologías dominadas por estudiantes
         </h2>

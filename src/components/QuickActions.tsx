@@ -5,7 +5,7 @@ export default async function QuickActions() {
 
   return (
     <>
-      <div className="h-full shadow-md rounded-lg text-black bg-white dark:bg-gray-600 p-4">
+      <div className="h-full shadow-md rounded-lg text-black bg-gray-100 dark:bg-gray-600 p-4">
         <div className="flex flex-row justify-between pb-2 ">
           <h2 className="font-bold text-center text-xl ">Acciones Rápidas</h2>
         </div>
