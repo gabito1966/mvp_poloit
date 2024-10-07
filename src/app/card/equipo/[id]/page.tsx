@@ -1,149 +1,172 @@
 import { fetchGet } from "@/lib/fetchFunctions";
 import Link from "next/link";
 
+type Mentor = {
+    apellido: string;
+    nombre: string;
+    email: string;
+    telefono: string;
+    tecnologia: string;
+};
+
+type Equipo = {
+    id: string;
+    nombre: string;
+    fecha_inicio: string;
+    fecha_fin: string;
+    tamano: number;
+    mentor_apellido: string;
+    mentor: string;
+    mentor_email: string;
+    mentor_telefono: string;
+    mentor_qa_apellido: string;
+    mentor_qa: string;
+    mentor_qa_email: string;
+    mentor_qa_telefono: string;
+    mentor_ux_ui_apellido: string;
+    mentor_ux_ui: string;
+    mentor_ux_ui_email: string;
+    mentor_ux_ui_telefono: string;
+    nombres_estudiantes: string[];
+    apellidos_estudiantes: string[];
+    emails_estudiantes: string[];
+    telefonos_estudiantes: string[];
+    tecnologias: string[];
+};
+
+const formatFecha = (fecha: string) =>
+    new Date(fecha).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    });
+
+const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
+    <table className="table-auto w-full">
+        <thead className="text-left bg-gray-100">
+            <tr>
+                <th className="px-4 py-2">Apellido y Nombre</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Teléfono</th>
+                <th className="px-4 py-2">Tecnología</th>
+            </tr>
+        </thead>
+        <tbody>
+            {mentores.map((mentor, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                    <td className="px-4 py-2">{`${mentor.apellido}, ${mentor.nombre}`}</td>
+                    <td className="px-4 py-2">{mentor.email}</td>
+                    <td className="px-4 py-2">{mentor.telefono}</td>
+                    <td className="px-4 py-2">{mentor.tecnologia}</td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+);
+
+const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
+    <div className="overflow-x-auto">
+        <table className="table-auto w-full">
+            <thead className="text-left bg-gray-100">
+                <tr>
+                    <th className="px-4 py-2">Apellido y Nombre</th>
+                    <th className="px-4 py-2">Email</th>
+                    <th className="px-4 py-2">Teléfono</th>
+                    <th className="px-4 py-2">Tecnología</th>
+                </tr>
+            </thead>
+            <tbody>
+                {equipo.nombres_estudiantes.map((nombre, index) => (
+                    <tr key={index} className="hover:bg-gray-100">
+                        <td className="px-4 py-2">{`${equipo.apellidos_estudiantes[index]}, ${nombre}`}</td>
+                        <td className="px-4 py-2">{equipo.emails_estudiantes[index]}</td>
+                        <td className="px-4 py-2">{equipo.telefonos_estudiantes[index]}</td>
+                        <td className="px-4 py-2">{equipo.tecnologias[index]}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+);
+
 export default async function EquipoCard({
-  params,
+    params,
 }: {
-  params?: { id: string };
+    params?: { id: string };
 }) {
-  const { data: equipo } = await fetchGet(`/api/equipo/${params?.id}`);
-  const fecha_inicial = new Date(equipo.fecha_inicio).toLocaleDateString(
-    "es-ES",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
+    const { data: equipo } = await fetchGet(`/api/equipo/${params?.id}`);
+
+    if (!equipo) {
+        return <p>Error al cargar el equipo.</p>; // Manejo de errores básico
     }
-  );
-  const fecha_final = new Date(equipo.fecha_fin).toLocaleDateString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 
-  return (
-    <>
-      <section className="container flex flex-col max-w-5xl">
-        <h2 className="text-4xl text-center font-bold p-2 m-3 ">
-          Card del Equipo: {equipo.nombre}
-        </h2>
-        <div className="  rounded-xl bg-gray-50 shadow-md p-4">
-          <div className="w-full mb-5 max-h-36 flex-col p-1  md:p-2 text-black  bg-white rounded-lg ">
-            {
-              <div className="grid grid-cols-2 md:grid-cols-4 ">
-                <div className="flex-auto">
-                  <div className="ml-16 max-md:ml-0 ">
-                    <h4 className="block mb-1 text-md text-gray-500 font-medium">
-                      Nombre:
-                    </h4>
-                    <p className="bg-transparent text-xl mb-2 font-semibold">
-                      {equipo.nombre}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex-auto">
-                  <div className="ml-16 max-md:ml-0 ">
-                    <h4 className="block mb-1 text-md text-gray-500 font-medium ">
-                      Integrantes:
-                    </h4>
-                    <p className="bg-transparent text-xl mb-2 ml-8 font-semibold">
-                      {equipo.tamano}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex-auto">
-                  <div className="ml-16 max-md:ml-0 ">
-                    <h4 className="block mb-1 text-md text-gray-500 font-medium">
-                      Fecha Inicio:
-                    </h4>
-                    <p className="bg-transparent text-xl mb-2 font-semibold">
-                      {fecha_inicial}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex-auto">
-                  <div className="ml-16 max-md:ml-0 ">
-                    <h4 className="block mb-1 text-md text-gray-500 font-medium">
-                      Finaliza:
-                    </h4>
-                    <p className="bg-transparent text-xl mb-2 font-semibold">
-                      {fecha_final}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-          <div className="w-full mb-5  flex-col p-1 md:p-2 bg-white rounded-lg  text-black ">
-            <h2 className="text-left font-bold pt-1 pb-2  text-xl">
-              Mentores
-            </h2>
-            {
-              <table className="table-auto w-full">
-                <thead className="text-left bg-gray-100">
-                   <tr>
-                     <th className="px-4 py-2">Apellido y Nombre</th>
-                     <th className="px-4 py-2">Email</th>
-                     <th className="px-4 py-2">Teléfono</th>
-                     <th className="px-4 py-2">Tecnología</th>
-                   </tr>
-                 </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_apellido},  {equipo.mentor}</td>
-                    <td className="px-4 py-2" title="Email">{equipo.mentor_email}</td>
-                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_telefono}</td>
-                    <td className="px-4 py-2" title="Mentor">Tecnologias</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_qa_apellido},  {equipo.mentor_qa}</td>
-          <td className="px-4 py-2" title="Email">{equipo.mentor_qa_email}</td>
-                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_qa_telefono}</td>
-                    <td className="px-4 py-2" title="QA">QA</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="px-4 py-2" title="Apellido y Nombre">{equipo.mentor_ux_ui_apellido}, {equipo.mentor_ux_ui}</td>
-                    <td className="px-4 py-2" title="Email">{equipo.mentor_ux_ui_email}</td>
-                    <td className="px-4 py-2" title="Teléfono">{equipo.mentor_ux_ui_telefono}</td>
-                    <td className="px-4 py-2" title="UX/UI">UX/UI</td>
-                  </tr>
-                </tbody>
-              </table>
+    const fecha_inicial = formatFecha(equipo.fecha_inicio);
+    const fecha_final = formatFecha(equipo.fecha_fin);
 
-            }
-          </div>
-          <div className="w-full  max-h-124 flex-col p-1  md:p-2 text-black  bg-white rounded-lg ">
-            <h2 className="text-left font-bold pt-2 pb-3  text-xl">
-              Integrantes
-            </h2>
-            {
-               <div className="overflow-x-auto">
-               <table className="table-auto w-full">
-                 <thead className="text-left bg-gray-100">
-                   <tr>
-                     <th className="px-4 py-2">Apellido y Nombre</th>
-                     <th className="px-4 py-2">Email</th>
-                     <th className="px-4 py-2">Teléfono</th>
-                     <th className="px-4 py-2">Tecnología</th>
-                   </tr>
-                 </thead>
-                 <tbody>
-                   {equipo.nombres_estudiantes.map((e:any, i:number) => (
-                     <tr key={`${e}-${i}`} className="hover:bg-gray-100">
-                       <td className="px-4 py-2">{equipo.apellidos_estudiantes[i]}, {e}</td>
-                       <td className="px-4 py-2">{equipo.emails_estudiantes[i]}</td>
-                       <td className="px-4 py-2">{equipo.telefonos_estudiantes[i]}</td>
-                       <td className="px-4 py-2">{equipo.tecnologias[i]}</td>
-                     </tr>
-                   ))}
-                 </tbody>
-               </table>
-             </div>
-            }
-          </div>
-        </div>
-          <Link href="/equipo" className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-xl text-center text-white p-3 my-5">Volver a equipo</Link>
-      </section>
-    </>
-  );
+    const mentores = [
+        {
+            apellido: equipo.mentor_apellido,
+            nombre: equipo.mentor,
+            email: equipo.mentor_email,
+            telefono: equipo.mentor_telefono,
+            tecnologia: "Tecnologías",
+        },
+        {
+            apellido: equipo.mentor_qa_apellido,
+            nombre: equipo.mentor_qa,
+            email: equipo.mentor_qa_email,
+            telefono: equipo.mentor_qa_telefono,
+            tecnologia: "QA",
+        },
+        {
+            apellido: equipo.mentor_ux_ui_apellido,
+            nombre: equipo.mentor_ux_ui,
+            email: equipo.mentor_ux_ui_email,
+            telefono: equipo.mentor_ux_ui_telefono,
+            tecnologia: "UX/UI",
+        },
+    ];
+
+    return (
+        <section className="container max-w-5xl pt-10">
+            <div className="flex flex-col w-full bg-white rounded-xl shadow-xl p-5">
+                <h2 className="text-4xl text-center font-bold p-2 m-3">
+                    Card del Equipo: {equipo.nombre}
+                </h2>
+                <div className="rounded-xl bg-gray-50 shadow-md p-4">
+                    <div className="w-full mb-5 max-h-36 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                        <div className="grid grid-cols-2 md:grid-cols-4">
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Nombre:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.nombre}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Integrantes:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.tamano}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Fecha Inicio:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_inicial}</p>
+                            </div>
+                            <div className="flex-auto">
+                                <h4 className="block mb-1 text-md text-gray-500 font-medium">Finaliza:</h4>
+                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_final}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full mb-5 flex-col p-1 md:p-2 bg-white rounded-lg text-black">
+                        <h2 className="text-left font-bold pt-1 pb-2 text-xl">Mentores</h2>
+                        <MentorTable mentores={mentores} />
+                    </div>
+                    <div className="w-full max-h-124 flex-col p-1 md:p-2 text-black bg-white rounded-lg">
+                        <h2 className="text-left font-bold pt-2 pb-3 text-xl">Integrantes</h2>
+                        <IntegrantesTable equipo={equipo} />
+                    </div>
+                </div>
+            </div>
+            <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-3 mt-10">
+                <Link href="/equipo">Volver a equipo</Link>
+            </div>
+        </section>
+    );
 }

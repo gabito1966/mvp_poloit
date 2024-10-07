@@ -1,30 +1,28 @@
-import { getCantEstudiantesSinGrupo } from "@/database/data";
 import Link from "next/link";
-import AnimationDot from "./AnimationDot";
 
 export default async function QuickActions() {
   
 
   return (
     <>
-      <div className="h-full shadow-md rounded-lg bg-gray-50 p-4">
+      <div className="h-full shadow-md rounded-lg text-black bg-white p-4">
         <div className="flex flex-row justify-between pb-2 ">
           <h2 className="font-bold text-center text-xl ">Acciones Rápidas</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full justify-center gap-3 bg-white rounded-xl p-4 ">
           <ItemQuickAction
             url="/register/estudiantes"
-            content="registrar estudiantes"
+            content="Registrar Estudiantes"
           />
           <ItemQuickAction
             url="/register/mentores"
-            content="registrar mentores"
+            content="Registrar Mentores"
           />
           <ItemQuickAction
             url="/register/equipos"
-            content="registrar equipos"
+            content="Generar Equipos"
           />
-          <ItemQuickAction url="/register/ong" content="registrar ongs" />
+          <ItemQuickAction url="/partners" content="Partners" />
         </div>
       </div>
     </>

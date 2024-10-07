@@ -10,6 +10,18 @@ body {
   display: flex;
   flex-direction: column;
 }
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-200 text-black dark:bg-gray-800 dark:text-white;
+}
+
+h2{
+  @apply dark:text-black text-black;
+}
+
 
 .link__footer:hover > p {
   border-bottom: 1px solid black;

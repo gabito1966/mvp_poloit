@@ -9,14 +9,15 @@ export default async function MentorCard({
   const { data: mentor } = await fetchGet(`/api/mentor/${params?.id}`);
 
   return (
-    <section className="container max-w-5xl">
-      <h1 className="text-4xl text-center font-bold p-2 mt-10">
+    <section className="container max-w-5xl pt-20">
+      <div className="bg-white rounded-xl shadow-xl p-5">
+      <h2 className="text-4xl text-center m-5 font-bold">
         Card del Mentor {mentor.nombre} {mentor.apellido}{" "}
-      </h1>
-      <div className="bg-gray-100 border-2 border-gray-200 rounded shadow-md p-5">
-      <div className="w-full max-h-124 flex-col p-1 md:p-12 text-black border-2 border-gray-200 bg-white rounded-lg">
+      </h2>
+      <hr />
+      <div className="w-full max-h-124 flex-col p-1 lg:p-12 text-black ">
         {
-          <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 font-medium mb-2 text-md">Apellido:</h4>
