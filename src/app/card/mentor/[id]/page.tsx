@@ -20,7 +20,7 @@ export default async function MentorCard({
           <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">Apellido:</h4>
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Apellido:</h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.apellido}
                 </p>
@@ -28,19 +28,19 @@ export default async function MentorCard({
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">Nombre:</h4>
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Nombre:</h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">{mentor.nombre}</p>
               </div>
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">Email:</h4>
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Email:</h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">{mentor.email}</p>
               </div>
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">Teléfono:</h4>
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Teléfono:</h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.telefono}
                 </p>
@@ -48,7 +48,7 @@ export default async function MentorCard({
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">
                   Tecnologías:
                 </h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">
@@ -58,7 +58,7 @@ export default async function MentorCard({
             </div>
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
-                <h4 className="block text-gray-500 font-medium mb-2 text-md">Empresas:</h4>
+                <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Empresas:</h4>
                 <p className="bg-transparent text-base mb-6 font-semibold">
                   {mentor.nombre_empresa}
                 </p>

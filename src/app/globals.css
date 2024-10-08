@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  transition: all .5s;
+}
+
 body {
   color: #000000;
   background: #e5e7eb;

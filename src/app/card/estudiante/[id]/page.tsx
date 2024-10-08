@@ -19,51 +19,51 @@ export default async function EstudianteCard({
                     <hr />
                 {<div className="grid grid-cols-1 justify-center  items-center md:grid-cols-2  mt-5">
                     <div className="flex-auto">
-                        <div className="ml-16 max-md:ml-0  ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Apellido:</h4>
+                        <div className="ml-16 max-md:ml-0 ">
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Apellido:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.apellido}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Nombre:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Nombre:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Email:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Email:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.email}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Teléfono:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Teléfono:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.telefono}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Tecnologías:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Tecnologías:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.tecnologias[0].nombre}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Tipo Tecnologia:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Tipo Tecnologia:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.tecnologias[0].tipo}</p>
                         </div>
                     </div>
 
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">ONG:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">ONG:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.nombre_ong}</p>
                         </div>
                     </div>
                     <div className="flex-auto">
                         <div className="ml-16 max-md:ml-0 ">
-                            <h4 className="block mb-2 text-md text-gray-500 font-medium">Estado:</h4>
+                            <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Estado:</h4>
                             <p className="bg-transparent text-base mb-6 font-semibold">{estudiante.estado ? 'Activo' : 'Inactivo'}</p>
                         </div>
                     </div>

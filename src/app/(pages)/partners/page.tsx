@@ -3,18 +3,24 @@ import React from "react";
 
 interface PartnersSectionProps {
     title: string;
+    paragraph:string;
     images: string[];
 }
 
-const PartnersSection: React.FC<PartnersSectionProps> = ({ title, images }) => {
-    return (
-        <section className="mt-20 p-4 rounded-xl mx-auto w-full bg-white dark:bg-gray-700 shadow-xl">
-            <h2 className="font-bold text-xl lg:text-3xl my-10 text-center">
-                {title}
-            </h2>
-            
-            <div className="h-auto w-full flex rounded-lg items-center">
-                <Carousel images={images} />
+const PartnersSection: React.FC<PartnersSectionProps> = ({ title,paragraph , images }) => {
+    return (        
+        <section className="container max-w-7xl pt-5 ">    
+            <div className="w-full flex-grow p-3 ">
+                <h1 className="font-bold text-xl lg:text-3xl my-2 mx-5 text-left">
+                    {title}
+                </h1>
+                <h2 className="w-full font-semibold text-md lg:text-xl my-5 px-10 text-left">
+                    {paragraph}
+                </h2>
+                <div className="h-auto w-full flex items-center">
+                    <Carousel images={images} />
+                </div>
+                <hr />
             </div>
         </section>
     );
@@ -43,9 +49,10 @@ export default function Partners() {
     ];
 
     return (
-        <main className="container max-w-3xl mt-10">
-            <PartnersSection title="Organizaciones Participantes" images={imagesOrganizations} />
-            <PartnersSection title="Empresas Participantes" images={imagesCompanies} />
+        <main className="container max-w-7xl mt-10 mx-2 bg-white dark:bg-gray-700 rounded-xl shadow-xl">
+            <PartnersSection title="Organizaciones Colaboradoras" paragraph="En esta sección encontrarás todas las organizaciones que forman parte de nuestro programa de aceleración. Estas organizaciones, tanto ONGs como empresas, trabajan junto a nuestros estudiantes y mentores para brindarles oportunidades de crecimiento y aprendizaje en el mundo real" images={[]} />
+            <PartnersSection title="Organizaciones Participantes" paragraph="Contribuyen con recursos, conocimiento y apoyo para fortalecer la educación y el impacto social." images={imagesOrganizations} />
+            <PartnersSection title="Empresas Participantes" paragraph="Ofrecen mentoría, herramientas y oportunidades de prácticas para nuestros estudiantes " images={imagesCompanies} />
         </main>
     );
 }

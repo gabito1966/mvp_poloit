@@ -94,7 +94,7 @@ function FormLogin() {
   }
 
   return (
-    <div className="flex flex-col justify-items-center justify-center  lg:px-8 h-full bg-white text-black min-w-96 min-md:w-full min-md:min-w-full m-auto ">
+    <div className="flex flex-col justify-items-center justify-center pt-5 rounded-lg shadow-lg mt-20 lg:px-8 h-full bg-white text-black dark:bg-gray-700 dark:text-white min-w-96 min-md:w-full min-md:min-w-full m-auto ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight underline">
           Inicia sesión en tu cuenta

@@ -18,7 +18,8 @@ export default async function page({
   const totalPages = await fetchPagesEquiposBaja(query);
 
   return (
-    <div className="w-full flex-grow p-3  md:p-12">
+    <section className='container max-w-7xl pt-20'>
+    <div className="w-full flex-grow pt-20 dark:bg-gray-700 rounded-xl shadow-xl  md:p-12">
        <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Equipos Removidos</h1>
       <div className="flex w-full items-center justify-between">
       </div>
@@ -28,10 +29,11 @@ export default async function page({
       <Suspense key={query + currentPage} fallback={<TableEstudianteSkeleton />}>
         <TableNotificacionEquipo query={query} currentPage={currentPage} />
       </Suspense>
+    </div>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+    </section>
   );
 }
 
