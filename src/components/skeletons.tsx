@@ -469,7 +469,7 @@ export function QuickActionsSkeleton() {
   );
 }
 
-export function MensajeSkeleton() {//dark:bg-slate-800
+export function MensajeSkeleton() {
   return (
     <>
       <div className="flex flex-col p-12 w-full gap-5 animate-pulse">
@@ -514,7 +514,6 @@ export function MensajeSkeleton() {//dark:bg-slate-800
                 <div className="w-96 bg-white h-16 rounded-md dark:bg-slate-500" />
               </div>
                 <div className="h-9 w-20 bg-blue-100 rounded-md" />
-              
             </div>
           </div>
         </div>

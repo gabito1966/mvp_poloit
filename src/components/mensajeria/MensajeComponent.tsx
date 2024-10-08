@@ -9,6 +9,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useTypingEffect from "../email/useTypingEffect";
 import { MensajeSkeleton } from "../skeletons";
+import { formatDate } from "@/lib/utils";
 
 export default function MensajeComponent({
   emailsBienvenida,
@@ -37,6 +38,11 @@ export default function MensajeComponent({
     title:"Seleccione o Genere un Email",
     subTitle:""
   });
+
+  const dia = new Date();
+
+  console.log(dia.toLocaleDateString("es-ES")) 
+
 
   const [tipo, setTipo] = useState("");
   const [tipoEmailsHistory, setTipoEmailsHistory] = useState("1");
@@ -202,7 +208,7 @@ export default function MensajeComponent({
               </div>
               <select
                 className={clsx(
-                  "w-fit  border-2 rounded-lg p-1 capitalize border-gray-100 text-sm"
+                  "w-fit  border-2 rounded-lg p-1 dark:text-white dark:bg-slate-800  capitalize border-gray-100 text-sm"
                 )}
                 defaultValue={tiposEmail[0].tipo}
                 onChange={(e) => {
@@ -229,8 +235,9 @@ export default function MensajeComponent({
                       <ItemMensajeria
                         key={`${i}-bienvenida`}
                         name={e.nombres_equipos}
-                        cant={e.cantidad_equipos}
-                        fecha={`${e.fecha.toLocaleDateString("es-ES")}`}
+                        cant={`${e.cantidad_equipos} Integrantes`}
+                        fecha={e.fecha}
+                        
                         tipo={tipoEmailsHistory}
                         cuerpo={e.cuerpo}
                         setPreview={setPreview}
@@ -255,7 +262,7 @@ export default function MensajeComponent({
                             : e.nombres_estudiantes.slice(0, 15) + "..."
                         }
                         cant={e.remitente_nombre}
-                        fecha={`${e.fecha.toLocaleDateString("es-ES")}`}
+                        fecha={e.fecha}
                         tipo={tipoEmailsHistory}
                         cuerpo={e.cuerpo}
                         setPreview={setPreview}
@@ -271,7 +278,7 @@ export default function MensajeComponent({
             </div>
           </div>
 
-          <div className="col-span-5 lg:col-span-3 min-h-[800px] m-2 px-4 pt-4  pb-8 bg-white  text-black rounded-lg shadow-lg dark:bg-gray-700">
+          <div className=" flex flex-col gap-3 col-span-5 lg:col-span-3 min-h-[800px] m-2 px-4 pt-4  pb-8 bg-white  text-black rounded-lg shadow-lg dark:bg-gray-700">
             <div className="flex items-center justify-between py-1 gap-2">
               <div className="flex flex-row justify-center items-center gap-2">
                {preview.cuerpo.length>0? <svg
@@ -298,10 +305,12 @@ export default function MensajeComponent({
                 </div>
               </div>
 
-              <form onSubmit={handleIA} className="flex flex-col gap-1">
+                <p className="self-start  text-gray-400 text-rigth text-xs">{preview.fecha}</p>
+
+              <form onSubmit={handleIA} className="flex flex-col gap-1 ">
                 <button
                   type="submit"
-                  className="flex  border-2  rounded-xl w-fit justify-center px-3 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
+                  className="flex    rounded-xl w-fit justify-center px-3 py-2  items-center gap-3 bg-blue-400 transition-colors duration-500 text-white hover:bg-blue-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -319,11 +328,11 @@ export default function MensajeComponent({
                 </button>
                 <select
                   className={clsx(
-                    "w-full  border-2 rounded-lg p-1 capitalize",
+                    "w-full dark:text-white dark:bg-slate-800  rounded-lg p-1  capitalize",
                     {
                       "border-red-500 animate-pulse border-3 bg-red-100":
                         responseBack.errors?.tipo?.length,
-                      "border-gray-100": !responseBack.errors?.tipo?.length,
+                      "border-gray-100 border-2 ": !responseBack.errors?.tipo?.length,
                     }
                   )}
                   defaultValue={""}
@@ -361,29 +370,23 @@ export default function MensajeComponent({
               </form>
             </div>
 
-            <div className="h-full border-gray-100 border-t dark:border-slate-700 min-h-[750px] max-h-[750px] overflow-y-auto">
-              <p className={
-                clsx("dark:bg-slate-400 rounded-md ",{
-                  "p-2":iaFormState
-                })
-              }
+            <div className="h-full rounded-md dark:text-black border-gray-100 border-t p-2 dark:bg-slate-400 dark:border-slate-700 min-h-[750px] max-h-[750px] overflow-y-auto">
+             {!preview.cuerpo.length && <p 
+              
                 dangerouslySetInnerHTML={{
-                  __html: !iaFormState
+                  __html: iaFormState
                     ? typingEffectValue.replaceAll("\n", "</br>")
                     : form.mensaje.replaceAll("\n", "</br>"),
                 }}
-              ></p>
-              <p className={
-                clsx("dark:bg-slate-400 rounded-md ",{
-                  "p-2": preview.cuerpo.length
-                })
-              }
+              ></p>}
+              <p 
+              className="dark:text-black"
                 dangerouslySetInnerHTML={{
                   __html: preview.cuerpo.length
                     ? preview.cuerpo
                     : "",
                 }}
-              ></p>
+              />
             </div>
             <form
               onSubmit={handleSubmit}
@@ -395,7 +398,7 @@ export default function MensajeComponent({
                   onChange={handleChange}
                   value={iaFormState ? typingEffectValue : form.mensaje}
                   className={clsx(
-                    "  resize-none overflow-y-auto  border w-full p-2 rounded-lg",
+                    "  resize-none overflow-y-auto  w-full p-2 rounded-lg dark:text-white dark:bg-slate-800 border-gray-100 border-2",
                     {
                       "border-red-500": responseBack.errors?.mensaje?.length,
                       "border-gray-100": !responseBack.errors?.mensaje?.length,
@@ -458,12 +461,16 @@ export function ItemMensajeria({
 }: {
   name: string;
   cant: string;
-  fecha: string;
+  fecha: Date;
   cuerpo:string;
   tipo: string;
   setPreview:any;
   setIaFormState:any;
 }) {
+
+  const fechaFormateadaLong = formatDate(fecha,"es",{dateStyle:"full"});
+  const fechaFormateadaShort = formatDate(fecha,"es",{weekday:"short", day:"numeric", month:"short"});
+
   return (
     <>
       <div
@@ -475,7 +482,7 @@ export function ItemMensajeria({
           switch(tipo){
             case "1":
               setPreview({
-                fecha,
+                fecha:fechaFormateadaLong,
                 cuerpo,
                 tipo:"",
                 title:name,
@@ -485,7 +492,7 @@ export function ItemMensajeria({
               break;
             case "2":
               setPreview({
-                fecha,
+                fecha:fechaFormateadaLong,
                 cuerpo,
                 tipo,
                 title:name,
@@ -500,7 +507,7 @@ export function ItemMensajeria({
         <h3 className="font-bold capitalize text-2xl dark:text-white  pb-2">{name}</h3>
         <div className="flex flex-row justify-between text-sm font-light text-gray-700 gap-5">
           <p className="">{cant}</p>
-          <p className="text-end ">{fecha}</p>
+          <p className="text-end ">{fechaFormateadaShort}</p>
         </div>
       </div>
     </>

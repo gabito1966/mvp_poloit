@@ -1,4 +1,7 @@
-import { TecnologiaConEstudiantes, TipoCorreoInterface } from "@/database/definitions";
+import {
+  TecnologiaConEstudiantes,
+  TipoCorreoInterface,
+} from "@/database/definitions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { sql } from "@vercel/postgres";
 
@@ -109,7 +112,7 @@ export const generateYAxis = (
 export const generarCuerpoEmailGemini = async (
   tipo: number,
   content: string,
-  session:any
+  session: any
 ) => {
   const apiKey = process.env.GEMINI_API_KEY;
   const genAI = new GoogleGenerativeAI(apiKey || "");
@@ -126,8 +129,7 @@ export const generarCuerpoEmailGemini = async (
     responseMimeType: "text/plain",
   };
 
-  let script =
-    `mi nombre es ${session.nombre} y mi apellido es ${session.apellido} estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si no se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y solo si yo te agrego/comparto links(una url) agregalo al final, solo los link colocamelos entre una etiqueta 'a' (<a></a>), estilos en linea:color azul, hover subrayado y atributos target="__black".
+  let script = `mi nombre es ${session.nombre} y mi apellido es ${session.apellido} estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si no se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y solo si yo te agrego/comparto links(una url) agregalo al final, solo los link colocamelos entre una etiqueta 'a' (<a></a>), estilos en linea:color azul, hover subrayado y atributos target="__black".
     Esta es la decripción del el proyecto:
     Proyecto: Gestión de Inscripciones
 
@@ -161,17 +163,14 @@ export const generarCuerpoEmailGemini = async (
     WHERE
       id = ${tipo}`;
 
-
   switch (tipo) {
     case 1:
-      script+=resultTipo[0].descripcion
+      script += resultTipo[0].descripcion;
       break;
-      case 2:
-      script+=resultTipo[0].descripcion
+    case 2:
+      script += resultTipo[0].descripcion;
       break;
   }
-
-  
 
   script += `${
     content
@@ -288,4 +287,14 @@ export const generateHTMLString = (
   `;
 
   return html;
+};
+
+export const formatDate = (
+  date: Date,
+  locale: string,
+  options?:any 
+) => {
+
+  return Intl.DateTimeFormat(locale,options).format(date);
+
 };
