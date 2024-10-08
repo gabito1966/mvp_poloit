@@ -16,7 +16,7 @@ export function Card({ name, icon, cant, line }: CardProps) {
       className="h-[100px] flex shadow-blue-50 flex-row items-center justify-center justify-items-center rounded-xl bg-gray-50 dark:bg-gray-700 p-5 shadow-md text-blue-400"
       title={`${name}`}
     >
-      <div className="relative w-fit h-fit bg-blue-50 dark:bg-gray-700 dark:text-white rounded-lg p-1">
+      <div className="relative w-fit h-fit bg-blue-50 dark:bg-gray-700  rounded-lg p-1">
         <div
           className="relative z-10"
           dangerouslySetInnerHTML={{ __html: icon }}

@@ -53,7 +53,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
         </thead>
         <tbody>
             {mentores.map((mentor, index) => (
-                <tr key={index} className="hover:bg-gray-100">
+                <tr key={index} className="hover:bg-gray-100 hover:text-gray-900">
                     <td className="px-4 py-2">{`${mentor.apellido}, ${mentor.nombre}`}</td>
                     <td className="px-4 py-2">{mentor.email}</td>
                     <td className="px-4 py-2">{mentor.telefono}</td>
@@ -77,7 +77,7 @@ const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
             </thead>
             <tbody>
                 {equipo.nombres_estudiantes.map((nombre, index) => (
-                    <tr key={index} className="hover:bg-gray-100 ">
+                    <tr key={index} className="hover:bg-gray-100 hover:text-gray-900">
                         <td className="px-4 py-2">{`${equipo.apellidos_estudiantes[index]}, ${nombre}`}</td>
                         <td className="px-4 py-2">{equipo.emails_estudiantes[index]}</td>
                         <td className="px-4 py-2">{equipo.telefonos_estudiantes[index]}</td>

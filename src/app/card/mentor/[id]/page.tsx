@@ -17,7 +17,7 @@ export default async function MentorCard({
       <hr />
       <div className="w-full max-h-124 flex-col p-1 lg:p-12 text-black ">
         {
-          <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
             <div className="flex-auto">
               <div className="ml-16 max-md:ml-0 ">
                 <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Apellido:</h4>
