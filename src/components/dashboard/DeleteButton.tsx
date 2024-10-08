@@ -4,15 +4,19 @@ import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { revalidateFuntion } from './../../lib/server/serverCache';
+import { useEffect, useState } from "react";
+import ConfimationButton from "../ConfimationButton";
 
 function DeleteButton({
   url,
   newClass,
   titulo,
+  validarRuta
 }: {
   url: string;
   newClass?: string;
   titulo?: string;
+  validarRuta?:string
 }) {
   const router = useRouter();
 
@@ -24,7 +28,9 @@ function DeleteButton({
     toast.promise(deletePromise, {
       loading: "Eliminando...",
       success: (response) => {
-        // revalidateFuntion("");
+    if(validarRuta){
+      revalidateFuntion(validarRuta);
+    }
         router.refresh();
         return `${response.message}`;
       },

@@ -6,8 +6,6 @@ export function getErrorMessageFromCode(error: any) {
   try {
     let mensaje = "";
 
-    console.log(error);
-
     if ((error.code = "23505")) {
       if (!error.constraint) {
         return "Error en sintaxis de la consulta a la base de datos";
@@ -129,7 +127,7 @@ export const generarCuerpoEmailGemini = async (
   };
 
   let script =
-    `mi nombre es ${session.nombre} y mi apellido es ${session.apellido} estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si no se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y si agrego links agregalo al final, solo los link colocamelos entre una etiqueta 'a' (<a></a>), estilos en linea:color azul, hover subrayado y atributos target="__black".
+    `mi nombre es ${session.nombre} y mi apellido es ${session.apellido} estoy usando la api de gemini para escribir el contenido de un correo electrónico profesional para enviar,También debe ser cordial y amigable. solo quiero el cuerpo del email no quiero nada mas, es para copiarlo y pegarlo asi como esta. si no se agrega o pregunta otra cosa distinta a lo solicitado debes enviar un mensaje de error (que no este en el contexto de del proyecto web) y que lo vuelva a intentar y solo si yo te agrego/comparto links(una url) agregalo al final, solo los link colocamelos entre una etiqueta 'a' (<a></a>), estilos en linea:color azul, hover subrayado y atributos target="__black".
     Esta es la decripción del el proyecto:
     Proyecto: Gestión de Inscripciones
 

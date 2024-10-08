@@ -78,7 +78,7 @@ function PaginationNumber({
       "rounded-r-md": position === "last" || position === "single",
       "z-10 bg-blue-400 border-blue-400 text-white hover:bg-blue-700 hover:cursor-pointer":
         isActive,
-      "hover:bg-gray-100": !isActive && position !== "middle",
+      "hover:bg-gray-100 bg-white dark:bg-gray-600  dark:hover:bg-white dark:hover:text-black": !isActive && position !== "middle",
       "text-gray-300": position === "middle",
     }
   );
@@ -102,10 +102,10 @@ function PaginationArrow({
   isDisabled?: boolean;
 }) {
   const className = clsx(
-    "flex h-10 w-10 items-center justify-center rounded-md border",
+    "flex h-10 w-10 items-center justify-center rounded-md border bg-white dark:hover:bg-white",
     {
-      "pointer-events-none text-gray-300": isDisabled,
-      "hover:bg-gray-100": !isDisabled,
+      "pointer-events-none text-gray-300 dark:bg-gray-600 dark:text-gray-400": isDisabled,
+      "hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-200 dark:hover:text-black": !isDisabled,
       "mr-2 md:mr-4": direction === "left",
       "ml-2 md:ml-4": direction === "right",
     }
@@ -113,8 +113,7 @@ function PaginationArrow({
 
   const icon =
     direction === "left" ? (
-      //   <ArrowLeftIcon className="w-4" />
-      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+      <div className="rounded-md  hover:bg-gray-100  w-5 h-fit">
         <svg className="w-5 h-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -126,8 +125,7 @@ function PaginationArrow({
         </svg>
       </div>
     ) : (
-      //   <ArrowRightIcon className="w-4" />
-      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit ">
         <svg className="w-5 h-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"

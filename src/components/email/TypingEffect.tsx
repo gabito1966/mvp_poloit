@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
 import useTypingEffect from "./useTypingEffect";
 
-// const texts = [
-//   "This is a simple text typing effect in ReactWe can use this effect to create a typing effect for our portfolio",
-//   "This effect is created using React HooksWe can use this effect to create a typing effect for our portfolio",
-//   "We can use this effect to create a typing effect for our portfolio",
-//   "We can also use this effect to create a typing effect for our resume",
-//   "or for your blogWe can use this effect to create a typing effect for our portfolio",
-//   "or for your landing pageWe can use this effect to create a typing effect for our portfolio",
-//   "let's goWe can use this effect to create a typing effect for our portfolioWe can use this effect to create a typing effect for our portfolio",
-// ];
-
 type TextTypingEffectProps = {
   isTypeByLetter?: boolean;
   duration?: number;
