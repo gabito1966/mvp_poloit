@@ -469,49 +469,49 @@ export function QuickActionsSkeleton() {
   );
 }
 
-export function MensajeSkeleton() {
+export function MensajeSkeleton() {//dark:bg-slate-800
   return (
     <>
       <div className="flex flex-col p-12 w-full gap-5 animate-pulse">
-        <div className="h-7 w-60 bg-gray-100 justify-self-start rounded-lg" />
+        <div className="h-7 w-60 bg-gray-100 dark:bg-gray-700 justify-self-start rounded-lg" />
 
         <div className="grid grid-cols-1 grid-rows-2 gap-5 lg:grid-cols-5 lg:grid-rows-1 rounded-lg">
-          <div className="col-span-1 lg:col-span-2 min-h-[800px]  bg-gray-100 rounded-lg">
+          <div className="col-span-1 lg:col-span-2 min-h-[800px]  bg-gray-100 dark:bg-gray-700 rounded-lg">
             <div className=" flex flex-row p-4  items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
                 <div className="h-9 w-9 bg-blue-100 rounded-md" />
-                <div className="w-40 bg-white h-7 rounded-md" />
+                <div className="w-40 bg-white dark:bg-slate-500 h-7 rounded-md" />
               </div>
               <div className="h-4 w-20 bg-white rounded-md" />
             </div>
             <div className="flex flex-col gap-5 px-4">
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
-              <div className="h-16 w-full bg-white rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
             </div>
           </div>
-          <div className="flex flex-col justify-between col-span-1 lg:col-span-3 min-h-[800px] bg-gray-100 rounded-lg p-4 gap-4">
+          <div className="flex flex-col justify-between col-span-1 lg:col-span-3 min-h-[800px] bg-gray-100 rounded-lg p-4 gap-4 dark:bg-slate-700">
             <div className=" flex flex-row   items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
                 <div className="h-14 w-14 bg-blue-100 rounded-md" />
-                <div className="w-80 bg-white h-7 rounded-md" />
+                <div className="w-80 bg-white h-7 rounded-md dark:bg-slate-500" />
               </div>
 
               <div className="flex flex-col gap-1">
                 <div className="h-6 w-32 bg-blue-100 rounded-md" />
-                <div className="h-6 w-32 bg-white rounded-md" />
+                <div className="h-6 w-32 bg-white rounded-md dark:bg-slate-500" />
               </div>
             </div>
 
-            <div className="w-full h-full bg-white  rounded-md" />
+            <div className="w-full h-full bg-white  dark:bg-slate-500 rounded-md" />
 
             <div className=" flex flex-row   items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
-                <div className="w-96 bg-white h-16 rounded-md" />
+                <div className="w-96 bg-white h-16 rounded-md dark:bg-slate-500" />
               </div>
                 <div className="h-9 w-20 bg-blue-100 rounded-md" />
               

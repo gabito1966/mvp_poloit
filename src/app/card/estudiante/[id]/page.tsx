@@ -1,5 +1,3 @@
-
-import { CardSkeleton } from "@/components/skeletons";
 import { fetchGet } from "@/lib/fetchFunctions";
 import Link from "next/link";
 
@@ -11,7 +9,6 @@ export default async function EstudianteCard({
     const { data: estudiante } = await fetchGet(`/api/estudiante/${params?.id}`);
 
     return (<> 
-    <CardSkeleton/>
         <section className="container max-w-5xl pt-20 ml-14 lg:ml-0">
             <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
                 <h1 className="text-4xl text-center font-bold m-5" >Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h1>       

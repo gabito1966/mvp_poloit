@@ -361,15 +361,23 @@ export default function MensajeComponent({
               </form>
             </div>
 
-            <div className="h-3/4 border-gray-100 border-t min-h-[750px] max-h-[750px] overflow-y-auto">
-              <p
+            <div className="h-full border-gray-100 border-t dark:border-slate-700 min-h-[750px] max-h-[750px] overflow-y-auto">
+              <p className={
+                clsx("dark:bg-slate-400 rounded-md ",{
+                  "p-2":iaFormState
+                })
+              }
                 dangerouslySetInnerHTML={{
-                  __html: iaFormState
+                  __html: !iaFormState
                     ? typingEffectValue.replaceAll("\n", "</br>")
                     : form.mensaje.replaceAll("\n", "</br>"),
                 }}
               ></p>
-              <p
+              <p className={
+                clsx("dark:bg-slate-400 rounded-md ",{
+                  "p-2": preview.cuerpo.length
+                })
+              }
                 dangerouslySetInnerHTML={{
                   __html: preview.cuerpo.length
                     ? preview.cuerpo
@@ -379,7 +387,7 @@ export default function MensajeComponent({
             </div>
             <form
               onSubmit={handleSubmit}
-              className=" border-gray-100 border-t w-full pt-5  flex items-center gap-4 "
+              className=" border-gray-100 border-t dark:border-slate-700  w-full pt-5  flex items-center gap-4 "
             >
               <div className="w-full flex flex-col ">
                 <textarea
@@ -459,7 +467,7 @@ export function ItemMensajeria({
   return (
     <>
       <div
-        className="border-gray-100 border-t  rounded-lg p-2 hover:cursor-pointer hover:bg-gray-50"
+        className="border-gray-100 border-t  hover:rounded-lg dark:hover:bg-slate-600 p-2 hover:cursor-pointer hover:bg-gray-50"
         onClick={() => {
           
           setIaFormState(false);
@@ -489,7 +497,7 @@ export function ItemMensajeria({
          
         }}
       >
-        <h3 className="font-bold capitalize text-2xl  pb-2">{name}</h3>
+        <h3 className="font-bold capitalize text-2xl dark:text-white  pb-2">{name}</h3>
         <div className="flex flex-row justify-between text-sm font-light text-gray-700 gap-5">
           <p className="">{cant}</p>
           <p className="text-end ">{fecha}</p>
