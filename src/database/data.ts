@@ -388,6 +388,7 @@ export async function fetchPagesEquiposBaja(query: string) {
     return 0;
   }
 }
+
 export async function fetchCardData() {
   try {
     const estudiantesCountPromise = sql`SELECT COUNT(*) FROM estudiantes`;

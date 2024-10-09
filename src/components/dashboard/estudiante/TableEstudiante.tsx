@@ -16,18 +16,18 @@ export default async function Table({
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
-          <div className="lg:hidden">
+          <div className="lg:hidden bg-white dark:bg-gray-700 rounded-lg">
             {estudiantes?.map((estudiante) => (
               <div
                 key={estudiante.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full  p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <p>{estudiante.nombre}</p>
+                      <p>{estudiante.nombre} {estudiante.apellido}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{estudiante.email}</p>
+                    <p className="text-sm ">{estudiante.email}</p>
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">

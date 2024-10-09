@@ -273,9 +273,7 @@ if(estudiantesNoGrupos>5){
             <span className="align-top">* </span>
             {
               estudiantesNoGrupos > 0 ?<span className="text-sm">{estudiantesNoGrupos} estudiante{estudiantesNoGrupos!=1?"s":""} sin grupos</span>:<span className="text-base">No hay estudiantes para crear/asignar a ningun grupo</span>
-            }
-
-            
+            }  
           </div>
         </form>
       </div>

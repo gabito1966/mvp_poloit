@@ -1,5 +1,5 @@
+import BackButton from "@/components/dashboard/BackButton";
 import { fetchGet } from "@/lib/fetchFunctions";
-import Link from "next/link";
 
 type Mentor = {
     apellido: string;
@@ -164,9 +164,9 @@ export default async function EquipoCard({
                     </div>
                 </div>
             </div>
-            <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-3 mt-10">
-                <Link href="/equipo">Volver a equipo</Link>
-            </div>
+            <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
+        <BackButton url="/equipo" />
+      </div>
         </section>
     );
 }

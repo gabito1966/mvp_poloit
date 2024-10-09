@@ -28,7 +28,7 @@ export function Card({ name, icon, cant, line }: CardProps) {
         )}></div>
       </div>
       <div className="text-black dark:text-white h-full flex flex-col p-1 justify-center">
-        <h4 className="text-xs font-medium ml-4 text-nowrap capitalize">{name}</h4>
+        <h4 className="text-sm font-medium ml-4 text-nowrap capitalize">{name}</h4>
         <AnimatedNumber value={cant} className="truncate text-left font-bold text-2xl ml-4" />
       </div>
     </div>
