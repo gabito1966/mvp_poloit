@@ -33,7 +33,7 @@ export default async function TableNotificationMentor({
                 </div>
               ))}
             </div>
-            <table className=" hidden min-w-full lg:table bg-white dark:bg-gray-700">
+            <table className=" hidden min-w-full lg:table bg-white dark:bg-gray-600">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="capitalize px-4 py-5 font-medium ">

@@ -33,7 +33,7 @@ export default async function TableNotificacionEquipo({
                 </div>
               ))}
             </div>
-            <table className="hidden min-w-full bg-white dark:bg-gray-700 lg:table">
+            <table className="hidden min-w-full bg-white dark:bg-gray-600 lg:table">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="capitalize px-4 py-5 font-medium">nombre</th>
