@@ -14,7 +14,7 @@ export default function ViewButton({ url }: { url: string }) {
 
   return (
     <>
-      <button onClick={handleRedirect} className="h-fit" title="Editar">
+      <button onClick={handleRedirect} className="h-fit hover:text-blue-400" title="Editar">
         <div className="h-5 md:ml-4  " title={`ver ${p}`}>
           <svg className="h-5 w-5">
             <svg

@@ -4,15 +4,19 @@ import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { revalidateFuntion } from './../../lib/server/serverCache';
+import { useEffect, useState } from "react";
+import ConfimationButton from "../ConfimationButton";
 
 function DeleteButton({
   url,
   newClass,
   titulo,
+  validarRuta
 }: {
   url: string;
   newClass?: string;
   titulo?: string;
+  validarRuta?:string
 }) {
   const router = useRouter();
 
@@ -24,7 +28,9 @@ function DeleteButton({
     toast.promise(deletePromise, {
       loading: "Eliminando...",
       success: (response) => {
-        // revalidateFuntion("");
+    if(validarRuta){
+      revalidateFuntion(validarRuta);
+    }
         router.refresh();
         return `${response.message}`;
       },
@@ -39,10 +45,10 @@ function DeleteButton({
         className={`${newClass}`}
         title={`${titulo}`}
       >
-        <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
+        <button className="rounded-md   hover:text-red-500 ">
           <span className="sr-only">Eliminar</span>
           <div
-            className="rounded-md  hover:bg-gray-100 w-5 h-fit"
+            className="rounded-md   w-5 h-fit"
             title="Eliminar"
           >
             <svg className="w-5 h-5">

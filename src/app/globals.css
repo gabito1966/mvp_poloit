@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  transition: all .5s;
+  transition: background-color .5s;
 }
 
 body {
@@ -27,6 +27,7 @@ h1, h2, p{
 
 .link__footer:hover > p {
   border-bottom: 1px solid black;
+  @apply dark:border-white;
 }
 
 @media (max-width: 1024px) {

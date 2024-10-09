@@ -220,8 +220,13 @@ export async function DELETE(
 
   try {
     await sql`UPDATE estudiantes SET estado = false WHERE id = ${id}`;
+    
+    await sql`DELETE FROM correo_estudiante
+              WHERE estudiante_id = ${id};`;
+    
 
     revalidatePath("/");
+    revalidatePath("/mensaje");
     revalidatePath("/estudiante");
     revalidatePath("/notificaciones/estudiante");
 

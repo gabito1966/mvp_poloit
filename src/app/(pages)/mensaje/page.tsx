@@ -1,5 +1,5 @@
 import MensajeComponent from "@/components/mensajeria/MensajeComponent";
-import { FormEstudianteSkeleton } from "@/components/skeletons";
+import {  MensajeSkeleton } from "@/components/skeletons";
 import { getEmailsTipo, getEmailsTipoSeguimiento, getTipoEmails } from "@/database/data";
 import { Suspense } from "react";
 
@@ -9,7 +9,7 @@ export default async function mensaje() {
   
   return (
   
-    <Suspense fallback={<FormEstudianteSkeleton/>}>
+    <Suspense fallback={<MensajeSkeleton/>}>
       <MensajeComponent emailsBienvenida={emailsBienvenida} emailsSeguimiento={emailsSeguimiento} tiposEmail={tiposEmail}/>
     </Suspense>
     

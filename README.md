@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Proyecto de Gestión de Inscripciones - MVP POLO IT
 
-## Getting Started
+<div align="center">
+    <img src="https://i.imgur.com/bxve6gU.png"/>
+</div>
 
-First, run the development server:
+## Descripción
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este proyecto es un MVP (Producto Mínimo Viable) de un sistema de gestión de inscripciones para actividades como el acelerador del POLO IT. El sistema permite vincular automáticamente Mentores Técnicos con Egresados basándose en diversos parámetros de configuración de equipos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Despliegue
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Características principales
 
-To learn more about Next.js, take a look at the following resources:
+- Vinculación automática de Mentores Técnicos con Egresados.
+- Configuración de equipos (tamaño máximo, perfiles de egresados, mentores por tecnología).
+- Gestión de comunicación vía e-mail entre candidatos y mentores.
+- Seguimiento de mentorías.
+- ABM (Alta, Baja, Modificación) para la carga de datos.
+- Interfaz de usuario diseñada con buenas prácticas de UX/UI.
+- Implementación de técnicas de QA.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tecnologías utilizadas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Frontend:
+  - HTML
+  - CSS
+  - JavaScript
+  - React
+  - Next.js
+- Backend:
+  - Node.js
+- Base de datos:
+  - Vercel Postgres
+- Autenticación:
+  - bcrypt
+  - jose (para JWT)
+- Envío de correos:
+  - nodemailer
+  - resend
+- Otros:
+  - Tailwind CSS
+  - TypeScript
+  - ESLint
+  - Zod (validación de esquemas)
 
-## Deploy on Vercel
+## Requisitos previos
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Node.js (versión recomendada: 18.x o superior)
+- npm o yarn
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Instalación
+
+1. Clonar el repositorio:
+   ```
+   git clone [URL_DEL_REPOSITORIO]
+   ```
+
+2. Instalar dependencias:
+   ```
+   npm install
+   ```
+   o
+   ```
+   yarn install
+   ```
+
+3. Configurar variables de entorno:
+   Crea un archivo `.env.local` en la raíz del proyecto y añade las variables necesarias (consulta `.env.example` si está disponible).
+
+## Ejecución
+
+- Desarrollo:
+  ```
+  npm run dev
+  ```
+  o
+  ```
+  yarn dev
+  ```
+
+- Producción:
+  ```
+  npm run build
+  npm start
+  ```
+  o
+  ```
+  yarn build
+  yarn start
+  ```
+
+## Estructura del proyecto
+
+## Equipo de desarrollo
+
+| [<img src="https://avatars.githubusercontent.com/u/127247837?v=4" width=115><br><sub>Javier Espindola</sub>](https://github.com/Micolash89) <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/javier-espindola/) <br><sub>BACKEND</sub> | [<img src="https://avatars.githubusercontent.com/u/89267342?v=4" width=115><br><sub>Gabriel García</sub>](https://github.com/gabito1966) <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/gabriel-garcia-developer/) <br><sub>FRONTEND</sub> | [<img src="https://media.licdn.com/dms/image/v2/D4D03AQEXf94igLDz-Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1711998142018?e=1733961600&v=beta&t=8aepa2Rc0xmwBJL08tlOHf3-0-Vtk--rIF9M7hKSMJQ" width=115><br><sub>Elizabeth Rabinad</sub>]() <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/elizabeth-rabinad-4b6131167/) <br><sub>QA</sub>  | [<img src="https://media.licdn.com/dms/image/v2/D4D03AQETlR9Pm8XSIQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1703885238963?e=1733961600&v=beta&t=XNpFO7L13EFxUsm6hCovKrLmrbo2eEeiDVHd0-PjmDY" width=115><br><sub>Sandro Borga</sub>]()  <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sandro-borga-065936246/) <br><sub>UX/UI</sub> |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: |
+
+## Mentor técnico
+
+| [<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width=115><br><sub>Ernesto Ponce</sub>](https://github.com/Micolash89) <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ernesto-ponce-597934103/) | 
+| :-----: |

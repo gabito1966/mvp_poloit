@@ -58,6 +58,7 @@ const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
           url="/api/equipo"
           newClass="scale-125 pt-2"
           titulo="Eliminar todos"
+          validarRuta="/equipo"
         />
         <CreateButton url="/register/equipos" estado={contador > 0} />
       </div>

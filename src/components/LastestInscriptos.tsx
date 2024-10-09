@@ -7,7 +7,6 @@ export default async function LastestInscriptos() {
 
   return (
     <div className="flex w-full flex-col md:col-span-4 shadow-md rounded-xl">
-      {/* <LatestInscriptosSkeleton /> */}
       <div className="flex grow flex-col justify-between rounded-xl text-black bg-gray-100 dark:bg-gray-600 p-4">
         <div className="w-full flex flex-row justify-between items-center">
           <h2 className={`mb-1 text-md lg:text-xl font-bold `}>

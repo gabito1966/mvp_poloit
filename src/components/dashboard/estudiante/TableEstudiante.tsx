@@ -41,6 +41,8 @@ export default async function Table({
                     />
                     <DeleteButton
                       url={`/api/estudiante/${estudiante.id.toString()}`}
+                      validarRuta="/estudiante"
+                 
                     />
                 </div>
                 </div>
@@ -115,6 +117,7 @@ export default async function Table({
                       />
                       <DeleteButton
                         url={`/api/estudiante/${estudiante.id.toString()}`}
+                        validarRuta="/estudiante"
                       />
                     </div>
                   </td>
