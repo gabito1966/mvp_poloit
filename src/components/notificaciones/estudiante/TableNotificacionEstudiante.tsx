@@ -27,7 +27,7 @@ export default async function TableNotificationEstudiante({
                         <p className="text-md ">{estudiante.email}</p>               
                     </div>
                     <div className="col-span-2 mb-2 items-center flex justify-between">
-                        <p className="text-lg font-medium">{`${estudiante.fecha_baja.toLocaleDateString("es-ES")}`}</p>
+                        <p className="text-md">{`${estudiante.fecha_baja.toLocaleDateString("es-ES")}`}</p>
                         <p className="text-md ">Baja</p>               
                     </div>
                   </div>

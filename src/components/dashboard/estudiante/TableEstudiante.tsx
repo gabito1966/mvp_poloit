@@ -16,26 +16,23 @@ export default async function Table({
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
-          <div className="lg:hidden bg-white dark:bg-gray-700 rounded-lg">
+          <div className="lg:hidden grid grid-cols-1 gap-4">
             {estudiantes?.map((estudiante) => (
               <div
                 key={estudiante.id}
-                className="mb-2 w-full  p-4"
+                className="rounded-md bg-white dark:bg-gray-700 p-4"
               >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <p>{estudiante.nombre} {estudiante.apellido}</p>
-                    </div>
-                    <p className="text-sm ">{estudiante.email}</p>
-                  </div>
+                <div className="col-span-2 mb-2 items-center flex justify-between">
+                  <p className="text-lg font-medium"> {estudiante.apellido} {estudiante.nombre} </p>
                 </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">{estudiante.apellido}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex justify-end gap-2">
+                <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md ">{estudiante.email}</p>
+                    <p className="text-md">{estudiante.telefono}</p>
+                </div>  
+                <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md ">{estudiante.tecnologias}</p>
+                    <p className="text-md">{estudiante.ong}</p>
+                <div className="flex justify-end gap-2">
                     <ViewButton
                       url={`/card/estudiante/${estudiante.id.toString()}`}
                     />
@@ -45,9 +42,10 @@ export default async function Table({
                     <DeleteButton
                       url={`/api/estudiante/${estudiante.id.toString()}`}
                     />
-                  </div>
+                </div>
                 </div>
               </div>
+              
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg lg:table">
@@ -126,6 +124,6 @@ export default async function Table({
           </table>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

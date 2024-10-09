@@ -23,33 +23,34 @@ export default async function TableEquipos({
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
           <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white md:pt-0">
-            <div className="lg:hidden">
+            <div className="lg:hidden grid grid-cols-1 gap-4">
               {equipo?.map((equipo) => (
                 <div
                   key={equipo.id}
-                  className="mb-2 w-full rounded-md p-4"
+                  className="rounded-md bg-white dark:bg-gray-700 p-4"
                 >
-                  <div className="flex items-center justify-between border-b pb-4">
-                    <div>
-                      <div className="mb-2 flex items-center">
-                        <p>{equipo.nombre}</p>
-                      </div>
-                      <p className="text-sm text-gray-500">{equipo.tamano}</p>
-                      <p className="text-sm text-gray-500">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
+                  <div className="col-span-2 mb-2 items-center flex justify-between">
+                        <p className='text-lg font-medium'>{equipo.nombre}</p>
+                        <p className="text-sm">{equipo.tamano} Estudiantes</p>
+                  </div>
+                  <div className="col-span-2 mb-2 items-center flex justify-between">
+                    <p className="text-sm text-gray-500">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
+                    <div className="flex justify-end gap-2"> 
+                      <ViewButton url={`/card/equipo/${equipo.id.toString()}`} />
+                      <DeleteButton url={`/api/equipo/${equipo.id.toString()}`} />
                     </div>
                   </div>
-                  <div className="flex w-full items-center justify-between pt-4">
-                    <div>
-                      <p className="text-xl font-medium">{equipo.mentor} {equipo.apellido}</p>
-                    </div>
-                    <div className="flex justify-end gap-2">
-                      <ViewButton
-                        url={`/card/equipo/${equipo.id.toString()}`}
-                      />
-                      <DeleteButton
-                        url={`/api/equipo/${equipo.id.toString()}`}
-                      />
-                    </div>
+                  <div className="col-span-2 mb-2 items-center flex justify-between">
+                      <p className="text-md">{equipo.mentor} {equipo.mentor_apellido}</p>
+                      <p className="text-sm">Mentor Tecnologias</p>
+                  </div>
+                  <div className="col-span-2 mb-2 items-center flex justify-between">
+                    <p className="text-md">{equipo.mentor_ux_ui} {equipo.mentor_ux_ui_apellido}</p>
+                    <p className="text-sm">Mentor UX-UI</p>
+                  </ div>
+                  <div className="col-span-2 mb-2 items-center flex justify-between">
+                    <p className="text-md">{equipo.mentor_qa} {equipo.mentor_qa_apellido}</p>
+                    <p className="text-sm">Mentor QA</p>
                   </div>
                 </div>
               ))}

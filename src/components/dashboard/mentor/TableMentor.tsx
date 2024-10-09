@@ -16,32 +16,29 @@ export default async function Table({
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white md:pt-0">
-          <div className="lg:hidden">
+          <div className="lg:hidden grid grid-cols-1 gap-4">
             {mentores?.map((mentor) => (
               <div
                 key={mentor.id}
-                className="mb-2 w-full rounded-md"
+                className="rounded-md bg-white dark:bg-gray-700 p-4"
               >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <p>{mentor.nombre}</p>
-                    </div>
-                    <p className="text-sm text-gray-500">{mentor.email}</p>
+                <div className="col-span-2 mb-2 items-center flex justify-between">
+                    <p className="text-lg font-medium">{mentor.apellido} {mentor.nombre}</p>
+                </div>
+                <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md">{mentor.email}</p>
+                    <p className="text-md font-medium">{mentor.telefono}</p>
+                  </div>
+                  <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md">{mentor.tecnologias}</p>
+                    <p className="text-md font-medium">{mentor.empresa}</p>
+                    <div className="flex justify-end gap-2">
+                      <ViewButton url={`/card/mentor/${mentor.id.toString()}`} />
+                      <EditButton url={`/edit/mentor/${mentor.id.toString()}`} />
+                      <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} />
+                    </div> 
                   </div>
                 </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">{mentor.apellido}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <ViewButton url={`/card/mentor/${mentor.id.toString()}`} />
-                    <EditButton url={`/edit/mentor/${mentor.id.toString()}`} />
-                    <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} />
-                  </div>
-                </div>
-              </div>
             ))}
           </div>
           <table className=" hidden min-w-full text-gray-900 dark:bg-gray-800 rounded-lg dark:text-white lg:table">

@@ -13,7 +13,7 @@ export default async function TableNotificacionEquipo({
     <>
       <div className="flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
-          <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white p-2 lg:pt-0">
+          <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 lg:pt-0">
             <div className="lg:hidden grid grid-cols-1 gap-4">
               {auditoriaEquipos?.map((equipo) => (
                 <div
@@ -22,7 +22,7 @@ export default async function TableNotificacionEquipo({
                 >
                   <div className="grid grid-cols-2  gap-2">
                     <div className="col-span-2 mb-2 items-center flex justify-between">
-                      <p className="font-medium">{equipo.nombre}</p>
+                      <p className="text-lg font-medium">{equipo.nombre}</p>
                       <p className="text-md">{equipo.cantidad_estudiantes} Estudiantes</p>
                     </div>
                     <div className="col-span-2 mb-2 items-center flex justify-between">

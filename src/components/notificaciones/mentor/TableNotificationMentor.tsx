@@ -22,12 +22,12 @@ export default async function TableNotificationMentor({
                 >
                   <div className="grid grid-cols-2 gap-2">
                       <div className="col-span-2 mb-2 items-center flex justify-between">
-                        <p className="font-medium">{mentor.apellido} {mentor.nombre}</p>
-                        <p className="font-medium">{mentor.email}</p>
+                        <p className="text-lg font-medium">{mentor.apellido} {mentor.nombre}</p>
+                        <p className="text-md">{mentor.email}</p>
                       </div>
                       <div className="col-span-2 mb-2 items-center flex justify-between">
-                      <p className="font-medium">{`${mentor.fecha_baja.toLocaleDateString("es-ES")}`}</p>
-                      <p className="font-medium">Baja</p>
+                      <p className="text-md">{`${mentor.fecha_baja.toLocaleDateString("es-ES")}`}</p>
+                      <p className="text-md">Baja</p>
                       </div>
                     </div>
                 </div>
