@@ -12,14 +12,14 @@ export default async function Notification() {
         <div className="flex flex-row justify-between items-center">
           <h3 className="font-semibold text-xl ">Notificaciones</h3>
         </div>
-        <div className="p-4 bg-white dark:bg-gray-700  mt-2 rounded-xl">
+        <div className="p-1 lg:p-4 bg-white dark:bg-gray-700  mt-2 rounded-xl">
           <div className="flex flex-col">
            {cantEstudiantesNoGrupos>0 &&
-            <ItemNotification cant={cantEstudiantesNoGrupos} message={`estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
+            <ItemNotification cant={cantEstudiantesNoGrupos} message={`Estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
            }
-            <ItemNotification cant={cantEstudiantes} message={`estudiante${cantEstudiantes==1?" que se dio":"s que se dieron"} de baja`}  url="/notificaciones/estudiante" />
-            <ItemNotification cant={cantMentores} message={`mentor${cantMentores==1?" que se dio":"es que se dieron"} de baja`} url="/notificaciones/mentor" />
-            <ItemNotification cant={cantEquipos} message={`equipo${cantEquipos==1?" que se dio":"s que se dieron"} de baja`} url="/notificaciones/equipo" />
+            <ItemNotification cant={cantEstudiantes} message={`Estudiante${cantEstudiantes==1?" que se eliminó":"s que se eliminaron"}`}  url="/notificaciones/estudiante" />
+            <ItemNotification cant={cantMentores} message={`Mentor${cantMentores==1?" que se eliminó":"es que se eliminaron"}`} url="/notificaciones/mentor" />
+            <ItemNotification cant={cantEquipos} message={`Equipo${cantEquipos==1?" que se eliminó":"s que se eliminaron"}`} url="/notificaciones/equipo" />
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 "use client";
 
+import BackButton from "@/components/dashboard/BackButton";
 import { Tecnologia } from "@/database/definitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -460,9 +460,9 @@ function FormMentor({
         </form>
       </div>
     </div>
-    <div className="container mx-auto max-w-5xl">
-      <Link href="/mentor" className="bg-blue-400 hover:bg-blue-700 w-56 rounded-md text-xl text-center text-white p-3 my-3">Volver a Mentor</Link>
-    </div>
+    <div className="mx-auto flex items-center justify-between gap-40 max-w-5xl max-lg:gap-3">
+        <BackButton url="/mentor" />
+      </div>
   </section>
   );
 }

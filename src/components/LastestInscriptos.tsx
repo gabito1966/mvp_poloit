@@ -9,13 +9,13 @@ export default async function LastestInscriptos() {
     <div className="flex w-full flex-col md:col-span-4 shadow-md rounded-xl">
       <div className="flex grow flex-col justify-between rounded-xl text-black bg-gray-100 dark:bg-gray-600 p-4">
         <div className="w-full flex flex-row justify-between items-center">
-          <h2 className={`mb-1 text-xl font-bold `}>
+          <h2 className={`mb-1 text-md lg:text-xl font-bold `}>
             Últimos estudiantes registrados
           </h2>
 
           <Link
             href="/estudiante"
-            className="text-lg text-blue-400 dark:text-white hover:text-blue-700 hover:underline font-semibold "
+            className="text-md lg:text-lg text-blue-400 hover:text-blue-700 hover:underline font-semibold "
           >
             Ver más
           </Link>

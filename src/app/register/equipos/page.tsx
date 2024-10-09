@@ -1,6 +1,6 @@
+import BackButton from "@/components/dashboard/BackButton";
 import FormEquipo from "@/components/register/equipo/FormEquipo";
 import { getCantEstudiantesSinGrupo } from "@/database/data";
-import Link from "next/link";
 
 
 export default async function RegisterEquipos() {
@@ -13,9 +13,9 @@ export default async function RegisterEquipos() {
         <FormEquipo  estudiantesNoGrupos={cantEstudiantesSinEquipo} />
     </div>
 
-        <div className="container justify-start mt-10">
-          <Link href="/equipo" className="bg-blue-400 hover:bg-blue-700 w-52 rounded-md text-xl text-center text-white p-2 my-2">Volver a Equipos</Link>
-        </div>
+    <div className="mx-auto flex items-center justify-between gap-40 max-w-7xl max-lg:gap-3 pt-5">
+        <BackButton url="/equipo" />
+      </div>
     </section>
   )
 }

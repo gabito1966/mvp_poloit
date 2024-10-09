@@ -15,27 +15,24 @@ export default async function Table({
   return (
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
-          <div className="lg:hidden">
+        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 lg:pt-0">
+          <div className="lg:hidden grid grid-cols-1 gap-4">
             {estudiantes?.map((estudiante) => (
               <div
                 key={estudiante.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="rounded-md bg-white dark:bg-gray-600 p-4"
               >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <div className="mb-2 flex items-center">
-                      <p>{estudiante.nombre}</p>
-                    </div>
-                    <p className="text-sm text-gray-500">{estudiante.email}</p>
-                  </div>
+                <div className="col-span-2 mb-2 items-center flex justify-between">
+                  <p className="text-lg font-medium"> {estudiante.apellido} {estudiante.nombre} </p>
                 </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">{estudiante.apellido}</p>
-                    <p></p>
-                  </div>
-                  <div className="flex justify-end gap-2">
+                <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md ">{estudiante.email}</p>
+                    <p className="text-md">{estudiante.telefono}</p>
+                </div>  
+                <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
+                    <p className="text-md ">{estudiante.tecnologias}</p>
+                    <p className="text-md">{estudiante.ong}</p>
+                <div className="flex justify-end gap-2">
                     <ViewButton
                       url={`/card/estudiante/${estudiante.id.toString()}`}
                     />
@@ -47,13 +44,14 @@ export default async function Table({
                       validarRuta="/estudiante"
                  
                     />
-                  </div>
+                </div>
                 </div>
               </div>
+              
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg lg:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className="rounded-lg text-left text-sm font-normal dark:bg-gray-600">
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   apellido y nombre
@@ -129,6 +127,6 @@ export default async function Table({
           </table>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

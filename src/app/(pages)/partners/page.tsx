@@ -7,17 +7,17 @@ interface PartnersSectionProps {
     images: string[];
 }
 
-const PartnersSection: React.FC<PartnersSectionProps> = ({ title,paragraph , images }) => {
+const PartnersSection: React.FC<PartnersSectionProps> = ({ title, paragraph , images }) => {
     return (        
         <section className="container max-w-7xl pt-5 ">    
-            <div className="w-full flex-grow p-3 ">
-                <h1 className="font-bold text-xl lg:text-3xl my-2 mx-5 text-left">
+            <div className="w-full flex-grow p-1 ">
+                <h1 className="font-bold text-xl lg:text-3xl my-2 mx-5 text-center lg:text-left">
                     {title}
                 </h1>
                 <h2 className="w-full font-semibold text-md lg:text-xl my-5 px-10 text-left">
                     {paragraph}
                 </h2>
-                <div className="h-auto w-full flex items-center">
+                <div className="h-auto w-full flex items-center mb-1">
                     <Carousel images={images} />
                 </div>
                 <hr />

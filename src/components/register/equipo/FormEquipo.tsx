@@ -124,7 +124,7 @@ if(estudiantesNoGrupos>5){
               <div className="">
                 <label
                   htmlFor="nombre"
-                  className="block text-sm font-medium text-gray-500"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Nombre del Equipo:
                 </label>
@@ -155,7 +155,7 @@ if(estudiantesNoGrupos>5){
               <div>
                 <label
                   htmlFor="tamano"
-                  className="block text-sm font-medium text-gray-500"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Tamaño:
                 </label>
@@ -188,7 +188,7 @@ if(estudiantesNoGrupos>5){
               <div>
                 <label
                   htmlFor="fecha_inicio"
-                  className="block text-sm font-medium text-gray-500"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Fecha de inicio:
                 </label>
@@ -222,7 +222,7 @@ if(estudiantesNoGrupos>5){
               <div>
                 <label
                   htmlFor="fecha_fin"
-                  className="block text-sm font-medium text-gray-500"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Fecha final de entrega:
                 </label>
@@ -273,9 +273,7 @@ if(estudiantesNoGrupos>5){
             <span className="align-top">* </span>
             {
               estudiantesNoGrupos > 0 ?<span className="text-sm">{estudiantesNoGrupos} estudiante{estudiantesNoGrupos!=1?"s":""} sin grupos</span>:<span className="text-base">No hay estudiantes para crear/asignar a ningun grupo</span>
-            }
-
-            
+            }  
           </div>
         </form>
       </div>

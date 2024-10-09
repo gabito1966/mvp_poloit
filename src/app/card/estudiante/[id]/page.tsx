@@ -1,5 +1,6 @@
+
+import BackButton from "@/components/dashboard/BackButton";
 import { fetchGet } from "@/lib/fetchFunctions";
-import Link from "next/link";
 
 export default async function EstudianteCard({
     params,
@@ -68,11 +69,9 @@ export default async function EstudianteCard({
                 }
             </div>
             </div>
-            <div className="bg-blue-400 hover:bg-blue-700 w-60 rounded-md text-center text-white p-4 mt-20  mx-auto lg:mx-0">
-                <Link href="/estudiante">
-                    Volver a estudiante
-                </Link>
-            </div>
+            <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
+        <BackButton url="/estudiante" />
+      </div>
         </section>
         </>
     )
