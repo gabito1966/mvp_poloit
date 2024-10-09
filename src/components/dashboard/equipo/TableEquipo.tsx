@@ -34,7 +34,7 @@ export default async function TableEquipos({
                         <p className="text-sm">{equipo.tamano} Estudiantes</p>
                   </div>
                   <div className="col-span-2 mb-2 items-center flex justify-between">
-                    <p className="text-sm text-gray-500">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
+                    <p className="text-md">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
                     <div className="flex justify-end gap-2"> 
                       <ViewButton url={`/card/equipo/${equipo.id.toString()}`} />
                       <DeleteButton url={`/api/equipo/${equipo.id.toString()}`} />
