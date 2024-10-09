@@ -15,12 +15,12 @@ export default async function Table({
   return (
     <div className=" flow-root mt-4">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 lg:pt-0">
           <div className="lg:hidden grid grid-cols-1 gap-4">
             {estudiantes?.map((estudiante) => (
               <div
                 key={estudiante.id}
-                className="rounded-md bg-white dark:bg-gray-700 p-4"
+                className="rounded-md bg-white dark:bg-gray-600 p-4"
               >
                 <div className="col-span-2 mb-2 items-center flex justify-between">
                   <p className="text-lg font-medium"> {estudiante.apellido} {estudiante.nombre} </p>
@@ -49,7 +49,7 @@ export default async function Table({
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg lg:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className="rounded-lg text-left text-sm font-normal dark:bg-gray-600">
               <tr>
                 <th scope="col" className="capitalize px-3 py-5 font-medium">
                   apellido y nombre
