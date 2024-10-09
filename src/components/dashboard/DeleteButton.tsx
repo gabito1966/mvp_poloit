@@ -45,10 +45,10 @@ function DeleteButton({
         className={`${newClass}`}
         title={`${titulo}`}
       >
-        <button className="rounded-md  hover:bg-gray-100 hover:text-red-500">
+        <button className="rounded-md   hover:text-red-500 ">
           <span className="sr-only">Eliminar</span>
           <div
-            className="rounded-md  hover:bg-gray-100 w-5 h-fit"
+            className="rounded-md   w-5 h-fit"
             title="Eliminar"
           >
             <svg className="w-5 h-5">

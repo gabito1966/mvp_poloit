@@ -16,7 +16,7 @@ export default async function LastestInscriptos() {
 
           <Link
             href="/estudiante"
-            className="text-lg text-blue-400 hover:text-blue-700 hover:underline font-semibold "
+            className="text-lg text-blue-400 dark:text-white hover:text-blue-700 hover:underline font-semibold "
           >
             Ver más
           </Link>

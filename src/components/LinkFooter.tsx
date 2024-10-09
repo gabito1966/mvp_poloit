@@ -8,7 +8,7 @@ export default function LinkFooter({
   return (
     <Link
       href={dataFooter.link}
-      className="flex text-center w-fit justify-center items-center text-sm max-sm:text-xs hover:text link__footer"
+      className="flex text-center w-fit justify-center items-center text-sm max-sm:text-xs  link__footer"
       title={`linedin ${dataFooter.nombre}`}
       target="_blank"
     >

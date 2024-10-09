@@ -51,8 +51,6 @@ export async function POST(request: Request) {
       });
     }
 
-    console.log(validateJWT);
-
     const message = await generarCuerpoEmailGemini(tipo, mensaje || "", session);
 
     return NextResponse.json(

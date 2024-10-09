@@ -156,6 +156,11 @@ export async function DELETE(
         `;
 
     await sql`
+    DELETE FROM correo_equipo
+  WHERE equipo_id = ${idequipo};
+        `;
+
+    await sql`
       DELETE FROM
         equipos
       WHERE
@@ -165,6 +170,7 @@ export async function DELETE(
     revalidatePath('/');
     revalidatePath(`/equipo`);
     revalidatePath("/notificaciones/equipo");
+    revalidatePath("/mensaje");
 
     return NextResponse.json(createResponse(true, [], "Equipo eliminado"), {
       status: 200,

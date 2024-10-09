@@ -12,7 +12,8 @@ const protectedRoutes = [
   "register",
   "card",
   "api",
-  "notificaciones"
+  "notificaciones",
+  "mensaje"
 ];
 const publicRoutes = ["/auth/login", "/"];
 

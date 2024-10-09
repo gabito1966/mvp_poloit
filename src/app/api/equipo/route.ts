@@ -424,11 +424,15 @@ export async function DELETE(request: Request) {
     await sql`
       DELETE FROM equipos_estudiantes;
     `;
-
+    
     await sql`
       DELETE FROM equipos;
     `;
-
+    
+    await sql`
+      DELETE FROM correos;
+    `;
+    
     revalidatePath("/equipo");
     revalidatePath("/");
     return NextResponse.json(

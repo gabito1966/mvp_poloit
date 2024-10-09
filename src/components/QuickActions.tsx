@@ -1,3 +1,4 @@
+import { revalidateFuntion } from "@/lib/server/serverCache";
 import Link from "next/link";
 
 export default async function QuickActions() {
@@ -36,6 +37,7 @@ export function ItemQuickAction({
   url: string;
   content: string;
 }) {
+  revalidateFuntion(url);
   return (
     <>
       <Link

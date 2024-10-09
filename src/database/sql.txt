@@ -181,17 +181,17 @@ EXECUTE FUNCTION auditoria_equipos_trigger();
 ``
 CREATE TYPE tipo_correo_enum AS ENUM ('BIENVENIDA', 'SEGUIMIENTO');
 
+-- 3. Insertar los tipos de correo predefinidos
+INSERT INTO tipo_correo (tipo) VALUES
+('BIENVENIDA'),
+('SEGUIMIENTO');
+
 -- 2. Crear la tabla tipo_correo
 CREATE TABLE tipo_correo (
     id SERIAL PRIMARY KEY,
     tipo tipo_correo_enum NOT NULL UNIQUE,
     descripcion TEXT
 );
-
--- 3. Insertar los tipos de correo predefinidos
-INSERT INTO tipo_correo (tipo) VALUES
-('BIENVENIDA'),
-('SEGUIMIENTO');
 
 -- 4. Crear la tabla correos sin la columna equipo_id
 CREATE TABLE correos (

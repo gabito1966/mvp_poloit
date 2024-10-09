@@ -112,7 +112,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <nav
-      className={`${roboto.className} lg:w-64 max-lg:w-12 max-lg:px-0 fixed  flex flex-col h-full bg-white text-black border-2 border-gray-300 px-2 dark:bg-slate-800 dark:text-white dark:hover:text-black`}
+      className={`${roboto.className} lg:w-64 max-lg:w-12 max-lg:px-0 fixed  flex flex-col h-full bg-white text-black border-r-2 border-gray-300 px-2 dark:bg-slate-800 dark:text-white `}
     >
       <div>
         <ul className="space-y-4 p-2 md:p-6">

@@ -50,7 +50,7 @@ WHERE
 GROUP BY 
     e.id, o.id
 ORDER BY 
-    e.id
+    e.apellido
 LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
@@ -100,7 +100,7 @@ WHERE
 GROUP BY 
     m.id, e.id
 ORDER BY 
-    m.id
+    m.apellido
 LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
@@ -119,7 +119,6 @@ export async function fetchFilteredEquipos(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    //poner el tipo de dato
     const equipos = await sql`
       SELECT 
         e.id,
@@ -376,7 +375,7 @@ export async function fetchPagesEquiposBaja(query: string) {
   try {
     const rows = await sql`
       SELECT COUNT(*)
-      FROM equipos
+      FROM auditoria_equipos
       WHERE
         nombre ILIKE ${`%${query}%`}
     `;
@@ -407,7 +406,6 @@ export async function fetchCardData() {
     const totalMentoresInactivos = Number(data[2].rows[0].count ?? "0");
     const totalEquipos = Number(data[3].rows[0].count ?? "0");
 
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
     return {
       totalEstudiantes,
       totalEstudiantesInactivos,
