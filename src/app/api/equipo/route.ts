@@ -109,7 +109,7 @@ export async function POST(request: Request) {
         tecnologias t ON mt.id_tecnologia = t.id
       WHERE 
         t.tipo = 'INTERFACE'
-        AND estado = true
+        AND m.estado = true
       GROUP BY 
         m.id
       LIMIT
@@ -376,7 +376,7 @@ export async function GET(request: Request) {
               `;
 
     return NextResponse.json(
-      createResponse(true, [result_mentor], "consulta exitosa"),
+      createResponse(true, [result_mentor], "Consulta exitosa"),
       {
         status: 200,
       }
