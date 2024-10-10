@@ -76,7 +76,7 @@ export async function POST(request: Request) {
   try {
     const { rows } = await sql`
     INSERT INTO mentores (nombre, apellido, email, telefono, id_empresa)
-    VALUES (${nombre}, ${apellido}, ${email}, ${telefono}, ${id_empresa})
+    VALUES (${nombre.toLowerCase()}, ${apellido.toLowerCase()}, ${email}, ${telefono}, ${id_empresa})
     RETURNING *
   `;
 

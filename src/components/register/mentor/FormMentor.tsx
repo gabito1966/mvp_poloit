@@ -301,7 +301,7 @@ function FormMentor({
               htmlFor="tecnologias1"
               className="block text-sm font-medium text-gray-500"
             >
-              Tecnologías principal:
+              Tecnología principal:
             </label>
 
             <select
@@ -343,7 +343,7 @@ function FormMentor({
               htmlFor="tecnologias2"
               className="block text-sm font-medium text-gray-500"
             >
-              Tecnologías secundaria:
+              Tecnología secundaria:
             </label>
 
             <select
@@ -370,7 +370,7 @@ function FormMentor({
               </option>
               {tecnologias.filter(e => e.nombre != "UX/UI" && e.nombre != "QA" && e.tipo != "FRONTEND" && e.nombre != form.tecnologias[0].nombre).map((e, i) => {
                 return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  <option  key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre} - {e.tipo}
                   </option>
                 );
@@ -410,7 +410,7 @@ function FormMentor({
               </option>
               {empresas.map((e, i) => {
                 return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  <option className="capitalize" key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
                     {e.nombre}
                   </option>
                 );

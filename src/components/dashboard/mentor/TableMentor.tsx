@@ -22,20 +22,20 @@ export default async function Table({
                 key={mentor.id}
                 className="rounded-md bg-white dark:bg-gray-600 p-4"
               >
-                <div className="col-span-2 mb-2 items-center flex justify-between">
+                <div className="col-span-2 mb-2 items-center flex justify-between" title={`${mentor.apellido} ${mentor.nombre}`}>
                     <p className="text-lg font-medium">{mentor.apellido} {mentor.nombre}</p>
                 </div>
                 <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
-                    <p className="text-md">{mentor.email}</p>
-                    <p className="text-md font-medium">{mentor.telefono}</p>
+                    <p className="text-md" title={mentor.email}>{mentor.email}</p>
+                    <p className="text-md font-medium" title={mentor.telefono}>{mentor.telefono}</p>
                   </div>
                   <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
-                    <p className="text-md">{mentor.tecnologias}</p>
-                    <p className="text-md font-medium">{mentor.empresa}</p>
+                    <p className="text-md" title={mentor.tecnologias.toString()}>{mentor.tecnologias.toString()}</p>
+                    <p className="text-md font-medium capitalize" title={mentor.empresa}>{mentor.empresa}</p>
                     <div className="flex justify-end gap-2">
                       <ViewButton url={`/card/mentor/${mentor.id.toString()}`} />
                       <EditButton url={`/edit/mentor/${mentor.id.toString()}`} />
-                      <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} />
+                      <DeleteButton url={`/api/mentor/${mentor.id.toString()}`} validarRuta="/mentor"/>
                     </div> 
                   </div>
                 </div>
@@ -70,33 +70,30 @@ export default async function Table({
                   key={mentor.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {mentor.apellido.length < 15
-                      ? mentor.apellido
-                      : mentor.apellido.slice(0, 7) + "..."}, {" "}   
-                    {mentor.nombre.length < 15
-                      ? mentor.nombre
-                      : mentor.nombre.slice(0, 7) + "..."}
+                  <td className="whitespace-nowrap px-3 py-3 capitalize" title={`${mentor.apellido}, ${mentor.nombre}`}>
+                    {(mentor.apellido.length + mentor.nombre.length) < 26
+                      ? `${mentor.apellido}, ${mentor.nombre}`
+                      : `${mentor.apellido} ${mentor.nombre}`.slice(0, 23) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {mentor.email.length < 20
+                  <td className="whitespace-nowrap px-3 py-3" title={mentor.email}>
+                    {mentor.email.length < 25
                       ? mentor.email
-                      : mentor.email.slice(0, 19) + "..."}
+                      : mentor.email.slice(0, 22) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3" title={mentor.telefono}>
                     {mentor.telefono.length < 10
                       ? mentor.telefono
                       : mentor.telefono.slice(0, 7) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3" title={mentor.tecnologias.join(", ")}>
                     {mentor.tecnologias.join(", ").length < 15
                       ? mentor.tecnologias.join(", ")
-                      : mentor.tecnologias.join(", ").slice(0, 10) + "..."}
+                      : mentor.tecnologias.join(", ").slice(0, 12) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 capitalize" title={mentor.empresa}>
                     {mentor.empresa.length < 15
                       ? mentor.empresa
-                      : mentor.empresa.slice(0, 8) + "..."}
+                      : mentor.empresa.slice(0, 12) + "..."}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex  justify-end gap-3">
@@ -108,6 +105,7 @@ export default async function Table({
                       />
                       <DeleteButton
                         url={`/api/mentor/${mentor.id.toString()}`}
+                        validarRuta="/mentor"
                       />
                     </div>
                   </td>

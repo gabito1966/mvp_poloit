@@ -21,6 +21,8 @@ export async function fetchFilteredEstudiantes(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  const filter :string= query.replaceAll(" ","");
+
   try {
     const estudiantes = await sql<EstudiantesData>`
       SELECT 
@@ -42,10 +44,14 @@ LEFT JOIN
 INNER JOIN 
     ongs o ON e.id_ong = o.id
 WHERE 
-    (e.nombre ILIKE ${`%${query}%`} OR
-    e.apellido ILIKE ${`%${query}%`} OR
-    e.email ILIKE ${`%${query}%`} OR
-    e.telefono ILIKE ${`%${query}%`} )AND
+    (e.nombre ILIKE ${`%${filter}%`} OR
+    e.apellido ILIKE ${`%${filter}%`} OR
+    e.email ILIKE ${`%${filter}%`} OR
+    e.telefono ILIKE ${`%${filter}%`} OR
+    CONCAT(e.nombre,e.apellido) ILIKE ${`%${filter}%`} OR
+    CONCAT(e.apellido,e.nombre) ILIKE ${`%${filter}%`} OR
+    CONCAT(e.nombre,' ',e.apellido) ILIKE ${`%${query.trim()}%`} OR
+    CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`}) AND
     e.estado = true
 GROUP BY 
     e.id, o.id
@@ -54,6 +60,7 @@ ORDER BY
 LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
+    
 
     return estudiantes.rows;
   } catch (error) {
@@ -70,6 +77,8 @@ export async function fetchFilteredMentores(
   currentPage: number
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const filter :string= query.replaceAll(" ","");
 
   try {
     const mentores = await sql<MentorData>`
@@ -92,10 +101,15 @@ LEFT JOIN
 INNER JOIN 
     empresas e ON m.id_empresa = e.id
 WHERE 
-    (m.nombre ILIKE ${`%${query}%`} OR
-    m.apellido ILIKE ${`%${query}%`} OR
-    m.email ILIKE ${`%${query}%`} OR
-    m.telefono ILIKE ${`%${query}%`} )AND
+    (m.nombre ILIKE ${`%${filter}%`} OR
+    m.nombre ILIKE ${`%${query}%`} OR
+    m.apellido ILIKE ${`%${filter}%`} OR
+    m.email ILIKE ${`%${filter}%`} OR
+    m.telefono ILIKE ${`%${filter}%`} OR
+     CONCAT(m.nombre,m.apellido) ILIKE ${`%${filter}%`} OR
+    CONCAT(m.apellido,m.nombre) ILIKE ${`%${filter}%`} OR
+     CONCAT(m.nombre,' ',m.apellido) ILIKE ${`%${query.trim()}%`} OR
+    CONCAT(m.apellido,' ',m.nombre) ILIKE ${`%${query.trim()}%`}) AND
     m.estado = true
 GROUP BY 
     m.id, e.id
@@ -163,11 +177,8 @@ export async function fetchFilteredEquipos(query: string, currentPage: number) {
       LEFT JOIN 
         mentores mqa ON e.id_mentor_qa = mqa.id
       WHERE 
-        (e.nombre ILIKE ${`%${query}%`} OR
-        s.nombre ILIKE ${`%${query}%`} OR
-        s.apellido ILIKE ${`%${query}%`} OR
-        s.email ILIKE ${`%${query}%`} OR
-        s.telefono ILIKE ${`%${query}%`} )
+        (e.nombre ILIKE ${`%${query}%`} OR 
+        e.nombre ILIKE ${`%${query.trim()}%`})
       GROUP BY 
         e.id, m.id, muxui.id, mqa.id
       ORDER BY 
@@ -228,7 +239,8 @@ export async function fetchFilteredOngs(query: string, currentPage: number) {
       FROM 
         ongs o
       WHERE 
-        o.nombre ILIKE ${`%${query}%`}
+        o.nombre ILIKE ${`%${query}%`} OR
+        o.nombre ILIKE ${`%${query.trim()}%`}
       ORDER BY 
         o.id
       LIMIT ${ITEMS_PER_PAGE}

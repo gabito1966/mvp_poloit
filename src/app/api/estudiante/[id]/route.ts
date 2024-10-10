@@ -135,7 +135,7 @@ export async function PUT(
   } = validatedFields.data;
 
   try {
-    await sql`UPDATE estudiantes SET nombre = ${nombre}, apellido = ${apellido}, email = ${email}, telefono = ${telefono}, id_ong = ${id_ong} WHERE id = ${id_estudiante}`;
+    await sql`UPDATE estudiantes SET nombre = ${nombre.toLowerCase()}, apellido = ${apellido.toLowerCase()}, email = ${email}, telefono = ${telefono}, id_ong = ${id_ong} WHERE id = ${id_estudiante}`;
 
     await sql`DELETE FROM estudiantes_tecnologias WHERE id_estudiante = ${id_estudiante}`;
 
