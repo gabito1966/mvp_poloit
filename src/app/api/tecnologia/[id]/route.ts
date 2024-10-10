@@ -1,24 +1,8 @@
+import { TecnologiaZod } from "@/database/definitions";
+import { UpdateTecnologia } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const GetTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
-});
-
-type Tecnologia = {
-  id: number;
-  nombre: string;
-};
-
-const UpdateTecnologia = z.object({
-  id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
-});
 
 export async function GET(
   request: Request,
@@ -35,7 +19,7 @@ export async function GET(
     }
 
     const { rows } =
-      await sql<Tecnologia>`SELECT * FROM tecnologias WHERE id = ${id}`;
+      await sql<TecnologiaZod>`SELECT * FROM tecnologias WHERE id = ${id}`;
 
     if (rows.length === 0) {
       return NextResponse.json(
@@ -70,7 +54,7 @@ export async function PUT(
       );
     }
 
-    const body = (await request.json()) as Tecnologia;
+    const body = (await request.json()) as TecnologiaZod;
 
     const validatedFields = UpdateTecnologia.safeParse({
       ...body,
@@ -92,7 +76,7 @@ export async function PUT(
     const { id: id_tecnologia, nombre } = validatedFields.data;
 
     const { rows } =
-      await sql<Tecnologia>`UPDATE tecnologias SET nombre = ${nombre} WHERE id = ${id_tecnologia} RETURNING *`;
+      await sql<TecnologiaZod>`UPDATE tecnologias SET nombre = ${nombre} WHERE id = ${id_tecnologia} RETURNING *`;
 
     if (rows.length === 0) {
       return NextResponse.json(

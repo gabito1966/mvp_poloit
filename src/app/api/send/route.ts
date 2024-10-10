@@ -1,3 +1,4 @@
+import { CreateSchemaMensaje, MensajeInterface } from "@/lib/definitions/validationZodDefinitions";
 import { JWTValidate } from "@/lib/server/auth";
 import {
   EmailServiceFactory,
@@ -11,22 +12,6 @@ import {
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const CreateSchemaMensaje = z.object({
-  mensaje: z
-    .string({ message: "Ingrese un mensaje" })
-    .min(20, "El mensaje debe contener al menos 20 caracteres"),
-  tipo: z.coerce
-    .number({
-      message: "seleccione tipo",
-      invalid_type_error: "seleccione tipo valido",
-    })
-    .gt(0, { message: "seleccione tipo" }),
-  session: z.string({ message: "Inicie sesión" }),
-});
-
-type MensajeInterface = z.infer<typeof CreateSchemaMensaje>;
 
 export async function POST(request: Request) {
   const body = (await request.json()) as MensajeInterface;

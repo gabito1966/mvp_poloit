@@ -1,57 +1,8 @@
+import { EstudianteInterfaceZod, GetEstudiante, UpdateEstudiante } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const UpdateEstudiante = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" })
-    .trim()
-    .min(2, "El nombre debe de contener al menos 2 caracteres")
-    .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  apellido: z
-    .string({ message: "Ingrese un apellido" })
-    .trim()
-    .min(2, "El apellido debe contener al menos 2 caracter")
-    .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  estado: z.boolean(),
-  email: z
-    .string({ message: "Ingrese un email" })
-    .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 caracteres")
-    .max(50, "El email debe contener menos de 50 caracteres"),
-  telefono: z
-    .string({ message: "Ingrese un teléfono" })
-    .min(6, "El teléfono debe contener al menos 6 números")
-    .max(20, "El teléfono debe contener menos de 20 números")
-    .regex(/^[0-9]+$/, "Solo se permiten numéros"),
-  id_ong: z.coerce.number({
-    invalid_type_error: "Seleccione una organización",
-  }),
-  tecnologias: z
-    .array(
-      z.object({
-        id: z.coerce.number(),
-        nombre: z.string(),
-        tipo: z.string(),
-      })
-    )
-    .min(1, "Debe seleccionar una tecnología"),
-});
-
-type EstudianteInterface = z.infer<typeof UpdateEstudiante>;
-
-const GetEstudiante = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numéro" }),
-});
 
 export async function GET(
   request: Request,
@@ -85,7 +36,7 @@ export async function GET(
   const { id: idEstudiante } = validatedFields.data;
 
   try {
-    const { rows } = await sql<EstudianteInterface>`
+    const { rows } = await sql<EstudianteInterfaceZod>`
         SELECT 
           s.id,
           s.nombre,
@@ -153,7 +104,7 @@ export async function PUT(
     );
   }
 
-  const body = (await request.json()) as EstudianteInterface;
+  const body = (await request.json()) as EstudianteInterfaceZod;
 
   const validatedFields = UpdateEstudiante.safeParse({
     ...body,

@@ -1,23 +1,10 @@
+import { CreateEmpresa, EmpresaZod } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const CreateSchemaEmpresa = z.object({
-  id: z.coerce.number({
-    invalid_type_error: "EL ID debe ser de tipo número",
-    message: "Ingrese un ID",
-  }),
-  nombre: z
-    .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
-});
-
-const CreateEmpresa = CreateSchemaEmpresa.omit({ id: true });
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as z.infer<typeof CreateEmpresa>;
+  const body = (await request.json()) as EmpresaZod;
   const validatedFields = CreateEmpresa.safeParse(body);
 
   if (!validatedFields.success) {

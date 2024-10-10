@@ -1,59 +1,8 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-
-const UpdateScremaMentor = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" })
-    .trim()
-    .min(2, "El nombre debe de contener al menos 2 caracteres")
-    .max(25, "El nombre debe de contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  apellido: z
-    .string({ message: "Ingrese un apellido" })
-    .trim()
-    .min(2, "El apellido debe contener al menos 2 caracter")
-    .max(25, "El apellido debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  email: z
-    .string({ message: "Ingrese un email" })
-    .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 caracteres")
-    .max(50, "El email debe contener menos de 50 caracteres"),
-  estado: z.boolean(),
-  telefono: z
-    .string({ message: "Ingrese un teléfono" })
-    .min(6, "El teléfono debe contener al menos 6 números")
-    .max(20, "El teléfono debe contener menos de 20 números")
-    .regex(/^[0-9]+$/, "Solo se permiten numéros"),
-  id_empresa: z.coerce.number({
-    invalid_type_error: "Seleccione una empresa",
-  }),
-  tecnologias: z
-    .array(
-      z.object({
-        id: z.coerce.number(),
-        nombre: z.string(),
-        tipo: z.string(),
-      })
-    )
-    .min(1, "Debe seleccionar al menos una tecnología"),
-});
-
-const UpdateMentor = UpdateScremaMentor.omit({});
-
-type MentorInterface = z.infer<typeof UpdateMentor>;
-
-const GetMentor = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
-});
+import { GetMentor, MentorInterface, UpdateMentor } from "@/lib/definitions/validationZodDefinitions";
 
 export async function GET(
   request: Request,

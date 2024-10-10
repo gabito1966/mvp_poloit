@@ -158,3 +158,43 @@ export interface TipoCorreoInterface {
   tipo:string;
   descripcion:string;
 }
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export type DataZ = {
+  email: string;
+  password: string;
+};
+
+export interface UserLoginResponse {
+  success: boolean;
+  data?: AdministradorLogin;
+  message?: string;
+}
+
+export type AdministradorLogin = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  contrasena?: string;
+};
+
+export type OngInterface = {
+  id?: number;
+  nombre: string;
+};
+
+export interface OngResponse {
+  success: boolean;
+  data?: OngInterface[];
+  message?: string;
+}
+
+export type TecnologiaZod = {
+  id: number;
+  nombre: string;
+};
