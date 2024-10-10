@@ -12,7 +12,7 @@ function BackButton({ url, estado }: { url: string; estado?: boolean }) {
         title={`volver ${p}`}
       >
         {estado && <AnimationDot />}
-        <span className="hidden md:block">Volver a {p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}</span>{" "}
+        <span className="lg:block">Volver a {p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}</span>{" "}
       </Link>
     </>
   );

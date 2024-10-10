@@ -13,14 +13,14 @@ export default async function Table({
   const estudiantes = await fetchFilteredEstudiantes(query, currentPage);
 
   return (
-    <div className=" flow-root mt-4">
+    <div className=" flow-root mt-4 mx-auto">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 lg:pt-0">
-          <div className="lg:hidden grid grid-cols-1 gap-4">
+          <div className="lg:hidden grid grid-cols-1 gap-3">
             {estudiantes?.map((estudiante) => (
               <div
                 key={estudiante.id}
-                className="rounded-md bg-white dark:bg-gray-600 p-4"
+                className="rounded-md bg-white dark:bg-gray-700 p-1"
               >
                 <div className="col-span-2 mb-2 items-center flex justify-between">
                   <p className="text-lg font-medium"> {estudiante.apellido} {estudiante.nombre} </p>
@@ -42,12 +42,10 @@ export default async function Table({
                     <DeleteButton
                       url={`/api/estudiante/${estudiante.id.toString()}`}
                       validarRuta="/estudiante"
-                 
                     />
                 </div>
                 </div>
-              </div>
-              
+              </div>         
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg lg:table">

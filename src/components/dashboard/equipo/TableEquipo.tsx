@@ -22,7 +22,7 @@ export default async function TableEquipos({
     return (
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
-          <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white md:pt-0">
+          <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 dark:text-white lg:pt-0">
             <div className="lg:hidden grid grid-cols-1 gap-4">
               {equipo?.map((equipo) => (
                 <div
@@ -55,7 +55,7 @@ export default async function TableEquipos({
                 </div>
               ))}
             </div>
-            <table className="hidden min-w-full text-gray-900 dark:bg-gray-800 rounded-lg dark:text-white lg:table">
+            <table className="hidden min-w-full text-gray-900 dark:bg-gray-600 rounded-lg dark:text-white lg:table">
               <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="capitalize px-4 py-5 font-medium ">
