@@ -102,5 +102,5 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
 
 ## Mentor técnico
 
-| [<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width=115><br><sub>Ernesto Ponce</sub>](https://github.com/Micolash89) <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ernesto-ponce-597934103/) | 
+| [<img src="https://trello-members.s3.amazonaws.com/553a8d767dc93faa578c7c25/5dc47e49d1017969d24abf60ee5429cb/170.png" width=115><br><sub>Ernesto Ponce</sub>]() <br> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ernesto-ponce-597934103/) | 
 | :-----: |
