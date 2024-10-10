@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AnimationDot from "../AnimationDot";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 function CreateButton({ url, estado }: { url: string; estado?: boolean }) {
   const p = url.split("/")[2];
@@ -12,23 +13,7 @@ function CreateButton({ url, estado }: { url: string; estado?: boolean }) {
         title={`registrar ${p}`}
       >
         {estado && <AnimationDot />}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6 md:hidden"
-          width={24}
-          height={24}
-        >
-          
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
+        <PlusIcon className="w-6 h-6 md:hidden" />
         <span className="hidden md:block">
           Registrar {p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}
         </span>{" "}
