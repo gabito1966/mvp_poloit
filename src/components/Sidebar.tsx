@@ -115,7 +115,7 @@ const Sidebar: React.FC = () => {
         )}
       >
         <form
-          className={clsx(" items-center  hover:bg-blue-50 rounded-sm w-full duration-500", {
+          className={clsx(" items-center  hover:bg-blue-50 dark:hover:text-black rounded-sm w-full duration-500", {
             hidden: !session,
           })}
           action={async () => {
