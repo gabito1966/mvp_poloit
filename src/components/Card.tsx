@@ -2,13 +2,8 @@
 
 import clsx from "clsx";
 import { AnimatedNumber } from './AnimatedNumber';
+import { CardProps } from "@/lib/definitions/frontEndDefinitions";
 
-interface CardProps {
-  name: string;
-  icon: string;
-  cant: number;
-  line?: boolean;
-}
 
 export function Card({ name, icon, cant, line }: CardProps) {
   return (

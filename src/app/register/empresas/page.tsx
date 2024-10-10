@@ -1,11 +1,8 @@
 "use client"
+import { Empresa } from '@/lib/definitions/frontEndDefinitions';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-interface Empresa {
-    id: number;
-    nombre: string;
-}
 
 export default function RegisterEmpresas() {
     const [empresas, setEmpresas] = useState<Empresa[]>([]);

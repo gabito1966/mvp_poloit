@@ -1,9 +1,5 @@
+import { EmailTemplateProps } from '@/lib/definitions/frontEndDefinitions';
 import * as React from 'react';
-
-interface EmailTemplateProps {
-  firstName: string;
-  content: string;
-}
 
 export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   firstName,

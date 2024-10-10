@@ -1,10 +1,8 @@
 "use client"
+
+import { CarouselProps } from '@/lib/definitions/frontEndDefinitions';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-
-type CarouselProps = {
-    images: string[];
-};
 
 const Carousel: React.FC<CarouselProps> = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);

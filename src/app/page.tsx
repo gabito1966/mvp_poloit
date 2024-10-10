@@ -14,7 +14,6 @@ import { Suspense } from "react";
 
 export default async function Home() {
   
-
   return (
     <main className=" w-full p-6 max-w-screen-2xl">
       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Inicio</h1>

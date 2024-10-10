@@ -1,11 +1,7 @@
 'use client';
 
+import { AnimatedNumberProps } from '@/lib/definitions/frontEndDefinitions';
 import React, { useState, useEffect } from 'react';
-
-interface AnimatedNumberProps {
-  value: number;
-  className?: string;
-}
 
 export function AnimatedNumber({ value, className }: AnimatedNumberProps) {
   const [displayValue, setDisplayValue] = useState(0);

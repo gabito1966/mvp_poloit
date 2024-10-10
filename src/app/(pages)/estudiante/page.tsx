@@ -4,6 +4,7 @@ import Search from "@/components/dashboard/Search";
 import TableEstudiante from "@/components/dashboard/estudiante/TableEstudiante";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEstudiantes } from "@/database/data";
+import { PageProps } from "@/lib/definitions/frontEndDefinitions";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -11,13 +12,6 @@ export const metadata: Metadata = {
   title: "Estudiantes",
   description: "Encuentra el listado de estudiantes",
 };
-
-interface PageProps {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}
 
 async function page({ searchParams }: PageProps) {
   const query = searchParams?.query || "";

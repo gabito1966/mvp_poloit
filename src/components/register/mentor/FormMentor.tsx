@@ -2,38 +2,12 @@
 
 import BackButton from "@/components/dashboard/BackButton";
 import { Tecnologia } from "@/database/definitions";
+import { EmpresaFrondEnd, MentorFrondEnd, MentorParams } from "@/lib/definitions/frontEndDefinitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-
-interface Mentor {
-  id?: "";
-  apellido: string;
-  nombre: string;
-  email: string;
-  telefono: string;
-  estado?: string;
-  id_empresa: number;
-  tecnologias: { id: number; nombre: string; tipo: string }[];
-}
-
-interface MentorParams {
-  id: number;
-  apellido: string;
-  nombre: string;
-  email: string;
-  telefono: string;
-  estado: string;
-  id_empresa: number;
-  tecnologias: { id: number; nombre: string; tipo: string }[];
-}
-
-export type Empresa = {
-  id: number;
-  nombre: string;
-};
 
 function FormMentor({
   empresas,
@@ -41,7 +15,7 @@ function FormMentor({
   dataFetch,
   tipo
 }: {
-  empresas: Empresa[];
+  empresas: EmpresaFrondEnd[];
   tecnologias: Tecnologia[];
   dataFetch?: MentorParams | undefined;
   tipo: string;
@@ -141,7 +115,7 @@ function FormMentor({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newMentor: Mentor = {
+    const newMentor: MentorFrondEnd = {
       apellido: form.apellido,
       nombre: form.nombre,
       email: form.email,

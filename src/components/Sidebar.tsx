@@ -4,7 +4,6 @@ import clsx from "clsx";
 import LinkSideBar from "./LinkSideBar";
 import ResponsiveImage from "./ResponsiveImage";
 import ThemeToggle from "./ThemeToggle";
-//import { links}  from "@/lib/definitions/frontEndDefinitions";
 
 const Sidebar: React.FC = () => {
 

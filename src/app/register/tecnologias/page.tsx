@@ -1,10 +1,7 @@
 "use client"
+import { Tecnologia } from '@/lib/definitions/frontEndDefinitions';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-interface Tecnologia {
-    id: number;
-    nombre: string;
-}
 
 export default function RegisterTecnologias() {
     const [tecnologias, setTecnologias] = useState<Tecnologia[]>([]);

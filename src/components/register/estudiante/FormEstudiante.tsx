@@ -2,39 +2,12 @@
 
 import BackButton from "@/components/dashboard/BackButton";
 import { Tecnologia } from "@/database/definitions";
+import { Estudiante, EstudianteParams, OngFrondEnd } from "@/lib/definitions/frontEndDefinitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-
-
-interface Estudiante {
-  id?: "";
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  estado?: string;
-  id_ong: number | null;
-  tecnologias: { id: number; nombre: string; tipo: string }[];
-}
-
-interface EstudianteParams {
-  id: number;
-  apellido: string;
-  nombre: string;
-  email: string;
-  telefono: string;
-  estado: string;
-  id_ong: number;
-  tecnologias: { id: number; nombre: string; tipo: string }[];
-}
-
-export type Ong = {
-  id: number;
-  nombre: string;
-};
 
 function FormEstudiante({
   ongs,
@@ -42,7 +15,7 @@ function FormEstudiante({
   dataFetch,
   tipo,
 }: {
-  ongs: Ong[];
+  ongs: OngFrondEnd[];
   tecnologias: Tecnologia[];
   dataFetch?: EstudianteParams | undefined;
   tipo: string;

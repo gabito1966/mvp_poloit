@@ -1,4 +1,5 @@
 "use client";
+
 import { EquipoData } from "@/database/definitions";
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";

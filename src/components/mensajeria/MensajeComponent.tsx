@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useTypingEffect from "../email/useTypingEffect";
-import { MensajeSkeleton } from "../skeletons";
 import { formatDate } from "@/lib/utils";
 
 export default function MensajeComponent({

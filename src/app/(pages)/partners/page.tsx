@@ -1,11 +1,7 @@
 import Carousel from '@/components/Carousel';
+import { PartnersSectionProps } from '@/lib/definitions/frontEndDefinitions';
 import React from "react";
 
-interface PartnersSectionProps {
-    title: string;
-    paragraph:string;
-    images: string[];
-}
 
 const PartnersSection: React.FC<PartnersSectionProps> = ({ title, paragraph , images }) => {
     return (        

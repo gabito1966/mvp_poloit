@@ -1,12 +1,7 @@
 "use client"
+import { Ong } from '@/lib/definitions/frontEndDefinitions';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
-
-
-interface Ong {
-    id: number;
-    nombre: string;
-}
 
 export default function RegisterOngs() {
     const [ongs, setOngs] = useState<Ong[]>([]);
