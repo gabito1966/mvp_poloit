@@ -19,7 +19,7 @@ export default async function TableEquipos({
       )
     }
 
-    return (
+    return (<>
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
           <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 dark:text-white lg:pt-0">
@@ -37,7 +37,7 @@ export default async function TableEquipos({
                     <p className="text-md">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
                     <div className="flex justify-end gap-2"> 
                       <ViewButton url={`/card/equipo/${equipo.id.toString()}`} />
-                      <DeleteButton url={`/api/equipo/${equipo.id.toString()}`} />
+                      <DeleteButton url={`/api/equipo/${equipo.id.toString()}`} mensajeEliminar={`este equipo`}  />
                     </div>
                   </div>
                   <div className="col-span-2 mb-2 items-center flex justify-between">
@@ -137,6 +137,7 @@ export default async function TableEquipos({
           </div>
         </div>
       </div>
+      </>
     );
   }
   

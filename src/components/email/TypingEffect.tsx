@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import useTypingEffect from "./useTypingEffect";
-
-type TextTypingEffectProps = {
-  isTypeByLetter?: boolean;
-  duration?: number;
-  texts:string;
-};
+import { TextTypingEffectProps } from "@/lib/definitions/frontEndDefinitions";
 
  export  const TextTypingEffectWithTexts: React.FC<TextTypingEffectProps> = ({
   isTypeByLetter = false,

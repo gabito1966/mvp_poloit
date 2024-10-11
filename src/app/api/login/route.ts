@@ -1,41 +1,10 @@
-import { comparePassword, generateHash } from "@/lib/bcryptFunctions";
+import { AdministradorLogin, UserLogin } from "@/database/definitions";
+import { comparePassword } from "@/lib/bcryptFunctions";
+import { CreateLogin } from "@/lib/definitions/validationZodDefinitions";
 import { JWTCreate } from "@/lib/server/auth";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-export interface UserLogin {
-  email: string;
-  password: string;
-}
-
-export type DataZ = {
-  email: string;
-  password: string;
-};
-
-export interface UserLoginResponse {
-  success: boolean;
-  data?: Administrador;
-  message?: string;
-}
-
-export type Administrador = {
-  id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  contrasena?: string;
-};
-
-const CreateLogin = z.object({
-  email: z
-    .string({ message: "Ingrese un email" })
-    .email("Debe ser un email válido")
-    .min(6, "El email de debe contener al menos 6 caracteres"),
-  password: z.string().min(6, "La contraseña debe contener al menos 6 caracteres"),
-});
 
 export async function POST(request: Request) {
   const body = (await request.json()) as UserLogin;
@@ -60,7 +29,7 @@ export async function POST(request: Request) {
     const { email, password } = validatedFields.data;
 
     const { rows } =
-      await sql<Administrador>`SELECT * from administradores WHERE email = ${email}`;
+      await sql<AdministradorLogin>`SELECT * from administradores WHERE email = ${email}`;
 
     if (rows.length === 0) {
       return NextResponse.json(

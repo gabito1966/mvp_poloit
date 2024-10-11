@@ -1,21 +1,7 @@
+import { Empresa, GetEmpresa, UpdateEmpresa } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const UpdateEmpresa = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" }).trim()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
-});
-
-type Empresa = z.infer<typeof UpdateEmpresa>;
-
-const GetEmpresa = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
-});
 
 export async function GET(
   request: Request,

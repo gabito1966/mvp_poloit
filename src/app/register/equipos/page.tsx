@@ -2,14 +2,13 @@ import BackButton from "@/components/dashboard/BackButton";
 import FormEquipo from "@/components/register/equipo/FormEquipo";
 import { getCantEstudiantesSinGrupo } from "@/database/data";
 
-
 export default async function RegisterEquipos() {
 
   const cantEstudiantesSinEquipo:number = await getCantEstudiantesSinGrupo();
 
   return (
     <section className="container max-w-7xl p-10">
-    <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl">
+    <div className="bg-gray-100 dark:bg-gray-700 rounded-xl shadow-md">
         <FormEquipo  estudiantesNoGrupos={cantEstudiantesSinEquipo} />
     </div>
 

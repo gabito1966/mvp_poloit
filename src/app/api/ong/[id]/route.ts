@@ -1,16 +1,8 @@
+import { OngInterface } from "@/database/definitions";
+import { UpdateOng } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import { OngInterface } from "../route";
-
-const UpdateOng = z.object({
-  id: z.coerce.number({ invalid_type_error: "seleccione una organizacion" }),
-  nombre: z
-    .string({ message: "ingrese un nombre" }).trim()
-    .min(2, "el nombre debe tener al menos 2 caracteres")
-    .max(25, "el nombre debe tener menos de 25 caracteres"),
-});
 
 export async function PUT(
   request: Request,

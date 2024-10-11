@@ -1,12 +1,8 @@
+import { GetEquipo } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const GetEquipo = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numéro" }),
-});
 
 export async function GET(
   request: Request,
@@ -94,8 +90,6 @@ export async function GET(
   GROUP BY 
     e.id, m.id, muxui.id, mqa.id
 `;
-
-    
 
     if (rows.length === 0) {
       return NextResponse.json(

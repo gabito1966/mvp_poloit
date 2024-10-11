@@ -1,60 +1,9 @@
+import { NextResponse } from "next/server";
+import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const CreateSchemaMentor = z.object({
-  id: z.coerce.number({
-    invalid_type_error: "Debe ser un número",
-    message: "Ingrese un ID de mentor",
-  }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" })
-    .trim()
-    .min(2, "El nombre debe contener al menos 2 caracteres")
-    .max(25, "El nombre debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  apellido: z
-    .string({ message: "Ingrese un apellido" })
-    .trim()
-    .min(2, "El apellido debe contener al menos 2 caracteres")
-    .max(25, "El apellido debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  email: z
-    .string({ message: "Ingrese un email" })
-    .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 números")
-    .max(50, "El email debe contener menos de 50 caracteres"),
-  telefono: z
-    .string({ message: "Ingrese un teléfono" })
-    .min(6, "El telefono debe contener al menos 6 caracteres")
-    .max(20, "El telefono debe contener menos de 20 caracteres")
-    .regex(/^[0-9]+$/, "Solo se permiten numéros"),
-  id_empresa: z.coerce
-    .number({
-      message: "Seleccione una organización",
-      invalid_type_error: "Seleccione una empresa",
-    })
-    .gt(0, { message: "Seleccione una organización" }),
-  tecnologias: z
-    .array(
-      z.object({
-        id: z.coerce.number().gt(0, { message: "Seleccione una tecnología" }),
-        nombre: z.string(),
-        tipo: z.string(),
-      })
-    )
-    .min(1, "Debe seleccionar al menos una tecnología"),
-});
-
-const CreateMentor = CreateSchemaMentor.omit({ id: true });
-
-type Mentor = z.infer<typeof CreateSchemaMentor>;
+import { CreateMentor, Mentor } from "@/lib/definitions/validationZodDefinitions";
 
 export async function GET(request: Request) {
   try {
@@ -128,7 +77,7 @@ export async function POST(request: Request) {
   try {
     const { rows } = await sql`
     INSERT INTO mentores (nombre, apellido, email, telefono, id_empresa)
-    VALUES (${nombre}, ${apellido}, ${email}, ${telefono}, ${id_empresa})
+    VALUES (${nombre.toLowerCase()}, ${apellido.toLowerCase()}, ${email}, ${telefono}, ${id_empresa})
     RETURNING *
   `;
 

@@ -1,58 +1,8 @@
+import { CreateEstudiante, EstudianteInterface } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const CreateSchemaEstudiante = z.object({
-  id: z.coerce.number({
-    invalid_type_error: "Debe ser un número",
-    message: "Ingrese un ID de mentor",
-  }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" })
-    .trim()
-    .min(2, "El nombre debe de contener al menos 2 caracteres")
-    .max(25, "El nombre debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Solo se permiten catacteres o espacios",
-    }),
-  apellido: z
-    .string({ message: "Ingrese un apellido" })
-    .trim()
-    .min(2, "El apellido debe contener al menos 2 caracteres")
-    .max(25, "El apellido debe contener menos de 25 caracteres")
-    .regex(/^[a-zA-Z\s]+$/, "Solo se permiten catacteres o espacios"),
-  email: z
-    .string({ message: "Ingrese un email" })
-    .email("Debe ser un email válido")
-    .min(6, "El email debe contener al menos 6 caracteres")
-    .max(50, "El email debe contener menos de 50 caracteres"),
-  telefono: z
-    .string({ message: "Ingrese un teléfono" })
-    .min(6, "El teléfono debe contener al menos 6 números")
-    .max(20, "El teléfono debe contener menos de 20 números")
-    .regex(/^[0-9]+$/, "Solo se permiten numéros"),
-  id_ong: z.coerce
-    .number({
-      message: "Seleccione una organización",
-      invalid_type_error: "Seleccione una organización",
-    })
-    .gt(0, { message: "Seleccione una organización" }),
-  tecnologias: z
-    .array(
-      z.object({
-        id: z.coerce.number().gt(0, { message: "Seleccione una tecnología" }),
-        nombre: z.string(),
-        tipo: z.string(),
-      })
-    )
-    .min(1, "Debe seleccionar una tecnología"),
-});
-
-const CreateEstudiante = CreateSchemaEstudiante.omit({ id: true });
-
-type EstudianteInterface = z.infer<typeof CreateSchemaEstudiante>;
 
 export async function GET(request: Request) {
   try {
@@ -115,7 +65,7 @@ export async function POST(request: Request) {
   try {
     const { rows } =
       await sql`INSERT INTO estudiantes ( nombre, apellido, email, telefono, id_ong ) VALUES
-     (${nombre},${apellido}, ${email}, ${telefono}, ${id_ong}) RETURNING *`;
+     (${nombre.toLowerCase()},${apellido.toLowerCase()}, ${email}, ${telefono}, ${id_ong}) RETURNING *`;
 
     try {
       await sql`INSERT INTO estudiantes_tecnologias (id_tecnologia, id_estudiante)
@@ -128,8 +78,10 @@ export async function POST(request: Request) {
     }
 
     revalidatePath("/");
+    revalidatePath("/register/equipos");
     revalidatePath("/estudiante");
-
+    revalidatePath("/equipo");
+    
     return NextResponse.json(
       createResponse(true, rows, "Registro de estudiante exitoso"),
       { status: 201 }

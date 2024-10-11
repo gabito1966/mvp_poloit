@@ -1,16 +1,8 @@
+import { CreateSchemaGemini, GeminiInterface } from "@/lib/definitions/validationZodDefinitions";
 import { JWTValidate } from "@/lib/server/auth";
 import { createResponse, generarCuerpoEmailGemini } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const CreateSchemaGemini = z.object({
-  tipo: z.coerce.number().int().gt(0, { message: "seleccione tipo" }),
-  mensaje: z.string().optional(),
-  session: z.string({ message: "Inicie sesión" }),
-});
-
-type GeminiInterface = z.infer<typeof CreateSchemaGemini>;
 
 export async function POST(request: Request) {
   const body = (await request.json()) as GeminiInterface;

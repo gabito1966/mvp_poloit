@@ -30,7 +30,7 @@ export default async function Notification() {
 export function ItemNotification({cant, message, estado, url}:{cant:number; message:string;estado?:boolean, url:string}) {
   return (
     <>
-      <Link href={url} className=" flex p-1 items-center">
+      <Link href={url} className=" flex p-1 items-center hover:underline w-fit">
       <div className="relative">
       {estado &&<AnimationDot/>}
       <svg xmlns="http://www.w3.org/2000/svg" width={17} height={17} viewBox="0 0 24 24" fill="currentColor">

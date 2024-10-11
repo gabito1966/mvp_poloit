@@ -1,16 +1,7 @@
 'use client';
 
+import { AnimatedBarProps } from '@/lib/definitions/frontEndDefinitions';
 import React, { useState, useEffect } from 'react';
-
-interface AnimatedBarProps {
-  chartHeight: number;
-  topLabel: number;
-  cantTotalEstudiantes: number;
-  tecnologia: {
-    nombre: string;
-    cantidad_estudiantes: number;
-  };
-}
 
 const AnimatedBar: React.FC<AnimatedBarProps> = ({ 
   chartHeight, 

@@ -6,6 +6,7 @@ import Pagination from "@/components/dashboard/Pagination";
 import Search from "@/components/dashboard/Search";
 import { TableEstudianteSkeleton } from "@/components/skeletons";
 import { fetchPagesEquipos, getCantEstudiantesSinGrupo } from "@/database/data";
+import { PageProps } from "@/lib/definitions/frontEndDefinitions";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -13,13 +14,6 @@ export const metadata: Metadata = {
   title: "Equipos",
   description: "Encuentra el listado de equipos",
 };
-
-interface PageProps {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}
 
 async function page({ searchParams }: PageProps) {
   const query = searchParams?.query || "";
@@ -59,6 +53,7 @@ const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
           newClass="scale-125 pt-2"
           titulo="Eliminar todos"
           validarRuta="/equipo"
+          mensajeEliminar="todos los equipos"
         />
         <CreateButton url="/register/equipos" estado={contador > 0} />
       </div>

@@ -1,11 +1,8 @@
 "use client"
+import { Empresa } from '@/lib/definitions/frontEndDefinitions';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-interface Empresa {
-    id: number;
-    nombre: string;
-}
 
 export default function RegisterEmpresas() {
     const [empresas, setEmpresas] = useState<Empresa[]>([]);
@@ -37,7 +34,7 @@ export default function RegisterEmpresas() {
     };
 
     return (
-        <section className='container flex flex-col max-w-5xl'>
+        <section className='container flex flex-col  max-w-5xl'>
             <div className="container mx-auto p-10 h-1/2">
                 <h1 className="text-2xl font-bold mb-4 text-center">Formulario de Inscripción de Empresas</h1>
                 <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-1/4 mx-auto items-center justify-center">

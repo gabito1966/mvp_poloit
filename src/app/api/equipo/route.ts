@@ -1,40 +1,10 @@
 import { equiposDistribution } from "@/database/data";
+import { CreateEquipos, Equipos } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
-const CreateSchemaEquipos = z.object({
-  id: z.coerce.number({
-    invalid_type_error: "El ID debe ser de tipo número",
-    message: "Ingrese un ID",
-  }),
-  nombre: z
-    .string({ message: "Ingrese un nombre" })
-    .trim()
-    .min(3, "El nombre debe tener al menos 3 caracteres")
-    .max(30, "El nombre debe tener menos de 30 caracteres")
-    .regex(/^[a-zA-Z0-9\s]+$/, {
-      message: "Solo se permiten letras y números",
-    }),
-  tamano: z.coerce
-    .number({
-      invalid_type_error: "El tamaño debe ser un número",
-      message: "Ingrese un tamaño",
-    })
-    .gt(5, { message: "Ingrese un numero mayor 5" })
-    .lt(12, "El tamaño o debe ser menor a 12"),
-  fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
-  fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
-});
-
-const CreateEquipos = CreateSchemaEquipos.omit({ id: true }).refine((data) => data.fecha_inicio < data.fecha_fin, {
-  message: "La fecha de inicio debe ser anterior a la fecha de fin",
-  path: ["fecha_fin"], // Esta es la propiedad a la que se le asigna el error
-});
-
-type Equipos = z.infer<typeof CreateSchemaEquipos>;
 export async function POST(request: Request) {
   const body = (await request.json()) as Equipos;
 
@@ -139,7 +109,7 @@ export async function POST(request: Request) {
         tecnologias t ON mt.id_tecnologia = t.id
       WHERE 
         t.tipo = 'INTERFACE'
-        AND estado = true
+        AND m.estado = true
       GROUP BY 
         m.id
       LIMIT
@@ -406,7 +376,7 @@ export async function GET(request: Request) {
               `;
 
     return NextResponse.json(
-      createResponse(true, [result_mentor], "consulta exitosa"),
+      createResponse(true, [result_mentor], "Consulta exitosa"),
       {
         status: 200,
       }
@@ -434,6 +404,7 @@ export async function DELETE(request: Request) {
     `;
     
     revalidatePath("/equipo");
+    revalidatePath("/register/equipos");
     revalidatePath("/");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),

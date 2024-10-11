@@ -1,38 +1,6 @@
 import BackButton from "@/components/dashboard/BackButton";
+import { Equipo, Mentor } from "@/lib/definitions/frontEndDefinitions";
 import { fetchGet } from "@/lib/fetchFunctions";
-
-type Mentor = {
-    apellido: string;
-    nombre: string;
-    email: string;
-    telefono: string;
-    tecnologia: string;
-};
-
-type Equipo = {
-    id: string;
-    nombre: string;
-    fecha_inicio: string;
-    fecha_fin: string;
-    tamano: number;
-    mentor_apellido: string;
-    mentor: string;
-    mentor_email: string;
-    mentor_telefono: string;
-    mentor_qa_apellido: string;
-    mentor_qa: string;
-    mentor_qa_email: string;
-    mentor_qa_telefono: string;
-    mentor_ux_ui_apellido: string;
-    mentor_ux_ui: string;
-    mentor_ux_ui_email: string;
-    mentor_ux_ui_telefono: string;
-    nombres_estudiantes: string[];
-    apellidos_estudiantes: string[];
-    emails_estudiantes: string[];
-    telefonos_estudiantes: string[];
-    tecnologias: string[];
-};
 
 const formatFecha = (fecha: string) =>
     new Date(fecha).toLocaleDateString("es-ES", {

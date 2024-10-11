@@ -22,16 +22,16 @@ export default async function Table({
                 key={estudiante.id}
                 className="rounded-md bg-white dark:bg-gray-700 p-1"
               >
-                <div className="col-span-2 mb-2 items-center flex justify-between">
-                  <p className="text-lg font-medium"> {estudiante.apellido} {estudiante.nombre} </p>
+                <div className="col-span-2 mb-2 items-center flex justify-between" title={`${estudiante.apellido} ${estudiante.nombre}`}>
+                  <p className="text-lg font-medium capitalize"> {estudiante.apellido} {estudiante.nombre} </p>
                 </div>
                 <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
-                    <p className="text-md ">{estudiante.email}</p>
-                    <p className="text-md">{estudiante.telefono}</p>
+                    <p className="text-md " title={estudiante.email}>{estudiante.email}</p>
+                    <p className="text-md" title={estudiante.telefono}>{estudiante.telefono}</p>
                 </div>  
                 <div className="col-span-2 mb-2 items-center flex justify-between gap-4">
-                    <p className="text-md ">{estudiante.tecnologias}</p>
-                    <p className="text-md">{estudiante.ong}</p>
+                    <p className="text-md " title={estudiante.tecnologias.toString()}>{estudiante.tecnologias.toString()}</p>
+                    <p className="text-md capitalize" title={estudiante.ong}>{estudiante.ong}</p>
                 <div className="flex justify-end gap-2">
                     <ViewButton
                       url={`/card/estudiante/${estudiante.id.toString()}`}
@@ -77,30 +77,27 @@ export default async function Table({
                   key={estudiante.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.apellido.length < 20
-                      ? estudiante.apellido
-                      : estudiante.apellido.slice(0, 7) + "..."} , {" "} 
-                    {estudiante.nombre.length < 15
-                      ? estudiante.nombre
-                      : estudiante.nombre.slice(0, 7) + "..."}
+                  <td className="whitespace-nowrap px-3 py-3 capitalize" title={`${estudiante.apellido} ${estudiante.nombre}`}>
+                    {(estudiante.apellido.length+ estudiante.nombre.length) < 26
+                      ? `${estudiante.apellido}, ${estudiante.nombre}`
+                      : estudiante.apellido.slice(0, 23) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {estudiante.email.length < 20
+                  <td className="whitespace-nowrap px-3 py-3" title={estudiante.email}>
+                    {estudiante.email.length < 25
                       ? estudiante.email
-                      : estudiante.email.slice(0, 19) + "..."}
+                      : estudiante.email.slice(0, 22) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3" title={estudiante.telefono}>
                     {estudiante.telefono.length < 10
                       ? estudiante.telefono
                       : estudiante.telefono.slice(0, 7) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3" title={estudiante.tecnologias.join(", ")}>
                     {estudiante.tecnologias.join(", ").length < 15
                       ? estudiante.tecnologias.join(", ")
                       : estudiante.tecnologias.join(", ").slice(0, 10) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3" title={estudiante.ong}>
                     {estudiante.ong.length < 15
                       ? estudiante.ong
                       : estudiante.ong.slice(0, 7) + "..."}

@@ -1,25 +1,8 @@
+import { OngInterface } from "@/database/definitions";
+import { CreateOng } from "@/lib/definitions/validationZodDefinitions";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-export type OngInterface = {
-  id?: number;
-  nombre: string;
-};
-
-export interface OngResponse {
-  success: boolean;
-  data?: OngInterface[];
-  message?: string;
-}
-
-const CreateOng = z.object({
-  nombre: z
-    .string({ message: "seleccione un nombre" }).trim()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
-});
 
 export async function GET(request: Request) {
   try {
