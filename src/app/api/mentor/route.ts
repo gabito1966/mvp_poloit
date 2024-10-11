@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
-import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { CreateMentor, Mentor } from "@/lib/definitions/validationZodDefinitions";
 
