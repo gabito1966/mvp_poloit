@@ -707,7 +707,7 @@ export async function fetchEquiposEliminados(
       FROM 
         auditoria_equipos ae
       WHERE 
-        (ae.nombre ILIKE ${`%${query}%`}
+        (ae.nombre ILIKE ${`%${query}%`} OR
          ae.nombre ILIKE ${`%${query.trim()}%`})
       ORDER BY 
         ae.id
