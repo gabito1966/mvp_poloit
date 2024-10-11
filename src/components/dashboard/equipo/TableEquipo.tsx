@@ -19,7 +19,7 @@ export default async function TableEquipos({
       )
     }
 
-    return (
+    return (<>
       <div className=" flow-root mt-4">
         <div className="inline-block min-w-full align-middle">
           <div className="rounded-lg bg-gray-100 dark:bg-gray-600 dark:text-white md:pt-0">
@@ -137,6 +137,7 @@ export default async function TableEquipos({
           </div>
         </div>
       </div>
+      </>
     );
   }
   
