@@ -1,7 +1,8 @@
-import { Administrador } from "@/app/api/login/route";
+
+import { AdministradorLogin } from "@/database/definitions";
 import { SignJWT, jwtVerify } from "jose";
 
-export async function JWTCreate(payload: Administrador) {
+export async function JWTCreate(payload: AdministradorLogin) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
