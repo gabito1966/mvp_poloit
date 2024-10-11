@@ -15,7 +15,7 @@ export default async function EstudianteCard({
                 <h1 className="text-lg lg:text-3xl text-center font-bold m-5" >Card del Estudiante {estudiante.nombre} {estudiante.apellido}</h1>       
                 <div className="w-full max-h-124 flex-col p-1 lg:p-4">
                     <hr />
-                {<div className="grid grid-cols-1 justify-center bg-gray-100 dark:bg-600 items-center lg:grid-cols-2 p-3 mt-5">
+                {<div className="grid grid-cols-1 justify-center bg-gray-100 dark:bg-gray-600 items-center lg:grid-cols-2 p-3 mt-5">
                     <div className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3">
                         <div className="ml-16 max-lg:ml-0 ">
                             <h4 className="block mb-2 text-md text-gray-500 dark:text-gray-400 font-medium">Apellido:</h4>

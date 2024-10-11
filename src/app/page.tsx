@@ -18,7 +18,7 @@ export default async function Home() {
   return (
     <main className=" w-full p-6 max-w-screen-2xl">
       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Inicio</h1>
-      <div className="w-full  gap-6 items-center justify-between grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 P-4 h-full sm:items-center sm:m-auto ">
+      <div className="w-full  gap-6 items-center justify-between grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 P-4 h-full sm:items-center sm:m-auto ">
         <Suspense fallback={<CardsWrapperSkeleton />}>
           <HomeCardWrapper />
         </Suspense>

@@ -128,7 +128,7 @@ export default async function EquipoCard({
     ];
 
     return (
-        <section className="container max-w-5xl pt-10">
+        <section className="container max-w-4xl pt-10">
             <div className="flex flex-col w-full bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
                 <h2 className="text-4xl text-center font-bold p-2 m-3">
                     Card del Equipo: {equipo.nombre}
@@ -164,7 +164,7 @@ export default async function EquipoCard({
                     </div>
                 </div>
             </div>
-            <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
+            <div className="mt-4 flex items-center  gap-40 max-lg:gap-3">
         <BackButton url="/equipo" />
       </div>
         </section>

@@ -120,7 +120,7 @@ if(estudiantesNoGrupos>5){
           className="shadow-md shadow-blue-50 p-4 rounded-lg"
         >
           <div className="flex flex-col xl:flex-row items-center gap-5 lg:items-start xl:gap-10 w-full ">
-            <div className="grid grid-cols-1 grid-rows-none sm:grid-cols-2 lg:grid-rows-2 gap-4">
+            <div className="grid grid-cols-1 text-black grid-rows-none sm:grid-cols-2 lg:grid-rows-2 gap-4">
               <div className="">
                 <label
                   htmlFor="nombre"

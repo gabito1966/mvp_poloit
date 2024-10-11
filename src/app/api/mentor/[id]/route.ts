@@ -1,8 +1,8 @@
+import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sql } from "@vercel/postgres";
-import { createResponse, getErrorMessageFromCode } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 
 const UpdateScremaMentor = z.object({
   id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
