@@ -17,7 +17,7 @@ html {
 }
 
 body {
-  @apply bg-gray-200 text-black dark:bg-gray-800 dark:text-white;
+  @apply bg-gray-200/75 text-black dark:bg-gray-800 dark:text-white;
 }
 
 h1, h2, p{
@@ -38,11 +38,12 @@ h1, h2, p{
 
 ::-webkit-scrollbar {
   width: 0.6rem;
-  @apply bg-gray-100 dark:bg-gray-400 ;
+  @apply bg-gray-100 dark:bg-gray-400;
 }
 
 ::-webkit-scrollbar-thumb {
   @apply bg-blue-300 dark:bg-slate-600 transition-colors duration-700 ;
+  border-radius: 0.3rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {

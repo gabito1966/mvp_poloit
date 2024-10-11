@@ -111,14 +111,14 @@ if(estudiantesNoGrupos>5){
   return (
     <>
       <div className="w-full flex-grow p-6  md:p-12">
-        <h2 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">
+        <h2 className="font-bold mb-4 text-center text-lg lg:text-2xl">
           {
             estudiantesNoGrupos<5?"Asignación de Estudiantes Sobrantes":"Generación de equipos"
           }
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="shadow-md shadow-blue-50 p-4 rounded-lg"
+          className="shadow-md bg-white dark:bg-gray-600 p-4 rounded-lg"
         >
           <div className="flex flex-col xl:flex-row items-center gap-5 lg:items-start xl:gap-10 w-full ">
             <div className="grid grid-cols-1 grid-rows-none sm:grid-cols-2 lg:grid-rows-2 gap-4">

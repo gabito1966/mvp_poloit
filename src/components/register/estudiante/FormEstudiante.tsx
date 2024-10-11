@@ -151,9 +151,9 @@ function FormEstudiante({
           </h1>
           <form
             onSubmit={handleSubmit}
-            className="space-y-4 py-4 px-1  mb-8 max-w-5xl mx-auto items-center bg-gray-100 dark:bg-gray-600 rounded-lg justify-center"
+            className="space-y-4 p-4  mb-8 max-w-5xl mx-auto items-center bg-gray-100 dark:bg-gray-600 rounded-lg justify-center"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
               <div>
                 <label
                   htmlFor="apellido"
