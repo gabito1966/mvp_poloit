@@ -18,8 +18,8 @@ export default async function page({
 
   return (
     <section className='container max-w-7xl pt-20'>
-        <div className="w-full flex-grow pt-20 dark:bg-gray-700 rounded-xl shadow-xl  md:p-12">
-       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left text-2xl">Lista de Estudiantes Removidos</h1>
+        <div className="w-full flex-grow pt-20 bg-white dark:bg-gray-700 rounded-xl shadow-xl  md:p-12">
+       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left text-2xl">Lista de Estudiantes Eliminados</h1>
       <div className="flex w-full items-center justify-between">
       </div>
       <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">

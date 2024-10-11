@@ -118,7 +118,7 @@ if(estudiantesNoGrupos>5){
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="shadow-md bg-white dark:bg-gray-600 p-4 rounded-lg"
+          className="shadow-md bg-gray-100 dark:bg-gray-600 p-4 rounded-lg"
         >
           <div className="flex flex-col xl:flex-row items-center gap-5 lg:items-start xl:gap-10 w-full ">
             <div className="grid grid-cols-1 text-black grid-rows-none sm:grid-cols-2 lg:grid-rows-2 gap-4">
