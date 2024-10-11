@@ -404,6 +404,7 @@ export async function DELETE(request: Request) {
     `;
     
     revalidatePath("/equipo");
+    revalidatePath("/register/equipos");
     revalidatePath("/");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),

@@ -78,8 +78,10 @@ export async function POST(request: Request) {
     }
 
     revalidatePath("/");
+    revalidatePath("/register/equipos");
     revalidatePath("/estudiante");
-
+    revalidatePath("/equipo");
+    
     return NextResponse.json(
       createResponse(true, rows, "Registro de estudiante exitoso"),
       { status: 201 }

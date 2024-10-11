@@ -104,11 +104,13 @@ WHERE
     (m.nombre ILIKE ${`%${filter}%`} OR
     m.nombre ILIKE ${`%${query}%`} OR
     m.apellido ILIKE ${`%${filter}%`} OR
+    m.apellido ILIKE ${`%${query}%`} OR
     m.email ILIKE ${`%${filter}%`} OR
+    m.email ILIKE ${`%${query}%`} OR
     m.telefono ILIKE ${`%${filter}%`} OR
-     CONCAT(m.nombre,m.apellido) ILIKE ${`%${filter}%`} OR
+    CONCAT(m.nombre,m.apellido) ILIKE ${`%${filter}%`} OR
     CONCAT(m.apellido,m.nombre) ILIKE ${`%${filter}%`} OR
-     CONCAT(m.nombre,' ',m.apellido) ILIKE ${`%${query.trim()}%`} OR
+    CONCAT(m.nombre,' ',m.apellido) ILIKE ${`%${query.trim()}%`} OR
     CONCAT(m.apellido,' ',m.nombre) ILIKE ${`%${query.trim()}%`}) AND
     m.estado = true
 GROUP BY 
@@ -562,11 +564,11 @@ export async function equiposDistribution(
     index_equipos =
       cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
 
+    }
+    
+    revalidatePath("/");
+    revalidatePath("/equipo");
     revalidatePath("/register/equipos")
-  }
-
-  revalidatePath("/");
-  revalidatePath("/equipo");
 }
 
 
@@ -596,6 +598,8 @@ export async function fetchFilteredMentoresBaja(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  const filter :string= query.replaceAll(" ","");
+
   try {
     const mentoresBaja = await sql<MentorBajaData>`
       SELECT 
@@ -610,11 +614,20 @@ export async function fetchFilteredMentoresBaja(
       INNER JOIN 
         auditoria_mentores am ON m.id = am.id_mentor
       WHERE 
-        (m.nombre ILIKE ${`%${query}%`} OR
-        m.apellido ILIKE ${`%${query}%`} OR
-        m.email ILIKE ${`%${query}%`}) 
+        (m.nombre ILIKE ${`%${filter}%`} OR
+    m.nombre ILIKE ${`%${query}%`} OR
+    m.apellido ILIKE ${`%${filter}%`} OR
+    m.apellido ILIKE ${`%${query}%`} OR
+    m.email ILIKE ${`%${filter}%`} OR
+    m.email ILIKE ${`%${query}%`} OR
+    m.telefono ILIKE ${`%${filter}%`} OR
+    CONCAT(m.nombre,m.apellido) ILIKE ${`%${filter}%`} OR
+    CONCAT(m.apellido,m.nombre) ILIKE ${`%${filter}%`} OR
+    CONCAT(m.nombre,' ',m.apellido) ILIKE ${`%${query.trim()}%`} OR
+    CONCAT(m.apellido,' ',m.nombre) ILIKE ${`%${query.trim()}%`}) AND
+    m.estado = false
       ORDER BY 
-        m.id ASC
+        m.apellido
       LIMIT ${ITEMS_PER_PAGE}
       OFFSET ${offset};
     `;
@@ -635,6 +648,8 @@ export async function fetchFilteredEstudiantesBaja(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  const filter :string= query.replaceAll(" ","");
+
   try {
     const estudiantesBaja = await sql<EstudianteBajaData>`
       SELECT 
@@ -649,12 +664,17 @@ export async function fetchFilteredEstudiantesBaja(
       INNER JOIN 
         auditoria_estudiantes ae ON e.id = ae.id_estudiante
       WHERE 
-        (e.nombre ILIKE ${`%${query}%`} OR
-        e.apellido ILIKE ${`%${query}%`} OR
-        e.email ILIKE ${`%${query}%`}) AND
-        ae.estado = false
+       (e.nombre ILIKE ${`%${filter}%`} OR
+      e.apellido ILIKE ${`%${filter}%`} OR
+      e.email ILIKE ${`%${filter}%`} OR
+      e.telefono ILIKE ${`%${filter}%`} OR
+      CONCAT(e.nombre,e.apellido) ILIKE ${`%${filter}%`} OR
+      CONCAT(e.apellido,e.nombre) ILIKE ${`%${filter}%`} OR
+      CONCAT(e.nombre,' ',e.apellido) ILIKE ${`%${query.trim()}%`} OR
+      CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`}) AND
+      e.estado = false
       ORDER BY 
-        e.id
+        e.apellido
       LIMIT ${ITEMS_PER_PAGE}
       OFFSET ${offset};
     `;
@@ -687,7 +707,8 @@ export async function fetchEquiposEliminados(
       FROM 
         auditoria_equipos ae
       WHERE 
-        ae.nombre ILIKE ${`%${query}%`}
+        (ae.nombre ILIKE ${`%${query}%`}
+         ae.nombre ILIKE ${`%${query.trim()}%`})
       ORDER BY 
         ae.id
       LIMIT ${ITEMS_PER_PAGE}
