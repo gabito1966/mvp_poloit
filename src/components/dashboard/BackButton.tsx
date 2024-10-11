@@ -1,6 +1,5 @@
 import Link from "next/link";
 import AnimationDot from "../AnimationDot";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 function BackButton({ url, estado }: { url: string; estado?: boolean }) {
   const p = url.split("/")[1];
@@ -13,7 +12,6 @@ function BackButton({ url, estado }: { url: string; estado?: boolean }) {
         title={`volver ${p}`}
       >
         {estado && <AnimationDot />}
-        <ArrowLeftIcon className="md:hidden w-5 h-5"/>
         <span className="lg:block">Volver a {p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}</span>{" "}
       </Link>
     </>

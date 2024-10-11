@@ -8,7 +8,7 @@ export default async function RegisterEquipos() {
 
   return (
     <section className="container max-w-7xl p-10">
-    <div className="bg-gray-100 dark:bg-gray-700 rounded-xl shadow-md">
+    <div className="bg-white dark:bg-gray-700 rounded-xl shadow-md">
         <FormEquipo  estudiantesNoGrupos={cantEstudiantesSinEquipo} />
     </div>
 

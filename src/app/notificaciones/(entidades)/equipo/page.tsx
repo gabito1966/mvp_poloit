@@ -19,8 +19,8 @@ export default async function page({
 
   return (
     <section className='container max-w-7xl pt-20'>
-    <div className="w-full flex-grow pt-20 dark:bg-gray-700 rounded-xl shadow-xl  md:p-12">
-       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Equipos Removidos</h1>
+    <div className="w-full flex-grow pt-20 dark:bg-gray-700 bg-white rounded-xl shadow-xl  md:p-12">
+       <h1 className="sm:text-4xl font-bold mb-8 text-center lg:text-left  text-2xl">Lista de Equipos Eliminados</h1>
       <div className="flex w-full items-center justify-between">
       </div>
       <div className="p-4 flex items-center justify-between gap-10 max-lg:gap-3">
