@@ -13,7 +13,7 @@ function EditButton({ url }: { url: string }) {
 
   return (
     <button onClick={handleRedirect} className="h-fit" title="Editar">
-      <div className="rounded-md  hover:bg-gray-100 w-5 h-fit">
+      <div className="rounded-md dark:hover:bg-transparent hover:text-blue-400 hover:bg-gray-100 w-5 h-fit">
         <svg className="w-5 h-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
