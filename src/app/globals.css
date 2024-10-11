@@ -39,16 +39,13 @@ h1, h2, p{
 ::-webkit-scrollbar {
   width: 0.6rem;
   @apply bg-gray-100 dark:bg-gray-400 ;
-  /* background-color: var(--ligth-grey-700); */
 }
 
 ::-webkit-scrollbar-thumb {
   @apply bg-blue-300 dark:bg-slate-600 transition-colors duration-700 ;
-  /* background-color: var(--dark-black-100); */
 }
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-blue-200 dark:bg-slate-900 transition-colors duration-700;
-  /* background-color: var(--dark-black-400); */
   cursor: pointer;
 }
