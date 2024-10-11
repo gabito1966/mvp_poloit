@@ -21,8 +21,8 @@ async function page({ searchParams }: PageProps) {
 
   return (
     <section className="container max-w-7xl pt-20">
-      <div className="w-full flex-grow p-3 lg:p-12 bg-white dark:bg-gray-700 rounded-xl shadow-xl">
-        <h2 className="text-2xl sm:text-4xl font-bold mb-8 text-center lg:text-left">
+      <div className="w-full flex-grow p-5 lg:p-12 bg-white dark:bg-gray-700 rounded-xl shadow-xl">
+        <h2 className="text-2xl lg:text-4xl font-bold mb-8 text-center lg:text-left">
           Lista de Estudiantes
         </h2>
         <HeaderActions />

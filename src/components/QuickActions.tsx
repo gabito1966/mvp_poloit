@@ -10,7 +10,7 @@ export default async function QuickActions() {
         <div className="flex flex-row justify-between pb-2 ">
           <h2 className="font-bold text-center text-xl ">Acciones Rápidas</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full justify-center gap-3 bg-white dark:bg-gray-700 rounded-xl p-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center w-full justify-center gap-3 bg-white dark:bg-gray-700 rounded-xl p-4 ">
           <ItemQuickAction
             url="/register/estudiantes"
             content="Registrar Estudiantes"

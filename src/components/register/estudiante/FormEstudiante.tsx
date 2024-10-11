@@ -140,22 +140,19 @@ function FormEstudiante({
   }
 
   return (
-    <section  className="container p-10">
-      <div className="container flex flex-col max-w-5xl my-10 mx-auto bg-white dark:bg-gray-700 rounded-xl shadow-xl">
-        <div className="container mx-auto p-10 h-full">
-        <h1 className=" font-bold mb-4 text-center text-black text-2xl">
-          Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de
-          Estudiantes
-        </h1>
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4 mb-8 max-w-xl mx-auto items-center justify-center"
-        >
-           <div>
-            <label
-              htmlFor="apellido"
-              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
+    <section className="container max-w-6xl p-5 lg:pt-20">
+    <div className="container flex flex-col max-w-5xl my-10 mx-auto lg:p-5 items-center bg-white dark:bg-gray-700 rounded-xl shadow-xl">
+    <div className="container mx-auto py-5 h-full">
+      <h1 className="font-bold mb-4 text-center text-lg lg:text-2xl">
+        Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de Estudiantes
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 py-4 px-1  mb-8 max-w-5xl mx-auto items-center bg-gray-100 dark:bg-gray-600 rounded-lg justify-center"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="apellido" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               Apellido:
             </label>
             <input
@@ -181,12 +178,9 @@ function FormEstudiante({
               ))}
             </div>
           </div>
-            
+
           <div>
-            <label
-              htmlFor="nombre"
-              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
+            <label htmlFor="nombre" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               Nombre:
             </label>
             <input
@@ -212,12 +206,9 @@ function FormEstudiante({
               ))}
             </div>
           </div>
-            
+
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               Email:
             </label>
             <input
@@ -227,7 +218,7 @@ function FormEstudiante({
               value={form.email}
               onChange={handleChange}
               className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 ",
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
                 {
                   "border-red-500": responseBack.errors?.email?.length,
                   "border-gray-300": !responseBack.errors?.email?.length,
@@ -237,17 +228,15 @@ function FormEstudiante({
             />
             <div aria-live="polite" aria-atomic="true" className="mt-1">
               {responseBack.errors?.email?.map((error: string) => (
-                <p className="m-0  text-sm text-red-500" key={error}>
+                <p className="m-0 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
             </div>
           </div>
+
           <div>
-            <label
-              htmlFor="telefono"
-              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
+            <label htmlFor="telefono" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               Teléfono:
             </label>
             <input
@@ -273,11 +262,9 @@ function FormEstudiante({
               ))}
             </div>
           </div>
-          <div className=" flex flex-col  ">
-            <label
-              htmlFor="tecnologias"
-              className="block text-sm font-medium text-gray-500"
-            >
+
+          <div>
+            <label htmlFor="tecnologias" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               Tecnologías:
             </label>
             <select
@@ -287,7 +274,7 @@ function FormEstudiante({
               onChange={handleChange}
               required
               className={clsx(
-                "mt-2 text-black block w-full  border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                 {
                   "border-red-500": responseBack.errors?.tecnologias?.length,
                   "border-gray-300": !responseBack.errors?.tecnologias?.length,
@@ -297,13 +284,11 @@ function FormEstudiante({
               <option value={0} disabled hidden>
                 Seleccione una Tecnología
               </option>
-              {tecnologias.map((e, i) => {
-                return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                    {e.nombre} - {e.tipo}
-                  </option>
-                );
-              })}
+              {tecnologias.map((e, i) => (
+                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  {e.nombre} - {e.tipo}
+                </option>
+              ))}
             </select>
             <div aria-live="polite" aria-atomic="true" className="mt-1">
               {responseBack.errors?.tecnologias?.map((error: string) => (
@@ -315,10 +300,7 @@ function FormEstudiante({
           </div>
 
           <div>
-            <label
-              htmlFor="id_ong"
-              className="block text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
+            <label htmlFor="id_ong" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
               ONG:
             </label>
             <select
@@ -328,7 +310,7 @@ function FormEstudiante({
               onChange={handleChange}
               required
               className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm ",
+                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                 {
                   "border-red-500": responseBack.errors?.id_ong?.length,
                   "border-gray-300": !responseBack.errors?.id_ong?.length,
@@ -338,13 +320,11 @@ function FormEstudiante({
               <option value="" disabled hidden>
                 Seleccione una ONG
               </option>
-              {ongs.map((e, i) => {
-                return (
-                  <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                    {e.nombre}
-                  </option>
-                );
-              })}
+              {ongs.map((e, i) => (
+                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
+                  {e.nombre}
+                </option>
+              ))}
             </select>
             <div aria-live="polite" aria-atomic="true" className="mt-1">
               {responseBack.errors?.id_ong?.map((error: string) => (
@@ -354,19 +334,22 @@ function FormEstudiante({
               ))}
             </div>
           </div>
-          <button 
-            type="submit"
-            className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
-          >
-            {tipo} Estudiante
-          </button>
-        </form>
         </div>
-      </div>
-      <div className="mx-auto flex items-center justify-between gap-40 max-w-5xl max-lg:gap-3">
-        <BackButton url="/estudiante" />
-      </div> 
-    </section>
+
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
+        >
+          {tipo} Estudiante
+        </button>
+      </form>
+    </div>
+  </div>
+  <div className="mx-auto flex items-center justify-between gap-40 max-w-5xl max-lg:gap-3">
+    <BackButton url="/estudiante" />
+  </div>
+</section>
+
   );
 }
 

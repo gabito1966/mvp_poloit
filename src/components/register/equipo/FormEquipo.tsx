@@ -121,7 +121,7 @@ if(estudiantesNoGrupos>5){
           className="shadow-md shadow-blue-50 p-4 rounded-lg"
         >
           <div className="flex flex-col xl:flex-row items-center gap-5 lg:items-start xl:gap-10 w-full ">
-            <div className="grid grid-cols-1 grid-rows-none sm:grid-cols-2 sm:grid-rows-2 gap-4">
+            <div className="grid grid-cols-1 grid-rows-none sm:grid-cols-2 lg:grid-rows-2 gap-4">
               <div className="">
                 <label
                   htmlFor="nombre"
@@ -136,7 +136,7 @@ if(estudiantesNoGrupos>5){
                   placeholder=""
                   disabled={estudiantesNoGrupos<6}
                   className={clsx(
-                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
@@ -170,7 +170,7 @@ if(estudiantesNoGrupos>5){
                   name="tamano"
                   placeholder=""
                   className={clsx(
-                    "basis-1/3 mt-2  text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.tamano?.length,
                       "border-gray-300": !responseBack.errors?.tamano?.length,
@@ -202,7 +202,7 @@ if(estudiantesNoGrupos>5){
                   defaultValue={fechaHoyFormateada}
                   placeholder=""
                   className={clsx(
-                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500":
                         responseBack.errors?.fecha_inicio?.length,
@@ -236,7 +236,7 @@ if(estudiantesNoGrupos>5){
                   placeholder=""
                   defaultValue={fechaFinFormateada}
                   className={clsx(
-                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2 block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
                       "border-red-500": responseBack.errors?.fecha_fin?.length,
                       "border-gray-300":

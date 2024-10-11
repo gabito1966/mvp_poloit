@@ -42,6 +42,7 @@ export default function Partners() {
         "/logo-softtek.png",
         "/logo-pigmalion.png",
         "/logo-mindhub.png",
+        "/logo-open-computacion.png",
     ];
 
     return (
