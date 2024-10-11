@@ -2,7 +2,11 @@
 
 import BackButton from "@/components/dashboard/BackButton";
 import { Tecnologia } from "@/database/definitions";
-import { Estudiante, EstudianteParams, OngFrondEnd } from "@/lib/definitions/frontEndDefinitions";
+import {
+  Estudiante,
+  EstudianteParams,
+  OngFrondEnd,
+} from "@/lib/definitions/frontEndDefinitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -103,16 +107,13 @@ function FormEstudiante({
       tecnologias: form.tecnologias,
     };
 
-   
     toast.promise(
-      (dataFetch
+      dataFetch
         ? fetchPutClient(`/api/estudiante/${dataFetch.id}`, newEstudiante)
-        : fetchPostClient('/api/estudiante', newEstudiante)
-      ),
+        : fetchPostClient("/api/estudiante", newEstudiante),
       {
-        loading: 'Cargando...',
+        loading: "Cargando...",
         success: (response) => {
-          
           setForm({
             id: "",
             apellido: "",
@@ -127,229 +128,258 @@ function FormEstudiante({
               tipo: string;
             }[],
           });
-    
+
           router.push("/estudiante");
-          return response.message
+          return response.message;
         },
         error: (err) => {
-          setResponseBack({ message: err.message, errors: err.errors || {} })
-          return  (err.message || 'Intente nuevamente');
-        }
+          setResponseBack({ message: err.message, errors: err.errors || {} });
+          return err.message || "Intente nuevamente";
+        },
       }
     );
-  }
+  };
 
   return (
     <section className="container max-w-6xl p-5 lg:pt-20">
-    <div className="container flex flex-col max-w-5xl my-10 mx-auto lg:p-5 items-center bg-white dark:bg-gray-700 rounded-xl shadow-xl">
-    <div className="container mx-auto py-5 h-full">
-      <h1 className="font-bold mb-4 text-center text-lg lg:text-2xl">
-        Formulario de {tipo == "registrar" ? "Inscripción" : "Actualización"} de Estudiantes
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 py-4 px-1  mb-8 max-w-5xl mx-auto items-center bg-gray-100 dark:bg-gray-600 rounded-lg justify-center"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="apellido" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              Apellido:
-            </label>
-            <input
-              type="text"
-              id="apellido"
-              name="apellido"
-              value={form.apellido}
-              onChange={handleChange}
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-                {
-                  "border-red-500": responseBack.errors?.apellido?.length,
-                  "border-gray-300": !responseBack.errors?.apellido?.length,
-                }
-              )}
-              required
-            />
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.apellido?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+      <div className="container flex flex-col max-w-5xl my-10 mx-auto lg:p-5 items-center bg-white dark:bg-gray-700 rounded-xl shadow-xl">
+        <div className="container mx-auto py-5 h-full">
+          <h1 className="font-bold mb-4 text-center text-lg lg:text-2xl">
+            Formulario de{" "}
+            {tipo == "registrar" ? "Inscripción" : "Actualización"} de
+            Estudiantes
+          </h1>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 py-4 px-1  mb-8 max-w-5xl mx-auto items-center bg-gray-100 dark:bg-gray-600 rounded-lg justify-center"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="apellido"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Apellido:
+                </label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  value={form.apellido}
+                  onChange={handleChange}
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                    {
+                      "border-red-500": responseBack.errors?.apellido?.length,
+                      "border-gray-300": !responseBack.errors?.apellido?.length,
+                    }
+                  )}
+                  required
+                />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.apellido?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="nombre" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              Nombre:
-            </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-                {
-                  "border-red-500": responseBack.errors?.nombre?.length,
-                  "border-gray-300": !responseBack.errors?.nombre?.length,
-                }
-              )}
-              required
-            />
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.nombre?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+              <div>
+                <label
+                  htmlFor="nombre"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Nombre:
+                </label>
+                <input
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                    {
+                      "border-red-500": responseBack.errors?.nombre?.length,
+                      "border-gray-300": !responseBack.errors?.nombre?.length,
+                    }
+                  )}
+                  required
+                />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.nombre?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-                {
-                  "border-red-500": responseBack.errors?.email?.length,
-                  "border-gray-300": !responseBack.errors?.email?.length,
-                }
-              )}
-              required
-            />
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.email?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                    {
+                      "border-red-500": responseBack.errors?.email?.length,
+                      "border-gray-300": !responseBack.errors?.email?.length,
+                    }
+                  )}
+                  required
+                />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.email?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="telefono" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              Teléfono:
-            </label>
-            <input
-              type="tel"
-              id="telefono"
-              name="telefono"
-              value={form.telefono}
-              onChange={handleChange}
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
-                {
-                  "border-red-500": responseBack.errors?.telefono?.length,
-                  "border-gray-300": !responseBack.errors?.telefono?.length,
-                }
-              )}
-              required
-            />
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.telefono?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+              <div>
+                <label
+                  htmlFor="telefono"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Teléfono:
+                </label>
+                <input
+                  type="tel"
+                  id="telefono"
+                  name="telefono"
+                  value={form.telefono}
+                  onChange={handleChange}
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                    {
+                      "border-red-500": responseBack.errors?.telefono?.length,
+                      "border-gray-300": !responseBack.errors?.telefono?.length,
+                    }
+                  )}
+                  required
+                />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.telefono?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="tecnologias" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              Tecnologías:
-            </label>
-            <select
-              id="tecnologias"
-              name="tecnologias"
-              value={form.tecnologias[0]?.id}
-              onChange={handleChange}
-              required
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
-                {
-                  "border-red-500": responseBack.errors?.tecnologias?.length,
-                  "border-gray-300": !responseBack.errors?.tecnologias?.length,
-                }
-              )}
+              <div>
+                <label
+                  htmlFor="tecnologias"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Tecnologías:
+                </label>
+                <select
+                  id="tecnologias"
+                  name="tecnologias"
+                  value={form.tecnologias[0]?.id}
+                  onChange={handleChange}
+                  required
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+                    {
+                      "border-red-500":
+                        responseBack.errors?.tecnologias?.length,
+                      "border-gray-300":
+                        !responseBack.errors?.tecnologias?.length,
+                    }
+                  )}
+                >
+                  <option value={0} disabled hidden>
+                    Seleccione una Tecnología
+                  </option>
+                  {tecnologias.map((e, i) => (
+                    <option
+                      className="capitalize"
+                      key={`${i}${e.nombre}${e.id}`}
+                      value={`${e.id}`}
+                    >
+                      {e.nombre} - {e.tipo}
+                    </option>
+                  ))}
+                </select>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.tecnologias?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="id_ong"
+                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  ONG:
+                </label>
+                <select
+                  id="id_ong"
+                  name="id_ong"
+                  value={form.id_ong}
+                  onChange={handleChange}
+                  required
+                  className={clsx(
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+                    {
+                      "border-red-500": responseBack.errors?.id_ong?.length,
+                      "border-gray-300": !responseBack.errors?.id_ong?.length,
+                    }
+                  )}
+                >
+                  <option value="" disabled hidden>
+                    Seleccione una ONG
+                  </option>
+                  {ongs.map((e, i) => (
+                    <option
+                      className="capitalize"
+                      key={`${i}${e.nombre}${e.id}`}
+                      value={`${e.id}`}
+                    >
+                      {e.nombre}
+                    </option>
+                  ))}
+                </select>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBack.errors?.id_ong?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
             >
-              <option value={0} disabled hidden>
-                Seleccione una Tecnología
-              </option>
-              {tecnologias.map((e, i) => (
-                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                  {e.nombre} - {e.tipo}
-                </option>
-              ))}
-            </select>
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.tecnologias?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="id_ong" className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-              ONG:
-            </label>
-            <select
-              id="id_ong"
-              name="id_ong"
-              value={form.id_ong}
-              onChange={handleChange}
-              required
-              className={clsx(
-                "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
-                {
-                  "border-red-500": responseBack.errors?.id_ong?.length,
-                  "border-gray-300": !responseBack.errors?.id_ong?.length,
-                }
-              )}
-            >
-              <option value="" disabled hidden>
-                Seleccione una ONG
-              </option>
-              {ongs.map((e, i) => (
-                <option key={`${i}${e.nombre}${e.id}`} value={`${e.id}`}>
-                  {e.nombre}
-                </option>
-              ))}
-            </select>
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBack.errors?.id_ong?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
-          </div>
+              {tipo} Estudiante
+            </button>
+          </form>
         </div>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-400 text-white rounded-md shadow-sm hover:bg-blue-700 mx-auto w-full capitalize"
-        >
-          {tipo} Estudiante
-        </button>
-      </form>
-    </div>
-  </div>
-  <div className="mx-auto flex items-center justify-between gap-40 max-w-5xl max-lg:gap-3">
-    <BackButton url="/estudiante" />
-  </div>
-</section>
-
+      </div>
+      <div className="mx-auto flex items-center justify-between gap-40 max-w-5xl max-lg:gap-3">
+        <BackButton url="/estudiante" />
+      </div>
+    </section>
   );
 }
 
