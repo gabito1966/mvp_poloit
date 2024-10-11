@@ -3,23 +3,25 @@ const shimmer =
 
 export function FormEstudianteSkeleton() {
   return (
+    <div className=" max-w-5xl mt-10 w-full  py-12 rounded-lg bg-white dark:bg-slate-500 animate-pulse">
+
+      <div className="mx-auto  h-7  w-full max-w-md p-1 rounded bg-gray-100"/>
     <div
-      className={`container mt-10 mx-auto p-2 h-full bg-white self-center max-w-xl animate-pulse`}
-    >
-      <div className=" mt-2 h-6 my-5 w-full max-w-md p-1 rounded bg-gray-100 mx-auto" />
-      <div className="flex flex-col space-y-4 gap-5">
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
-        <div className="mt-2 h-8 w-full p-3 rounded bg-gray-100" />
+      className={`container mt-5 mx-auto p-4 h-full bg-gray-100 rounded-lg dark:bg-slate-400 self-center max-w-4xl `}
+      >
+      <div className="  gap-5 grid lg:grid-cols-2 grid-cols-1">
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
       </div>
-      <div className="flex justify-center items-center mt-5 w-full">
+      <div className="flex justify-center items-center mt-6 w-full">
         <div className="h-8  rounded bg-blue-300 w-full " />
       </div>
     </div>
+      </div>
   );
 }
 export function FormMentorSkeleton() {
@@ -68,22 +70,22 @@ export function FormEquiposSkeleton() {
 
 export function MobileSkeleton() {
   return (
-    <div className="mb-2 w-full rounded-md bg-white p-4 animate-pulse">
-      <div className="flex items-center justify-between border-b border-gray-100 pb-8">
+    <div className="mb-2 w-full rounded-md bg-white dark:bg-slate-700 p-4 animate-pulse">
+      <div className="flex items-center justify-between  border-gray-100 pb-2">
         <div className="flex items-center">
-          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
+          <div className="h-5 w-32 rounded bg-gray-100 dark:bg-slate-400"></div>
         </div>
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-5 w-32 rounded bg-gray-100 dark:bg-slate-400"></div>
       </div>
-      <div className="flex w-full items-center justify-between pt-4">
+      <div className="flex w-full items-center justify-between ">
         <div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
-          <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
+          <div className="h-6 w-20 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="mt-2 h-6 w-44 rounded bg-gray-100 dark:bg-slate-400"></div>
         </div>
         <div className="flex justify-end gap-2">
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
         </div>
       </div>
     </div>
@@ -94,8 +96,8 @@ export function TableEstudianteSkeleton() {
   return (
     <div className="mt-6 flow-root animate-pulse">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
+        <div className="rounded-lg bg-gray-50 dark:bg-slate-500 p-2 md:pt-0">
+          <div className="lg:hidden">
             <MobileSkeleton />
             <MobileSkeleton />
             <MobileSkeleton />
@@ -103,11 +105,11 @@ export function TableEstudianteSkeleton() {
             <MobileSkeleton />
             <MobileSkeleton />
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="hidden min-w-full text-gray-900 lg:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium capitalize">
-                apellido, Nombre 
+                Apellido, Nombre 
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium capitalize">
                   Correo Electronico
@@ -150,8 +152,8 @@ export function TableMentorSkeleton() {
   return (
     <div className="mt-6 flow-root animate-pulse">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
+        <div className="rounded-lg bg-gray-50 dark:bg-slate-500 p-2 md:pt-0">
+          <div className="lg:hidden">
             <MobileSkeleton />
             <MobileSkeleton />
             <MobileSkeleton />
@@ -159,14 +161,11 @@ export function TableMentorSkeleton() {
             <MobileSkeleton />
             <MobileSkeleton />
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="hidden min-w-full text-gray-900 lg:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Nombre
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Apellido
+                Apellido, Nombre
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium">
                   Correo Electronico
@@ -191,7 +190,6 @@ export function TableMentorSkeleton() {
               </tr>
             </thead>
             <tbody className="bg-white">
-              <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
