@@ -111,11 +111,11 @@ const Sidebar: React.FC = () => {
 
       <div
         className={clsx(
-          "flex flex-row gap-1 items-center mt-auto py-4 max-sm:py-1 border-t-2 gray-300 max-lg:px-1   rounded-sm capitalize "
+          "flex flex-row gap-1 items-center mt-auto py-4 max-sm:py-1 border-t-2 gray-300 max-lg:px-1 capitalize "
         )}
       >
         <form
-          className={clsx(" items-center  hover:bg-blue-50 dark:hover:text-black rounded-sm w-full duration-500", {
+          className={clsx(" items-center  hover:bg-blue-50 dark:hover:text-black rounded-lg w-full duration-500", {
             hidden: !session,
           })}
           action={async () => {

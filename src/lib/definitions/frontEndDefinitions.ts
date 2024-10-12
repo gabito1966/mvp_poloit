@@ -22,26 +22,31 @@ export type Mentor = {
 export type Equipo = {
   id: string;
   nombre: string;
+  tamano: number;
   fecha_inicio: string;
   fecha_fin: string;
-  tamano: number;
-  mentor_apellido: string;
+  id_mentor: string;
   mentor: string;
+  mentor_apellido: string;
   mentor_email: string;
   mentor_telefono: string;
-  mentor_qa_apellido: string;
-  mentor_qa: string;
-  mentor_qa_email: string;
-  mentor_qa_telefono: string;
-  mentor_ux_ui_apellido: string;
+  id_mentor_ux_ui: string;
   mentor_ux_ui: string;
+  mentor_ux_ui_apellido: string;
   mentor_ux_ui_email: string;
   mentor_ux_ui_telefono: string;
+  id_mentor_qa: string;
+  mentor_qa: string;
+  mentor_qa_apellido: string;
+  mentor_qa_email: string;
+  mentor_qa_telefono: string;
   nombres_estudiantes: string[];
   apellidos_estudiantes: string[];
   emails_estudiantes: string[];
   telefonos_estudiantes: string[];
+  estados_estudiantes: boolean[];
   tecnologias: string[];
+  ongs:string[];
 };
 
 export interface Empresa {

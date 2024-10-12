@@ -187,108 +187,210 @@ export const generarCuerpoEmailGemini = async (
   return result.response.text();
 };
 
+// export const generateHTMLString = (
+//   mensaje: string,
+//   firstName: string,
+//   lastName: string,
+//   e: any
+// ) => {
+//   let html: string = "";
+
+//   html += `<p style="color:black;">${mensaje}</p>`;
+
+//   if (e) {
+//     html += `     <br>
+//                 <h2 style="color:black;">Estudiantes</h2>
+//                 <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
+//             <thead>
+//             <tr>
+//               <th style="padding: 1px; color:black;">Nombre</th>
+//               <th style="padding: 1px; color:black;">Apellido</th>
+//               <th style="padding: 1px; color:black;">Email</th>
+//               <th style="padding: 1px; color:black;">Teléfono</th>
+//               <th style="padding: 1px; color:black;">Tecnología</th>
+//               <th style="padding: 1px; color:black;">ONG</th>
+//             </tr>
+//             </thead>
+//             <tbody>
+//             ${e.nombres_estudiantes
+//               .map(
+//                 (nombre: string, index: number) => `
+//               <tr>
+//                 <td style="padding: 1px; color:black;">${nombre}</td>
+//                 <td style="padding: 1px; color:black;">${
+//                   e.apellidos_estudiantes[index]
+//                 }</td>
+//                 <td style="padding: 1px; color:black;">${
+//                   e.emails_estudiantes[index]
+//                 }</td>
+//                 <td style="padding: 1px; color:black;">${
+//                   e.telefonos_estudiantes[index]
+//                 }</td>
+//                 <td style="padding: 1px; color:black;">${
+//                   e.tecnologias[index]
+//                 }</td>
+//                 <td style="padding: 1px; color:black;">${e.ongs[index]}</td>
+//               </tr>
+//             `
+//               )
+//               .join("")}
+//             </tbody>
+//             </table>
+//               <br>
+//               `;
+
+//     html += `
+//                 <h2 style="color:black;">Mentores</h2>
+//                 <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
+//             <thead>
+//             <tr>
+//               <th style="padding: 1px; color:black;">Nombre</th>
+//               <th style="padding: 1px; color:black;">Apellido</th>
+//               <th style="padding: 1px; color:black;">Email</th>
+//               <th style="padding: 1px; color:black;">Teléfono</th>
+//               <th style="padding: 1px; color:black;">Rol</th>
+//             </tr>
+//             </thead>
+//             <tbody>
+//             <tr>
+//               <td style="padding: 1px; color:black;">${e.nombre_mentor}</td>
+//               <td style="padding: 1px; color:black;">${e.apellido_mentor}</td>
+//               <td style="padding: 1px; color:black;">${e.email_mentor}</td>
+//               <td style="padding: 1px; color:black;">${e.telefono_mentor}</td>
+//               <td style="padding: 1px; color:black;">Mentor Técnico</td>
+//             </tr>
+//             <tr>
+//               <td style="padding: 1px; color:black;">${e.nombre_mentor_ux_ui}</td>
+//               <td style="padding: 1px; color:black;">${e.apellido_mentor_ux_ui}</td>
+//               <td style="padding: 1px; color:black;">${e.email_mentor_ux_ui}</td>
+//               <td style="padding: 1px; color:black;">${e.telefono_mentor_ux_ui}</td>
+//               <td style="padding: 1px; color:black;">Mentor UX/UI</td>
+//             </tr>
+//             <tr>
+//               <td style="padding: 1px; color:black;">${e.nombre_mentor_qa}</td>
+//               <td style="padding: 1px; color:black;">${e.apellido_mentor_qa}</td>
+//               <td style="padding: 1px; color:black;">${e.email_mentor_qa}</td>
+//               <td style="padding: 1px; color:black;">${e.telefono_mentor_qa}</td>
+//               <td style="padding: 1px; color:black;">Mentor QA</td>
+//             </tr>
+//             </tbody>
+//             </table>
+//             `;
+//   }
+
+//   html += `
+//     <font color="#888888"><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div><div dir="ltr" class="gmail_signature"><div dir="ltr"><div><div><font color="#000000"><b>${firstName} ${lastName}</b></font></div><font color="#888888" style="color:rgb(136,136,136)"><span style="font-size:12px">ADMINISTRACIÓN&nbsp;</span></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">|&nbsp;</font><font color="#0b5394" style="color:rgb(136,136,136)"><b>SQUAD 7</b></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">&nbsp;</font><br></div><div style="color:rgb(136,136,136)"><img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" class="CToWUd" data-bit="iit"></div></div></div></div></font>
+//   `;
+
+//   return html;
+// };
+
+
 export const generateHTMLString = (
   mensaje: string,
   firstName: string,
   lastName: string,
   e: any
 ) => {
+  const primaryColor = "#0b5394";
+  const secondaryColor = "#f0f4f8";
+  const textColor = "#333333";
+  const borderColor = "#d1d5db";
+
   let html: string = "";
 
-  html += `<p style="color:black;">${mensaje}</p>`;
+  html += `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+      <p style="color: ${textColor}; font-size: 16px; line-height: 1.5;">${mensaje}</p>
+  `;
 
   if (e) {
-    html += `     <br>
-                <h2 style="color:black;">Estudiantes</h2>
-                <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
-            <thead>
-            <tr>
-              <th style="padding: 1px; color:black;">Nombre</th>
-              <th style="padding: 1px; color:black;">Apellido</th>
-              <th style="padding: 1px; color:black;">Email</th>
-              <th style="padding: 1px; color:black;">Teléfono</th>
-              <th style="padding: 1px; color:black;">Estado</th>
-              <th style="padding: 1px; color:black;">Tecnología</th>
-              <th style="padding: 1px; color:black;">ONG</th>
+    html += `
+      <h2 style="color: ${primaryColor}; font-size: 24px; margin-top: 30px; margin-bottom: 15px;">Estudiantes</h2>
+      <div style="overflow-x: auto;">
+        <table style="border-collapse: collapse; width: 100%; min-width: 600px; background-color: ${secondaryColor};">
+          <thead>
+            <tr style="background-color: ${primaryColor}; color: #ffffff;">
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Nombre</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Apellido</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Email</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Teléfono</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Tecnología</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">ONG</th>
             </tr>
-            </thead>
-            <tbody>
+          </thead>
+          <tbody>
             ${e.nombres_estudiantes
               .map(
                 (nombre: string, index: number) => `
-              <tr>
-                <td style="padding: 1px; color:black;">${nombre}</td>
-                <td style="padding: 1px; color:black;">${
-                  e.apellidos_estudiantes[index]
-                }</td>
-                <td style="padding: 1px; color:black;">${
-                  e.emails_estudiantes[index]
-                }</td>
-                <td style="padding: 1px; color:black;">${
-                  e.telefonos_estudiantes[index]
-                }</td>
-                <td style="padding: 1px; color:black;">${
-                  e.estados_estudiantes[index] ? "Activo" : "Inactivo"
-                }</td>
-                <td style="padding: 1px; color:black;">${
-                  e.tecnologias[index]
-                }</td>
-                <td style="padding: 1px; color:black;">${e.ongs[index]}</td>
+              <tr style="border-bottom: 1px solid ${borderColor};">
+                <td style="padding: 12px; color: ${textColor};">${nombre}</td>
+                <td style="padding: 12px; color: ${textColor};">${e.apellidos_estudiantes[index]}</td>
+                <td style="padding: 12px; color: ${textColor};">${e.emails_estudiantes[index]}</td>
+                <td style="padding: 12px; color: ${textColor};">${e.telefonos_estudiantes[index]}</td>
+                <td style="padding: 12px; color: ${textColor};">${e.tecnologias[index]}</td>
+                <td style="padding: 12px; color: ${textColor};">${e.ongs[index]}</td>
               </tr>
             `
               )
               .join("")}
-            </tbody>
-            </table>
-              <br>
-              `;
+          </tbody>
+        </table>
+      </div>
+    `;
 
     html += `
-                <h2 style="color:black;">Mentores</h2>
-                <table border="1" style="border-collapse: collapse; width: fit-content; text-align: left;">
-            <thead>
-            <tr>
-              <th style="padding: 1px; color:black;">Nombre</th>
-              <th style="padding: 1px; color:black;">Apellido</th>
-              <th style="padding: 1px; color:black;">Email</th>
-              <th style="padding: 1px; color:black;">Teléfono</th>
-              <th style="padding: 1px; color:black;">Rol</th>
+      <h2 style="color: ${primaryColor}; font-size: 24px; margin-top: 30px; margin-bottom: 15px;">Mentores</h2>
+      <div style="overflow-x: auto;">
+        <table style="border-collapse: collapse; width: 100%; min-width: 600px; background-color: ${secondaryColor};">
+          <thead>
+            <tr style="background-color: ${primaryColor}; color: #ffffff;">
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Nombre</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Apellido</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Email</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Teléfono</th>
+              <th style="padding: 12px; text-align: left; font-weight: bold;">Rol</th>
             </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td style="padding: 1px; color:black;">${e.nombre_mentor}</td>
-              <td style="padding: 1px; color:black;">${e.apellido_mentor}</td>
-              <td style="padding: 1px; color:black;">${e.email_mentor}</td>
-              <td style="padding: 1px; color:black;">${e.telefono_mentor}</td>
-              <td style="padding: 1px; color:black;">Mentor Técnico</td>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid ${borderColor};">
+              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.email_mentor}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor}</td>
+              <td style="padding: 12px; color: ${textColor};">Mentor Técnico</td>
+            </tr>
+            <tr style="border-bottom: 1px solid ${borderColor};">
+              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.email_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor};">Mentor UX/UI</td>
             </tr>
             <tr>
-              <td style="padding: 1px; color:black;">${e.nombre_mentor_ux_ui}</td>
-              <td style="padding: 1px; color:black;">${e.apellido_mentor_ux_ui}</td>
-              <td style="padding: 1px; color:black;">${e.email_mentor_ux_ui}</td>
-              <td style="padding: 1px; color:black;">${e.telefono_mentor_ux_ui}</td>
-              <td style="padding: 1px; color:black;">Mentor UX/UI</td>
+              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.email_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor};">Mentor QA</td>
             </tr>
-            <tr>
-              <td style="padding: 1px; color:black;">${e.nombre_mentor_qa}</td>
-              <td style="padding: 1px; color:black;">${e.apellido_mentor_qa}</td>
-              <td style="padding: 1px; color:black;">${e.email_mentor_qa}</td>
-              <td style="padding: 1px; color:black;">${e.telefono_mentor_qa}</td>
-              <td style="padding: 1px; color:black;">Mentor QA</td>
-            </tr>
-            </tbody>
-            </table>
-            `;
+          </tbody>
+        </table>
+      </div>
+    `;
   }
 
   html += `
-    <font color="#888888"><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style="font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div><div dir="ltr" class="gmail_signature"><div dir="ltr"><div><div><font color="#000000"><b>${firstName} ${lastName}</b></font></div><font color="#888888" style="color:rgb(136,136,136)"><span style="font-size:12px">ADMINISTRACIÓN&nbsp;</span></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">|&nbsp;</font><font color="#0b5394" style="color:rgb(136,136,136)"><b>SQUAD 7</b></font><font face="tahoma, sans-serif" style="color:rgb(34,34,34)">&nbsp;</font><br></div><div style="color:rgb(136,136,136)"><img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" class="CToWUd" data-bit="iit"></div></div></div></div></font>
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${borderColor};">
+        <p style="font-size: 14px; color: ${textColor}; margin-bottom: 5px;"><strong>${firstName} ${lastName}</strong></p>
+        <p style="font-size: 12px; color: #888888; margin-bottom: 5px;">ADMINISTRACIÓN | <strong style="color: ${primaryColor};">SQUAD 7</strong></p>
+        <img src="https://i.imgur.com/bxve6gU.png" width="200" height="50" alt="Logo" style="display: block; margin-top: 10px;">
+      </div>
+    </div>
   `;
 
   return html;
 };
-
 export const formatDate = (
   date: Date,
   locale: string,

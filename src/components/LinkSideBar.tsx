@@ -1,19 +1,26 @@
 "use client"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
+import { revalidateFuntion } from "@/lib/server/serverCache";
 export default function LinkSideBar({
   data,
 }: {
   data: { url: string; name: string; icon1: string , icon2:string};
 }) {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLink = ()=>{
+      revalidateFuntion(data.url);
+      router.push(data.url);
+    }
     
   return (
     <>
-      <Link
-        href={data.url}
-        className={clsx("flex flex-row gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 dark:hover:text-black  hover:bg-blue-50 rounded-lg capitalize transition dark:duration-0",{
+      <button
+      onClick={handleLink}
+        className={clsx("flex flex-row w-full gap-1 items-center px-4 py-2 max-lg:px-1 max-lg:py-1 dark:hover:text-black  hover:bg-blue-50 rounded-lg capitalize transition dark:duration-0",{
           "bg-blue-50 dark:bg-slate-300": data.url === pathname,
         })}
         title={`${data.name}`}
@@ -28,7 +35,7 @@ export default function LinkSideBar({
             {"dark:text-black dark:duration-0":data.url === pathname}
           )
         }>{data.name}</span>
-      </Link>
+      </button>
     </>
   );
 }

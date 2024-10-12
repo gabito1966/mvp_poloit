@@ -12,7 +12,7 @@ export default async function MentorCard({
     <section className="container max-w-5xl p-10 lg:pt-20 ml-14 lg:ml-0">
       <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
       <h1 className="text-lg lg:text-3xl text-center font-bold m-5">
-        Card del Mentor {mentor.nombre} {mentor.apellido}{" "}
+        Mentor: {mentor.nombre} {mentor.apellido}{" "}
       </h1>
       <div className="w-full max-h-124 flex-col p-1 lg:p-4">
         <hr />

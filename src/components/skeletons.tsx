@@ -4,24 +4,23 @@ const shimmer =
 export function FormEstudianteSkeleton() {
   return (
     <div className=" max-w-5xl mt-10 w-full  py-12 rounded-lg bg-white dark:bg-slate-500 animate-pulse">
-
-      <div className="mx-auto  h-7  w-full max-w-md p-1 rounded bg-gray-100"/>
-    <div
-      className={`container mt-5 mx-auto p-4 h-full bg-gray-100 rounded-lg dark:bg-slate-400 self-center max-w-4xl `}
+      <div className="mx-auto  h-7  w-full max-w-md p-1 rounded bg-gray-100" />
+      <div
+        className={`container mt-5 mx-auto p-4 h-full bg-gray-100 rounded-lg dark:bg-slate-400 self-center max-w-4xl `}
       >
-      <div className="  gap-5 grid lg:grid-cols-2 grid-cols-1">
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-        <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
-      </div>
-      <div className="flex justify-center items-center mt-6 w-full">
-        <div className="h-8  rounded bg-blue-300 w-full " />
+        <div className="  gap-5 grid lg:grid-cols-2 grid-cols-1">
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+          <div className="mt-4 h-8 w-full p-3 rounded bg-white " />
+        </div>
+        <div className="flex justify-center items-center mt-6 w-full">
+          <div className="h-8  rounded bg-blue-300 w-full " />
+        </div>
       </div>
     </div>
-      </div>
   );
 }
 export function FormMentorSkeleton() {
@@ -109,7 +108,7 @@ export function TableEstudianteSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium capitalize">
-                Apellido, Nombre 
+                  Apellido, Nombre
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium capitalize">
                   Correo Electronico
@@ -165,7 +164,7 @@ export function TableMentorSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium">
-                Apellido, Nombre
+                  Apellido, Nombre
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium">
                   Correo Electronico
@@ -240,62 +239,33 @@ export function TableRowSkeleton() {
 
 export function CardSkeleton() {
   return (
-    <div className="ml-24 w-full mt-14 dark:bg-slate-700 rounded-xl">
+    <div className="ml-0 w-full max-w-4xl mt-14 dark:bg-slate-700 rounded-xl">
       <div
         role="status"
-        className=" w-full p-4 border max-w-screen-lg border-gray-100 dark:border-gray-600 rounded-lg shadow animate-pulse md:p-6 md:w-auto "
+        className=" w-full p-4 border max-w-4xl border-gray-100 dark:border-gray-600 rounded-lg shadow animate-pulse md:p-6 md:w-auto "
       >
         <div className="h-8 bg-gray-100 dark:bg-slate-600 rounded-full mx-auto mb-5 my-4 max-w-xl animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7 ">
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100  rounded-full  w-32   "></div>
-              <div className="h-4  bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
-          <div className="flex  justify-center">
-            <div>
-              <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-              <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
-            </div>
-          </div>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
+          <CardRow/>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function CardRow() {
+  return (
+    <div className="flex  justify-center">
+      <div>
+        <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
+        <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
       </div>
     </div>
   );
@@ -496,7 +466,7 @@ export function MensajeSkeleton() {
               <div className="flex flex-row items-center gap-2 rounded-md">
                 <div className="w-96 bg-white h-16 rounded-md dark:bg-slate-500" />
               </div>
-                <div className="h-9 w-20 bg-blue-100 rounded-md" />
+              <div className="h-9 w-20 bg-blue-100 rounded-md" />
             </div>
           </div>
         </div>
