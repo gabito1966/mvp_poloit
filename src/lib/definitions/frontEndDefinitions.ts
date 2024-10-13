@@ -17,6 +17,7 @@ export type Mentor = {
   email: string;
   telefono: string;
   tecnologia: string;
+  estado: boolean;
 };
 
 export type Equipo = {

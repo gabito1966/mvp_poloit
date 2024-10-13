@@ -50,19 +50,23 @@ export async function GET(
     m.apellido AS mentor_apellido,
     m.email AS mentor_email,
     m.telefono AS mentor_telefono,
+    m.estado AS mentor_estado,
     muxui.id AS id_mentor_ux_ui,
     muxui.nombre AS mentor_ux_ui,
     muxui.apellido AS mentor_ux_ui_apellido,
     muxui.email AS mentor_ux_ui_email,
     muxui.telefono AS mentor_ux_ui_telefono,
+    muxui.estado AS mentor_ux_ui_estado,
     mqa.id AS id_mentor_qa,
     mqa.nombre AS mentor_qa,
     mqa.apellido AS mentor_qa_apellido,
     mqa.email AS mentor_qa_email,
     mqa.telefono AS mentor_qa_telefono,
+    mqa.estado AS mentor_qa_estado,
     ARRAY_AGG(s.nombre) AS nombres_estudiantes,
     ARRAY_AGG(s.apellido) AS apellidos_estudiantes,
     ARRAY_AGG(s.email) AS emails_estudiantes,
+    ARRAY_AGG(s.id) AS ids_estudiantes,
     ARRAY_AGG(s.telefono) AS telefonos_estudiantes,
     ARRAY_AGG(s.estado) AS estados_estudiantes,
     ARRAY_AGG(t.nombre) AS tecnologias,
@@ -89,6 +93,8 @@ export async function GET(
     e.id = ${idequipo}
   GROUP BY 
     e.id, m.id, muxui.id, mqa.id
+  ORDER BY
+    tecnologias
 `;
 
     if (rows.length === 0) {
