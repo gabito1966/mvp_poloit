@@ -22,7 +22,7 @@ export default async function TableNotificationMentor({
                 >
                   <div className="grid grid-cols-2 gap-2">
                       <div className="col-span-2 mb-2 items-center flex justify-between">
-                        <p className="text-lg font-medium">{mentor.apellido} {mentor.nombre}</p>
+                        <p className="text-lg font-medium capitalize">{mentor.apellido} {mentor.nombre}</p>
                         <p className="text-md">{mentor.email}</p>
                       </div>
                       <div className="col-span-2 mb-2 items-center flex justify-between">
@@ -56,7 +56,7 @@ export default async function TableNotificationMentor({
                     key={mentor.id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-nowrap px-3 py-3 capitalize">
                       {(mentor.apellido.length + mentor.nombre.length) < 20
                         ? `${mentor.apellido}, ${mentor.nombre}`
                         : mentor.apellido.slice(0, 15) + "..."}

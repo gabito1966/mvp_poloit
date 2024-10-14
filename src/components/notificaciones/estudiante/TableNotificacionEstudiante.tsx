@@ -57,7 +57,7 @@ export default async function TableNotificationEstudiante({
                     key={estudiante.id}
                     className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <td className="whitespace-nowrap px-3 py-3">
+                    <td className="whitespace-nowrap px-3 py-3 capitalize">
                       {(estudiante.apellido.length + estudiante.nombre.length) < 30
                         ? `${estudiante.apellido}, ${estudiante.nombre}`
                         : estudiante.apellido.slice(0, 20) + "..."}

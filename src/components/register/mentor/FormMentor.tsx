@@ -188,7 +188,7 @@ function FormMentor({
                   value={form.apellido}
                   onChange={handleChange}
                   className={clsx(
-                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 capitalize",
                     {
                       "border-red-500": responseBack.errors?.apellido?.length,
                       "border-gray-300": !responseBack.errors?.apellido?.length,
@@ -219,7 +219,7 @@ function FormMentor({
                   value={form.nombre}
                   onChange={handleChange}
                   className={clsx(
-                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
+                    "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 capitalize",
                     {
                       "border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
