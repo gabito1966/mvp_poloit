@@ -3,8 +3,8 @@
 import { fetchDeleteClient } from "@/lib/fetchFunctions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { revalidateFuntion } from './../../lib/server/serverCache';
-import {  useState } from "react";
+import { revalidateFuntion } from "./../../lib/server/serverCache";
+import { useState } from "react";
 
 function DeleteButton({
   url,
@@ -21,7 +21,6 @@ function DeleteButton({
 }) {
   const router = useRouter();
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
-
 
   const handleDelete = async () => {
     const deletePromise = fetchDeleteClient(url);
@@ -72,7 +71,10 @@ function DeleteButton({
       </button>
       {isConfirmationVisible && (
         <div className="absolute right-0 mt-2 p-4 bg-white dark:bg-slate-600 border border-gray-200 rounded-md shadow-lg z-10">
-          <p className="mb-2">¿Estás seguro de que quieres eliminar {mensajeEliminar?mensajeEliminar:"este elemento"}?</p>
+          <p className="mb-2">
+            ¿Estás seguro de que quieres eliminar{" "}
+            {mensajeEliminar ? mensajeEliminar : "este elemento"}?
+          </p>
           <div className="flex justify-end space-x-2">
             <button
               onClick={hideConfirmation}
