@@ -49,7 +49,7 @@ export const CreateSchemaEquipos = z.object({
         message: "Ingrese un tamaño",
       })
       .gt(5, { message: "Ingrese un numero mayor 5" })
-      .lt(12, "El tamaño o debe ser menor a 12"),
+      .lt(12, "El tamaño debe ser menor a 12"),
     fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
     fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
   });
@@ -342,3 +342,34 @@ export const UpdateScremaMentor = z.object({
   export const GetTecnologia = z.object({
     id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
   });
+
+  export const CreateSchemaEquipoManual = z.object({
+    nombre: z
+      .string({ message: "Ingrese un nombre" })
+      .trim()
+      .min(3, "El nombre debe tener al menos 3 caracteres")
+      .max(30, "El nombre debe contener menos de 30 caracteres")
+      .regex(/^[a-zA-Z0-9\sñÑ-]+$/, {
+        message: "Solo se permiten letras y números",
+      }),
+    tamano: z.coerce
+      .number({
+        invalid_type_error: "El tamaño debe ser un número",
+        message: "Ingrese un tamaño",
+      })
+      .gt(5, { message: "Ingrese un numero mayor 5" })
+      .lt(12, "El tamaño debe ser menor a 12"),
+    fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
+    fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
+    integrantes: z.array(z.number().gt(0, { message: "Seleccione un estudiante" })).min(6, "Debe tener al menos 6 integrante"),
+    mentorTecnico: z.number().gt(0, { message: "Seleccione un mentor técnico" }),
+    mentorUXUI: z.number().gt(0, { message: "Seleccione un mentor UX/UI" }),
+    mentorQA: z.number().gt(0, { message: "Seleccione un mentor QA" }),
+  });
+
+  export const CreateEquipoManual = CreateSchemaEquipoManual.refine((data) => data.fecha_inicio < data.fecha_fin, {
+    message: "La fecha de inicio debe ser anterior a la fecha de fin",
+    path: ["fecha_fin"], 
+  });
+
+  export type EquipoManual = z.infer<typeof CreateSchemaEquipoManual>;

@@ -57,7 +57,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
               key={index}
               className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
-              <td className="p-3 text-xs sm:text-sm">{`${mentor.apellido}, ${mentor.nombre}`}</td>
+              <td className="p-3 text-xs sm:text-sm capitalize">{`${mentor.apellido}, ${mentor.nombre}`}</td>
               <td className="p-3 text-xs sm:text-sm">{mentor.email}</td>
               <td className="p-3 text-xs sm:text-sm">{mentor.telefono}</td>
               <td className="p-3 text-xs sm:text-sm">{mentor.tecnologia}</td>
@@ -111,7 +111,7 @@ const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => {
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 <td
-                  className="p-3 text-xs sm:text-sm"
+                  className="p-3 text-xs sm:text-sm capitalize"
                   title={`${equipo.apellidos_estudiantes[index]}, ${nombre}`}
                 >{`${equipo.apellidos_estudiantes[index]}, ${nombre}`}</td>
                 <td

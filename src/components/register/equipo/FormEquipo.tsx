@@ -2,6 +2,7 @@
 
 import { EquipoData } from "@/database/definitions";
 import {
+  Equipo,
   EstudianteSinGrupos,
   MentorSinGrupo,
 } from "@/lib/definitions/frontEndDefinitions";
@@ -16,7 +17,6 @@ export type GrupoFromManual = {
   nombre: string;
   fecha_inicio: string;
   fecha_fin: string;
-  tamano: number;
   integrantes: number[];
   mentorTecnico: number;
   mentorUXUI: number;
@@ -29,12 +29,14 @@ export default function FormEquipo({
   mentoresTecnicosSinGrupos,
   mentoresQASinGrupos,
   mentoresUXUISinGrupos,
+  dataEquipo,
 }: {
   estudiantesNoGrupos: number;
   estudiantesSinGrupo: EstudianteSinGrupos[];
   mentoresTecnicosSinGrupos: MentorSinGrupo[];
   mentoresQASinGrupos: MentorSinGrupo[];
   mentoresUXUISinGrupos: MentorSinGrupo[];
+  dataEquipo?: Equipo | undefined;
 }) {
   const fechaHoy = new Date(),
     fechaFin = new Date();
@@ -55,6 +57,12 @@ export default function FormEquipo({
   const [mentorSeleccionado, setMentorSeleccionado] = useState<number | null>(
     null
   );
+  const [mentorQASeleccionado, setMentorQASeleccionado] = useState<
+    number | null
+  >(null);
+  const [mentorUXUISeleccionado, setMentorUXUISeleccionado] = useState<
+    number | null
+  >(null);
   const [filtroEstudiantes, setFiltroEstudiantes] = useState("");
 
   const [form, setForm] = useState({
@@ -66,9 +74,8 @@ export default function FormEquipo({
 
   const [formManual, setFormManual] = useState<GrupoFromManual>({
     nombre: "",
-    fecha_inicio: "",
-    fecha_fin: "",
-    tamano: 0,
+    fecha_inicio: fechaHoyFormateada,
+    fecha_fin: fechaFinFormateada,
     integrantes: [],
     mentorTecnico: 0,
     mentorUXUI: 0,
@@ -116,15 +123,15 @@ export default function FormEquipo({
   const handleChangeManual = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormManual((prevForm) => ({ ...prevForm, [name]: value }));
+    setFormManual({ ...formManual, [name]: value });
 
-    setResponseBack({
-      ...responseBack,
-      errors: {
-        ...responseBack.errors,
-        [name]: [],
-      },
-    });
+    // setResponseBack({
+    //   ...responseBack,
+    //   errors: {
+    //     ...responseBack.errors,
+    //     [name]: [],
+    //   },
+    // });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -148,6 +155,21 @@ export default function FormEquipo({
       });
     }
   };
+
+  useEffect(() => {
+    if (dataEquipo) {
+      setFormManual({
+        nombre: dataEquipo.nombre,
+        fecha_inicio: dataEquipo.fecha_inicio,
+        fecha_fin: dataEquipo.fecha_fin,
+        integrantes: dataEquipo.ids_estudiantes,
+        mentorTecnico: dataEquipo.id_mentor,
+        mentorQA: dataEquipo.id_mentor_qa,
+        mentorUXUI: dataEquipo.id_mentor_ux_ui,
+      });
+    }
+    console.log(dataEquipo);
+  }, [dataEquipo]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -195,42 +217,40 @@ export default function FormEquipo({
       },
     });
   };
-  const handleManual = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitManual = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let newEquipoManual = {
       nombre: formManual.nombre,
-      tamano: formManual.tamano,
+      tamano: estudiantesSeleccionados.length,
       fecha_inicio: formManual.fecha_inicio,
       fecha_fin: formManual.fecha_fin,
       integrantes: estudiantesSeleccionados,
       mentorTecnico: mentorSeleccionado,
-      mentorUXUI: mentorSeleccionado,
-      mentorQA: mentorSeleccionado,
+      mentorUXUI: mentorUXUISeleccionado,
+      mentorQA: mentorQASeleccionado,
     };
 
     const postPromise = fetchPostClient(`/api/equipoManual`, newEquipoManual);
 
-    // const postPromise = fetchPostClient(`/api/equipoManual`,{} );
-
-    // toast.promise(postPromise, {
-    //   loading: "Cargando...",
-    //   success: (response: any) => {
-    //     revalidateFuntion("/");
-    //     revalidateFuntion("/equipo");
-    //     revalidateFuntion("/register/equipos");
-    //     router.refresh();
-    //     return `${response?.message}`;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //     setResponseBack({
-    //       message: error.message,
-    //       errors: error.errors,
-    //     });
-    //     return `${error?.message}`;
-    //   },
-    // });
+    toast.promise(postPromise, {
+      loading: "Cargando...",
+      success: (response: any) => {
+        revalidateFuntion("/");
+        revalidateFuntion("/equipo");
+        revalidateFuntion("/register/equipos");
+        router.refresh();
+        return `${response?.message}`;
+      },
+      error: (error) => {
+        console.log(error);
+        setResponseBack({
+          message: error.message,
+          errors: error.errors,
+        });
+        return `${error?.message}`;
+      },
+    });
   };
 
   return (
@@ -436,7 +456,7 @@ export default function FormEquipo({
           </form>
         ) : (
           <form
-            onSubmit={handleManual}
+            onSubmit={handleSubmitManual}
             className="bg-white dark:bg-gray-600 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
           >
             <h2 className="text-xl font-semibold mb-4">
@@ -453,6 +473,7 @@ export default function FormEquipo({
                 </label>
                 <input
                   id="nombreGrupo"
+                  name="nombre"
                   type="text"
                   defaultValue={formManual.nombre}
                   onChange={handleChangeManual}
@@ -586,19 +607,93 @@ export default function FormEquipo({
               <label htmlFor="mentor" className="block mb-2">
                 Mentor del Grupo:
               </label>
-              {/* <select
+              <select
                 id="mentor"
-                value={mentorSeleccionado?.toString() || ''}
-                onChange={(e) => setMentorSeleccionado(parseInt(e.target.value))}
-                className="w-full p-2 border rounded"
+                value={mentorSeleccionado?.toString() || ""}
+                onChange={(e) =>
+                  setMentorSeleccionado(parseInt(e.target.value))
+                }
+                className="w-fit text-black p-2 border rounded"
               >
-                <option value="">Seleccionar Mentor</option>
-                {mentores.map(mentor => (
+                <option value="" hidden>
+                  Seleccionar Mentor
+                </option>
+                {mentoresTecnicosSinGrupos.map((mentor) => (
                   <option key={mentor.id} value={mentor.id.toString()}>
-                    {mentor.nombre} {mentor.apellido} - {mentor.especialidad}
+                    {mentor.nombre} {mentor.apellido} -{" "}
+                    {mentor.tecnologias.join(", ")}
                   </option>
                 ))}
-              </select> */}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="mentorUXUI" className="block mb-2">
+                Mentor QA:
+              </label>
+              <select
+                id="mentorUXUI"
+                value={mentorQASeleccionado?.toString() || ""}
+                onChange={(e) =>
+                  setMentorQASeleccionado(parseInt(e.target.value))
+                }
+                className="w-fit text-black p-2 border rounded"
+              >
+                {dataEquipo ? (
+                  <>
+                    <option value={dataEquipo.id_mentor_qa}>
+                      {dataEquipo.mentor_qa_apellido} {dataEquipo.mentor_qa} -
+                      QA
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
+
+                <option value="" hidden>
+                  Seleccionar Mentor
+                </option>
+                {mentoresQASinGrupos.map((mentor) => (
+                  <option key={mentor.id} value={mentor.id.toString()}>
+                    {mentor.nombre} {mentor.apellido} -{" "}
+                    {mentor.tecnologias.join(", ")}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="mentorQA" className="block mb-2">
+                Mentor UX/UI:
+              </label>
+              <select
+                id="mentorQA"
+                value={mentorUXUISeleccionado?.toString() || ""}
+                onChange={(e) =>
+                  setMentorUXUISeleccionado(parseInt(e.target.value))
+                }
+                className="w-fit text-black p-2 border rounded"
+              >
+                {dataEquipo ? (
+                  <>
+                    <option value={dataEquipo.id_mentor_ux_ui}>
+                      {dataEquipo.mentor_ux_ui_apellido}{" "}
+                      {dataEquipo.mentor_ux_ui} - UX/IU
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
+
+                {mentoresUXUISinGrupos.map((mentor) => (
+                  <option key={mentor.id} value={mentor.id.toString()}>
+                    {mentor.nombre} {mentor.apellido} -{" "}
+                    {mentor.tecnologias.join(", ")}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <button
