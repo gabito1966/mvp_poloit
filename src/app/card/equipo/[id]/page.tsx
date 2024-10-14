@@ -30,6 +30,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
             ))}
         </tbody>
     </table>
+    
 );
 
 const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => (
@@ -98,7 +99,7 @@ export default async function EquipoCard({
     return (
         <section className="container max-w-4xl pt-10">
             <div className="flex flex-col w-full bg-white dark:bg-gray-700 rounded-xl shadow-xl p-5">
-                <h2 className="text-4xl text-center font-bold p-2 m-3">
+                <h2 className="text-2xl lg:text-4xl text-center font-bold p-2 m-3">
                     Card del Equipo: {equipo.nombre}
                 </h2>
                 <div className="rounded-xl bg-gray-100 dark:bg-gray-600 shadow-md p-4">
@@ -106,19 +107,19 @@ export default async function EquipoCard({
                         <div className="grid grid-cols-2 md:grid-cols-4">
                             <div className="flex-auto">
                                 <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Nombre:</h4>
-                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.nombre}</p>
+                                <p className="bg-transparent text-lg lg:text-xl mb-2 font-semibold">{equipo.nombre}</p>
                             </div>
                             <div className="flex-auto">
                                 <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Integrantes:</h4>
-                                <p className="bg-transparent text-xl mb-2 font-semibold">{equipo.tamano}</p>
+                                <p className="bg-transparent text-lg lg:text-xl mb-2 font-semibold">{equipo.tamano}</p>
                             </div>
                             <div className="flex-auto">
                                 <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Fecha Inicio:</h4>
-                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_inicial}</p>
+                                <p className="bg-transparent text-lg lg:text-xl mb-2 font-semibold">{fecha_inicial}</p>
                             </div>
                             <div className="flex-auto">
                                 <h4 className="block mb-1 text-md text-gray-500 dark:text-gray-400 font-medium">Finaliza:</h4>
-                                <p className="bg-transparent text-xl mb-2 font-semibold">{fecha_final}</p>
+                                <p className="bg-transparent text-lg lg:text-xl mb-2 font-semibold">{fecha_final}</p>
                             </div>
                         </div>
                     </div>
