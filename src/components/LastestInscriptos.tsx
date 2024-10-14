@@ -15,7 +15,7 @@ export default async function LastestInscriptos() {
 
           <Link
             href="/estudiante"
-            className="flex flex-row  items-center text-md lg:text-lg text-blue-400 hover:text-blue-700 hover:underline font-semibold "
+            className="flex flex-row  items-center text-md lg:text-lg text-blue-400 hover:text-blue-700 dark:hover:text-white hover:underline font-semibold "
           >
             <span>Ver más</span>            
           </Link>

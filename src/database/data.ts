@@ -12,6 +12,7 @@ import {
   TecnologiaConEstudiantes,
   TipoEMails,
 } from "./definitions";
+import { EstudianteSinGrupos, MentorSinGrupo } from "@/lib/definitions/frontEndDefinitions";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -21,7 +22,7 @@ export async function fetchFilteredEstudiantes(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const filter :string= query.replaceAll(" ","");
+  const filter: string = query.replaceAll(" ", "");
 
   try {
     const estudiantes = await sql<EstudiantesData>`
@@ -51,8 +52,8 @@ WHERE
     CONCAT(e.nombre,e.apellido) ILIKE ${`%${filter}%`} OR
     CONCAT(e.apellido,e.nombre) ILIKE ${`%${filter}%`} OR
     CONCAT(e.nombre,' ',e.apellido) ILIKE ${`%${query.trim()}%`} OR
-    CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`}) AND
-    e.estado = true
+    CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`})
+    AND  e.estado = true
 GROUP BY 
     e.id, o.id
 ORDER BY 
@@ -60,8 +61,6 @@ ORDER BY
 LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
-    
-
     return estudiantes.rows;
   } catch (error) {
     console.log(
@@ -78,7 +77,7 @@ export async function fetchFilteredMentores(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const filter :string= query.replaceAll(" ","");
+  const filter: string = query.replaceAll(" ", "");
 
   try {
     const mentores = await sql<MentorData>`
@@ -257,10 +256,12 @@ export async function fetchFilteredOngs(query: string, currentPage: number) {
 }
 
 export async function fetchPagesEstudiantes(query: string) {
+  const filter: string = query.replaceAll(" ", "");
+
   try {
     const rows = await sql`
       SELECT COUNT(*)
-      FROM estudiantes
+      FROM estudiantes e
       WHERE
        ( nombre ILIKE ${`%${query}%`} OR
         apellido ILIKE ${`%${query}%`} OR
@@ -563,33 +564,28 @@ export async function equiposDistribution(
     if (!total_estudiantes) break;
     index_equipos =
       cant_equipos[0].total_equipos - 1 < index_equipos ? index_equipos++ : 0;
+  }
 
-    }
-    
-    revalidatePath("/");
-    revalidatePath("/equipo");
-    revalidatePath("/register/equipos")
+  revalidatePath("/");
+  revalidatePath("/equipo");
+  revalidatePath("/register/equipos");
 }
 
-
 export async function getCantEstudiantesSinGrupo() {
-
   try {
-    const {rows:result} = await sql`SELECT COUNT(*) 
+    const { rows: result } = await sql`SELECT COUNT(*) 
                               FROM estudiantes 
                               WHERE estado = true 
                               AND id NOT IN (
                                   SELECT id_estudiante
                                   FROM equipos_estudiantes
                               )`;
-  
+
     return result[0].count;
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return 0;
   }
-
 }
 
 export async function fetchFilteredMentoresBaja(
@@ -598,7 +594,7 @@ export async function fetchFilteredMentoresBaja(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const filter :string= query.replaceAll(" ","");
+  const filter: string = query.replaceAll(" ", "");
 
   try {
     const mentoresBaja = await sql<MentorBajaData>`
@@ -648,7 +644,7 @@ export async function fetchFilteredEstudiantesBaja(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const filter :string= query.replaceAll(" ","");
+  const filter: string = query.replaceAll(" ", "");
 
   try {
     const estudiantesBaja = await sql<EstudianteBajaData>`
@@ -689,7 +685,6 @@ export async function fetchFilteredEstudiantesBaja(
   }
 }
 
-
 export async function fetchEquiposEliminados(
   query: string,
   currentPage: number
@@ -725,12 +720,9 @@ export async function fetchEquiposEliminados(
   }
 }
 
-
-export async function  getEmailsTipo(tipo:string){
-
+export async function getEmailsTipo(tipo: string) {
   try {
-
-    const {rows:emailsBienvenida} = await sql`
+    const { rows: emailsBienvenida } = await sql`
         SELECT
           c.id AS correo_id,
           c.asunto,
@@ -757,21 +749,17 @@ export async function  getEmailsTipo(tipo:string){
           e.tamano,
           e.nombre
         ORDER BY
-          c.fecha DESC;`
+          c.fecha DESC;`;
 
     return emailsBienvenida;
-
-  }catch(error){
-    console.log(error)
-    return []
+  } catch (error) {
+    console.log(error);
+    return [];
   }
-
 }
-export async function  getEmailsTipoSeguimiento(){
-
+export async function getEmailsTipoSeguimiento() {
   try {
-
-    const {rows:emailsBienvenida} = await sql`
+    const { rows: emailsBienvenida } = await sql`
         SELECT
           c.id AS correo_id,
           c.asunto,
@@ -796,35 +784,114 @@ export async function  getEmailsTipoSeguimiento(){
           a.nombre,
           a.apellido
         ORDER BY
-          c.fecha DESC;`
+          c.fecha DESC;`;
 
     return emailsBienvenida;
-
-  }catch(error){
-    console.log(error)
-    return []
+  } catch (error) {
+    console.log(error);
+    return [];
   }
-
 }
 
 export async function getTipoEmails() {
-
   try {
-    
-    const {rows:resultTipo} = await sql<TipoEMails>`
+    const { rows: resultTipo } = await sql<TipoEMails>`
     SELECT
       *
     FROM
       tipo_correo
-    `
+    `;
     return resultTipo;
-
   } catch (error) {
-    
-    console.log(error)
-    return []
-
+    console.log(error);
+    return [];
   }
+}
 
-  
-} 
+export async function getEstudiantesSinGrupo() {
+  try {
+    const { rows: resultEstudiantesSinGrupos } = await sql<EstudianteSinGrupos>`
+
+    SELECT e.*, t.nombre AS tecnologia_nombre
+    FROM estudiantes e
+    LEFT JOIN equipos_estudiantes ee ON e.id = ee.id_estudiante
+    LEFT JOIN estudiantes_tecnologias et ON e.id = et.id_estudiante
+    LEFT JOIN tecnologias t ON et.id_tecnologia = t.id
+    WHERE ee.id_estudiante IS NULL AND e.estado = true
+    ORDER BY 
+    e.apellido, e.nombre;
+        `;
+    return resultEstudiantesSinGrupos;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+export async function getMentoresTecnicosSinGrupos() {
+  try {
+    const { rows: resultMentoresTecnicosSinGrupos } =
+      await sql<MentorSinGrupo>`
+    SELECT m.*, ARRAY_AGG(t.nombre) AS tecnologias
+    FROM mentores m
+    LEFT JOIN mentores_tecnologias mt ON m.id = mt.id_mentor
+    LEFT JOIN tecnologias t ON mt.id_tecnologia = t.id
+    LEFT JOIN equipos e ON m.id = e.id_mentor OR m.id = e.id_mentor_ux_ui OR m.id = e.id_mentor_qa
+    WHERE t.tipo = 'BACKEND'
+    AND e.id IS NULL AND m.estado=true
+    GROUP BY m.id
+    ORDER BY
+    m.apellido, m.nombre;
+  `;
+
+    return resultMentoresTecnicosSinGrupos;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+export async function getMentoresQASinGrupos() {
+  try {
+    const { rows: resultMentoresQASinGrupos } = await sql<MentorSinGrupo>`
+    SELECT m.*, ARRAY_AGG(t.nombre) AS tecnologias
+    FROM mentores m
+    LEFT JOIN mentores_tecnologias mt ON m.id = mt.id_mentor
+    LEFT JOIN tecnologias t ON mt.id_tecnologia = t.id
+    LEFT JOIN equipos e ON m.id = e.id_mentor OR m.id = e.id_mentor_ux_ui OR m.id = e.id_mentor_qa
+    WHERE t.tipo = 'TESTING'
+    AND e.id IS NULL AND m.estado=true
+    GROUP BY m.id
+    ORDER BY
+    m.apellido, m.nombre;
+  `;
+
+    return resultMentoresQASinGrupos;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+export async function getMentoresUXUISinGrupos() {
+  try {
+    const { rows: resultMentoresUXUISinGrupos } =
+      await sql<MentorSinGrupo>`
+    SELECT m.*, ARRAY_AGG(t.nombre) AS tecnologias
+    FROM mentores m
+    LEFT JOIN mentores_tecnologias mt ON m.id = mt.id_mentor
+    LEFT JOIN tecnologias t ON mt.id_tecnologia = t.id
+    LEFT JOIN equipos e ON m.id = e.id_mentor OR m.id = e.id_mentor_ux_ui OR m.id = e.id_mentor_qa
+    WHERE t.tipo = 'INTERFACE'
+    AND e.id IS NULL AND m.estado=true
+    GROUP BY m.id
+    ORDER BY
+    m.apellido, m.nombre;
+  `;
+
+    return resultMentoresUXUISinGrupos;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}

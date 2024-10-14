@@ -8,7 +8,7 @@ export const CreateSchemaEmpresa = z.object({
   nombre: z
     .string()
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
+    .max(25, "El nombre debe contener menos de 25 caracteres"),
 });
 
 export const CreateEmpresa = CreateSchemaEmpresa.omit({ id: true });
@@ -20,7 +20,7 @@ export const UpdateEmpresa = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" }).trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe tener menos de 25 caracteres"),
+    .max(25, "El nombre debe contener menos de 25 caracteres"),
 });
 
 export type Empresa = z.infer<typeof UpdateEmpresa>;
@@ -39,8 +39,8 @@ export const CreateSchemaEquipos = z.object({
       .string({ message: "Ingrese un nombre" })
       .trim()
       .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(30, "El nombre debe tener menos de 30 caracteres")
-      .regex(/^[a-zA-Z0-9\s]+$/, {
+      .max(30, "El nombre debe contener menos de 30 caracteres")
+      .regex(/^[a-zA-Z0-9\sñÑ]+$/, {
         message: "Solo se permiten letras y números",
       }),
     tamano: z.coerce
@@ -49,7 +49,7 @@ export const CreateSchemaEquipos = z.object({
         message: "Ingrese un tamaño",
       })
       .gt(5, { message: "Ingrese un numero mayor 5" })
-      .lt(12, "El tamaño o debe ser menor a 12"),
+      .lt(12, "El tamaño debe ser menor a 12"),
     fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
     fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
   });
@@ -76,7 +76,7 @@ export const CreateSchemaEstudiante = z.object({
       .trim()
       .min(2, "El nombre debe de contener al menos 2 caracteres")
       .max(25, "El nombre debe contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     apellido: z
@@ -84,7 +84,7 @@ export const CreateSchemaEstudiante = z.object({
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracteres")
       .max(25, "El apellido debe contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, "Solo se permiten catacteres o espacios"),
+      .regex(/^[a-zA-ZñÑ\s]+$/, "Solo se permiten catacteres o espacios"),
     email: z
       .string({ message: "Ingrese un email" })
       .email("Debe ser un email válido")
@@ -123,7 +123,7 @@ export const UpdateEstudiante = z.object({
       .trim()
       .min(2, "El nombre debe de contener al menos 2 caracteres")
       .max(25, "El nombre debe de contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     apellido: z
@@ -131,7 +131,7 @@ export const UpdateEstudiante = z.object({
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracter")
       .max(25, "El nombre debe de contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     estado: z.boolean(),
@@ -167,7 +167,7 @@ export const GetEstudiante = z.object({
 
 
 export const CreateSchemaGemini = z.object({
-    tipo: z.coerce.number().int().gt(0, { message: "seleccione tipo" }),
+    tipo: z.coerce.number().int().gt(0, { message: "Seleccione tipo" }),
     mensaje: z.string().optional(),
     session: z.string({ message: "Inicie sesión" }),
   });
@@ -194,7 +194,7 @@ export const CreateSchemaMentor = z.object({
       .trim()
       .min(2, "El nombre debe contener al menos 2 caracteres")
       .max(25, "El nombre debe contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     apellido: z
@@ -202,7 +202,7 @@ export const CreateSchemaMentor = z.object({
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracteres")
       .max(25, "El apellido debe contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     email: z
@@ -243,7 +243,7 @@ export const UpdateScremaMentor = z.object({
       .trim()
       .min(2, "El nombre debe de contener al menos 2 caracteres")
       .max(25, "El nombre debe de contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     apellido: z
@@ -251,7 +251,7 @@ export const UpdateScremaMentor = z.object({
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracter")
       .max(25, "El apellido debe contener menos de 25 caracteres")
-      .regex(/^[a-zA-Z\s]+$/, {
+      .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
     email: z
@@ -284,23 +284,23 @@ export const UpdateScremaMentor = z.object({
  export type MentorInterface = z.infer<typeof UpdateMentor>;
 
  export const GetMentor = z.object({
-    id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
+    id: z.coerce.number({ invalid_type_error: "Debe ser un número" }),
   });
   
  export const CreateOng = z.object({
     nombre: z
-      .string({ message: "seleccione un nombre" }).trim()
+      .string({ message: "Seleccione un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .max(25, "El nombre debe contener menos de 25 caracteres"),
   });
 
 
   export const UpdateOng = z.object({
-    id: z.coerce.number({ invalid_type_error: "seleccione una organizacion" }),
+    id: z.coerce.number({ invalid_type_error: "Seleccione una organización" }),
     nombre: z
-      .string({ message: "ingrese un nombre" }).trim()
-      .min(2, "el nombre debe tener al menos 2 caracteres")
-      .max(25, "el nombre debe tener menos de 25 caracteres"),
+      .string({ message: "Ingrese un nombre" }).trim()
+      .min(2, "El nombre debe tener al menos 2 caracteres")
+      .max(25, "El nombre debe contener menos de 25 caracteres"),
   });
 
  export const CreateSchemaMensaje = z.object({
@@ -309,21 +309,21 @@ export const UpdateScremaMentor = z.object({
       .min(20, "El mensaje debe contener al menos 20 caracteres"),
     tipo: z.coerce
       .number({
-        message: "seleccione tipo",
-        invalid_type_error: "seleccione tipo valido",
+        message: "Seleccione tipo",
+        invalid_type_error: "Seleccione tipo valido",
       })
-      .gt(0, { message: "seleccione tipo" }),
+      .gt(0, { message: "Seleccione tipo" }),
     session: z.string({ message: "Inicie sesión" }),
   });
   
   export type MensajeInterface = z.infer<typeof CreateSchemaMensaje>;
 
   export const CreateSchemaTecnologia = z.object({
-    id: z.coerce.number({ message: "ingrese un ID" }),
+    id: z.coerce.number({ message: "Ingrese un ID" }),
     nombre: z
       .string({ message: "Ingrese un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .max(25, "El nombre debe contener menos de 25 caracteres"),
     tipo:z.string()
   });
   
@@ -336,9 +336,40 @@ export const UpdateScremaMentor = z.object({
     nombre: z
       .string({ message: "Ingrese un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .max(25, "El nombre debe contener menos de 25 caracteres"),
   });
 
   export const GetTecnologia = z.object({
     id: z.coerce.number({ invalid_type_error: "El ID debe ser un número" }),
   });
+
+  export const CreateSchemaEquipoManual = z.object({
+    nombre: z
+      .string({ message: "Ingrese un nombre" })
+      .trim()
+      .min(3, "El nombre debe tener al menos 3 caracteres")
+      .max(30, "El nombre debe contener menos de 30 caracteres")
+      .regex(/^[a-zA-Z0-9\sñÑ-]+$/, {
+        message: "Solo se permiten letras y números",
+      }),
+    tamano: z.coerce
+      .number({
+        invalid_type_error: "El tamaño debe ser un número",
+        message: "Ingrese un tamaño",
+      })
+      .gt(5, { message: "Ingrese un numero mayor 5" })
+      .lt(12, "El tamaño debe ser menor a 12"),
+    fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
+    fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
+    integrantes: z.array(z.number().gt(0, { message: "Seleccione un estudiante" })).min(6, "Debe tener al menos 6 integrante"),
+    mentorTecnico: z.number().gt(0, { message: "Seleccione un mentor técnico" }),
+    mentorUXUI: z.number().gt(0, { message: "Seleccione un mentor UX/UI" }),
+    mentorQA: z.number().gt(0, { message: "Seleccione un mentor QA" }),
+  });
+
+  export const CreateEquipoManual = CreateSchemaEquipoManual.refine((data) => data.fecha_inicio < data.fecha_fin, {
+    message: "La fecha de inicio debe ser anterior a la fecha de fin",
+    path: ["fecha_fin"], 
+  });
+
+  export type EquipoManual = z.infer<typeof CreateSchemaEquipoManual>;
