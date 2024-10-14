@@ -114,6 +114,9 @@ export async function GET(
             `;
     });
 
+    revalidatePath("/");
+    revalidatePath("/equipos");
+    revalidatePath(`/card/equipo/${id}`);
     return NextResponse.json(
       createResponse(true, [], "Actualización de equipo exitosa"),
       {
