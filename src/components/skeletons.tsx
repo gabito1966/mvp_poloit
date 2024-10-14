@@ -49,18 +49,18 @@ export function FormMentorSkeleton() {
 export function FormEquiposSkeleton() {
   return (
     <div
-      className={`container mt-10  px-16 py-4 h-full bg-white  max-w-7xl  justify-between`}
+      className={`container mt-10  px-16 py-4 h-full bg-white dark:bg-gray-700  max-w-7xl  justify-between`}
     >
       <div className=" mt-2 h-8 my-5 w-full max-w-80 lg:max-w-2xl  p-1 animate-pulse flex-start rounded bg-gray-100 " />
       <div className="flex flex-col  lg:flex-row  justify-between shadow-sm pb-4 shadow-blue-50  w-full animate-pulse gap-5">
         <div className="grid grid-cols-1  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5">
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
         </div>
         <div className="flex  justify-center sm:justify-end items-center  mt-auto w-full">
-          <div className="h-9  rounded bg-blue-300 w-56 lg:w-64 " />
+          <div className="h-9 rounded bg-blue-300 w-56 lg:w-64 " />
         </div>
       </div>
     </div>
@@ -72,19 +72,19 @@ export function MobileSkeleton() {
     <div className="mb-2 w-full rounded-md bg-white dark:bg-slate-700 p-4 animate-pulse">
       <div className="flex items-center justify-between  border-gray-100 pb-2">
         <div className="flex items-center">
-          <div className="h-5 w-32 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="h-5 w-32 rounded bg-gray-100 dark:bg-gray-600"></div>
         </div>
-        <div className="h-5 w-32 rounded bg-gray-100 dark:bg-slate-400"></div>
+        <div className="h-5 w-32 rounded bg-gray-100 dark:bg-gray-600"></div>
       </div>
       <div className="flex w-full items-center justify-between ">
         <div>
-          <div className="h-6 w-20 rounded bg-gray-100 dark:bg-slate-400"></div>
-          <div className="mt-2 h-6 w-44 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="h-6 w-20 rounded bg-gray-100 dark:bg-gray-600"></div>
+          <div className="mt-2 h-6 w-44 rounded bg-gray-100 dark:bg-gray-600"></div>
         </div>
         <div className="flex justify-end gap-2">
-          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
-          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
-          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-slate-400"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-gray-600"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-gray-600"></div>
+          <div className="h-5 w-5 rounded bg-gray-100 dark:bg-gray-600"></div>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@ export function TableEstudianteSkeleton() {
   return (
     <div className="mt-6 flow-root animate-pulse">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 dark:bg-slate-500 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 dark:bg-slate-600 p-2 md:pt-0">
           <div className="lg:hidden">
             <MobileSkeleton />
             <MobileSkeleton />
@@ -132,7 +132,7 @@ export function TableEstudianteSkeleton() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-gray-700">
               <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
@@ -151,7 +151,7 @@ export function TableMentorSkeleton() {
   return (
     <div className="mt-6 flow-root animate-pulse">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 dark:bg-slate-500 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-100 dark:bg-gray-600 p-2 md:pt-0">
           <div className="lg:hidden">
             <MobileSkeleton />
             <MobileSkeleton />
@@ -161,7 +161,7 @@ export function TableMentorSkeleton() {
             <MobileSkeleton />
           </div>
           <table className="hidden min-w-full text-gray-900 lg:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className="rounded-lg text-left bg-gray-100 dark:bg-gray-600 text-sm font-normal">
               <tr>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Apellido, Nombre
@@ -188,7 +188,7 @@ export function TableMentorSkeleton() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-gray-700">
               <TableRowSkeleton />
               <TableRowSkeleton />
               <TableRowSkeleton />
@@ -207,30 +207,30 @@ export function TableRowSkeleton() {
     <tr className="w-full border-b border-gray-100 dark:bg-slate-600 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg animate-pulse">
       {/*Apellido, Nombre */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
       </td>
       {/* Email */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-32 rounded bg-gray-100"></div>
+        <div className="h-6 w-32 rounded bg-gray-100 dark:bg-gray-700"></div>
       </td>
       {/* Teléfono */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
       </td>
       {/* Tecnologías */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
       </td>
       {/* ongs/empresas */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
       </td>
       {/* Actions */}
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
-          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
-          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
-          <div className="h-[20px] w-[20px] rounded bg-gray-100"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100 dark:bg-gray-600"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100 dark:bg-gray-600"></div>
+          <div className="h-[20px] w-[20px] rounded bg-gray-100 dark:bg-gray-600"></div>
         </div>
       </td>
     </tr>
@@ -264,8 +264,8 @@ function CardRow() {
   return (
     <div className="flex  justify-center">
       <div>
-        <div className="h-4  mb-4 bg-gray-100 rounded-full  w-32  "></div>
-        <div className="h-4   bg-gray-100 rounded-full  w-32   mb-6"></div>
+        <div className="h-4  mb-4 bg-gray-100 dark:bg-gray-600 rounded-full  w-32  "></div>
+        <div className="h-4   bg-gray-100 dark:bg-gray-600 rounded-full  w-32   mb-6"></div>
       </div>
     </div>
   );

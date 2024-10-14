@@ -215,7 +215,7 @@ export default async function EquipoCard({
           Equipo: {equipo.nombre}
         </h2>
         <div className=" p-4 sm:p-6 space-y-6 sm:space-y-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-gray-100 dark:bg-slate-800 rounded-lg p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-gray-100 dark:bg-slate-800 rounded-lg p-4">
             <div>
               <h4 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
                 Nombre:

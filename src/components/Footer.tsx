@@ -7,16 +7,16 @@ function Footer() {
       link: "https://www.linkedin.com/in/javier-espindola/",
     },
     {
+      nombre: "Gabriel García",
+      link: "https://www.linkedin.com/in/gabriel-garcia-developer/",
+    },
+    {
       nombre: "Elizabeth Rabinad",
       link: "https://www.linkedin.com/in/elizabeth-rabinad-4b6131167/",
     },
     {
       nombre: "Sandro Borga",
       link: "https://www.linkedin.com/in/sandro-borga-065936246/",
-    },
-    {
-      nombre: "Gabriel García",
-      link: "https://www.linkedin.com/in/gabriel-garcia-developer/",
     },
   ];
 
