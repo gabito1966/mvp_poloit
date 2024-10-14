@@ -51,8 +51,8 @@ WHERE
     CONCAT(e.nombre,e.apellido) ILIKE ${`%${filter}%`} OR
     CONCAT(e.apellido,e.nombre) ILIKE ${`%${filter}%`} OR
     CONCAT(e.nombre,' ',e.apellido) ILIKE ${`%${query.trim()}%`} OR
-    CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`}) AND
-    e.estado = true
+    CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`})
+    AND  e.estado = true
 GROUP BY 
     e.id, o.id
 ORDER BY 
@@ -60,8 +60,6 @@ ORDER BY
 LIMIT ${ITEMS_PER_PAGE}
 OFFSET ${offset};
     `;
-    
-
     return estudiantes.rows;
   } catch (error) {
     console.log(
@@ -257,10 +255,13 @@ export async function fetchFilteredOngs(query: string, currentPage: number) {
 }
 
 export async function fetchPagesEstudiantes(query: string) {
+
+  const filter :string= query.replaceAll(" ","");
+
   try {
     const rows = await sql`
       SELECT COUNT(*)
-      FROM estudiantes
+      FROM estudiantes e
       WHERE
        ( nombre ILIKE ${`%${query}%`} OR
         apellido ILIKE ${`%${query}%`} OR
