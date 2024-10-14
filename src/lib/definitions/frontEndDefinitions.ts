@@ -1,4 +1,3 @@
-
 export interface PageProps {
   searchParams?: {
     query?: string;
@@ -7,7 +6,7 @@ export interface PageProps {
 }
 export interface PartnersSectionProps {
   title: string;
-  paragraph:string;
+  paragraph: string;
   images: string[];
 }
 
@@ -47,7 +46,7 @@ export type Equipo = {
   telefonos_estudiantes: string[];
   estados_estudiantes: boolean[];
   tecnologias: string[];
-  ongs:string[];
+  ongs: string[];
 };
 
 export interface Empresa {
@@ -73,7 +72,7 @@ export interface EmailTemplateProps {
 export type TextTypingEffectProps = {
   isTypeByLetter?: boolean;
   duration?: number;
-  texts:string;
+  texts: string;
 };
 
 export interface Estudiante {
@@ -154,4 +153,25 @@ export interface CardProps {
 
 export type CarouselProps = {
   images: string[];
+};
+
+export type EstudianteSinGrupos = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  estado: boolean;
+  id_ong: number;
+  tecnologia_nombre: string;
+};
+export type MentorSinGrupo = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  estado: boolean;
+  id_empresa: number;
+  tecnologias: string[];
 };
