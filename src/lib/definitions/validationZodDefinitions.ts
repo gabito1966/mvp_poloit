@@ -357,8 +357,7 @@ export const UpdateScremaMentor = z.object({
         invalid_type_error: "El tamaño debe ser un número",
         message: "Ingrese un tamaño",
       })
-      .gt(5, { message: "Ingrese un numero mayor 5" })
-      .lt(12, "El tamaño debe ser menor a 12"),
+      .gt(5, { message: "Seleccione por lo menos 6 integrantes" }),
     fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
     fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
     integrantes: z.array(z.number().gt(0, { message: "Seleccione un estudiante" })).min(6, "Debe tener al menos 6 integrante"),

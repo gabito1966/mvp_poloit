@@ -6,7 +6,7 @@ import {
   EstudianteSinGrupos,
   MentorSinGrupo,
 } from "@/lib/definitions/frontEndDefinitions";
-import { fetchGetClient, fetchPostClient } from "@/lib/fetchFunctions";
+import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -53,16 +53,16 @@ export default function FormEquipo({
 
   const [estudiantesSeleccionados, setEstudiantesSeleccionados] = useState<
     number[]
-  >([]);
+  >(dataEquipo != undefined ? dataEquipo.ids_estudiantes : []);
   const [mentorSeleccionado, setMentorSeleccionado] = useState<number | null>(
-    null
+    dataEquipo != undefined ? dataEquipo.id_mentor : null
   );
   const [mentorQASeleccionado, setMentorQASeleccionado] = useState<
     number | null
-  >(null);
+  >(dataEquipo != undefined ? dataEquipo.id_mentor_qa : null);
   const [mentorUXUISeleccionado, setMentorUXUISeleccionado] = useState<
     number | null
-  >(null);
+  >(dataEquipo != undefined ? dataEquipo.id_mentor_ux_ui : null);
   const [filtroEstudiantes, setFiltroEstudiantes] = useState("");
 
   const [form, setForm] = useState({
@@ -83,7 +83,7 @@ export default function FormEquipo({
   });
 
   const [modoGeneracion, setModoGeneracion] = useState<"automatico" | "manual">(
-    "automatico"
+    dataEquipo != undefined ? "manual" : "automatico"
   );
   const [estudiantes, setEstudiantes] = useState<EstudianteSinGrupos[]>([]);
 
@@ -119,19 +119,32 @@ export default function FormEquipo({
       fecha_fin: [],
     },
   });
+  const [responseBackManual, setResponseBackManual] = useState({
+    message: "",
+    errors: {
+      nombre: [],
+      tamano: [],
+      fecha_inicio: [],
+      fecha_fin: [],
+      integrantes: [],
+      mentorTecnico: [],
+      mentorUXUI: [],
+      mentorQA: [],
+    },
+  });
 
   const handleChangeManual = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormManual({ ...formManual, [name]: value });
 
-    // setResponseBack({
-    //   ...responseBack,
-    //   errors: {
-    //     ...responseBack.errors,
-    //     [name]: [],
-    //   },
-    // });
+    setResponseBackManual({
+      ...responseBackManual,
+      errors: {
+        ...responseBackManual.errors,
+        [name]: [],
+      },
+    });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -231,6 +244,30 @@ export default function FormEquipo({
       mentorQA: mentorQASeleccionado,
     };
 
+    
+    if(dataEquipo!=undefined){
+      const postPromise = fetchPutClient( `/api/equipoManual/${dataEquipo.id}`, newEquipoManual);
+      
+      toast.promise(postPromise, {
+      loading: "Cargando...",
+      success: (response: any) => {
+        revalidateFuntion("/");
+        revalidateFuntion("/equipo");
+        revalidateFuntion("/register/equipos");
+        router.push("/equipo");
+        return `${response?.message}`;
+      },
+      error: (error) => {
+        console.log(error);
+        setResponseBackManual({
+          message: error.message,
+          errors: error.errors,
+        });
+        return `${error?.message}`;
+      },
+    });
+
+    }else{
     const postPromise = fetchPostClient(`/api/equipoManual`, newEquipoManual);
 
     toast.promise(postPromise, {
@@ -251,6 +288,8 @@ export default function FormEquipo({
         return `${error?.message}`;
       },
     });
+    }
+    
   };
 
   return (
@@ -269,6 +308,7 @@ export default function FormEquipo({
           <select
             id="modoGeneracion"
             value={modoGeneracion}
+            disabled={dataEquipo != undefined}
             onChange={(e) =>
               setModoGeneracion(e.target.value as "automatico" | "manual")
             }
@@ -391,7 +431,7 @@ export default function FormEquipo({
                 <div>
                   <label
                     htmlFor="fecha_fin"
-                    className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                    className="block  text-sm font-medium text-gray-500 dark:text-gray-400"
                   >
                     Fecha final de entrega:
                   </label>
@@ -460,31 +500,36 @@ export default function FormEquipo({
             className="bg-white dark:bg-gray-600 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
           >
             <h2 className="text-xl font-semibold mb-4">
-              Crear Nuevo Grupo Manualmente
+              {dataEquipo != undefined
+                ? `Actualizar Equipo ${dataEquipo.nombre}`
+                : "Crear Nuevo Equipo Manualmente"}
             </h2>
 
             <div>
               <div className="mb-4">
                 <label
-                  htmlFor="nombreGrupo"
-                  className="block mb-2 text-gray-500 dark:text-gray-300"
+                  htmlFor="nombreEquipo"
+                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
-                  Nombre del Grupo:
+                  Nombre del Equipo:
                 </label>
                 <input
-                  id="nombreGrupo"
+                  id="nombreEquipo"
                   name="nombre"
+                  disabled={dataEquipo != undefined}
                   type="text"
                   defaultValue={formManual.nombre}
                   onChange={handleChangeManual}
-                  className=" p-2 border rounded w-64 text-black"
+                  className={clsx(" p-2 border rounded w-64 text-black", {
+                    "cursor-not-allowed": dataEquipo != undefined,
+                  })}
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="fecha_inicio"
-                  className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                  className="block  text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Fecha de inicio:
                 </label>
@@ -493,7 +538,11 @@ export default function FormEquipo({
                   type="date"
                   id="fecha_inicio"
                   name="fecha_inicio"
-                  defaultValue={fechaHoyFormateada}
+                  defaultValue={
+                    dataEquipo != undefined
+                      ? dataEquipo.fecha_inicio.split("T")[0]
+                      : fechaHoyFormateada
+                  }
                   placeholder=""
                   className={clsx(
                     "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
@@ -522,13 +571,16 @@ export default function FormEquipo({
                   Fecha final de entrega:
                 </label>
                 <input
-                  disabled={estudiantesNoGrupos < 6}
                   onChange={handleChangeManual}
                   type="date"
                   id="fecha_fin"
                   name="fecha_fin"
                   placeholder=""
-                  defaultValue={fechaFinFormateada}
+                  defaultValue={
+                    dataEquipo != undefined
+                      ? dataEquipo.fecha_fin.split("T")[0]
+                      : fechaFinFormateada
+                  }
                   className={clsx(
                     "basis-1/3 mt-2 block text-black border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
@@ -550,7 +602,7 @@ export default function FormEquipo({
               <div className="mb-4">
                 <label
                   htmlFor="filtroEstudiantes"
-                  className="block mb-2 text-gray-500 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Filtrar Estudiantes:
                 </label>
@@ -565,7 +617,7 @@ export default function FormEquipo({
               </div>
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-gray-500 dark:text-gray-300">
+              <label className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                 Seleccionar Estudiantes:
               </label>
               <div className="h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ">
@@ -578,6 +630,28 @@ export default function FormEquipo({
                     </tr>
                   </thead>
                   <tbody>
+                    {dataEquipo?.ids_estudiantes.map(
+                      (e: number, index: number) => (
+                        <tr key={`${e}-${index}`}>
+                          <td className="p-2">
+                            {dataEquipo.apellidos_estudiantes[index]},{" "}
+                            {dataEquipo.nombres_estudiantes[index]}
+                          </td>
+                          <td className="p-2">
+                            {dataEquipo.tecnologias[index]}
+                          </td>
+                          <td className="p-2">
+                            <input
+                              type="checkbox"
+                              checked={estudiantesSeleccionados.includes(e)}
+                              onChange={() => toggleEstudianteSeleccion(e)}
+                              className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                          </td>
+                        </tr>
+                      )
+                    )}
+
                     {estudiantesFiltrados?.map((estudiante) => (
                       <tr key={estudiante.id}>
                         <td className="p-2">
@@ -604,7 +678,10 @@ export default function FormEquipo({
             </div>
 
             <div className="mb-4">
-              <label htmlFor="mentor" className="block mb-2">
+              <label
+                htmlFor="mentor"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
                 Mentor del Grupo:
               </label>
               <select
@@ -613,21 +690,34 @@ export default function FormEquipo({
                 onChange={(e) =>
                   setMentorSeleccionado(parseInt(e.target.value))
                 }
-                className="w-fit text-black p-2 border rounded"
+                className="w-fit text-black p-2 border rounded sm:text-sm "
               >
-                <option value="" hidden>
-                  Seleccionar Mentor
-                </option>
+                {dataEquipo ? (
+                  <>
+                    <option title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`} value={dataEquipo.id_mentor} hidden>
+                      {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
+                      JAVA
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
                 {mentoresTecnicosSinGrupos.map((mentor) => (
                   <option key={mentor.id} value={mentor.id.toString()}>
-                    {mentor.nombre} {mentor.apellido} -{" "}
+                    {mentor.apellido}, {mentor.nombre} -{" "}
                     {mentor.tecnologias.join(", ")}
                   </option>
                 ))}
               </select>
             </div>
+
             <div className="mb-4">
-              <label htmlFor="mentorUXUI" className="block mb-2">
+              <label
+                htmlFor="mentorUXUI"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
                 Mentor QA:
               </label>
               <select
@@ -636,12 +726,12 @@ export default function FormEquipo({
                 onChange={(e) =>
                   setMentorQASeleccionado(parseInt(e.target.value))
                 }
-                className="w-fit text-black p-2 border rounded"
+                className="w-fit text-black p-2 border rounded sm:text-sm "
               >
                 {dataEquipo ? (
                   <>
-                    <option value={dataEquipo.id_mentor_qa}>
-                      {dataEquipo.mentor_qa_apellido} {dataEquipo.mentor_qa} -
+                    <option title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`} value={dataEquipo.id_mentor_qa} hidden>
+                      {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa} -
                       QA
                     </option>
                   </>
@@ -650,20 +740,26 @@ export default function FormEquipo({
                     Seleccionar Mentor
                   </option>
                 )}
-
-                <option value="" hidden>
-                  Seleccionar Mentor
-                </option>
                 {mentoresQASinGrupos.map((mentor) => (
-                  <option key={mentor.id} value={mentor.id.toString()}>
-                    {mentor.nombre} {mentor.apellido} -{" "}
+                  <option
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    key={mentor.id}
+                    value={mentor.id.toString()}
+                  >
+                    {mentor.apellido}, {mentor.nombre} -{" "}
                     {mentor.tecnologias.join(", ")}
                   </option>
                 ))}
               </select>
             </div>
+
             <div className="mb-4">
-              <label htmlFor="mentorQA" className="block mb-2">
+              <label
+                htmlFor="mentorQA"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
                 Mentor UX/UI:
               </label>
               <select
@@ -672,12 +768,17 @@ export default function FormEquipo({
                 onChange={(e) =>
                   setMentorUXUISeleccionado(parseInt(e.target.value))
                 }
-                className="w-fit text-black p-2 border rounded"
+                className="w-fit text-black p-2 border rounded sm:text-sm "
               >
                 {dataEquipo ? (
                   <>
-                    <option value={dataEquipo.id_mentor_ux_ui}>
-                      {dataEquipo.mentor_ux_ui_apellido}{" "}
+                    <option
+                      title={`${dataEquipo.mentor_ux_ui_apellido}, ${dataEquipo.mentor_ux_ui} - UX/IU`}
+                      value={dataEquipo.id_mentor_ux_ui}
+                      hidden
+                    >
+                      {dataEquipo.mentor_ux_ui_apellido}
+                      {", "}
                       {dataEquipo.mentor_ux_ui} - UX/IU
                     </option>
                   </>
@@ -688,8 +789,14 @@ export default function FormEquipo({
                 )}
 
                 {mentoresUXUISinGrupos.map((mentor) => (
-                  <option key={mentor.id} value={mentor.id.toString()}>
-                    {mentor.nombre} {mentor.apellido} -{" "}
+                  <option
+                    key={mentor.id}
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    value={mentor.id.toString()}
+                  >
+                    {mentor.apellido}, {mentor.nombre} -{" "}
                     {mentor.tecnologias.join(", ")}
                   </option>
                 ))}
@@ -698,9 +805,9 @@ export default function FormEquipo({
 
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-400 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"
             >
-              Crear Grupo
+              {dataEquipo!=undefined?"Actualizar ": "Crear "} Equipo
             </button>
           </form>
         )}
