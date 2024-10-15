@@ -357,8 +357,7 @@ export const UpdateScremaMentor = z.object({
         invalid_type_error: "El tamaño debe ser un número",
         message: "Ingrese un tamaño",
       })
-      .gt(5, { message: "Ingrese un numero mayor 5" })
-      .lt(12, "El tamaño debe ser menor a 12"),
+      .gt(5, { message: "Seleccione por lo menos 6 integrantes" }),
     fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
     fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
     integrantes: z.array(z.number().gt(0, { message: "Seleccione un estudiante" })).min(6, "Debe tener al menos 6 integrante"),
@@ -373,3 +372,40 @@ export const UpdateScremaMentor = z.object({
   });
 
   export type EquipoManual = z.infer<typeof CreateSchemaEquipoManual>;
+
+  
+export const CreateSchemaEquipoManualUpdate = z.object({
+  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
+  nombre: z
+    .string({ message: "Ingrese un nombre" })
+    .trim()
+    .min(3, "El nombre debe tener al menos 3 caracteres")
+    .max(30, "El nombre debe contener menos de 30 caracteres")
+    .regex(/^[a-zA-Z0-9\sñÑ-]+$/, {
+      message: "Solo se permiten letras y números",
+    }),
+  tamano: z.coerce
+    .number({
+      invalid_type_error: "El tamaño debe ser un número",
+      message: "Ingrese un tamaño",
+    })
+    .gt(5, { message: "Seleccione por lo menos 6 integrantes" }),
+  fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
+  fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
+  integrantes: z
+    .array(z.number().gt(0, { message: "Seleccione un estudiante" }))
+    .min(6, "Debe tener al menos 6 integrante"),
+  mentorTecnico: z.number().gt(0, { message: "Seleccione un mentor técnico" }),
+  mentorUXUI: z.number().gt(0, { message: "Seleccione un mentor UX/UI" }),
+  mentorQA: z.number().gt(0, { message: "Seleccione un mentor QA" }),
+});
+
+export const CreateEquipoManualUpdate = CreateSchemaEquipoManualUpdate.refine(
+  (data) => data.fecha_inicio < data.fecha_fin,
+  {
+    message: "La fecha de inicio debe ser anterior a la fecha de fin",
+    path: ["fecha_fin"],
+  }
+);
+
+export type EquipoManualUpdate = z.infer<typeof CreateSchemaEquipoManualUpdate>;

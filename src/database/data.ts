@@ -1,3 +1,4 @@
+import { EstudianteSinGrupos, MentorSinGrupo } from "@/lib/definitions/frontEndDefinitions";
 import { QueryResultRow, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import {
@@ -12,7 +13,6 @@ import {
   TecnologiaConEstudiantes,
   TipoEMails,
 } from "./definitions";
-import { EstudianteSinGrupos, MentorSinGrupo } from "@/lib/definitions/frontEndDefinitions";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -858,9 +858,8 @@ export async function getMentoresQASinGrupos() {
     FROM mentores m
     LEFT JOIN mentores_tecnologias mt ON m.id = mt.id_mentor
     LEFT JOIN tecnologias t ON mt.id_tecnologia = t.id
-    LEFT JOIN equipos e ON m.id = e.id_mentor OR m.id = e.id_mentor_ux_ui OR m.id = e.id_mentor_qa
     WHERE t.tipo = 'TESTING'
-    AND e.id IS NULL AND m.estado=true
+    AND m.estado=true
     GROUP BY m.id
     ORDER BY
     m.apellido, m.nombre;
@@ -881,9 +880,8 @@ export async function getMentoresUXUISinGrupos() {
     FROM mentores m
     LEFT JOIN mentores_tecnologias mt ON m.id = mt.id_mentor
     LEFT JOIN tecnologias t ON mt.id_tecnologia = t.id
-    LEFT JOIN equipos e ON m.id = e.id_mentor OR m.id = e.id_mentor_ux_ui OR m.id = e.id_mentor_qa
     WHERE t.tipo = 'INTERFACE'
-    AND e.id IS NULL AND m.estado=true
+    AND m.estado=true
     GROUP BY m.id
     ORDER BY
     m.apellido, m.nombre;
