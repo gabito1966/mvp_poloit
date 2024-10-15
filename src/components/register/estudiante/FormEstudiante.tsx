@@ -170,7 +170,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 capitalize",
                     {
-                      "border-red-500": responseBack.errors?.apellido?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.apellido?.length,
                       "border-gray-300": !responseBack.errors?.apellido?.length,
                     }
                   )}
@@ -178,7 +178,7 @@ function FormEstudiante({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.apellido?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -201,7 +201,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 capitalize",
                     {
-                      "border-red-500": responseBack.errors?.nombre?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
                     }
                   )}
@@ -209,7 +209,7 @@ function FormEstudiante({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.nombre?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -232,7 +232,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
                     {
-                      "border-red-500": responseBack.errors?.email?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.email?.length,
                       "border-gray-300": !responseBack.errors?.email?.length,
                     }
                   )}
@@ -240,7 +240,7 @@ function FormEstudiante({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.email?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -263,7 +263,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3",
                     {
-                      "border-red-500": responseBack.errors?.telefono?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.telefono?.length,
                       "border-gray-300": !responseBack.errors?.telefono?.length,
                     }
                   )}
@@ -271,7 +271,7 @@ function FormEstudiante({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.telefono?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -294,7 +294,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                     {
-                      "border-red-500":
+                      "border-red-500 dark:border-red-500":
                         responseBack.errors?.tecnologias?.length,
                       "border-gray-300":
                         !responseBack.errors?.tecnologias?.length,
@@ -316,7 +316,7 @@ function FormEstudiante({
                 </select>
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.tecnologias?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -339,7 +339,7 @@ function FormEstudiante({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                     {
-                      "border-red-500": responseBack.errors?.id_ong?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.id_ong?.length,
                       "border-gray-300": !responseBack.errors?.id_ong?.length,
                     }
                   )}
@@ -359,7 +359,7 @@ function FormEstudiante({
                 </select>
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.id_ong?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
