@@ -1,6 +1,7 @@
 import { fetchFilteredEquipos } from '@/database/data';
 import DeleteButton from "../DeleteButton";
 import ViewButton from "../ViewButton";
+import EditButton from '../EditButton';
 
 export default async function TableEquipos({
     query,
@@ -37,6 +38,7 @@ export default async function TableEquipos({
                     <p className="text-md">{equipo.fecha_inicio.toLocaleDateString("es-ES")} - {equipo.fecha_fin.toLocaleDateString("es-ES")}</p>
                     <div className="flex justify-end gap-2"> 
                       <ViewButton url={`/card/equipo/${equipo.id.toString()}`} />
+                      <EditButton url={`/edit/equipo/${equipo.id.toString()}`}/>
                       <DeleteButton url={`/api/equipo/${equipo.id.toString()}`} mensajeEliminar={`este equipo`}  />
                     </div>
                   </div>
@@ -80,6 +82,7 @@ export default async function TableEquipos({
                     Fecha fin
                   </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
+                    <span className="sr-only">View</span>
                     <span className="sr-only">Editar</span>
                     <span className="sr-only">Eliminar</span>
                   </th>
@@ -125,6 +128,7 @@ export default async function TableEquipos({
                         <ViewButton
                           url={`/card/equipo/${equipo.id.toString()}`}
                         />
+                        <EditButton url={`/edit/equipo/${equipo.id.toString()}`}/>
                         <DeleteButton
                           url={`/api/equipo/${equipo.id.toString()}`}
                         />

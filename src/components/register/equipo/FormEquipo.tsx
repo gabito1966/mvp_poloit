@@ -4,6 +4,7 @@ import { EquipoData } from "@/database/definitions";
 import {
   Equipo,
   EstudianteSinGrupos,
+  GrupoFromManual,
   MentorSinGrupo,
 } from "@/lib/definitions/frontEndDefinitions";
 import { fetchPostClient, fetchPutClient } from "@/lib/fetchFunctions";
@@ -12,16 +13,6 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-
-export type GrupoFromManual = {
-  nombre: string;
-  fecha_inicio: string;
-  fecha_fin: string;
-  integrantes: number[];
-  mentorTecnico: number;
-  mentorUXUI: number;
-  mentorQA: number;
-};
 
 export default function FormEquipo({
   estudiantesNoGrupos,
@@ -85,13 +76,6 @@ export default function FormEquipo({
   const [modoGeneracion, setModoGeneracion] = useState<"automatico" | "manual">(
     dataEquipo != undefined ? "manual" : "automatico"
   );
-  const [estudiantes, setEstudiantes] = useState<EstudianteSinGrupos[]>([]);
-
-  useEffect(() => {
-    if (estudiantesSinGrupo) {
-      setEstudiantes(estudiantesSinGrupo);
-    }
-  }, [estudiantesSinGrupo]);
 
   const toggleEstudianteSeleccion = (estudianteId: number) => {
     setEstudiantesSeleccionados((prev) =>
@@ -99,6 +83,14 @@ export default function FormEquipo({
         ? prev.filter((id) => id !== estudianteId)
         : [...prev, estudianteId]
     );
+
+    setResponseBackManual({
+      ...responseBackManual,
+      errors: {
+        ...responseBackManual.errors,
+        ["integrantes"]: [],
+      },
+    });
   };
 
   const estudiantesFiltrados = estudiantesSinGrupo.filter(
@@ -244,52 +236,52 @@ export default function FormEquipo({
       mentorQA: mentorQASeleccionado,
     };
 
-    
-    if(dataEquipo!=undefined){
-      const postPromise = fetchPutClient( `/api/equipoManual/${dataEquipo.id}`, newEquipoManual);
-      
+    if (dataEquipo != undefined) {
+      const postPromise = fetchPutClient(
+        `/api/equipoManual/${dataEquipo.id}`,
+        newEquipoManual
+      );
+
       toast.promise(postPromise, {
-      loading: "Cargando...",
-      success: (response: any) => {
-        revalidateFuntion("/");
-        revalidateFuntion("/equipo");
-        revalidateFuntion("/register/equipos");
-        router.push("/equipo");
-        return `${response?.message}`;
-      },
-      error: (error) => {
-        console.log(error);
-        setResponseBackManual({
-          message: error.message,
-          errors: error.errors,
-        });
-        return `${error?.message}`;
-      },
-    });
+        loading: "Cargando...",
+        success: (response: any) => {
+          revalidateFuntion("/");
+          revalidateFuntion("/equipo");
+          revalidateFuntion("/register/equipos");
+          router.push("/equipo");
+          return `${response?.message}`;
+        },
+        error: (error) => {
+          console.log(error);
+          setResponseBackManual({
+            message: error.message,
+            errors: error.errors,
+          });
+          return `${error?.message}`;
+        },
+      });
+    } else {
+      const postPromise = fetchPostClient(`/api/equipoManual`, newEquipoManual);
 
-    }else{
-    const postPromise = fetchPostClient(`/api/equipoManual`, newEquipoManual);
-
-    toast.promise(postPromise, {
-      loading: "Cargando...",
-      success: (response: any) => {
-        revalidateFuntion("/");
-        revalidateFuntion("/equipo");
-        revalidateFuntion("/register/equipos");
-        router.refresh();
-        return `${response?.message}`;
-      },
-      error: (error) => {
-        console.log(error);
-        setResponseBack({
-          message: error.message,
-          errors: error.errors,
-        });
-        return `${error?.message}`;
-      },
-    });
+      toast.promise(postPromise, {
+        loading: "Cargando...",
+        success: (response: any) => {
+          revalidateFuntion("/");
+          revalidateFuntion("/equipo");
+          revalidateFuntion("/register/equipos");
+          router.refresh();
+          return `${response?.message}`;
+        },
+        error: (error) => {
+          console.log(error);
+          setResponseBack({
+            message: error.message,
+            errors: error.errors,
+          });
+          return `${error?.message}`;
+        },
+      });
     }
-    
   };
 
   return (
@@ -522,8 +514,16 @@ export default function FormEquipo({
                   onChange={handleChangeManual}
                   className={clsx(" p-2 border rounded w-64 text-black", {
                     "cursor-not-allowed": dataEquipo != undefined,
+                    "border-red-500": responseBackManual.errors?.nombre?.length,
                   })}
                 />
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.nombre?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
               </div>
 
               <div>
@@ -549,18 +549,17 @@ export default function FormEquipo({
                     {
                       "border-red-500":
                         responseBack.errors?.fecha_inicio?.length,
-                      "border-gray-300":
-                        !responseBack.errors?.fecha_inicio?.length,
-                      "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
                     }
                   )}
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
-                  {responseBack.errors?.fecha_inicio?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
-                      {error}
-                    </p>
-                  ))}
+                  {responseBackManual.errors?.fecha_inicio?.map(
+                    (error: string) => (
+                      <p className="m-0 text-sm text-red-500" key={error}>
+                        {error}
+                      </p>
+                    )
+                  )}
                 </div>
               </div>
               <div>
@@ -584,19 +583,19 @@ export default function FormEquipo({
                   className={clsx(
                     "basis-1/3 mt-2 block text-black border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
-                      "border-red-500": responseBack.errors?.fecha_fin?.length,
-                      "border-gray-300":
-                        !responseBack.errors?.fecha_fin?.length,
-                      "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
+                      "border-red-500":
+                        responseBackManual.errors?.fecha_fin?.length,
                     }
                   )}
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
-                  {responseBack.errors?.fecha_fin?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
-                      {error}
-                    </p>
-                  ))}
+                  {responseBackManual.errors?.fecha_fin?.map(
+                    (error: string) => (
+                      <p className="m-0 text-sm text-red-500" key={error}>
+                        {error}
+                      </p>
+                    )
+                  )}
                 </div>
               </div>
               <div className="mb-4">
@@ -620,7 +619,12 @@ export default function FormEquipo({
               <label className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                 Seleccionar Estudiantes:
               </label>
-              <div className="h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ">
+              <div className={clsx("h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ",
+                {
+                  "border-red-500": responseBackManual.errors?.integrantes?.length,
+                }
+              )}>
+              
                 <table className="w-full">
                   <thead className="bg-gray-100 dark:bg-slate-800">
                     <tr>
@@ -643,6 +647,7 @@ export default function FormEquipo({
                           <td className="p-2">
                             <input
                               type="checkbox"
+                              name="integrantes"
                               checked={estudiantesSeleccionados.includes(e)}
                               onChange={() => toggleEstudianteSeleccion(e)}
                               className="form-checkbox h-5 w-5 text-blue-600"
@@ -664,8 +669,10 @@ export default function FormEquipo({
                             checked={estudiantesSeleccionados.includes(
                               estudiante.id
                             )}
-                            onChange={() =>
+                            onChange={() =>{
                               toggleEstudianteSeleccion(estudiante.id)
+
+                            }
                             }
                             className="form-checkbox h-5 w-5 text-blue-600"
                           />
@@ -675,6 +682,13 @@ export default function FormEquipo({
                   </tbody>
                 </table>
               </div>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.integrantes?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
             </div>
 
             <div className="mb-4">
@@ -686,15 +700,33 @@ export default function FormEquipo({
               </label>
               <select
                 id="mentor"
+                name="mentorTecnico"
                 value={mentorSeleccionado?.toString() || ""}
-                onChange={(e) =>
+                onChange={(e) =>{
                   setMentorSeleccionado(parseInt(e.target.value))
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
                 }
-                className="w-fit text-black p-2 border rounded sm:text-sm "
+                }
+                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                  {
+                    "border-red-500":
+                      responseBackManual.errors?.mentorTecnico?.length,
+                  }
+                )}
               >
                 {dataEquipo ? (
                   <>
-                    <option title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`} value={dataEquipo.id_mentor} hidden>
+                    <option
+                      title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`}
+                      value={dataEquipo.id_mentor}
+                      hidden
+                    >
                       {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
                       JAVA
                     </option>
@@ -705,32 +737,65 @@ export default function FormEquipo({
                   </option>
                 )}
                 {mentoresTecnicosSinGrupos.map((mentor) => (
-                  <option key={mentor.id} value={mentor.id.toString()}>
+                  <option
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    key={mentor.id}
+                    value={mentor.id.toString()}
+                  >
                     {mentor.apellido}, {mentor.nombre} -{" "}
                     {mentor.tecnologias.join(", ")}
                   </option>
                 ))}
               </select>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBackManual.errors?.mentorTecnico?.map(
+                  (error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  )
+                )}
+              </div>
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="mentorUXUI"
+                htmlFor="mentorqa"
                 className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
               >
                 Mentor QA:
               </label>
               <select
-                id="mentorUXUI"
+                id="mentorqa"
+                name="mentorQA"
                 value={mentorQASeleccionado?.toString() || ""}
-                onChange={(e) =>
+                onChange={(e) =>{
                   setMentorQASeleccionado(parseInt(e.target.value))
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
                 }
-                className="w-fit text-black p-2 border rounded sm:text-sm "
+                }
+                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                  {
+                    "border-red-500":
+                      responseBackManual.errors?.mentorUXUI?.length,
+                  }
+                )}
               >
                 {dataEquipo ? (
                   <>
-                    <option title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`} value={dataEquipo.id_mentor_qa} hidden>
+                    <option
+                      title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`}
+                      value={dataEquipo.id_mentor_qa}
+                      hidden
+                    >
                       {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa} -
                       QA
                     </option>
@@ -753,22 +818,42 @@ export default function FormEquipo({
                   </option>
                 ))}
               </select>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.mentorQA?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="mentorQA"
+                htmlFor="mentorUXUI"
                 className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
               >
                 Mentor UX/UI:
               </label>
               <select
-                id="mentorQA"
+                id="mentorUXUI"
                 value={mentorUXUISeleccionado?.toString() || ""}
-                onChange={(e) =>
+                onChange={(e) =>{
                   setMentorUXUISeleccionado(parseInt(e.target.value))
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
                 }
-                className="w-fit text-black p-2 border rounded sm:text-sm "
+                }
+                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                  {
+                    "border-red-500":
+                      responseBackManual.errors?.mentorUXUI?.length,
+                  }
+                )}
               >
                 {dataEquipo ? (
                   <>
@@ -802,12 +887,18 @@ export default function FormEquipo({
                 ))}
               </select>
             </div>
-
+            <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
+                    <p className="m-0 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
             <button
               type="submit"
               className="bg-blue-400 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"
             >
-              {dataEquipo!=undefined?"Actualizar ": "Crear "} Equipo
+              {dataEquipo != undefined ? "Actualizar " : "Crear "} Equipo
             </button>
           </form>
         )}
