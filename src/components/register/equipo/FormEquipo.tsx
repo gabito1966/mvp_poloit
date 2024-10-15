@@ -274,7 +274,7 @@ export default function FormEquipo({
         },
         error: (error) => {
           console.log(error);
-          setResponseBack({
+          setResponseBackManual({
             message: error.message,
             errors: error.errors,
           });
