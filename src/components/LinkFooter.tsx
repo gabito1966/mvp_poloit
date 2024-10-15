@@ -8,7 +8,7 @@ export default function LinkFooter({
   return (
     <Link
       href={dataFooter.link}
-      className="flex text-center w-fit justify-center items-center text-sm max-sm:text-xs  link__footer"
+      className="flex text-center w-fit justify-center items-center text-sm max-sm:text-xs link__footer hover:text-blue-600 dark:hover:text-blue-300"
       title={`linedin ${dataFooter.nombre}`}
       target="_blank"
     >
@@ -31,7 +31,7 @@ export default function LinkFooter({
         <path d="M12 16l0 -5" />
         <path d="M16 16v-3a2 2 0 0 0 -4 0" />
       </svg>
-      <p>{dataFooter.nombre}</p>
+      <p className="hover:text-blue-600 dark:hover:text-blue-300">{dataFooter.nombre}</p>
     </Link>
   );
 }
