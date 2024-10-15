@@ -3,12 +3,12 @@
 import { TipoEMails } from "@/database/definitions";
 import { fetchPostClient } from "@/lib/fetchFunctions";
 import { revalidateFuntion } from "@/lib/server/serverCache";
+import { formatDate } from "@/lib/utils";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useTypingEffect from "../email/useTypingEffect";
-import { formatDate } from "@/lib/utils";
 
 export default function MensajeComponent({
   emailsBienvenida,
@@ -207,7 +207,7 @@ export default function MensajeComponent({
               </div>
               <select
                 className={clsx(
-                  "w-fit  border-2 rounded-lg p-1 dark:text-white dark:bg-slate-800  capitalize border-gray-100 text-sm"
+                  "w-fit  border-2 rounded-lg p-1 dark:text-white dark:bg-gray-700  capitalize border-gray-100 text-sm"
                 )}
                 defaultValue={tiposEmail[0].tipo}
                 onChange={(e) => {
@@ -389,7 +389,7 @@ export default function MensajeComponent({
             </div>
             <form
               onSubmit={handleSubmit}
-              className=" border-gray-100 border-t dark:border-slate-700  w-full pt-5  flex items-center gap-4 "
+              className=" border-gray-100 border-t dark:border-gray-700  w-full pt-5  flex items-center gap-4 "
             >
               <div className="w-full flex flex-col ">
                 <textarea
@@ -397,7 +397,7 @@ export default function MensajeComponent({
                   onChange={handleChange}
                   value={iaFormState ? typingEffectValue : form.mensaje}
                   className={clsx(
-                    "  resize-none overflow-y-auto  w-full p-2 rounded-lg dark:text-white dark:bg-slate-800 border-gray-100 border-2",
+                    "  resize-none overflow-y-auto  w-full p-2 rounded-lg dark:text-white dark:bg-gray-800 border-gray-100 border-2",
                     {
                       "border-red-500": responseBack.errors?.mensaje?.length,
                       "border-gray-100": !responseBack.errors?.mensaje?.length,
@@ -473,7 +473,7 @@ export function ItemMensajeria({
   return (
     <>
       <div
-        className="border-gray-100 border-t  hover:rounded-lg dark:hover:bg-slate-600 p-2 hover:cursor-pointer hover:bg-gray-50"
+        className="border-gray-100 border-t  hover:rounded-lg dark:hover:bg-gray-600 p-2 hover:cursor-pointer hover:bg-gray-100"
         onClick={() => {
           
           setIaFormState(false);

@@ -207,23 +207,23 @@ export function TableRowSkeleton() {
     <tr className="w-full border-b border-gray-100 dark:bg-slate-600 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg animate-pulse">
       {/*Apellido, Nombre */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-600"></div>
       </td>
       {/* Email */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-32 rounded bg-gray-100 dark:bg-gray-700"></div>
+        <div className="h-6 w-32 rounded bg-gray-100 dark:bg-gray-600"></div>
       </td>
       {/* Teléfono */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-600"></div>
       </td>
       {/* Tecnologías */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-600"></div>
       </td>
       {/* ongs/empresas */}
       <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-700"></div>
+        <div className="h-6 w-16 rounded bg-gray-100 dark:bg-gray-600"></div>
       </td>
       {/* Actions */}
       <td className="whitespace-nowrap py-3 pl-6 pr-3">
@@ -239,12 +239,12 @@ export function TableRowSkeleton() {
 
 export function CardSkeleton() {
   return (
-    <div className="ml-0 w-full max-w-4xl mt-14 dark:bg-slate-700 rounded-xl">
+    <div className="ml-0 w-full max-w-4xl mt-14 bg-white dark:bg-gray-700 rounded-xl">
       <div
         role="status"
         className=" w-full p-4 border max-w-4xl border-gray-100 dark:border-gray-600 rounded-lg shadow animate-pulse md:p-6 md:w-auto "
       >
-        <div className="h-8 bg-gray-100 dark:bg-slate-600 rounded-full mx-auto mb-5 my-4 max-w-xl animate-pulse"></div>
+        <div className="h-8 bg-gray-100 dark:bg-gray-600 rounded-full mx-auto mb-5 my-4 max-w-xl animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7 ">
           <CardRow/>
           <CardRow/>
@@ -281,7 +281,7 @@ export function LatestInscriptosSkeleton() {
           <div className="mb-4 h-6 w-60 rounded-md bg-gray-200" />
           <div className="mb-4 h-5 w-14 rounded-md bg-gray-200" />
         </div>
-        <div className="bg-white dark:bg-gray-600 px-6 ">
+        <div className="bg-white dark:bg-gray-700 px-6 ">
           <InscriptosSkeleton />
           <InscriptosSkeleton />
           <InscriptosSkeleton />
@@ -298,11 +298,11 @@ export function AlumnosTecnologiasChartSkeleton() {
     <div
       className={`${shimmer} relative w-full overflow-hidden md:col-span-4 animate-pulse`}
     >
-      <div className="rounded-xl bg-gray-100 dark:bg-slate-500 p-4">
+      <div className="rounded-xl bg-gray-100 dark:bg-gray-700 p-4">
         <div className="flex items-center p-2">
           <div className=" h-7 w-96 rounded-md bg-gray-200" />
         </div>
-        <div className="mt-0 grid h-[300px] grid-cols-5 items-end justify-items-center gap-6 rounded-md dark:bg-slate-600 bg-white p-4 sm:grid-cols-6 md:gap-2">
+        <div className="mt-0 grid h-[300px] grid-cols-5 items-end justify-items-center gap-6 rounded-md dark:bg-gray-700 bg-white p-4 sm:grid-cols-6 md:gap-2">
           <div className=" h-full w-7 lg:flex-col justify-between gap 2 rounded-xl hidden lg:flex">
             <div className=" bg-gray-200 h-4 w-4" />
             <div className=" bg-gray-200 h-4 w-4" />
@@ -342,13 +342,13 @@ export function InscriptosSkeleton() {
 export function CardItemSkeleton() {
   return (
     <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-500 p-4 shadow-sm animate-pulse`}
+      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-600 p-4 shadow-sm animate-pulse`}
     >
-      <div className="flex items-center justify-center  rounded-xl bg-white dark:bg-gray-600 p-0">
-        <div className="h-10 w-10 rounded-md bg-gray-200 dark:bg-gray-800" />
+      <div className="flex items-center justify-center  rounded-xl bg-white dark:bg-gray-700 p-0">
+        <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-700" />
         <div className="flex p-4 flex-col gap-2">
-          <div className=" h-4 w-20 rounded-md bg-gray-200 text-sm font-medium dark:bg-gray-800" />
-          <div className="h-6 w-6 rounded-md bg-gray-200 dark:bg-gray-800" />
+          <div className=" h-4 w-20 rounded-md bg-gray-100 text-sm font-medium dark:bg-gray-700" />
+          <div className="h-6 w-6 rounded-md bg-gray-100 dark:bg-gray-700" />
         </div>
       </div>
     </div>
@@ -369,26 +369,26 @@ export function CardsWrapperSkeleton() {
 export function NotificationSkeleton() {
   return (
     <div className={`${shimmer} relative w-full h-full inline animate-pulse`}>
-      <div className="rounded-xl bg-gray-100 dark:bg-slate-500 p-6">
+      <div className="rounded-xl bg-gray-100 dark:bg-gray-600 p-6">
         <div className="flex items-center py-2">
           <div className=" h-7 w-48 rounded-md bg-gray-200" />
         </div>
-        <div className=" mt-0  bg-white rounded-xl dark:bg-slate-600 p-3 flex flex-col gap-2">
+        <div className=" mt-0  bg-white rounded-xl dark:bg-gray-700 p-3 flex flex-col gap-2">
           <div className="flex flex-row gap-2 ">
-            <div className=" bg-gray-100 h-5 w-5 rounded-md" />
-            <div className=" bg-gray-100 h-5 w-96 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-5 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-96 rounded-md" />
           </div>
           <div className="flex flex-row gap-2 ">
-            <div className=" bg-gray-100 h-5 w-5 rounded-md" />
-            <div className=" bg-gray-100 h-5 w-96 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-5 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-96 rounded-md" />
           </div>
           <div className="flex flex-row gap-2 ">
-            <div className=" bg-gray-100 h-5 w-5 rounded-md" />
-            <div className=" bg-gray-100 h-5 w-96 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-5 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-96 rounded-md" />
           </div>
           <div className="flex flex-row gap-2 ">
-            <div className=" bg-gray-100 h-5 w-5 rounded-md" />
-            <div className=" bg-gray-100 h-5 w-96 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-5 rounded-md" />
+            <div className=" bg-gray-100 dark:bg-gray-600 h-5 w-96 rounded-md" />
           </div>
         </div>
       </div>
@@ -403,7 +403,7 @@ export function QuickActionsSkeleton() {
         <div className="flex items-center py-2">
           <div className=" h-7 w-48 rounded-md bg-gray-200" />
         </div>
-        <div className=" mt-0 dark:bg-slate-700 bg-white rounded-xl p-3 grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2  gap-2">
+        <div className=" mt-0 dark:bg-gray-700 bg-white rounded-xl p-3 grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2  gap-2">
           <div className=" ">
             <div className=" bg-blue-100 dark:bg-blue-400 h-12 w-full rounded-md" />
           </div>
@@ -426,45 +426,45 @@ export function MensajeSkeleton() {
   return (
     <>
       <div className="flex flex-col p-12 w-full gap-5 animate-pulse">
-        <div className="h-7 w-60 bg-gray-100 dark:bg-gray-700 justify-self-start rounded-lg" />
+        <div className="h-7 w-60 bg-gray-100 dark:bg-gray-600 justify-self-start rounded-lg" />
 
         <div className="grid grid-cols-1 grid-rows-2 gap-5 lg:grid-cols-5 lg:grid-rows-1 rounded-lg">
-          <div className="col-span-1 lg:col-span-2 min-h-[800px]  bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <div className="col-span-1 lg:col-span-2 min-h-[800px]  bg-gray-100 dark:bg-gray-600 rounded-lg">
             <div className=" flex flex-row p-4  items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
                 <div className="h-9 w-9 bg-blue-100 rounded-md" />
-                <div className="w-40 bg-white dark:bg-slate-500 h-7 rounded-md" />
+                <div className="w-40 bg-white dark:bg-gray-700 h-7 rounded-md" />
               </div>
               <div className="h-4 w-20 bg-white rounded-md" />
             </div>
             <div className="flex flex-col gap-5 px-4">
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
-              <div className="h-16 w-full bg-white dark:bg-slate-500 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
+              <div className="h-16 w-full bg-white dark:bg-gray-700 rounded-md "></div>
             </div>
           </div>
-          <div className="flex flex-col justify-between col-span-1 lg:col-span-3 min-h-[800px] bg-gray-100 rounded-lg p-4 gap-4 dark:bg-slate-700">
+          <div className="flex flex-col justify-between col-span-1 lg:col-span-3 min-h-[800px] bg-gray-100 rounded-lg p-4 gap-4 dark:bg-gray-700">
             <div className=" flex flex-row   items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
                 <div className="h-14 w-14 bg-blue-100 rounded-md" />
-                <div className="w-80 bg-white h-7 rounded-md dark:bg-slate-500" />
+                <div className="w-80 bg-white h-7 rounded-md dark:bg-gray-700" />
               </div>
 
               <div className="flex flex-col gap-1">
                 <div className="h-6 w-32 bg-blue-100 rounded-md" />
-                <div className="h-6 w-32 bg-white rounded-md dark:bg-slate-500" />
+                <div className="h-6 w-32 bg-white rounded-md dark:bg-gray-700" />
               </div>
             </div>
 
-            <div className="w-full h-full bg-white  dark:bg-slate-500 rounded-md" />
+            <div className="w-full h-full bg-white  dark:bg-gray-700 rounded-md" />
 
             <div className=" flex flex-row   items-center justify-between ">
               <div className="flex flex-row items-center gap-2 rounded-md">
-                <div className="w-96 bg-white h-16 rounded-md dark:bg-slate-500" />
+                <div className="w-96 bg-white h-16 rounded-md dark:bg-gray-700" />
               </div>
               <div className="h-9 w-20 bg-blue-100 rounded-md" />
             </div>

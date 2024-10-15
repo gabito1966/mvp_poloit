@@ -14,7 +14,7 @@ export default function MailButton() {
   return (
     <>
       <button
-        className=" hover:text-blue-400"
+        className=" hover:text-blue-600"
         title="Enviar Email"
         onClick={handleClick}
       >
