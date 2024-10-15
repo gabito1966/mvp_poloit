@@ -1,6 +1,7 @@
 import { fetchNotificationData, getCantEstudiantesSinGrupo } from "@/database/data";
 import Link from "next/link";
 import AnimationDot from "./AnimationDot";
+import { revalidatePath } from "next/cache";
 
 export default async function Notification() {
 
@@ -28,6 +29,7 @@ export default async function Notification() {
 }
 
 export function ItemNotification({cant, message, estado, url}:{cant:number; message:string;estado?:boolean, url:string}) {
+  revalidatePath(url);
   return (
     <>
       <Link href={url} className=" flex p-1 items-center hover:underline w-fit">
