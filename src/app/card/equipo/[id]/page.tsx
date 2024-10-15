@@ -32,7 +32,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
   <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8 ">
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <table className="min-w-full border-collapse rounded-lg">
-        <thead className="bg-gray-100 dark:bg-gray-600 ">
+        <thead className="bg-gray-100 dark:bg-gray-600">
           <tr>
             <th className="text-left p-3 font-semibold text-xs sm:text-sm ">
               Apellido y Nombre
@@ -55,7 +55,7 @@ const MentorTable: React.FC<{ mentores: Mentor[] }> = ({ mentores }) => (
           {mentores.map((mentor, index) => (
             <tr
               key={index}
-              className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
             >
               <td className="p-3 text-xs sm:text-sm capitalize">{`${mentor.apellido}, ${mentor.nombre}`}</td>
               <td className="p-3 text-xs sm:text-sm">{mentor.email}</td>
@@ -108,7 +108,7 @@ const IntegrantesTable: React.FC<{ equipo: Equipo }> = ({ equipo }) => {
             {equipo.nombres_estudiantes.map((nombre, index) => (
               <tr
                 key={index}
-                className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
                 <td
                   className="p-3 text-xs sm:text-sm capitalize"
@@ -210,12 +210,12 @@ export default async function EquipoCard({
 
   return (
     <section className="container max-w-5xl mx-auto py-6 sm:py-10 px-4 sm:px-6">
-      <div className="bg-white dark:bg-slate-700 rounded-xl shadow-lg overflow-hidden">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold p-4 sm:p-6 bg-gray-50 dark:bg-slate-600 border-b border-gray-200 dark:border-gray-600">
+      <div className="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold p-4 sm:p-6 bg-gray-50 dark:bg-gray-600 border-b border-gray-200 dark:border-gray-600">
           Equipo: {equipo.nombre}
         </h2>
         <div className=" p-4 sm:p-6 space-y-6 sm:space-y-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-gray-100 dark:bg-slate-800 rounded-lg p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
             <div>
               <h4 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
                 Nombre:
