@@ -1,5 +1,6 @@
 import { fetchFilteredEquipos } from '@/database/data';
 import DeleteButton from "../DeleteButton";
+import EditButton from '../EditButton';
 import ViewButton from "../ViewButton";
 import EditButton from '../EditButton';
 

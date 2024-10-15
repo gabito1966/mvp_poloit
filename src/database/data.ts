@@ -1,3 +1,4 @@
+import { EstudianteSinGrupos, MentorSinGrupo } from "@/lib/definitions/frontEndDefinitions";
 import { QueryResultRow, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import {
@@ -12,7 +13,6 @@ import {
   TecnologiaConEstudiantes,
   TipoEMails,
 } from "./definitions";
-import { EstudianteSinGrupos, MentorSinGrupo } from "@/lib/definitions/frontEndDefinitions";
 
 const ITEMS_PER_PAGE = 7;
 

@@ -46,7 +46,7 @@ const HeaderActions: React.FC<{ contador: number }> = ({ contador }) => {
   return (
     <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
       <Search placeholder="buscar equipos..." />
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex flex-row items-center gap-5">
         <MailButton />
         <DeleteButton
           url="/api/equipo"

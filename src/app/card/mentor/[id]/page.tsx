@@ -8,11 +8,12 @@ export default async function MentorCard({
 }) {
   const { data: mentor } = await fetchGet(`/api/mentor/${params?.id}`);
 
+  
   return (
     <section className="container max-w-5xl p-3 lg:pt-20 ml-5 lg:ml-0">
       <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-2">
-      <h1 className="text-lg lg:text-3xl text-center font-bold m-5">
-        Mentor: {mentor.nombre} {mentor.apellido}{" "}
+      <h1 className="text-lg lg:text-3xl text-center font-bold m-5 capitalize">
+        Mentor: {mentor.apellido}, {mentor.nombre} {" "}
       </h1>
       <div className="w-full max-h-124 flex-col p-1 lg:p-4">
         <hr />
@@ -20,15 +21,15 @@ export default async function MentorCard({
             <div className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3">
               <div className="ml-16 max-md:ml-0 p-1">
                 <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Apellido:</h4>
-                <p className="bg-transparent text-base mb-4 font-semibold">
-                  {mentor.apellido}
+                <p className="bg-transparent text-base mb-4 font-semibold capitalize">
+                {mentor.apellido}
                 </p>
               </div>
             </div>
             <div className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3">
               <div className="ml-16 max-md:ml-0 p-1">
                 <h4 className="block text-gray-500 dark:text-gray-400 font-medium mb-2 text-md">Nombre:</h4>
-                <p className="bg-transparent text-base mb-4 font-semibold">{mentor.nombre}</p>
+                <p className="bg-transparent text-base mb-4 font-semibold capitalize">{mentor.nombre}</p>
               </div>
             </div>
             <div className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3">

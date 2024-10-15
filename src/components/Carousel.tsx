@@ -34,18 +34,6 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
                     ))}
                 </div>
             </div>
-           {/* <button
-                onClick={handlePrev}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2  text-2xl   font-bold text-black dark:text-white p-2 rounded-md"
-            >
-                &lt;
-            </button>
-            <button
-                onClick={handleNext}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-l text-2xl font-bold text-black dark:text-white p-2 rounded-md"
-            >
-                &gt;
-            </button> */}
         </div>
     );
 };
