@@ -65,7 +65,7 @@ CREATE TABLE mentores_tecnologias (
 -- Crear tabla equipos
 CREATE TABLE equipos (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL UNIQUE,
     tamano INTEGER NOT NULL,
     fecha_inicio DATE,
     fecha_fin DATE,

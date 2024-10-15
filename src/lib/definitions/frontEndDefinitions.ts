@@ -176,3 +176,13 @@ export type MentorSinGrupo = {
   id_empresa: number;
   tecnologias: string[];
 };
+
+export type GrupoFromManual = {
+  nombre: string;
+  fecha_inicio: string;
+  fecha_fin: string;
+  integrantes: number[];
+  mentorTecnico: number;
+  mentorUXUI: number;
+  mentorQA: number;
+};

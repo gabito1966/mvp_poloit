@@ -1,12 +1,13 @@
 "use client";
 
+import { revalidateFuntion } from "@/lib/server/serverCache";
 import { generatePagination } from "@/lib/utils";
 import clsx from "clsx";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -26,6 +27,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           direction="left"
           href={createPageURL(currentPage - 1)}
           isDisabled={currentPage <= 1}
+          router={router}
         />
 
         <div className="flex -space-x-px">
@@ -44,6 +46,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
                 page={page}
                 position={position}
                 isActive={currentPage === page}
+                router={router}
               />
             );
           })}
@@ -53,10 +56,16 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           direction="right"
           href={createPageURL(currentPage + 1)}
           isDisabled={currentPage >= totalPages}
+          router ={router}
         />
       </div>
     </>
   );
+}
+
+function handleRedirection(url:string, router:any){
+  revalidateFuntion(url);
+  router.push(url);
 }
 
 function PaginationNumber({
@@ -64,11 +73,13 @@ function PaginationNumber({
   href,
   isActive,
   position,
+  router
 }: {
   page: number | string;
   href: string;
   position?: "first" | "last" | "middle" | "single";
   isActive: boolean;
+  router: any;
 }) {
   const className = clsx(
     "flex h-10 w-10 items-center justify-center text-sm border",
@@ -85,9 +96,9 @@ function PaginationNumber({
   return isActive || position === "middle" ? (
     <div className={className}>{page}</div>
   ) : (
-    <Link href={href} className={className}>
+    <button onClick={()=>handleRedirection(href, router)} className={className}>
       {page}
-    </Link>
+    </button>
   );
 }
 
@@ -95,11 +106,14 @@ function PaginationArrow({
   href,
   direction,
   isDisabled,
+  router
 }: {
   href: string;
   direction: "left" | "right";
   isDisabled?: boolean;
+  router:any
 }) {
+
   const className = clsx(
     "flex h-10 w-10 items-center justify-center rounded-md border bg-white dark:hover:bg-white",
     {
@@ -140,8 +154,8 @@ function PaginationArrow({
   return isDisabled ? (
     <div className={className}>{icon}</div>
   ) : (
-    <Link className={className} href={href}>
+    <button onClick={()=>handleRedirection(href, router)} className={className} >
       {icon}
-    </Link>
+    </button>
   );
 }

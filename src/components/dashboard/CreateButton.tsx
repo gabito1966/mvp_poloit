@@ -1,9 +1,11 @@
 import Link from "next/link";
 import AnimationDot from "../AnimationDot";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { revalidatePath } from "next/cache";
 
 function CreateButton({ url, estado }: { url: string; estado?: boolean }) {
   const p = url.split("/")[2];
+  revalidatePath(url);
 
   return (
     <>
