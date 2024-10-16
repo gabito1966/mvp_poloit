@@ -53,27 +53,39 @@ export function createResponse(
 }
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
+
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
+  let pages: (number | string)[] = [];
+
+  pages.push(1);
+
+  if (currentPage > 3) {
+    pages.push('...');
+  }
+
+  let rangeStart = Math.max(2, currentPage - 1);
+  let rangeEnd = Math.min(totalPages - 1, currentPage + 1);
+
   if (currentPage <= 3) {
-    return [1, 2, 3, "...", totalPages - 1, totalPages];
+    rangeEnd = 4;
+  } else if (currentPage >= totalPages - 2) {
+    rangeStart = totalPages - 3;
   }
 
-  if (currentPage >= totalPages - 2) {
-    return [1, 2, "...", totalPages - 2, totalPages - 1, totalPages];
+  for (let i = rangeStart; i <= rangeEnd; i++) {
+    pages.push(i);
   }
 
-  return [
-    1,
-    "...",
-    currentPage - 1,
-    currentPage,
-    currentPage + 1,
-    "...",
-    totalPages,
-  ];
+  if (currentPage < totalPages - 2) {
+    pages.push('...');
+  }
+
+  pages.push(totalPages);
+
+  return pages;
 };
 
 export const generateYAxis = (
