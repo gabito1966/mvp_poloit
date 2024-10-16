@@ -33,7 +33,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-1 bg-blue-100 dark:bg-blue-200 dark:hover:border-blue-400 rounded-lg flex items-center hover:border-gray-300 border justify-center"
+      className="p-1 bg-blue-100 dark:bg-gray-300 text-black dark:hover:border-white dark:hover:border dark:text-white rounded-lg flex items-center hover:border-black border dark:border-0 justify-center"
     >
       
       {theme === "light" ? (
