@@ -1,4 +1,4 @@
-# Proyecto de Gestión de Inscripciones - MVP POLO IT
+# 🚀Proyecto de Gestión de Inscripciones - MVP POLO IT
 
 <div align="center">
     <img src="https://i.imgur.com/bxve6gU.png"/>
@@ -18,7 +18,6 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
 - Vinculación automática de Mentores Técnicos con Egresados.
 - Configuración de equipos (tamaño máximo, perfiles de egresados, mentores por tecnología).
 - Gestión de comunicación vía e-mail entre candidatos y mentores.
-- Seguimiento de mentorías.
 - ABM (Alta, Baja, Modificación) para la carga de datos.
 - Interfaz de usuario diseñada con buenas prácticas de UX/UI.
 - Implementación de técnicas de QA.
@@ -50,13 +49,13 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
 ## Requisitos previos
 
 - Node.js (versión recomendada: 18.x o superior)
-- npm o yarn
+- npm o pnpm
 
 ## Instalación
 
 1. Clonar el repositorio:
    ```
-   git clone [URL_DEL_REPOSITORIO]
+   git clone https://github.com/gabito1966/mvp_poloit.git
    ```
 
 2. Instalar dependencias:
@@ -65,11 +64,39 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
    ```
    o
    ```
-   yarn install
+   pnpm install
    ```
 
 3. Configurar variables de entorno:
-   Crea un archivo `.env.local` en la raíz del proyecto y añade las variables necesarias (consulta `.env.example` si está disponible).
+   Crea un archivo `.env` en la raíz del proyecto y añade las variables necesarias (consulta `.env.example` si está disponible).
+
+    ```
+    🔗 Conexión a la Base de Datos PostgreSQL
+    POSTGRES_URL=postgres://usuario:contraseña@host:puerto/base_de_datos
+    POSTGRES_PRISMA_URL=postgres://usuario:contraseña@host:puerto/base_de_datos
+    POSTGRES_URL_NO_SSL=postgres://usuario:contraseña@host:puerto/base_de_datos
+    POSTGRES_URL_NON_POOLING=postgres://usuario:contraseña@host:puerto/base_de_datos
+    POSTGRES_USER=miUsuario
+    POSTGRES_HOST=localhost
+    POSTGRES_PASSWORD=miContraseñaSegura
+    POSTGRES_DATABASE=miBaseDeDatos
+
+    🔐 Autenticación y Seguridad
+    SESSION_SECRET="######"
+    NEXT_BASE_URL=https://miapp.com
+
+    📨 Envío de Emails
+    RESEND_API_KEY=pk_live_1234567890abcdef
+    EMAIL_SERVICE=sendgrid
+    SMTP_HOST=smtp.sendgrid.net
+    SMTP_PORT=587
+    SMTP_USER=apikey
+    SMTP_PASS=SG.xxxxxx
+
+    🤖 API de Inteligencia Artificial
+    GEMINI_API_KEY=ai-1234567890abcdef
+    ```
+
 
 ## Ejecución
 
@@ -79,21 +106,8 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
   ```
   o
   ```
-  yarn dev
+  pnpm dev
   ```
-
-- Producción:
-  ```
-  npm run build
-  npm start
-  ```
-  o
-  ```
-  yarn build
-  yarn start
-  ```
-
-## Estructura del proyecto
 
 ## Equipo de desarrollo
 

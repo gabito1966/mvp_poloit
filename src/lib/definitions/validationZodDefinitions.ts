@@ -8,7 +8,7 @@ export const CreateSchemaEmpresa = z.object({
   nombre: z
     .string()
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe contener menos de 25 caracteres"),
+    .max(25, "El nombre puede contener hasta 25 caracteres"),
 });
 
 export const CreateEmpresa = CreateSchemaEmpresa.omit({ id: true });
@@ -20,7 +20,7 @@ export const UpdateEmpresa = z.object({
   nombre: z
     .string({ message: "Ingrese un nombre" }).trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(25, "El nombre debe contener menos de 25 caracteres"),
+    .max(25, "El nombre puede contener hasta 25 caracteres"),
 });
 
 export type Empresa = z.infer<typeof UpdateEmpresa>;
@@ -39,7 +39,7 @@ export const CreateSchemaEquipos = z.object({
       .string({ message: "Ingrese un nombre" })
       .trim()
       .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(30, "El nombre debe contener menos de 30 caracteres")
+      .max(30, "El nombre puede contener hasta 30 caracteres")
       .regex(/^[a-zA-Z0-9\sñÑ]+$/, {
         message: "Solo se permiten letras y números",
       }),
@@ -75,7 +75,7 @@ export const CreateSchemaEstudiante = z.object({
       .string({ message: "Ingrese un nombre" })
       .trim()
       .min(2, "El nombre debe de contener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres")
+      .max(25, "El nombre puede contener hasta 25 caracteres")
       .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
@@ -83,17 +83,17 @@ export const CreateSchemaEstudiante = z.object({
       .string({ message: "Ingrese un apellido" })
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracteres")
-      .max(25, "El apellido debe contener menos de 25 caracteres")
+      .max(25, "El apellido puede contener hasta 25 caracteres")
       .regex(/^[a-zA-ZñÑ\s]+$/, "Solo se permiten catacteres o espacios"),
     email: z
       .string({ message: "Ingrese un email" })
       .email("Debe ser un email válido")
       .min(6, "El email debe contener al menos 6 caracteres")
-      .max(50, "El email debe contener menos de 50 caracteres"),
+      .max(50, "El email puede contener hasta 50 caracteres"),
     telefono: z
       .string({ message: "Ingrese un teléfono" })
       .min(6, "El teléfono debe contener al menos 6 números")
-      .max(20, "El teléfono debe contener menos de 20 números")
+      .max(20, "El teléfono puede contener hasta 20 números")
       .regex(/^[0-9]+$/, "Solo se permiten numéros"),
     id_ong: z.coerce
       .number({
@@ -139,11 +139,11 @@ export const UpdateEstudiante = z.object({
       .string({ message: "Ingrese un email" })
       .email("Debe ser un email válido")
       .min(6, "El email debe contener al menos 6 caracteres")
-      .max(50, "El email debe contener menos de 50 caracteres"),
+      .max(50, "El email puede contener hasta 50 caracteres"),
     telefono: z
       .string({ message: "Ingrese un teléfono" })
       .min(6, "El teléfono debe contener al menos 6 números")
-      .max(20, "El teléfono debe contener menos de 20 números")
+      .max(20, "El teléfono puede contener hasta 20 números")
       .regex(/^[0-9]+$/, "Solo se permiten numéros"),
     id_ong: z.coerce.number({
       invalid_type_error: "Seleccione una organización",
@@ -167,7 +167,7 @@ export const GetEstudiante = z.object({
 
 
 export const CreateSchemaGemini = z.object({
-    tipo: z.coerce.number().int().gt(0, { message: "Seleccione tipo" }),
+    tipo: z.coerce.number().int().gt(0, { message: "Seleccione un tipo" }),
     mensaje: z.string().optional(),
     session: z.string({ message: "Inicie sesión" }),
   });
@@ -193,7 +193,7 @@ export const CreateSchemaMentor = z.object({
       .string({ message: "Ingrese un nombre" })
       .trim()
       .min(2, "El nombre debe contener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres")
+      .max(25, "El nombre puede contener hasta 25 caracteres")
       .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
@@ -201,7 +201,7 @@ export const CreateSchemaMentor = z.object({
       .string({ message: "Ingrese un apellido" })
       .trim()
       .min(2, "El apellido debe contener al menos 2 caracteres")
-      .max(25, "El apellido debe contener menos de 25 caracteres")
+      .max(25, "El apellido puede contener hasta 25 caracteres")
       .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
@@ -209,11 +209,11 @@ export const CreateSchemaMentor = z.object({
       .string({ message: "Ingrese un email" })
       .email("Debe ser un email válido")
       .min(6, "El email debe contener al menos 6 números")
-      .max(50, "El email debe contener menos de 50 caracteres"),
+      .max(50, "El email puede contener hasta 50 caracteres"),
     telefono: z
       .string({ message: "Ingrese un teléfono" })
       .min(6, "El telefono debe contener al menos 6 caracteres")
-      .max(20, "El telefono debe contener menos de 20 caracteres")
+      .max(20, "El telefono puede contener hasta 20 caracteres")
       .regex(/^[0-9]+$/, "Solo se permiten numéros"),
     id_empresa: z.coerce
       .number({
@@ -249,8 +249,8 @@ export const UpdateScremaMentor = z.object({
     apellido: z
       .string({ message: "Ingrese un apellido" })
       .trim()
-      .min(2, "El apellido debe contener al menos 2 caracter")
-      .max(25, "El apellido debe contener menos de 25 caracteres")
+      .min(2, "El apellido debe contener al menos 2 caracteres")
+      .max(25, "El apellido puede contener hasta 25 caracteres")
       .regex(/^[a-zA-ZñÑ\s]+$/, {
         message: "Solo se permiten catacteres o espacios",
       }),
@@ -258,12 +258,12 @@ export const UpdateScremaMentor = z.object({
       .string({ message: "Ingrese un email" })
       .email("Debe ser un email válido")
       .min(6, "El email debe contener al menos 6 caracteres")
-      .max(50, "El email debe contener menos de 50 caracteres"),
+      .max(50, "El email puede contener hasta 50 caracteres"),
     estado: z.boolean(),
     telefono: z
       .string({ message: "Ingrese un teléfono" })
       .min(6, "El teléfono debe contener al menos 6 números")
-      .max(20, "El teléfono debe contener menos de 20 números")
+      .max(20, "El teléfono puede contener hasta 20 números")
       .regex(/^[0-9]+$/, "Solo se permiten numéros"),
     id_empresa: z.coerce.number({
       invalid_type_error: "Seleccione una empresa",
@@ -291,7 +291,7 @@ export const UpdateScremaMentor = z.object({
     nombre: z
       .string({ message: "Seleccione un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres"),
+      .max(25, "El nombre puede contener hasta 25 caracteres"),
   });
 
 
@@ -300,7 +300,7 @@ export const UpdateScremaMentor = z.object({
     nombre: z
       .string({ message: "Ingrese un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres"),
+      .max(25, "El nombre puede contener hasta 25 caracteres"),
   });
 
  export const CreateSchemaMensaje = z.object({
@@ -323,7 +323,7 @@ export const UpdateScremaMentor = z.object({
     nombre: z
       .string({ message: "Ingrese un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres"),
+      .max(25, "El nombre puede contener hasta 25 caracteres"),
     tipo:z.string()
   });
   
@@ -336,7 +336,7 @@ export const UpdateScremaMentor = z.object({
     nombre: z
       .string({ message: "Ingrese un nombre" }).trim()
       .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(25, "El nombre debe contener menos de 25 caracteres"),
+      .max(25, "El nombre puede contener hasta 25 caracteres"),
   });
 
   export const GetTecnologia = z.object({
@@ -348,7 +348,7 @@ export const UpdateScremaMentor = z.object({
       .string({ message: "Ingrese un nombre", invalid_type_error:"Ingrese un nombre" })
       .trim()
       .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(30, "El nombre debe contener menos de 30 caracteres")
+      .max(30, "El nombre puede contener hasta 30 caracteres")
       .regex(/^[a-zA-Z0-9\sñÑ-]+$/, {
         message: "Solo se permiten letras y números",
       }),
@@ -380,7 +380,7 @@ export const CreateSchemaEquipoManualUpdate = z.object({
     .string({ message: "Ingrese un nombre" })
     .trim()
     .min(3, "El nombre debe tener al menos 3 caracteres")
-    .max(30, "El nombre debe contener menos de 30 caracteres")
+    .max(30, "El nombre puede contener hasta 30 caracteres")
     .regex(/^[a-zA-Z0-9\sñÑ-]+$/, {
       message: "Solo se permiten letras y números",
     }),
