@@ -190,7 +190,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 capitalize",
                     {
-                      "border-red-500": responseBack.errors?.apellido?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.apellido?.length,
                       "border-gray-300": !responseBack.errors?.apellido?.length,
                     }
                   )}
@@ -198,7 +198,7 @@ function FormMentor({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.apellido?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -221,7 +221,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 capitalize",
                     {
-                      "border-red-500": responseBack.errors?.nombre?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.nombre?.length,
                       "border-gray-300": !responseBack.errors?.nombre?.length,
                     }
                   )}
@@ -229,7 +229,7 @@ function FormMentor({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.nombre?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -252,7 +252,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 block text-black w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
                     {
-                      "border-red-500": responseBack.errors?.email?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.email?.length,
                       "border-gray-300": !responseBack.errors?.email?.length,
                     }
                   )}
@@ -260,7 +260,7 @@ function FormMentor({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.email?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -283,7 +283,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-gray-300 border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3",
                     {
-                      "border-red-500": responseBack.errors?.telefono?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.telefono?.length,
                       "border-gray-300": !responseBack.errors?.telefono?.length,
                     }
                   )}
@@ -291,7 +291,7 @@ function FormMentor({
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.telefono?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -314,7 +314,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                     {
-                      "border-red-500":
+                      "border-red-500 dark:border-red-500":
                         responseBack.errors?.tecnologias?.length,
                       "border-gray-300":
                         !responseBack.errors?.tecnologias?.length,
@@ -338,7 +338,7 @@ function FormMentor({
                 </select>
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.tecnologias?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -366,7 +366,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
                     {
-                      "border-red-500":
+                      "border-red-500 dark:border-red-500":
                         responseBack.errors?.tecnologias2?.length,
                       "border-gray-300":
                         !responseBack.errors?.tecnologias2?.length,
@@ -392,7 +392,7 @@ function FormMentor({
                 </select>
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.tecnologias2?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -415,7 +415,7 @@ function FormMentor({
                   className={clsx(
                     "mt-2 text-black block w-full border-2 h-10 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                     {
-                      "border-red-500": responseBack.errors?.id_empresa?.length,
+                      "border-red-500 dark:border-red-500": responseBack.errors?.id_empresa?.length,
                       "border-gray-300":
                         !responseBack.errors?.id_empresa?.length,
                     }
@@ -438,7 +438,7 @@ function FormMentor({
                 </select>
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBack.errors?.id_empresa?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}

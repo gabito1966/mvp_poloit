@@ -270,6 +270,19 @@ export default function FormEquipo({
           revalidateFuntion("/equipo");
           revalidateFuntion("/register/equipos");
           router.refresh();
+          setFormManual({
+            nombre: "",
+            fecha_inicio: fechaHoyFormateada,
+            fecha_fin: fechaFinFormateada,
+            integrantes: [],
+            mentorTecnico: 0,
+            mentorUXUI: 0,
+            mentorQA: 0,
+          });
+          setEstudiantesSeleccionados([]);
+          setMentorSeleccionado(0);
+          setMentorQASeleccionado(0);
+          setMentorUXUISeleccionado(0);
           return `${response?.message}`;
         },
         error: (error) => {
@@ -338,7 +351,7 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500": responseBack.errors?.nombre?.length,
+                        "border-red-500 dark:border-red-500": responseBack.errors?.nombre?.length,
                         "border-gray-300": !responseBack.errors?.nombre?.length,
                         "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
                       }
@@ -347,7 +360,7 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.nombre?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     ))}
@@ -372,7 +385,7 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500": responseBack.errors?.tamano?.length,
+                        "border-red-500 dark:border-red-500": responseBack.errors?.tamano?.length,
                         "border-gray-300": !responseBack.errors?.tamano?.length,
                         "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
                       }
@@ -380,7 +393,7 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.tamano?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     ))}
@@ -404,7 +417,7 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500":
+                        "border-red-500 dark:border-red-500 ":
                           responseBack.errors?.fecha_inicio?.length,
                         "border-gray-300":
                           !responseBack.errors?.fecha_inicio?.length,
@@ -414,7 +427,7 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.fecha_inicio?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     ))}
@@ -438,7 +451,7 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2 block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500":
+                        "border-red-500 dark:border-red-500":
                           responseBack.errors?.fecha_fin?.length,
                         "border-gray-300":
                           !responseBack.errors?.fecha_fin?.length,
@@ -448,7 +461,7 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.fecha_fin?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     ))}
@@ -472,7 +485,7 @@ export default function FormEquipo({
                   : "Generar Equipos"}
               </button>
             </div>
-            <div className={clsx("text-red-500 border-t-2 mt-3")}>
+            <div className={clsx("text-red-500 dark:text-red-500 border-t-2 mt-3")}>
               <span className="align-top">* </span>
               {estudiantesNoGrupos > 0 ? (
                 <span className="text-sm">
@@ -493,7 +506,7 @@ export default function FormEquipo({
           >
             <h2 className="text-xl font-semibold mb-4">
               {dataEquipo != undefined
-                ? `Actualizar Equipo ${dataEquipo.nombre}`
+                ? `Actualización del Equipo: ${dataEquipo.nombre}`
                 : "Crear Nuevo Equipo Manualmente"}
             </h2>
 
@@ -510,16 +523,16 @@ export default function FormEquipo({
                   name="nombre"
                   disabled={dataEquipo != undefined}
                   type="text"
-                  defaultValue={formManual.nombre}
+                  value={formManual.nombre}
                   onChange={handleChangeManual}
                   className={clsx(" p-2 border rounded w-64 text-black", {
                     "cursor-not-allowed": dataEquipo != undefined,
-                    "border-red-500": responseBackManual.errors?.nombre?.length,
+                    "border-red-500 dark:border-red-500": responseBackManual.errors?.nombre?.length,
                   })}
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.nombre?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
@@ -547,7 +560,7 @@ export default function FormEquipo({
                   className={clsx(
                     "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
-                      "border-red-500":
+                      "border-red-500 dark:border-red-500":
                         responseBack.errors?.fecha_inicio?.length,
                     }
                   )}
@@ -555,7 +568,7 @@ export default function FormEquipo({
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.fecha_inicio?.map(
                     (error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     )
@@ -583,7 +596,7 @@ export default function FormEquipo({
                   className={clsx(
                     "basis-1/3 mt-2 block text-black border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                     {
-                      "border-red-500":
+                      "border-red-500 dark:border-red-500":
                         responseBackManual.errors?.fecha_fin?.length,
                     }
                   )}
@@ -591,7 +604,7 @@ export default function FormEquipo({
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.fecha_fin?.map(
                     (error: string) => (
-                      <p className="m-0 text-sm text-red-500" key={error}>
+                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                         {error}
                       </p>
                     )
@@ -619,12 +632,15 @@ export default function FormEquipo({
               <label className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                 Seleccionar Estudiantes:
               </label>
-              <div className={clsx("h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ",
-                {
-                  "border-red-500": responseBackManual.errors?.integrantes?.length,
-                }
-              )}>
-              
+              <div
+                className={clsx(
+                  "h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ",
+                  {
+                    "border-red-500 dark:border-red-500 ":
+                      responseBackManual.errors?.integrantes?.length,
+                  }
+                )}
+              >
                 <table className="w-full">
                   <thead className="bg-gray-100 dark:bg-slate-800">
                     <tr>
@@ -669,11 +685,9 @@ export default function FormEquipo({
                             checked={estudiantesSeleccionados.includes(
                               estudiante.id
                             )}
-                            onChange={() =>{
-                              toggleEstudianteSeleccion(estudiante.id)
-
-                            }
-                            }
+                            onChange={() => {
+                              toggleEstudianteSeleccion(estudiante.id);
+                            }}
                             className="form-checkbox h-5 w-5 text-blue-600"
                           />
                         </td>
@@ -682,13 +696,15 @@ export default function FormEquipo({
                   </tbody>
                 </table>
               </div>
-                <div aria-live="polite" aria-atomic="true" className="mt-1">
-                  {responseBackManual.errors?.integrantes?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBackManual.errors?.integrantes?.map(
+                  (error: string) => (
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500 " key={error}>
                       {error}
                     </p>
-                  ))}
-                </div>
+                  )
+                )}
+              </div>
             </div>
 
             <div className="mb-4">
@@ -702,8 +718,8 @@ export default function FormEquipo({
                 id="mentor"
                 name="mentorTecnico"
                 value={mentorSeleccionado?.toString() || ""}
-                onChange={(e) =>{
-                  setMentorSeleccionado(parseInt(e.target.value))
+                onChange={(e) => {
+                  setMentorSeleccionado(parseInt(e.target.value));
                   setResponseBackManual({
                     ...responseBackManual,
                     errors: {
@@ -711,11 +727,11 @@ export default function FormEquipo({
                       [e.target.name]: [],
                     },
                   });
-                }
-                }
-                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                }}
+                className={clsx(
+                  "w-fit text-black p-2 border rounded sm:text-sm ",
                   {
-                    "border-red-500":
+                    "border-red-500 dark:border-red-500":
                       responseBackManual.errors?.mentorTecnico?.length,
                   }
                 )}
@@ -752,7 +768,7 @@ export default function FormEquipo({
               <div aria-live="polite" aria-atomic="true" className="mt-1">
                 {responseBackManual.errors?.mentorTecnico?.map(
                   (error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
+                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   )
@@ -771,8 +787,8 @@ export default function FormEquipo({
                 id="mentorqa"
                 name="mentorQA"
                 value={mentorQASeleccionado?.toString() || ""}
-                onChange={(e) =>{
-                  setMentorQASeleccionado(parseInt(e.target.value))
+                onChange={(e) => {
+                  setMentorQASeleccionado(parseInt(e.target.value));
                   setResponseBackManual({
                     ...responseBackManual,
                     errors: {
@@ -780,11 +796,11 @@ export default function FormEquipo({
                       [e.target.name]: [],
                     },
                   });
-                }
-                }
-                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                }}
+                className={clsx(
+                  "w-fit text-black p-2 border rounded sm:text-sm ",
                   {
-                    "border-red-500":
+                    "border-red-500 dark:border-red-500":
                       responseBackManual.errors?.mentorUXUI?.length,
                   }
                 )}
@@ -819,12 +835,12 @@ export default function FormEquipo({
                 ))}
               </select>
               <div aria-live="polite" aria-atomic="true" className="mt-1">
-                  {responseBackManual.errors?.mentorQA?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
-                      {error}
-                    </p>
-                  ))}
-                </div>
+                {responseBackManual.errors?.mentorQA?.map((error: string) => (
+                  <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+              </div>
             </div>
 
             <div className="mb-4">
@@ -837,8 +853,8 @@ export default function FormEquipo({
               <select
                 id="mentorUXUI"
                 value={mentorUXUISeleccionado?.toString() || ""}
-                onChange={(e) =>{
-                  setMentorUXUISeleccionado(parseInt(e.target.value))
+                onChange={(e) => {
+                  setMentorUXUISeleccionado(parseInt(e.target.value));
                   setResponseBackManual({
                     ...responseBackManual,
                     errors: {
@@ -846,11 +862,11 @@ export default function FormEquipo({
                       [e.target.name]: [],
                     },
                   });
-                }
-                }
-                className={clsx("w-fit text-black p-2 border rounded sm:text-sm ",
+                }}
+                className={clsx(
+                  "w-fit text-black p-2 border rounded sm:text-sm ",
                   {
-                    "border-red-500":
+                    "border-red-500 dark:border-red-500":
                       responseBackManual.errors?.mentorUXUI?.length,
                   }
                 )}
@@ -888,18 +904,21 @@ export default function FormEquipo({
               </select>
             </div>
             <div aria-live="polite" aria-atomic="true" className="mt-1">
-                  {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500" key={error}>
-                      {error}
-                    </p>
-                  ))}
-                </div>
+              {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
+                <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+            </div>
             <button
               type="submit"
               className="bg-blue-400 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"
             >
               {dataEquipo != undefined ? "Actualizar " : "Crear "} Equipo
             </button>
+            {estudiantesNoGrupos == 0 && dataEquipo==undefined &&   <div className={clsx("text-red-500 dark:text-red-500 border-t-2 mt-3")}> <span className="text-base">
+                  No hay estudiantes para crear/asignar a ningun grupo
+                </span> </div>}
           </form>
         )}
       </div>

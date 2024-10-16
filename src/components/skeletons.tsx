@@ -1,5 +1,3 @@
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function FormEstudianteSkeleton() {
   return (
@@ -266,7 +264,7 @@ export function CardSkeleton() {
 export function LatestInscriptosSkeleton() {
   return (
     <div
-      className={`${shimmer} relative flex w-full flex-col overflow-hidden md:col-span-4 animate-pulse`}
+      className={` relative flex w-full flex-col overflow-hidden md:col-span-4 animate-pulse`}
     >
       <div className="flex grow flex-col justify-between rounded-xl dark:bg-gray-600 bg-gray-100 p-4">
         <div className="flex flex-row justify-between items-center">
@@ -288,7 +286,7 @@ export function LatestInscriptosSkeleton() {
 export function AlumnosTecnologiasChartSkeleton() {
   return (
     <div
-      className={`${shimmer} relative w-full overflow-hidden md:col-span-4 animate-pulse`}
+      className={` relative w-full overflow-hidden md:col-span-4 animate-pulse`}
     >
       <div className="rounded-xl bg-gray-100 dark:bg-gray-700 p-4">
         <div className="flex items-center p-2">
@@ -334,7 +332,7 @@ export function InscriptosSkeleton() {
 export function CardItemSkeleton() {
   return (
     <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-600 p-4 shadow-sm animate-pulse`}
+      className={` relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-600 p-4 shadow-sm animate-pulse`}
     >
       <div className="flex items-center justify-center  rounded-xl bg-white dark:bg-gray-700 p-0">
         <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-700" />
@@ -360,7 +358,7 @@ export function CardsWrapperSkeleton() {
 
 export function NotificationSkeleton() {
   return (
-    <div className={`${shimmer} relative w-full h-full inline animate-pulse`}>
+    <div className={`relative w-full h-full inline animate-pulse`}>
       <div className="rounded-xl bg-gray-100 dark:bg-gray-600 p-6">
         <div className="flex items-center py-2">
           <div className=" h-7 w-48 rounded-md bg-gray-200" />
@@ -390,7 +388,7 @@ export function NotificationSkeleton() {
 
 export function QuickActionsSkeleton() {
   return (
-    <div className={`${shimmer} relative w-full h-full inline animate-pulse`}>
+    <div className={` relative w-full h-full inline animate-pulse`}>
       <div className="rounded-xl bg-gray-100 dark:bg-gray-600 p-6">
         <div className="flex items-center py-2">
           <div className=" h-7 w-48 rounded-md bg-gray-200" />

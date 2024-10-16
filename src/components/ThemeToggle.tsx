@@ -39,7 +39,7 @@ export default function ThemeToggle() {
       {theme === "light" ? (
         <MoonIcon className="w-4 h-4 lg:w-6 lg:h-6 text-black" />
       ) : (
-        <SunIcon className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+        <SunIcon className="w-4 h-4 lg:w-6 lg:h-6 text-slate-700" />
       )}
     </button>
   );

@@ -345,7 +345,7 @@ export const UpdateScremaMentor = z.object({
 
   export const CreateSchemaEquipoManual = z.object({
     nombre: z
-      .string({ message: "Ingrese un nombre" })
+      .string({ message: "Ingrese un nombre", invalid_type_error:"Ingrese un nombre" })
       .trim()
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(30, "El nombre debe contener menos de 30 caracteres")
@@ -361,9 +361,9 @@ export const UpdateScremaMentor = z.object({
     fecha_inicio: z.coerce.date({ message: "Ingrese una fecha de inicio" }),
     fecha_fin: z.coerce.date({ message: "Ingrese una fecha final de entrega" }),
     integrantes: z.array(z.number().gt(0, { message: "Seleccione un estudiante" })).min(6, "Debe tener al menos 6 integrante"),
-    mentorTecnico: z.number().gt(0, { message: "Seleccione un mentor técnico" }),
-    mentorUXUI: z.number().gt(0, { message: "Seleccione un mentor UX/UI" }),
-    mentorQA: z.number().gt(0, { message: "Seleccione un mentor QA" }),
+    mentorTecnico: z.number({ message:"seleccione un mentor técnico", invalid_type_error:"seleccione un mentor técnico" }).gt(0, {  message: "Seleccione un mentor técnico" }),
+    mentorUXUI: z.number({message:"seleccione un mentor UX/UI", invalid_type_error:"seleccione un mentor UX/UI" }).gt(0, {  message: "Seleccione un mentor UX/UI" }),
+    mentorQA: z.number({message:"seleccione un mentor QA", invalid_type_error:"seleccione un mentor QA" }).gt(0, {  message: "Seleccione un mentor QA" }),
   });
 
   export const CreateEquipoManual = CreateSchemaEquipoManual.refine((data) => data.fecha_inicio < data.fecha_fin, {
@@ -375,7 +375,7 @@ export const UpdateScremaMentor = z.object({
 
   
 export const CreateSchemaEquipoManualUpdate = z.object({
-  id: z.coerce.number({ invalid_type_error: "Debe ser un numero" }),
+  id: z.coerce.number({ invalid_type_error: "Debe ser un número", message:"debe ser un número" }),
   nombre: z
     .string({ message: "Ingrese un nombre" })
     .trim()
@@ -395,9 +395,9 @@ export const CreateSchemaEquipoManualUpdate = z.object({
   integrantes: z
     .array(z.number().gt(0, { message: "Seleccione un estudiante" }))
     .min(6, "Debe tener al menos 6 integrante"),
-  mentorTecnico: z.number().gt(0, { message: "Seleccione un mentor técnico" }),
-  mentorUXUI: z.number().gt(0, { message: "Seleccione un mentor UX/UI" }),
-  mentorQA: z.number().gt(0, { message: "Seleccione un mentor QA" }),
+  mentorTecnico: z.number({ message:"seleccione un mentor técnico", invalid_type_error:"seleccione un mentor técnico" }).gt(0, {  message: "Seleccione un mentor técnico" }),
+  mentorUXUI: z.number({message:"seleccione un mentor UX/UI", invalid_type_error:"seleccione un mentor UX/UI" }).gt(0, {  message: "Seleccione un mentor UX/UI" }),
+  mentorQA: z.number({message:"seleccione un mentor QA", invalid_type_error:"seleccione un mentor QA" }).gt(0, {  message: "Seleccione un mentor QA" }),
 });
 
 export const CreateEquipoManualUpdate = CreateSchemaEquipoManualUpdate.refine(
