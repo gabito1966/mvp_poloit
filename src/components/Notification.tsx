@@ -16,7 +16,7 @@ export default async function Notification() {
         <div className="p-1 lg:p-4 bg-white dark:bg-gray-700  mt-2 rounded-xl">
           <div className="flex flex-col">
            {cantEstudiantesNoGrupos>0 &&
-            <ItemNotification cant={cantEstudiantesNoGrupos} message={`Estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin grupo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
+            <ItemNotification cant={cantEstudiantesNoGrupos} message={`Estudiante${cantEstudiantesNoGrupos==1?"":"s"} sin equipo`} estado={cantEstudiantesNoGrupos>0}  url="/register/equipos" />
            }
             <ItemNotification cant={cantEstudiantes} message={`Estudiante${cantEstudiantes==1?" que se eliminó":"s que se eliminaron"}`}  url="/notificaciones/estudiante" />
             <ItemNotification cant={cantMentores} message={`Mentor${cantMentores==1?" que se eliminó":"es que se eliminaron"}`} url="/notificaciones/mentor" />
