@@ -43,15 +43,15 @@ export default async function TableEquipos({
                     </div>
                   </div>
                   <div className="col-span-2 mb-2 items-center flex justify-between">
-                      <p className="text-md">{equipo.mentor} {equipo.mentor_apellido}</p>
+                      <p className="text-md"> {equipo.mentor_apellido} {equipo.mentor}</p>
                       <p className="text-sm">Mentor Tecnologias</p>
                   </div>
                   <div className="col-span-2 mb-2 items-center flex justify-between">
-                    <p className="text-md">{equipo.mentor_ux_ui} {equipo.mentor_ux_ui_apellido}</p>
+                    <p className="text-md">{equipo.mentor_ux_ui_apellido} {equipo.mentor_ux_ui} </p>
                     <p className="text-sm">Mentor UX-UI</p>
                   </ div>
                   <div className="col-span-2 mb-2 items-center flex justify-between">
-                    <p className="text-md">{equipo.mentor_qa} {equipo.mentor_qa_apellido}</p>
+                    <p className="text-md">{equipo.mentor_qa_apellido} {equipo.mentor_qa} </p>
                     <p className="text-sm">Mentor QA</p>
                   </div>
                 </div>
@@ -102,20 +102,20 @@ export default async function TableEquipos({
                     <td className="whitespace-nowrap px-3 py-3" title={equipo.tamano} >
                       {equipo.tamano}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor} ${equipo.mentor_apellido}`} >
-                      {(equipo.mentor.length+ equipo.mentor_apellido.length) < 25
-                        ? `${equipo.mentor} ${equipo.mentor_apellido}`
-                        : `${equipo.mentor} ${equipo.mentor_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3 capitalize" title={`${equipo.mentor_apellido} ${equipo.mentor}`} >
+                      {(equipo.mentor_apellido.length+ equipo.mentor.length) < 25
+                        ? `${equipo.mentor_apellido}, ${equipo.mentor} `
+                        : `${equipo.mentor_apellido}, ${equipo.mentor}`.slice(0, 20) + "..."}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`} >
-                    {(equipo.mentor_ux_ui.length+ equipo.mentor_ux_ui_apellido.length) < 25
-                        ? `${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`
-                        : `${equipo.mentor_ux_ui} ${equipo.mentor_ux_ui_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3 capitalize" title={`${equipo.mentor_ux_ui_apellido} ${equipo.mentor_ux_ui} `} >
+                    {(equipo.mentor_ux_ui_apellido.length+ equipo.mentor_ux_ui.length) < 25
+                        ? `${equipo.mentor_ux_ui_apellido}, ${equipo.mentor_ux_ui}`
+                        : `${equipo.mentor_ux_ui_apellido}, ${equipo.mentor_ux_ui}`.slice(0, 20) + "..."}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3" title={`${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`} >
-                    {(equipo.mentor_qa.length+ equipo.mentor_qa_apellido.length) < 25
-                        ? `${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`
-                        : `${equipo.mentor_qa} ${equipo.mentor_qa_apellido}`.slice(0, 20) + "..."}
+                    <td className="whitespace-nowrap px-3 py-3 capitalize" title={`${equipo.mentor_qa} `} >
+                    {(equipo.mentor_qa_apellido.length+ equipo.mentor_qa.length) < 25
+                        ? `${equipo.mentor_qa_apellido}, ${equipo.mentor_qa}`
+                        : `${equipo.mentor_qa_apellido}, ${equipo.mentor_qa}`.slice(0, 20) + "..."}
                     </td>
                     <td className="whitespace-nowrap px-3 py-3" title={`${equipo.fecha_inicio.toLocaleDateString("es-ES")}}`} >
                          {`${equipo.fecha_inicio.toLocaleDateString("es-ES")}`}
