@@ -394,6 +394,14 @@ export async function DELETE(request: Request) {
     await sql`
       DELETE FROM equipos_estudiantes;
     `;
+
+    await sql`
+    DELETE FROM correo_equipo;
+        `;
+        
+    await sql`
+    DELETE FROM correo_estudiante;
+        `;
     
     await sql`
       DELETE FROM equipos;
@@ -403,9 +411,10 @@ export async function DELETE(request: Request) {
       DELETE FROM correos;
     `;
     
+    revalidatePath("/");
     revalidatePath("/equipo");
     revalidatePath("/register/equipos");
-    revalidatePath("/");
+    revalidatePath("/notificaciones/equipo");
     return NextResponse.json(
       createResponse(true, [], "Eliminación de equipos exitosa"),
       { status: 200 }

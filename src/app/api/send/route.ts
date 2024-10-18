@@ -150,8 +150,7 @@ export async function POST(request: Request) {
           });
 
           if (error) {
-            console.log(error);
-            
+            console.log(error);   
           }
 
           const { rows: resultCorreos } = await sql`

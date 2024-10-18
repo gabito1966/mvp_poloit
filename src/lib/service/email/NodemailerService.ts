@@ -34,6 +34,7 @@ export class NodemailerService implements IEmailService {
       const info = await this.transporter.sendMail(mailOptions);
       return { data: info, error: null };
     } catch (error) {
+      console.log(error);
       return { data: null, error };
     }
   }
