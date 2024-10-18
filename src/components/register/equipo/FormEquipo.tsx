@@ -222,6 +222,12 @@ export default function FormEquipo({
       },
     });
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
   const handleSubmitManual = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -351,7 +357,8 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500 dark:border-red-500": responseBack.errors?.nombre?.length,
+                        "border-red-500 dark:border-red-500":
+                          responseBack.errors?.nombre?.length,
                         "border-gray-300": !responseBack.errors?.nombre?.length,
                         "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
                       }
@@ -360,7 +367,10 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.nombre?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     ))}
@@ -385,7 +395,8 @@ export default function FormEquipo({
                     className={clsx(
                       "basis-1/3 mt-2  block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
                       {
-                        "border-red-500 dark:border-red-500": responseBack.errors?.tamano?.length,
+                        "border-red-500 dark:border-red-500":
+                          responseBack.errors?.tamano?.length,
                         "border-gray-300": !responseBack.errors?.tamano?.length,
                         "hover:cursor-not-allowed": estudiantesNoGrupos < 6,
                       }
@@ -393,16 +404,19 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.tamano?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     ))}
                   </div>
                 </div>
-                <div>
+                <div >
                   <label
                     htmlFor="fecha_inicio"
-                    className="block text-sm font-medium text-gray-500 dark:text-gray-400"
+                    className="block  text-sm font-medium text-gray-500 dark:text-gray-400"
                   >
                     Fecha de inicio:
                   </label>
@@ -427,7 +441,10 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.fecha_inicio?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     ))}
@@ -461,7 +478,10 @@ export default function FormEquipo({
                   />
                   <div aria-live="polite" aria-atomic="true" className="mt-1">
                     {responseBack.errors?.fecha_fin?.map((error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     ))}
@@ -485,7 +505,9 @@ export default function FormEquipo({
                   : "Generar Equipos"}
               </button>
             </div>
-            <div className={clsx("text-red-500 dark:text-red-500 border-t-2 mt-3")}>
+            <div
+              className={clsx("text-red-500 dark:text-red-500 border-t-2 mt-3")}
+            >
               <span className="align-top">* </span>
               {estudiantesNoGrupos > 0 ? (
                 <span className="text-sm">
@@ -510,7 +532,7 @@ export default function FormEquipo({
                 : "Crear Nuevo Equipo Manualmente"}
             </h2>
 
-            <div>
+            <div className=" grid grid-cols-1 lg:grid-cols-2 gap-x-6">
               <div className="mb-4">
                 <label
                   htmlFor="nombreEquipo"
@@ -525,24 +547,241 @@ export default function FormEquipo({
                   type="text"
                   value={formManual.nombre}
                   onChange={handleChangeManual}
-                  className={clsx(" p-2 border rounded w-64 text-black", {
+                  className={clsx(" p-2 border rounded  text-black w-full", {
                     "cursor-not-allowed": dataEquipo != undefined,
-                    "border-red-500 dark:border-red-500": responseBackManual.errors?.nombre?.length,
+                    "border-red-500 dark:border-red-500":
+                      responseBackManual.errors?.nombre?.length,
                   })}
                 />
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.nombre?.map((error: string) => (
-                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                    <p
+                      className="m-0 text-sm text-red-500 dark:text-red-500"
+                      key={error}
+                    >
                       {error}
                     </p>
                   ))}
                 </div>
               </div>
 
-              <div>
+              <div className="mb-4">
+              <label
+                htmlFor="mentor"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
+                Mentor del Grupo:
+              </label>
+              <select
+                id="mentor"
+                name="mentorTecnico"
+                value={mentorSeleccionado?.toString() || ""}
+                onChange={(e) => {
+                  setMentorSeleccionado(parseInt(e.target.value));
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
+                }}
+                className={clsx(
+                  "w-full text-black p-2 border rounded sm:text-sm ",
+                  {
+                    "border-red-500 dark:border-red-500":
+                      responseBackManual.errors?.mentorTecnico?.length,
+                  }
+                )}
+              >
+                {dataEquipo ? (
+                  <>
+                    <option
+                      title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`}
+                      value={dataEquipo.id_mentor}
+                      hidden
+                    >
+                      {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
+                      JAVA
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
+                {mentoresTecnicosSinGrupos.map((mentor) => (
+                  <option
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    key={mentor.id}
+                    value={mentor.id.toString()}
+                  >
+                    {mentor.apellido}, {mentor.nombre} -{" "}
+                    {mentor.tecnologias.join(", ")}
+                  </option>
+                ))}
+              </select>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBackManual.errors?.mentorTecnico?.map(
+                  (error: string) => (
+                    <p
+                      className="m-0 text-sm text-red-500 dark:text-red-500"
+                      key={error}
+                    >
+                      {error}
+                    </p>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="mentorqa"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
+                Mentor QA:
+              </label>
+              <select
+                id="mentorqa"
+                name="mentorQA"
+                value={mentorQASeleccionado?.toString() || ""}
+                onChange={(e) => {
+                  setMentorQASeleccionado(parseInt(e.target.value));
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
+                }}
+                className={clsx(
+                  "w-full text-black p-2 border rounded sm:text-sm ",
+                  {
+                    "border-red-500 dark:border-red-500":
+                      responseBackManual.errors?.mentorUXUI?.length,
+                  }
+                )}
+              >
+                {dataEquipo ? (
+                  <>
+                    <option
+                      title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`}
+                      value={dataEquipo.id_mentor_qa}
+                      hidden
+                    >
+                      {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa} -
+                      QA
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
+                {mentoresQASinGrupos.map((mentor) => (
+                  <option
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    key={mentor.id}
+                    value={mentor.id.toString()}
+                  >
+                    {mentor.apellido}, {mentor.nombre} -{" "}
+                    {mentor.tecnologias.join(", ")}
+                  </option>
+                ))}
+              </select>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBackManual.errors?.mentorQA?.map((error: string) => (
+                  <p
+                    className="m-0 text-sm text-red-500 dark:text-red-500"
+                    key={error}
+                  >
+                    {error}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="mentorUXUI"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
+                Mentor UX/UI:
+              </label>
+              <select
+                id="mentorUXUI"
+                value={mentorUXUISeleccionado?.toString() || ""}
+                onChange={(e) => {
+                  setMentorUXUISeleccionado(parseInt(e.target.value));
+                  setResponseBackManual({
+                    ...responseBackManual,
+                    errors: {
+                      ...responseBackManual.errors,
+                      [e.target.name]: [],
+                    },
+                  });
+                }}
+                className={clsx(
+                  " text-black p-2 border rounded sm:text-sm w-full",
+                  {
+                    "border-red-500 dark:border-red-500":
+                      responseBackManual.errors?.mentorUXUI?.length,
+                  }
+                )}
+              >
+                {dataEquipo ? (
+                  <>
+                    <option
+                      title={`${dataEquipo.mentor_ux_ui_apellido}, ${dataEquipo.mentor_ux_ui} - UX/IU`}
+                      value={dataEquipo.id_mentor_ux_ui}
+                      hidden
+                    >
+                      {dataEquipo.mentor_ux_ui_apellido}
+                      {", "}
+                      {dataEquipo.mentor_ux_ui} - UX/IU
+                    </option>
+                  </>
+                ) : (
+                  <option value="" hidden>
+                    Seleccionar Mentor
+                  </option>
+                )}
+
+                {mentoresUXUISinGrupos.map((mentor) => (
+                  <option
+                    key={mentor.id}
+                    title={`${mentor.apellido}, ${
+                      mentor.nombre
+                    } - ${mentor.tecnologias.join(", ")}`}
+                    value={mentor.id.toString()}
+                  >
+                    {mentor.apellido}, {mentor.nombre} -{" "}
+                    {mentor.tecnologias.join(", ")}
+                  </option>
+                ))}
+              </select>
+              <div aria-live="polite" aria-atomic="true" className="mt-1">
+                {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
+                  <p
+                    className="m-0 text-sm text-red-500 dark:text-red-500"
+                    key={error}
+                  >
+                    {error}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+              <div className="mb-2">
                 <label
                   htmlFor="fecha_inicio"
-                  className="block  text-sm font-medium text-gray-500 dark:text-gray-400"
+                  className="block   text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                   Fecha de inicio:
                 </label>
@@ -558,7 +797,7 @@ export default function FormEquipo({
                   }
                   placeholder=""
                   className={clsx(
-                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2 text-black block  border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-full",
                     {
                       "border-red-500 dark:border-red-500":
                         responseBack.errors?.fecha_inicio?.length,
@@ -568,7 +807,10 @@ export default function FormEquipo({
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.fecha_inicio?.map(
                     (error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     )
@@ -594,7 +836,7 @@ export default function FormEquipo({
                       : fechaFinFormateada
                   }
                   className={clsx(
-                    "basis-1/3 mt-2 block text-black border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-64",
+                    "basis-1/3 mt-2 block text-black border-2 h-10 rounded-md shadow-sm  sm:text-sm p-3 w-full",
                     {
                       "border-red-500 dark:border-red-500":
                         responseBackManual.errors?.fecha_fin?.length,
@@ -604,14 +846,19 @@ export default function FormEquipo({
                 <div aria-live="polite" aria-atomic="true" className="mt-1">
                   {responseBackManual.errors?.fecha_fin?.map(
                     (error: string) => (
-                      <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
                         {error}
                       </p>
                     )
                   )}
                 </div>
               </div>
-              <div className="mb-4">
+              </div>
+              
+              <div className="mb-2 mt-6 relative">
                 <label
                   htmlFor="filtroEstudiantes"
                   className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
@@ -624,14 +871,23 @@ export default function FormEquipo({
                   placeholder="Buscar por nombre, apellido o tecnología"
                   value={filtroEstudiantes}
                   onChange={(e) => setFiltroEstudiantes(e.target.value)}
-                  className="p-2 border rounded text-black w-64"
+                  className="pr-2 py-2 pl-8 border rounded text-black w-full lg:max-w-96"
+                  onKeyDown={handleKeyDown}
                 />
+                <div className="absolute left-2 top-10 h-[18px] w-[18px] -translate-y-1/6 text-gray-500 peer-focus:text-gray-900">
+                  <svg className="w-5 h-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg>
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                Seleccionar Estudiantes:
-              </label>
+            
+            <div className="">
               <div
                 className={clsx(
                   "h-64 border dark:border-gray-400 border-gray-100 rounded overflow-y-auto ",
@@ -699,226 +955,35 @@ export default function FormEquipo({
               <div aria-live="polite" aria-atomic="true" className="mt-1">
                 {responseBackManual.errors?.integrantes?.map(
                   (error: string) => (
-                    <p className="m-0 text-sm text-red-500 dark:text-red-500 " key={error}>
+                    <p
+                      className="m-0 text-sm text-red-500 dark:text-red-500 "
+                      key={error}
+                    >
                       {error}
                     </p>
                   )
                 )}
               </div>
             </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="mentor"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor del Grupo:
-              </label>
-              <select
-                id="mentor"
-                name="mentorTecnico"
-                value={mentorSeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorSeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  "w-fit text-black p-2 border rounded sm:text-sm ",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorTecnico?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
-                    <option
-                      title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`}
-                      value={dataEquipo.id_mentor}
-                      hidden
-                    >
-                      {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
-                      JAVA
-                    </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-                {mentoresTecnicosSinGrupos.map((mentor) => (
-                  <option
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    key={mentor.id}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-              <div aria-live="polite" aria-atomic="true" className="mt-1">
-                {responseBackManual.errors?.mentorTecnico?.map(
-                  (error: string) => (
-                    <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
-                      {error}
-                    </p>
-                  )
-                )}
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="mentorqa"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor QA:
-              </label>
-              <select
-                id="mentorqa"
-                name="mentorQA"
-                value={mentorQASeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorQASeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  "w-fit text-black p-2 border rounded sm:text-sm ",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorUXUI?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
-                    <option
-                      title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`}
-                      value={dataEquipo.id_mentor_qa}
-                      hidden
-                    >
-                      {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa} -
-                      QA
-                    </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-                {mentoresQASinGrupos.map((mentor) => (
-                  <option
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    key={mentor.id}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-              <div aria-live="polite" aria-atomic="true" className="mt-1">
-                {responseBackManual.errors?.mentorQA?.map((error: string) => (
-                  <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="mentorUXUI"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor UX/UI:
-              </label>
-              <select
-                id="mentorUXUI"
-                value={mentorUXUISeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorUXUISeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  "w-fit text-black p-2 border rounded sm:text-sm ",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorUXUI?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
-                    <option
-                      title={`${dataEquipo.mentor_ux_ui_apellido}, ${dataEquipo.mentor_ux_ui} - UX/IU`}
-                      value={dataEquipo.id_mentor_ux_ui}
-                      hidden
-                    >
-                      {dataEquipo.mentor_ux_ui_apellido}
-                      {", "}
-                      {dataEquipo.mentor_ux_ui} - UX/IU
-                    </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-
-                {mentoresUXUISinGrupos.map((mentor) => (
-                  <option
-                    key={mentor.id}
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div aria-live="polite" aria-atomic="true" className="mt-1">
-              {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
-                <p className="m-0 text-sm text-red-500 dark:text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-            </div>
+          
             <button
               type="submit"
-              className="bg-blue-400 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"
+              className="bg-blue-400 mt-4 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"
             >
               {dataEquipo != undefined ? "Actualizar " : "Crear "} Equipo
             </button>
-            {estudiantesNoGrupos == 0 && dataEquipo==undefined &&   <div className={clsx("text-red-500 dark:text-red-500 border-t-2 mt-3")}> <span className="text-base">
-                  No hay estudiantes para crear/asignar a ningun grupo
-                </span> </div>}
+            {estudiantesNoGrupos == 0 && dataEquipo == undefined && (
+              <div
+                className={clsx(
+                  "text-red-500 dark:text-red-500 border-t-2 mt-3"
+                )}
+              >
+                {" "}
+                <span className="text-base">
+                  No hay estudiantes para crear/asignar a ningún grupo
+                </span>{" "}
+              </div>
+            )}
           </form>
         )}
       </div>

@@ -622,10 +622,11 @@ export async function fetchFilteredMentoresBaja(
     CONCAT(m.nombre,' ',m.apellido) ILIKE ${`%${query.trim()}%`} OR
     CONCAT(m.apellido,' ',m.nombre) ILIKE ${`%${query.trim()}%`}) AND
     m.estado = false
-      ORDER BY 
-        m.apellido
+    ORDER BY
+    am.fecha_baja DESC
       LIMIT ${ITEMS_PER_PAGE}
-      OFFSET ${offset};
+      OFFSET ${offset}
+    ;
     `;
 
     return mentoresBaja.rows;
@@ -670,7 +671,7 @@ export async function fetchFilteredEstudiantesBaja(
       CONCAT(e.apellido,' ',e.nombre) ILIKE ${`%${query.trim()}%`}) AND
       e.estado = false
       ORDER BY 
-        e.apellido
+         ae.fecha_baja DESC
       LIMIT ${ITEMS_PER_PAGE}
       OFFSET ${offset};
     `;
@@ -705,7 +706,7 @@ export async function fetchEquiposEliminados(
         (ae.nombre ILIKE ${`%${query}%`} OR
          ae.nombre ILIKE ${`%${query.trim()}%`})
       ORDER BY 
-        ae.id
+        ae.fecha_eliminacion DESC
       LIMIT ${ITEMS_PER_PAGE}
       OFFSET ${offset};
     `;

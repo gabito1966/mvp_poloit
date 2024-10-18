@@ -38,11 +38,6 @@ export default function MensajeComponent({
     subTitle:""
   });
 
-  const dia = new Date();
-
-  console.log(dia.toLocaleDateString("es-ES")) 
-
-
   const [tipo, setTipo] = useState("");
   const [tipoEmailsHistory, setTipoEmailsHistory] = useState("1");
 
@@ -127,6 +122,12 @@ export default function MensajeComponent({
     });
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && event.shiftKey) {
+      event.preventDefault();
+    }
+  };
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
@@ -167,10 +168,7 @@ export default function MensajeComponent({
           message: error.message,
           errors: error.errors,
         });
-        if (
-          responseBack.errors.session.length > 0 ||
-          error.message == "Sesión invalida"
-        ) {
+        if (error.message == "Sesión invalida" || responseBack.errors?.session?.length > 0) {
           router.push("/auth/login?error=auth_required");
         }
         return `${error?.message}`;
@@ -327,11 +325,11 @@ export default function MensajeComponent({
                 </button>
                 <select
                   className={clsx(
-                    "w-full dark:text-white dark:bg-slate-800  rounded-lg p-1  capitalize",
+                    "w-full  dark:bg-slate-800  rounded-lg p-1  capitalize",
                     {
-                      "border-red-500 animate-pulse border-3 bg-red-100":
+                      "border-red-500 animate-pulse border-2 bg-red-100 dark:border-red-500 dark:bg-red-100 dark:border-2 text-black dark:text-black":
                         responseBack.errors?.tipo?.length,
-                      "border-gray-100 border-2 ": !responseBack.errors?.tipo?.length,
+                      "border-gray-100 border-2 dark:text-white": !responseBack.errors?.tipo?.length,
                     }
                   )}
                   defaultValue={""}
@@ -352,14 +350,14 @@ export default function MensajeComponent({
                     }
                   }}
                 >
-                  <option className="capitalize" value={"0"} hidden>
+                  <option className="capitalize text-black dark:text-black" value={"0"} hidden>
                     tipo
                   </option>
 
                   {tiposEmail.map((e, i) => (
                     <option
                       key={`${e.id}-${i}`}
-                      className="capitalize"
+                      className="capitalize "
                       value={e.id}
                     >
                       {e.tipo.toLowerCase()}
@@ -399,7 +397,7 @@ export default function MensajeComponent({
                   className={clsx(
                     "  resize-none overflow-y-auto  w-full p-2 rounded-lg dark:text-white dark:bg-gray-800 border-gray-100 border-2",
                     {
-                      "border-red-500": responseBack.errors?.mensaje?.length,
+                      "border-red-500 dark:border-red-500 ": responseBack.errors?.mensaje?.length,
                       "border-gray-100": !responseBack.errors?.mensaje?.length,
                       "cursor-pointer": iaFormState,
                     }
@@ -410,17 +408,18 @@ export default function MensajeComponent({
                   name="mensaje"
                   id="mensaje"
                   placeholder="Escribe un mensaje"
+                  onKeyDown={handleKeyDown}
                 />
                 <div aria-live="polite" aria-atomic="true">
                   {responseBack.errors?.mensaje?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
                 </div>
                 <div aria-live="polite" aria-atomic="true">
                   {responseBack.errors?.tipo?.map((error: string) => (
-                    <p className="mt-0 text-sm text-red-500" key={error}>
+                    <p className="mt-0 text-sm text-red-500 dark:text-red-500" key={error}>
                       {error}
                     </p>
                   ))}
