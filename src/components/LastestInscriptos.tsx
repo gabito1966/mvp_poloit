@@ -39,7 +39,7 @@ export default async function LastestInscriptos() {
                       className="truncate text-sm font-semibold capitalize"
                       title={estudiante.nombre}
                     >
-                      {estudiante.nombre} {estudiante.apellido}
+                      {estudiante.apellido}, {estudiante.nombre} 
                     </p>
                     <p
                       className="hidden text-sm text-gray-500 sm:block"

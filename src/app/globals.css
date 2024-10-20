@@ -17,7 +17,7 @@ html {
 }
 
 body {
-  @apply bg-gray-200/75 text-black dark:bg-gray-800 dark:text-white;
+  @apply bg-[#F5F6FA] text-black dark:bg-gray-800 dark:text-white;
 }
 
 h1, h2, p{

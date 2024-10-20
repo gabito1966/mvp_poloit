@@ -97,7 +97,7 @@ export default async function Table({
                       ? estudiante.tecnologias.join(", ")
                       : estudiante.tecnologias.join(", ").slice(0, 10) + "..."}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3" title={estudiante.ong}>
+                  <td className="whitespace-nowrap px-3 py-3 capitalize" title={estudiante.ong}>
                     {estudiante.ong.length < 15
                       ? estudiante.ong
                       : estudiante.ong.slice(0, 7) + "..."}
