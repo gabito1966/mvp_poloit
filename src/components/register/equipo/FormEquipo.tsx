@@ -95,8 +95,13 @@ export default function FormEquipo({
 
   const estudiantesFiltrados = estudiantesSinGrupo.filter(
     (e) =>
-      e.nombre.toLowerCase().includes(filtroEstudiantes.toLowerCase()) ||
-      e.apellido.toLowerCase().includes(filtroEstudiantes.toLowerCase()) ||
+      e.nombre
+        .toLowerCase()
+
+        .includes(filtroEstudiantes.toLowerCase()) ||
+      e.apellido
+        .toLowerCase()
+        .includes(filtroEstudiantes.toLowerCase()) ||
       e.tecnologia_nombre
         .toLowerCase()
         .includes(filtroEstudiantes.toLowerCase())
@@ -413,7 +418,7 @@ export default function FormEquipo({
                     ))}
                   </div>
                 </div>
-                <div >
+                <div>
                   <label
                     htmlFor="fecha_inicio"
                     className="block  text-sm font-medium text-gray-500 dark:text-gray-400"
@@ -566,217 +571,219 @@ export default function FormEquipo({
               </div>
 
               <div className="mb-4">
-              <label
-                htmlFor="mentor"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor del Grupo:
-              </label>
-              <select
-                id="mentor"
-                name="mentorTecnico"
-                value={mentorSeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorSeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  "w-full text-black p-2 border rounded sm:text-sm ",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorTecnico?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
-                    <option
-                      title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`}
-                      value={dataEquipo.id_mentor}
-                      hidden
-                    >
-                      {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
-                      JAVA
+                <label
+                  htmlFor="mentor"
+                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Mentor del Grupo:
+                </label>
+                <select
+                  id="mentor"
+                  name="mentorTecnico"
+                  value={mentorSeleccionado?.toString() || ""}
+                  onChange={(e) => {
+                    setMentorSeleccionado(parseInt(e.target.value));
+                    setResponseBackManual({
+                      ...responseBackManual,
+                      errors: {
+                        ...responseBackManual.errors,
+                        [e.target.name]: [],
+                      },
+                    });
+                  }}
+                  className={clsx(
+                    "w-full text-black p-2 border rounded sm:text-sm ",
+                    {
+                      "border-red-500 dark:border-red-500":
+                        responseBackManual.errors?.mentorTecnico?.length,
+                    }
+                  )}
+                >
+                  {dataEquipo ? (
+                    <>
+                      <option
+                        title={`${dataEquipo.mentor} ${dataEquipo.mentor_apellido} - NODE, JAVA`}
+                        value={dataEquipo.id_mentor}
+                        hidden
+                      >
+                        {dataEquipo.mentor} {dataEquipo.mentor_apellido} - NODE,
+                        JAVA
+                      </option>
+                    </>
+                  ) : (
+                    <option value="" hidden>
+                      Seleccionar Mentor
                     </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-                {mentoresTecnicosSinGrupos.map((mentor) => (
-                  <option
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    key={mentor.id}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-              <div aria-live="polite" aria-atomic="true" className="mt-1">
-                {responseBackManual.errors?.mentorTecnico?.map(
-                  (error: string) => (
+                  )}
+                  {mentoresTecnicosSinGrupos.map((mentor) => (
+                    <option
+                      title={`${mentor.apellido}, ${
+                        mentor.nombre
+                      } - ${mentor.tecnologias.join(", ")}`}
+                      key={mentor.id}
+                      value={mentor.id.toString()}
+                    >
+                      {mentor.apellido}, {mentor.nombre} -{" "}
+                      {mentor.tecnologias.join(", ")}
+                    </option>
+                  ))}
+                </select>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.mentorTecnico?.map(
+                    (error: string) => (
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
+                        {error}
+                      </p>
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label
+                  htmlFor="mentorqa"
+                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Mentor QA:
+                </label>
+                <select
+                  id="mentorqa"
+                  name="mentorQA"
+                  value={mentorQASeleccionado?.toString() || ""}
+                  onChange={(e) => {
+                    setMentorQASeleccionado(parseInt(e.target.value));
+                    setResponseBackManual({
+                      ...responseBackManual,
+                      errors: {
+                        ...responseBackManual.errors,
+                        [e.target.name]: [],
+                      },
+                    });
+                  }}
+                  className={clsx(
+                    "w-full text-black p-2 border rounded sm:text-sm ",
+                    {
+                      "border-red-500 dark:border-red-500":
+                        responseBackManual.errors?.mentorUXUI?.length,
+                    }
+                  )}
+                >
+                  {dataEquipo ? (
+                    <>
+                      <option
+                        title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`}
+                        value={dataEquipo.id_mentor_qa}
+                        hidden
+                      >
+                        {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa}{" "}
+                        - QA
+                      </option>
+                    </>
+                  ) : (
+                    <option value="" hidden>
+                      Seleccionar Mentor
+                    </option>
+                  )}
+                  {mentoresQASinGrupos.map((mentor) => (
+                    <option
+                      title={`${mentor.apellido}, ${
+                        mentor.nombre
+                      } - ${mentor.tecnologias.join(", ")}`}
+                      key={mentor.id}
+                      value={mentor.id.toString()}
+                    >
+                      {mentor.apellido}, {mentor.nombre} -{" "}
+                      {mentor.tecnologias.join(", ")}
+                    </option>
+                  ))}
+                </select>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.mentorQA?.map((error: string) => (
                     <p
                       className="m-0 text-sm text-red-500 dark:text-red-500"
                       key={error}
                     >
                       {error}
                     </p>
-                  )
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="mentorqa"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor QA:
-              </label>
-              <select
-                id="mentorqa"
-                name="mentorQA"
-                value={mentorQASeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorQASeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  "w-full text-black p-2 border rounded sm:text-sm ",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorUXUI?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
-                    <option
-                      title={`${dataEquipo.mentor_qa_apellido}, ${dataEquipo.mentor_qa} - QA`}
-                      value={dataEquipo.id_mentor_qa}
-                      hidden
-                    >
-                      {dataEquipo.mentor_qa_apellido}, {dataEquipo.mentor_qa} -
-                      QA
+              <div className="mb-4">
+                <label
+                  htmlFor="mentorUXUI"
+                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+                >
+                  Mentor UX/UI:
+                </label>
+                <select
+                  id="mentorUXUI"
+                  value={mentorUXUISeleccionado?.toString() || ""}
+                  onChange={(e) => {
+                    setMentorUXUISeleccionado(parseInt(e.target.value));
+                    setResponseBackManual({
+                      ...responseBackManual,
+                      errors: {
+                        ...responseBackManual.errors,
+                        [e.target.name]: [],
+                      },
+                    });
+                  }}
+                  className={clsx(
+                    " text-black p-2 border rounded sm:text-sm w-full",
+                    {
+                      "border-red-500 dark:border-red-500":
+                        responseBackManual.errors?.mentorUXUI?.length,
+                    }
+                  )}
+                >
+                  {dataEquipo ? (
+                    <>
+                      <option
+                        title={`${dataEquipo.mentor_ux_ui_apellido}, ${dataEquipo.mentor_ux_ui} - UX/IU`}
+                        value={dataEquipo.id_mentor_ux_ui}
+                        hidden
+                      >
+                        {dataEquipo.mentor_ux_ui_apellido}
+                        {", "}
+                        {dataEquipo.mentor_ux_ui} - UX/IU
+                      </option>
+                    </>
+                  ) : (
+                    <option value="" hidden>
+                      Seleccionar Mentor
                     </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-                {mentoresQASinGrupos.map((mentor) => (
-                  <option
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    key={mentor.id}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-              <div aria-live="polite" aria-atomic="true" className="mt-1">
-                {responseBackManual.errors?.mentorQA?.map((error: string) => (
-                  <p
-                    className="m-0 text-sm text-red-500 dark:text-red-500"
-                    key={error}
-                  >
-                    {error}
-                  </p>
-                ))}
-              </div>
-            </div>
+                  )}
 
-            <div className="mb-4">
-              <label
-                htmlFor="mentorUXUI"
-                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-              >
-                Mentor UX/UI:
-              </label>
-              <select
-                id="mentorUXUI"
-                value={mentorUXUISeleccionado?.toString() || ""}
-                onChange={(e) => {
-                  setMentorUXUISeleccionado(parseInt(e.target.value));
-                  setResponseBackManual({
-                    ...responseBackManual,
-                    errors: {
-                      ...responseBackManual.errors,
-                      [e.target.name]: [],
-                    },
-                  });
-                }}
-                className={clsx(
-                  " text-black p-2 border rounded sm:text-sm w-full",
-                  {
-                    "border-red-500 dark:border-red-500":
-                      responseBackManual.errors?.mentorUXUI?.length,
-                  }
-                )}
-              >
-                {dataEquipo ? (
-                  <>
+                  {mentoresUXUISinGrupos.map((mentor) => (
                     <option
-                      title={`${dataEquipo.mentor_ux_ui_apellido}, ${dataEquipo.mentor_ux_ui} - UX/IU`}
-                      value={dataEquipo.id_mentor_ux_ui}
-                      hidden
+                      key={mentor.id}
+                      title={`${mentor.apellido}, ${
+                        mentor.nombre
+                      } - ${mentor.tecnologias.join(", ")}`}
+                      value={mentor.id.toString()}
                     >
-                      {dataEquipo.mentor_ux_ui_apellido}
-                      {", "}
-                      {dataEquipo.mentor_ux_ui} - UX/IU
+                      {mentor.apellido}, {mentor.nombre} -{" "}
+                      {mentor.tecnologias.join(", ")}
                     </option>
-                  </>
-                ) : (
-                  <option value="" hidden>
-                    Seleccionar Mentor
-                  </option>
-                )}
-
-                {mentoresUXUISinGrupos.map((mentor) => (
-                  <option
-                    key={mentor.id}
-                    title={`${mentor.apellido}, ${
-                      mentor.nombre
-                    } - ${mentor.tecnologias.join(", ")}`}
-                    value={mentor.id.toString()}
-                  >
-                    {mentor.apellido}, {mentor.nombre} -{" "}
-                    {mentor.tecnologias.join(", ")}
-                  </option>
-                ))}
-              </select>
-              <div aria-live="polite" aria-atomic="true" className="mt-1">
-                {responseBackManual.errors?.mentorUXUI?.map((error: string) => (
-                  <p
-                    className="m-0 text-sm text-red-500 dark:text-red-500"
-                    key={error}
-                  >
-                    {error}
-                  </p>
-                ))}
+                  ))}
+                </select>
+                <div aria-live="polite" aria-atomic="true" className="mt-1">
+                  {responseBackManual.errors?.mentorUXUI?.map(
+                    (error: string) => (
+                      <p
+                        className="m-0 text-sm text-red-500 dark:text-red-500"
+                        key={error}
+                      >
+                        {error}
+                      </p>
+                    )
+                  )}
+                </div>
               </div>
-            </div>
 
               <div className="mb-2">
                 <label
@@ -856,37 +863,37 @@ export default function FormEquipo({
                   )}
                 </div>
               </div>
-              </div>
-              
-              <div className="mb-2 mt-6 relative">
-                <label
-                  htmlFor="filtroEstudiantes"
-                  className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
-                >
-                  Filtrar Estudiantes:
-                </label>
-                <input
-                  id="filtroEstudiantes"
-                  type="text"
-                  placeholder="Buscar por nombre, apellido o tecnología"
-                  value={filtroEstudiantes}
-                  onChange={(e) => setFiltroEstudiantes(e.target.value)}
-                  className="pr-2 py-2 pl-8 border rounded text-black w-full lg:max-w-96"
-                  onKeyDown={handleKeyDown}
-                />
-                <div className="absolute left-2 top-10 h-[18px] w-[18px] -translate-y-1/6 text-gray-500 peer-focus:text-gray-900">
-                  <svg className="w-5 h-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
-                    </svg>
+            </div>
+
+            <div className="mb-2 mt-6 relative">
+              <label
+                htmlFor="filtroEstudiantes"
+                className="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
+                Filtrar Estudiantes:
+              </label>
+              <input
+                id="filtroEstudiantes"
+                type="text"
+                placeholder="Buscar por nombre, apellido o tecnología"
+                value={filtroEstudiantes}
+                onChange={(e) => setFiltroEstudiantes(e.target.value)}
+                className="pr-2 py-2 pl-8 border rounded text-black w-full lg:max-w-96"
+                onKeyDown={handleKeyDown}
+              />
+              <div className="absolute left-2 top-10 h-[18px] w-[18px] -translate-y-1/6 text-gray-500 peer-focus:text-gray-900">
+                <svg className="w-5 h-5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
                   </svg>
-                </div>
+                </svg>
               </div>
-            
+            </div>
+
             <div className="">
               <div
                 className={clsx(
@@ -906,6 +913,26 @@ export default function FormEquipo({
                     </tr>
                   </thead>
                   <tbody>
+                    {estudiantesFiltrados?.map((estudiante) => (
+                      <tr key={estudiante.id}>
+                        <td className="p-2">
+                          {estudiante.apellido}, {estudiante.nombre}
+                        </td>
+                        <td className="p-2">{estudiante.tecnologia_nombre}</td>
+                        <td className="p-2">
+                          <input
+                            type="checkbox"
+                            checked={estudiantesSeleccionados.includes(
+                              estudiante.id
+                            )}
+                            onChange={() => {
+                              toggleEstudianteSeleccion(estudiante.id);
+                            }}
+                            className="form-checkbox h-5 w-5 text-blue-600"
+                          />
+                        </td>
+                      </tr>
+                    ))}
                     {dataEquipo?.ids_estudiantes.map(
                       (e: number, index: number) => (
                         <tr key={`${e}-${index}`}>
@@ -928,27 +955,6 @@ export default function FormEquipo({
                         </tr>
                       )
                     )}
-
-                    {estudiantesFiltrados?.map((estudiante) => (
-                      <tr key={estudiante.id}>
-                        <td className="p-2">
-                          {estudiante.apellido}, {estudiante.nombre}
-                        </td>
-                        <td className="p-2">{estudiante.tecnologia_nombre}</td>
-                        <td className="p-2">
-                          <input
-                            type="checkbox"
-                            checked={estudiantesSeleccionados.includes(
-                              estudiante.id
-                            )}
-                            onChange={() => {
-                              toggleEstudianteSeleccion(estudiante.id);
-                            }}
-                            className="form-checkbox h-5 w-5 text-blue-600"
-                          />
-                        </td>
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
@@ -965,7 +971,7 @@ export default function FormEquipo({
                 )}
               </div>
             </div>
-          
+
             <button
               type="submit"
               className="bg-blue-400 mt-4 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-lg"

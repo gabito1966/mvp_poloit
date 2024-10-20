@@ -7,5 +7,6 @@ export const metadata: Metadata = {
   };
 
 export default function layout({ children }: { children: React.ReactNode }) {
-    return <Suspense fallback={<FormEquiposSkeleton/>}>{children}</Suspense>;
+    return <Suspense fallback={<FormEquiposSkeleton/>}>
+      {children}</Suspense>;
 }

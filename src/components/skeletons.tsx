@@ -47,17 +47,43 @@ export function FormMentorSkeleton() {
 export function FormEquiposSkeleton() {
   return (
     <div
-      className={`container mt-10  px-16 py-4 h-full bg-white dark:bg-gray-700  max-w-7xl  justify-between`}
+      className={`container mt-10  px-16 py-10 h-full bg-white dark:bg-gray-700  max-w-2xl rounded-xl  justify-between sm:max-w-6xl`}
     >
-      <div className=" mt-2 h-8 my-5 w-full max-w-80 lg:max-w-2xl  p-1 animate-pulse flex-start rounded bg-gray-100 dark:bg-gray-600" />
-      <div className="flex flex-col  lg:flex-row  justify-between shadow-sm pb-4 shadow-blue-50  w-full animate-pulse gap-5">
-        <div className="grid grid-cols-1  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5">
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
-          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-600" />
+      <div className=" mt-2 mb-20 h-8 my-5 w-56 mx-auto p-1 animate-pulse flex-start rounded bg-gray-100 dark:bg-gray-600" />
+      <div className="flex flex-col  lg:flex-row  justify-between shadow-sm pb-4  w-full animate-pulse gap-5 rounded-lg dark:bg-gray-600 p-4">
+        <div className="grid grid-cols-1 p-4 justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5">
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 " />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 " />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 " />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 " />
         </div>
         <div className="flex  justify-center sm:justify-end items-center  mt-auto w-full">
+          <div className="h-9 rounded bg-blue-300 dark:bg-blue-500 w-56 lg:w-52 " />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function FormEquiposSkeletonManual() {
+  return (
+    <div
+      className={`container mt-10  p-10 h-full bg-white dark:bg-gray-700  max-w-6xl rounded-lg  justify-between `}
+    >
+      <div className=" mt-2 h-8 my-5 w-full max-w-80 lg:max-w-2xl  p-1 animate-pulse flex-start rounded bg-gray-100 dark:bg-gray-600" />
+      <div className="flex flex-col    justify-between shadow-sm pb-4  w-full animate-pulse gap-5 p-4 rounded-lg dark:bg-gray-600">
+        <div className="grid grid-cols-1  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5 ">
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+          <div className="mt-2 h-8 w-56 lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+        </div>
+        <div className="  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5 ">
+          <div className="mt-2 h-64 w-full lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
+          
+        </div>
+        <div className="  mt-auto w-full">
           <div className="h-9 rounded bg-blue-300 dark:bg-blue-500 w-56 lg:w-64 " />
         </div>
       </div>

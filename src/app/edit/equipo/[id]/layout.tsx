@@ -1,4 +1,4 @@
-import { FormEquiposSkeleton } from "@/components/skeletons";
+import { FormEquiposSkeletonManual } from "@/components/skeletons";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -8,5 +8,7 @@ export const metadata: Metadata = {
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    return <Suspense fallback={<FormEquiposSkeleton/>}>{children}</Suspense>;
+    return <Suspense fallback={<FormEquiposSkeletonManual/>}>
+      {children}
+      </Suspense>;
 }
