@@ -7,6 +7,7 @@
 ## Descripción
 
 Este proyecto es un MVP (Producto Mínimo Viable) de un sistema de gestión de inscripciones para actividades como el acelerador del POLO IT. El sistema permite vincular automáticamente Mentores Técnicos con Egresados basándose en diversos parámetros de configuración de equipos.
+[Documentación del proyecto](https://docs.google.com/document/d/1f0yCBk1WpWsKLrRRIvmXsKLSvnsW4lNvrmzIWDVJsOg/edit?usp=sharing)
 
 ## Despliegue
 
