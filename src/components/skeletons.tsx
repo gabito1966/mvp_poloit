@@ -1,4 +1,3 @@
-
 export function FormEstudianteSkeleton() {
   return (
     <div className=" max-w-5xl mt-10 w-full  py-12 rounded-lg bg-white dark:bg-gray-700 animate-pulse">
@@ -81,7 +80,6 @@ export function FormEquiposSkeletonManual() {
         </div>
         <div className="  justify-items-center lg:justify-items-start sm:grid-cols-2 mt-5 lg:min-w-[500px] gap-5 ">
           <div className="mt-2 h-64 w-full lg:w-full p-3 rounded bg-gray-100 dark:bg-gray-300" />
-          
         </div>
         <div className="  mt-auto w-full">
           <div className="h-9 rounded bg-blue-300 dark:bg-blue-500 w-56 lg:w-64 " />
@@ -264,26 +262,78 @@ export function TableRowSkeleton() {
 export function CardSkeleton() {
   return (
     <section className="container max-w-5xl p-3 lg:pt-20 ml-5 lg:ml-0">
-    <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-2 animate-pulse">
-      <h1 className="h-8 lg:h-10 bg-gray-200 dark:bg-gray-600 rounded w-1/2 mx-auto m-5"></h1>
-      <div className="w-full max-h-124 flex-col p-1 lg:p-4">
-        <hr />
-        <div className="grid grid-cols-1 justify-center bg-gray-100 dark:bg-gray-600 items-center lg:grid-cols-2 lg:p-3 mt-5">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3 animate-pulse">
-              <div className="ml-16 max-md:ml-0 p-1">
-                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/3 mb-2"></div>
-                <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded w-3/4 mb-4"></div>
+      <div className="bg-white dark:bg-gray-700 rounded-xl shadow-xl p-2 animate-pulse">
+        <h1 className="h-8 lg:h-10 bg-gray-200 dark:bg-gray-600 rounded w-1/2 mx-auto m-5"></h1>
+        <div className="w-full max-h-124 flex-col p-1 lg:p-4">
+          <hr />
+          <div className="grid grid-cols-1 justify-center rounded-xl bg-gray-100 dark:bg-gray-600 items-center lg:grid-cols-2 lg:p-3 mt-5">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3 animate-pulse"
+              >
+                <div className="ml-16 max-md:ml-0 p-1">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/3 mb-2"></div>
+                  <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded w-3/4 mb-4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
+          <div className="bg-gray-200 dark:bg-gray-600 rounded h-10 w-24"></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function CardEquipoSkeleton() {
+  return (
+    <section className="container max-w-5xl p-3 rounded-xl lg:pt-20 ml-5 lg:ml-0 animate-pulse">
+      <div className="bg-white dark:bg-gray-700 rounded-xl ">
+        <div className="flex items-center justify-center h-20 w-full bg-gray-200 dark:bg-gray-600 rounded-t-xl   ">
+          <div className="h-9 w-60 bg-gray-100 dark:bg-gray-400 rounded-md   " />
+        </div>
+        <div className="w-full max-h-124 flex-col p-1 lg:p-4">
+            <div className="flex-auto bg-white dark:bg-gray-600 rounded-lg m-3 mb-5 ">
+              <div className=" max-md:ml-0 p-4">
+                <div className="h-4 bg-gray-200 dark:bg-gray-500 rounded w-full"></div>
+                <div className="h-6 bg-gray-200 dark:bg-gray-500 rounded w-full mt-2"></div>
               </div>
             </div>
-          ))}
+          <div className="grid grid-cols-1 justify-center bg-gray-100 dark:bg-gray-600 items-center rounded-xl lg:p-2 mt-5">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3 "
+              >
+                <div className=" max-md:ml-0 p-3">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-500 rounded w-full"></div>
+                  <div className="h-6 bg-gray-200 dark:bg-gray-500 rounded w-full mt-2"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 justify-center bg-gray-100 dark:bg-gray-600 items-center rounded-xl lg:p-2 mt-5">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex-auto bg-white dark:bg-gray-700 rounded-lg m-3 "
+              >
+                <div className=" max-md:ml-0 p-3">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-500 rounded w-full"></div>
+                  <div className="h-6 bg-gray-200 dark:bg-gray-500 rounded w-full mt-2"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="mt-4 flex items-center justify-between gap-40 max-lg:gap-3">
-        <div className="bg-gray-200 dark:bg-gray-600 rounded h-10 w-24"></div>
+        <div className="bg-blue-300 dark:bg-blue-300 rounded h-10 w-32"></div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 }
 

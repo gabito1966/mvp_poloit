@@ -185,7 +185,7 @@ export default async function EquipoCard({
       nombre: equipo.mentor,
       email: equipo.mentor_email,
       telefono: equipo.mentor_telefono,
-      tecnologia: "Tecnologías",
+      tecnologia: "Node, Java",
       estado: equipo.mentor_estado,
     },
     {
