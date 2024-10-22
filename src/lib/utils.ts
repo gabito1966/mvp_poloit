@@ -213,8 +213,8 @@ export const generateHTMLString = (
         <table style="border-collapse: collapse; width: 100%; min-width: 600px; background-color: ${secondaryColor};">
           <thead>
             <tr style="background-color: ${primaryColor}; color: #ffffff;">
+            <th style="padding: 12px; text-align: left; font-weight: bold;">Apellido</th>
               <th style="padding: 12px; text-align: left; font-weight: bold;">Nombre</th>
-              <th style="padding: 12px; text-align: left; font-weight: bold;">Apellido</th>
               <th style="padding: 12px; text-align: left; font-weight: bold;">Email</th>
               <th style="padding: 12px; text-align: left; font-weight: bold;">Teléfono</th>
               <th style="padding: 12px; text-align: left; font-weight: bold;">Tecnología</th>
@@ -226,12 +226,12 @@ export const generateHTMLString = (
               .map(
                 (nombre: string, index: number) => `
               <tr style="border-bottom: 1px solid ${borderColor};">
-                <td style="padding: 12px; color: ${textColor};">${nombre}</td>
-                <td style="padding: 12px; color: ${textColor};">${e.apellidos_estudiantes[index]}</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.apellidos_estudiantes[index]}</td>
+                <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${nombre}</td>
                 <td style="padding: 12px; color: ${textColor};">${e.emails_estudiantes[index]}</td>
-                <td style="padding: 12px; color: ${textColor};">${e.telefonos_estudiantes[index]}</td>
-                <td style="padding: 12px; color: ${textColor};">${e.tecnologias[index]}</td>
-                <td style="padding: 12px; color: ${textColor};">${e.ongs[index]}</td>
+                <td style="padding: 12px; color: ${textColor}; ">${e.telefonos_estudiantes[index]}</td>
+                <td style="padding: 12px; color: ${textColor}; ">${e.tecnologias[index]}</td>
+                <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.ongs[index]}</td>
               </tr>
             `
               )
@@ -256,25 +256,25 @@ export const generateHTMLString = (
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid ${borderColor};">
-              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.email_mentor}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor}</td>
-              <td style="padding: 12px; color: ${textColor};">Mentor Técnico</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.nombre_mentor}</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.apellido_mentor}</td>
+              <td style="padding: 12px; color: ${textColor}; ">${e.email_mentor}</td>
+              <td style="padding: 12px; color: ${textColor}; ">${e.telefono_mentor}</td>
+              <td style="padding: 12px; color: ${textColor}; ">Mentor Técnico</td>
             </tr>
             <tr style="border-bottom: 1px solid ${borderColor};">
-              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor_ux_ui}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor_ux_ui}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.email_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.nombre_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.apellido_mentor_ux_ui}</td>
+              <td style="padding: 12px; color: ${textColor}; ">${e.email_mentor_ux_ui}</td>
               <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor_ux_ui}</td>
-              <td style="padding: 12px; color: ${textColor};">Mentor UX/UI</td>
+              <td style="padding: 12px; color: ${textColor}; ">Mentor UX/UI</td>
             </tr>
             <tr>
-              <td style="padding: 12px; color: ${textColor};">${e.nombre_mentor_qa}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.apellido_mentor_qa}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.email_mentor_qa}</td>
-              <td style="padding: 12px; color: ${textColor};">${e.telefono_mentor_qa}</td>
-              <td style="padding: 12px; color: ${textColor};">Mentor QA</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.nombre_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor}; text-transform: capitalize;">${e.apellido_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor}; ">${e.email_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor}; ">${e.telefono_mentor_qa}</td>
+              <td style="padding: 12px; color: ${textColor}; ">Mentor QA</td>
             </tr>
           </tbody>
         </table>

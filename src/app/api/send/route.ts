@@ -145,7 +145,7 @@ export async function POST(request: Request) {
           const { data, error } = await emailService.sendEmail({
             from: "Polo-IT ",
             to: e.emails_estudiantes,
-            subject: `Acelerador Polo IT - ${resultTipo[0].tipo}`,
+            subject: `Acelerador Polo IT - ${resultTipo[0].tipo} - ${e.nombre}`,
             content: emailBody,
           });
 
@@ -208,8 +208,6 @@ export async function POST(request: Request) {
           } catch (error) {
             console.log("No existe el email");
           }
-
-
 
           const { rows: resultCorreos } = await sql`
             INSERT INTO

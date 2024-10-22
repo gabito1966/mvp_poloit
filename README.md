@@ -47,6 +47,11 @@ El proyecto está desplegado en Vercel. [Link de Página web](https://mvp-poloit
   - ESLint
   - Zod (validación de esquemas)
 
+## Email y contraseña de prueba
+
+- ***email:*** poloitsquad7@gmail.com
+- ***Contraseña:*** 123456
+
 ## Requisitos previos
 
 - Node.js (versión recomendada: 18.x o superior)
